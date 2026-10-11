@@ -629,7 +629,7 @@ function confirmarOrden() {
     }
 
     texto += `──────────────────────────────\n`;
-    texto += `_Mensaje generado automáticamente desde cakechavez.netlify.app_`;
+    texto += '_Mensaje generado automáticamente desde alexander-code608.github.io/Cake-Chavez502_';
 
     const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
     window.open(url, '_blank');
