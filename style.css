@@ -976,4 +976,69 @@ footer {
 }
 
 /* =========================================
-   ADAPTACIÓN PARA CELULARES
+   ADAPTACIÓN PARA CELULARES (2 COLUMNAS)
+   ========================================= */
+@media (max-width: 600px) {
+    #productos-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .main-container {
+        padding: 0 10px;
+    }
+
+    .producto {
+        padding: 0.9rem 0.6rem;
+        border-radius: 10px;
+    }
+
+    .img-producto {
+        height: 130px;
+        margin-bottom: 0.6rem;
+    }
+
+    .producto h3 {
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .producto p {
+        font-size: 0.78rem;
+        min-height: 36px;
+        margin-bottom: 0.6rem;
+        line-height: 1.25;
+    }
+
+    .precio {
+        font-size: 1.05rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .producto button {
+        padding: 8px 6px;
+        font-size: 0.82rem;
+    }
+
+    .logo {
+        max-width: 70%;
+    }
+
+    .slogan {
+        font-size: 1.3rem;
+    }
+
+    nav {
+        padding: 0.8rem 0.5rem;
+        gap: 6px;
+    }
+
+    .nav-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    .carrusel-container {
+        height: 220px;
+    }
+}
