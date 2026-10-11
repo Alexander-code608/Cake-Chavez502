@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake Chavez - Repostería</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Íconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- Botón de Carrito Flotante -->
+    <div class="carrito-flotante" onclick="toggleCarrito(); reproducirSonidoGotita();">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="contador-carrito">0</span>
+    </div>
+
+    <!-- Fondo oscuro cuando se abre el carrito -->
+    <div class="overlay" id="overlay" onclick="toggleCarrito()"></div>
+
+    <!-- Encabezado con Aviso de Reserva y Logo -->
+    <header class="animar-entrada-top">
+        <!-- AVISO DE PEDIDO ANTICIPADO -->
+        <div class="aviso-pedido">
+            ⚠️ Por favor realiza tu pedido con anticipación (24 a 48 hrs antes). ¡No realizamos pedidos para el mismo día!
+        </div>
+
+        <div class="logo-container">
+            <img src="img/logo.png" alt="Logo Repostería" class="logo">
+        </div>
+        <h1 class="slogan">Dulces momentos, horneados con amor.</h1>
+    </header>
+
+    <!-- CARRUSEL AUTOMÁTICO DE TODAS LAS FOTOS PUBLICADAS -->
+    <section class="carrusel-seccion animar-entrada-top">
+        <div class="carrusel-container">
+            <!-- Las imágenes se cargarán automáticamente desde el script.js -->
+            <div id="carrusel-slides-wrapper"></div>
+
+            <!-- Botones manuales de navegación del carrusel -->
+            <button class="carrusel-btn prev" onclick="cambiarSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+            <button class="carrusel-btn next" onclick="cambiarSlide(1)"><i class="fas fa-chevron-right"></i></button>
+
+            <!-- Indicadores de puntos -->
+            <div class="carrusel-puntos" id="carrusel-puntos-container"></div>
+        </div>
+    </section>
+
+    <!-- BARRA DE BÚSQUEDA -->
+    <div class="buscador-container animar-entrada-top">
+        <div class="caja-busqueda">
+            <i class="fas fa-search icono-busqueda"></i>
+            <input type="text" id="input-busqueda" placeholder="Buscar pasteles, postres, galletas..." oninput="buscarProductos()">
+        </div>
+    </div>
+
+    <!-- Menú de Navegación -->
+    <nav class="animar-entrada-top">
+        <button class="nav-btn btn-personalizar" onclick="abrirModalPersonalizar()">
+            <i class="fas fa-magic"></i> Personalizar pastel
+        </button>
+        <button class="nav-btn active" onclick="filtrar('todos', this)">Todos</button>
+        <button class="nav-btn" onclick="filtrar('pasteles', this)">Pasteles</button>
+        <button class="nav-btn" onclick="filtrar('postres', this)">Postres</button>
+        <button class="nav-btn" onclick="filtrar('galletas', this)">Galletas</button>
+        <button class="nav-btn" onclick="filtrar('bocaditos', this)">Bocaditos</button>
+        <button class="nav-btn" onclick="filtrar('especiales', this)">Especiales</button>
+    </nav>
+
+    <!-- Contenedor Principal de Productos -->
+    <main class="main-container">
+        <div id="productos-container">
+            
+            <!-- PASTELES -->
+            <div class="producto pasteles todos">
+                <img src="img/pasteles/pastel-rojo.jpg" alt="Pastel rojo" class="img-producto" onclick="abrirSoloImagen(['img/pasteles/pastel-rojo.jpg', 'img/pasteles/pastel-rojo-entero.jfif', 'img/pasteles/pastel-rojo-medio.jpg'], 'Pastel de fresa', 'Delicioso bizcocho suave con relleno cremoso y cobertura sabor fresa fresca.')" title="Toca para ver las fotos en grande">
+                <h3>Pastel de fresa</h3>
+                <p>Bizcocho suave con crema sabor fresa.</p>
+                <span class="precio">Desde Q100.00</span>
+                <button onclick="abrirVentanita('Pastel de fresa', 100, 140, 200, 'pastel', 'img/pasteles/pastel-rojo.jpg', 'Bizcocho suave con crema sabor fresa.')">Añadir a la orden</button>
+            </div>
+
+            <div class="producto pasteles todos">
+                <img src="img/pasteles/pastel-de-snoppy.jpeg" alt="Pastel azul" class="img-producto" onclick="abrirSoloImagen(['img/pasteles/pastel-de-snoppy.jpeg', 'img/pasteles/pastel-de-snoppy-2.jpeg', 'img/pasteles/pastel-de-snoppy-3.jpeg'], 'Pastel con Arandanos azules', 'Clásico pastel con tonos azules decorado con delicados arándanos naturales.')" title="Toca para ver las fotos en grande">
+                <h3>Pastel con Arandanos azules</h3>
+                <p>Clásico pastel azul.</p>
+                <span class="precio">Desde Q130.00</span>
+                <button onclick="abrirVentanita('Pastel con Arandanos azules', 90, 130, 180, 'pastel', 'img/pasteles/pastel-de-snoppy.jpeg', 'Clásico pastel azul.')">Añadir a la orden</button>
+            </div>
+
+            <div class="producto pasteles todos">
+                <img src="img/pasteles/pastel-de-unicornio.jpeg" alt="Pastel de unicornio" class="img-producto" onclick="abrirSoloImagen(['img/pasteles/pastel-de-unicornio.jpeg', 'img/pasteles/imagen-2.jpg', 'img/pasteles/imagen-3.jpg'], 'Pastel de Unicornio', 'Mágico diseño temático de unicornio elaborado con finos detalles artesanales.')" title="Toca para ver las fotos en grande">
+                <h3>Pastel de Unicornio</h3>
+                <p>Delicioso pastel con diseño de unicornio.</p>
+                <span class="precio">Desde Q150.00</span>
+                <button onclick="abrirVentanita('Pastel de Unicornio', 0, 130, 0, 'pastel', 'img/pasteles/pastel-de-unicornio.jpeg', 'Delicioso pastel con diseño de unicornio.')">Añadir a la orden</button>
+            </div>
+
+            <!-- POSTRES -->
+            <div class="producto postres todos">
+                <img src="img/postres/flan.jpg" alt="Flan" class="img-producto" onclick="abrirSoloImagen(['img/postres/flan.jpg', 'img/postres/flan-2.webp', 'img/postres/flan-3.jfif'], 'Flan', 'Delicioso flan cremoso con caramelo.')" title="Toca para ver las fotos en grande">
+                <h3>Flan</h3>
+                <p>Delicioso flan cremoso con caramelo.</p>
+                <span class="precio">Q35.00</span>
+                <button onclick="abrirVentanita('Flan', 35, 'unidad', 'img/postres/flan.jpg', 'Delicioso flan cremoso con caramelo.')">Añadir a la orden</button>
+            </div>
+            <div class="producto postres todos">
+                <img src="img/postres/panna-cotta.jpg" alt="Panna Cotta" class="img-producto" onclick="abrirSoloImagen(['img/postres/panna-cotta.jpg', 'img/postres/panna-cotta-2.webp', 'img/postres/panna-cotta-3.avif'], 'Panna Cotta', 'Postre italiano cremoso con caramelo.')" title="Toca para ver las fotos en grande">
+                <h3>Panna Cotta</h3>
+                <p>Postre italiano cremoso con caramelo.</p>
+                <span class="precio">Q40.00</span>
+                <button onclick="abrirVentanita('Panna Cotta', 40, 'unidad', 'img/postres/panna-cotta.jpg', 'Postre italiano cremoso con caramelo.')">Añadir a la orden</button>
+            </div>
+
+            <!-- GALLETAS -->
+            <div class="producto galletas todos">
+                <img src="img/galletas/galletas-de-estrellas.jpg" alt="Galletas Chispas de Chocolate" class="img-producto" onclick="abrirSoloImagen(['img/galletas/galletas-de-estrellas.jpg', 'img/galletas/galletas-2.jfif', 'img/galletas/galletas-3.jfif'], 'Galletas Chispas', 'Crujientes galletas artesanales repleta de chispas de chocolate derretido.')" title="Toca para ver las fotos en grande">
+                <h3>Galletas Chispas</h3>
+                <p>Crujientes por fuera y suaves por dentro.</p>
+                <span class="precio">Q15.00</span>
+                <button onclick="abrirVentanita('Galletas Chispas', 15, 'unidad', 'img/galletas/galletas-de-estrellas.jpg', 'Crujientes por fuera y suaves por dentro.')">Añadir a la orden</button>
+            </div>
+            <div class="producto galletas todos">
+                <img src="img/galletas/galletas-de-navidad-linzer.jpg" alt="Macarons Surtidos" class="img-producto" onclick="abrirSoloImagen(['img/galletas/galletas-de-navidad-linzer.jpg', 'img/galletas/super-galletas-2.jpg', 'img/galletas/super-galletas-3.jfif'], 'Macarons Surtidos', 'Cajita especial con 4 macarons de estilo francés de almendra y rellenos variados.')" title="Toca para ver las fotos en grande">
+                <h3>Macarons Surtidos</h3>
+                <p>Cajita con 4 deliciosos macarons franceses.</p>
+                <span class="precio">Q45.00</span>
+                <button onclick="abrirVentanita('Macarons Surtidos', 45, 'unidad', 'img/galletas/galletas-de-navidad-linzer.jpg', 'Cajita con 4 deliciosos macarons franceses.')">Añadir a la orden</button>
+            </div>
+
+            <!-- BOCADITOS -->
+            <div class="producto bocaditos todos">
+                <img src="img/bocaditos/choux-a-la-crème.webp" alt="Mini Empanadas Dulces" class="img-producto" onclick="abrirSoloImagen(['img/bocaditos/choux-a-la-crème.webp', 'img/bocaditos/crema-2.jfif', 'img/bocaditos/crema-3.jfif'], 'Mini Empanadas', 'Bocadillos doraditos horneados y rellenos de piña y suave cajeta.')" title="Toca para ver las fotos en grande">
+                <h3>Mini Empanadas</h3>
+                <p>Rellenas de piña y cajeta, ideales para compartir.</p>
+                <span class="precio">Q60.00</span>
+                <button onclick="abrirVentanita('Mini Empanadas Dulces', 60, 'unidad', 'img/bocaditos/choux-a-la-crème.webp', 'Rellenas de piña y cajeta, ideales para compartir.')">Añadir a la orden</button>
+            </div>
+            <div class="producto bocaditos todos">
+                <img src="img/bocaditos/taratetas-dulces-caseras.jpg" alt="Trufas de Chocolate" class="img-producto" onclick="abrirSoloImagen(['img/bocaditos/taratetas-dulces-caseras.jpg', 'img/bocaditos/mini-2.jfif', 'img/bocaditos/mini-3.jfif'], 'Caja de Trufas', 'Docena de finas trufas elaboradas con cacao al 70% puro.')" title="Toca para ver las fotos en grande">
+                <h3>Caja de Trufas</h3>
+                <p>Docena de trufas artesanales con cacao al 70%.</p>
+                <span class="precio">Q90.00</span>
+                <button onclick="abrirVentanita('Caja de Trufas', 90, 'unidad', 'img/bocaditos/taratetas-dulces-caseras.jpg', 'Docena de trufas artesanales con cacao al 70%.')">Añadir a la orden</button>
+            </div>
+
+            <!-- ESPECIALES -->
+            <div class="producto especiales todos">
+                <img src="img/especiales/aros.jpg" alt="Tartaleta" class="img-producto" onclick="abrirSoloImagen(['img/especiales/aros.jpg', 'img/especiales/fresh-2.jpeg', 'img/especiales/fresh-3.jfif'], 'Tartaleta', 'Elegante pastel de 3 pisos decorado con flores frescas para eventos inolvidables.')" title="Toca para ver las fotos en grande">
+                <h3>Tartaleta</h3>
+                <p>Deliciosas Tartaletas con un aroma exquisito.</p>
+                <span class="precio">Desde Q30.00</span>
+                <button onclick="abrirVentanita('Tartaleta', 30, 45, 60, 'pastel', 'img/especiales/aros.jpg', 'Con sabores deliciosos.')">Añadir a la orden</button>
+            </div>
+            <div class="producto especiales todos">
+                <img src="img/especiales/postre-tres-leches-clasico.webp" alt="Mesa de Dulces" class="img-producto" onclick="abrirSoloImagen(['img/especiales/postre-tres-leches-clasico.webp', 'img/especiales/tres-2.jfif', 'img/especiales/tres-3.jpg'], 'Mesa de Dulces', 'Montaje completo de variedad de postres y bocaditos calculados para 50 personas.')" title="Toca para ver las fotos en grande">
+                <h3>Mesa de Dulces</h3>
+                <p>Surtido personalizado para eventos y fiestas (50 pers).</p>
+                <span class="precio">Q1200.00</span>
+                <button onclick="abrirVentanita('Mesa de Dulces', 1200, 'unidad', 'img/especiales/postre-tres-leches-clasico.webp', 'Surtido personalizado para eventos y fiestas (50 pers).')">Añadir a la orden</button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- VISOR DE GALERÍA DE FOTOS EN GRANDE DEL MISMO PRODUCTO -->
+    <div class="overlay-modal" id="modal-solo-imagen" onclick="cerrarSoloImagen()">
+        <div class="caja-solo-imagen" onclick="event.stopPropagation()">
+            <button class="btn-cerrar-imagen" onclick="cerrarSoloImagen()"><i class="fas fa-times"></i></button>
+            
+            <div class="galeria-visor-wrapper">
+                <button class="galeria-arrow left" id="btn-galeria-prev" onclick="deslizarGaleria(-1)"><i class="fas fa-chevron-left"></i></button>
+                <div class="galeria-container-imgs" id="galeria-container-imgs">
+                    <img id="solo-img-src" src="" alt="Imagen ampliada" class="solo-img-grande">
+                </div>
+                <button class="galeria-arrow right" id="btn-galeria-next" onclick="deslizarGaleria(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <h3 id="solo-img-titulo" class="solo-img-titulo"></h3>
+            <p id="solo-img-descripcion" class="solo-img-descripcion"></p>
+            <div id="galeria-indicadores" class="galeria-indicadores"></div>
+        </div>
+    </div>
+
+    <!-- Panel Lateral del Carrito (Oscuro) -->
+    <aside class="carrito-lateral" id="carrito-lateral">
+        <div class="carrito-header">
+            <h2>Tu Orden</h2>
+            <button class="btn-cerrar" onclick="toggleCarrito()"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <ul id="lista-orden">
+            <li class="empty-msg">Tu orden está vacía.</li>
+        </ul>
+        
+        <div class="total-container">
+            <strong>Total: </strong>Q<span id="total-precio">0.00</span>
+        </div>
+        
+        <div id="datos-cliente" style="display: none;">
+            <hr style="margin: 15px 0; border: 1px solid #5a4b40;">
+            <h3>Tus Datos para el Envío</h3>
+            <input type="text" id="cliente-nombre" placeholder="Tu Nombre completo" class="input-datos">
+            <input type="text" id="cliente-telefono" placeholder="Tu Teléfono" class="input-datos">
+            <div style="margin-bottom: 5px; text-align: left; font-size: 0.85rem; font-weight: 600; color: #ffffff;">Fecha de entrega deseada:</div>
+            <input type="date" id="cliente-fecha" class="input-datos">
+            <textarea id="cliente-direccion" placeholder="Tu Dirección de entrega exacta" class="input-datos"></textarea>
+            
+            <button class="btn-confirmar" onclick="confirmarOrden()">
+                <i class="fab fa-whatsapp"></i> Enviar Pedido
+            </button>
+        </div>
+    </aside>
+
+    <!-- Ventanita Emergente de Producto Normal (Formulario de orden) -->
+    <div class="overlay-modal" id="modal-producto">
+        <div class="caja-modal">
+            <h2 id="modal-titulo">Nombre del Producto</h2>
+
+            <div class="modal-cuerpo">
+                <div class="modal-col-img">
+                    <div class="modal-img-wrapper">
+                        <img id="modal-img" src="" alt="Producto" class="modal-img">
+                        <span class="zoom-indicador"><i class="fas fa-search-plus"></i> Zoom</span>
+                    </div>
+                    <p id="modal-descripcion" class="modal-descripcion-bajo-img"></p>
+                </div>
+
+                <div class="modal-col-detalles">
+                    <p id="modal-precio-info" class="modal-precio-destacado"></p>
+                    
+                    <div id="opciones-tamano" style="display: none; margin-bottom: 15px; text-align: left;">
+                        <label class="modal-label">Elige el tamaño:</label>
+                        <select id="modal-select-tamano" class="input-datos-modal" onchange="calcularSubtotalModal()">
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px; text-align: left;">
+                        <label class="modal-label">Cantidad a pedir:</label>
+                        <input type="number" id="modal-cantidad" value="1" min="1" class="input-datos-modal" style="font-size: 1.2rem;" oninput="calcularSubtotalModal()">
+                    </div>
+
+                    <div class="modal-total-box">
+                        Total: <span id="modal-subtotal">Q0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-acciones">
+                <button onclick="cerrarVentanita()" class="btn-cancelar">Cancelar</button>
+                <button onclick="agregarDesdeVentanita()" class="btn-agregar-modal">Confirmar y Añadir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VENTANITA EMERGENTE PARA PERSONALIZAR PASTEL -->
+    <div class="overlay-modal" id="modal-personalizar">
+        <div class="caja-modal caja-modal-personalizar">
+            <h2><i class="fas fa-magic"></i> Personaliza tu Pastel</h2>
+            <p class="subtitulo-modal">Sube una foto de tu diseño soñado y dinos los detalles para cotizar tu pastel único.</p>
+            
+            <div class="form-personalizar">
+                <div class="campo-personalizar">
+                    <label class="modal-label"><i class="fas fa-image"></i> Adjunta una imagen o diseño de referencia:</label>
+                    <input type="file" id="custom-imagen" accept="image/*" class="input-file-custom" onchange="previsualizarImagenCustom(event)">
+                    <div id="preview-custom-container" style="display: none; margin-top: 10px;">
+                        <img id="preview-custom-img" src="" alt="Vista previa" class="img-preview-custom">
+                    </div>
+                </div>
+
+                <div class="campo-personalizar">
+                    <label class="modal-label"><i class="fas fa-pencil-alt"></i> Describe cómo quieres tu pastel (sabor, decoración, colores, porciones):</label>
+                    <textarea id="custom-descripcion" placeholder="Ejemplo: Pastel de 2 pisos sabor chocolate relleno de manjar, decorado en tonos verde salvia para 20 personas..." class="input-datos-modal textarea-custom"></textarea>
+                </div>
+
+                <div class="campo-personalizar">
+                    <label class="modal-label"><i class="fas fa-calendar-alt"></i> ¿Para qué fecha deseas tu pedido?:</label>
+                    <input type="date" id="custom-fecha" class="input-datos-modal">
+                </div>
+
+                <div class="campo-personalizar">
+                    <label class="modal-label"><i class="fas fa-user"></i> Tu Nombre completo:</label>
+                    <input type="text" id="custom-nombre" placeholder="Ingresa tu nombre" class="input-datos-modal">
+                </div>
+
+                <div class="campo-personalizar">
+                    <label class="modal-label"><i class="fas fa-phone"></i> Tu Teléfono de contacto:</label>
+                    <input type="text" id="custom-telefono" placeholder="Ingresa tu teléfono" class="input-datos-modal">
+                </div>
+            </div>
+
+            <div class="modal-acciones">
+                <button onclick="cerrarModalPersonalizar()" class="btn-cancelar">Cancelar</button>
+                <button onclick="enviarPedidoPersonalizadoWhatsApp()" class="btn-confirmar-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REDES SOCIALES -->
+    <div class="redes-sociales">
+        <a href="https://www.facebook.com/share/19Ucao196X/" target="_blank" rel="noopener noreferrer" title="Facebook Cake Chavez">
+            <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://instagram.com/tu_cuenta" target="_blank" rel="noopener noreferrer" title="Instagram Cake Chavez">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://tiktok.com/@tu_cuenta" target="_blank" rel="noopener noreferrer" title="TikTok Cake Chavez">
+            <i class="fab fa-tiktok"></i>
+        </a>
+    </div>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2026 Cake Chavez. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
