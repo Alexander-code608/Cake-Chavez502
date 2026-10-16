@@ -421,7 +421,8 @@ function enviarPedidoPersonalizadoWhatsApp() {
         return;
     }
 
-    let texto = `🎂 *COTIZACIÓN DE PASTEL PERSONALIZADO* 🎂\n`;
+    let texto = `${URL_SITIO_GITHUB}\n\n`;
+    texto += `🎂 *COTIZACIÓN DE PASTEL PERSONALIZADO* 🎂\n`;
     texto += `──────────────────────────────\n\n`;
     texto += `👤 *Cliente:* ${nombre}\n`;
     texto += `📅 *Fecha requerida:* ${fecha}\n\n`;
@@ -516,18 +517,13 @@ function confirmarOrden() {
         return;
     }
 
-    let texto = `🎂 *NUEVO PEDIDO DE CAKE CHAVEZ* 🎂\n`;
+    let texto = `${URL_SITIO_GITHUB}\n\n`;
+    texto += `🎂 *NUEVO PEDIDO DE CAKE CHAVEZ* 🎂\n`;
     texto += `──────────────────────────────\n\n`;
     texto += `🛒 *DETALLE DE LA ORDEN:*\n`;
 
-    let fotosLista = [];
-
     orden.forEach(item => {
         texto += `• ${item.cantidad}x ${item.nombre} — Q${(item.precio * item.cantidad).toFixed(2)}\n`;
-        if (item.imagen && item.imagen.trim() !== '') {
-            let rutaAbsolutaImg = item.imagen.startsWith('http') ? item.imagen : `${URL_SITIO_GITHUB}/${item.imagen}`;
-            fotosLista.push(`• ${item.nombre}:\n${rutaAbsolutaImg}`);
-        }
     });
 
     texto += `\n💰 *TOTAL A PAGAR: Q${total.toFixed(2)}*\n\n`;
@@ -536,17 +532,13 @@ function confirmarOrden() {
     texto += `👤 *Cliente:* ${nombre}\n`;
     texto += `📅 *Fecha de entrega:* ${fecha}\n`;
     texto += `📍 *Dirección:* ${direccion}\n\n`;
-
-    if (fotosLista.length > 0) {
-        texto += `🖼️ *FOTOS DE REFERENCIA DE LOS PRODUCTOS:*\n`;
-        texto += fotosLista.join('\n\n') + '\n\n';
-    }
-texto += `──────────────────────────────\n`;
+    texto += `──────────────────────────────\n`;
     texto += `_Mensaje generado automáticamente desde ${URL_SITIO_GITHUB}_`;
 
     const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
     window.open(url, '_blank');
 
+    
     orden = [];
     total = 0;
     if (document.getElementById('cliente-nombre')) document.getElementById('cliente-nombre').value = '';
@@ -556,4 +548,3 @@ texto += `───────────────────────�
     actualizarCarrito();
     toggleCarrito();
 }
-    
