@@ -144,6 +144,7 @@ function abrirSoloImagen(imagenes, titulo, descripcion) {
     if (imagenesGaleriaActual.length > 1) {
         if (btnPrev) btnPrev.style.display = 'block';
         if (btnNext) btnNext.style.display = 'block';
+
         if (indContainer) {
             indContainer.innerHTML = '';
             imagenesGaleriaActual.forEach((_, idx) => {
@@ -165,11 +166,12 @@ function deslizarGaleria(direccion) {
     if (imagenesGaleriaActual.length <= 1) return;
     reproducirSonidoGotita();
     indiceImagenActual += direccion;
-    
+
     if (indiceImagenActual >= imagenesGaleriaActual.length) indiceImagenActual = 0;
     if (indiceImagenActual < 0) indiceImagenActual = imagenesGaleriaActual.length - 1;
 
     const imgElement = document.getElementById('solo-img-src');
+
     if (imgElement) {
         imgElement.style.opacity = '0.3';
         setTimeout(() => {
@@ -198,7 +200,7 @@ function buscarProductos() {
     const query = input.value.toLowerCase().trim();
     const productos = document.querySelectorAll('.producto');
     const botonesNav = document.querySelectorAll('.nav-btn');
-    
+
     if (query !== '') {
         botonesNav.forEach(btn => btn.classList.remove('active'));
     } else {
@@ -209,6 +211,7 @@ function buscarProductos() {
     productos.forEach(prod => {
         const titulo = prod.querySelector('h3').innerText.toLowerCase();
         const desc = prod.querySelector('p').innerText.toLowerCase();
+
         if (titulo.includes(query) || desc.includes(query)) {
             prod.classList.add('mostrar');
         } else {
@@ -223,7 +226,7 @@ function filtrar(categoria, elemento) {
 
     const botones = document.querySelectorAll('.nav-btn');
     botones.forEach(btn => btn.classList.remove('active'));
-    
+
     if (elemento && elemento.classList) {
         elemento.classList.add('active');
         reproducirSonidoGotita();
@@ -249,13 +252,14 @@ let productoTemporal = {};
 function toggleCarrito() {
     const panelLateral = document.getElementById('carrito-lateral');
     const overlay = document.getElementById('overlay');
+
     if (panelLateral) panelLateral.classList.toggle('abierto');
     if (overlay) overlay.classList.toggle('mostrar');
 }
 
 function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7) {
     reproducirSonidoGotita();
-    
+
     const modalTitulo = document.getElementById('modal-titulo');
     const modalCantidad = document.getElementById('modal-cantidad');
     const divTamano = document.getElementById('opciones-tamano');
@@ -270,15 +274,22 @@ function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7) {
     let descripcion = '';
 
     if (typeof arg3 === 'number') {
-        productoTemporal = { nombre: nombre, pequeno: arg2, mediano: arg3, grande: arg4, tipo: 'pastel' };
+        productoTemporal = {
+            nombre: nombre,
+            pequeno: arg2,
+            mediano: arg3,
+            grande: arg4,
+            tipo: 'pastel'
+        };
+
         imagen = arg6 || '';
         descripcion = arg7 || '';
 
         if (divTamano) divTamano.style.display = 'block';
 
-        let pPequeno = productoTemporal.pequeno.toFixed(2);
-        let pMediano = productoTemporal.mediano.toFixed(2);
-        let pGrande = productoTemporal.grande.toFixed(2);
+        const pPequeno = productoTemporal.pequeno.toFixed(2);
+        const pMediano = productoTemporal.mediano.toFixed(2);
+        const pGrande = productoTemporal.grande.toFixed(2);
 
         if (selectTamano) {
             selectTamano.innerHTML = `
@@ -288,17 +299,28 @@ function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7) {
             `;
         }
     } else {
-        productoTemporal = { nombre: nombre, precioBase: arg2, tipo: 'unidad' };
+        productoTemporal = {
+            nombre: nombre,
+            precioBase: arg2,
+            tipo: 'unidad'
+        };
+
         imagen = arg4 || '';
         descripcion = arg5 || '';
+
         if (divTamano) divTamano.style.display = 'none';
     }
-    
-    if (modalImg) { modalImg.src = imagen; modalImg.alt = nombre; }
+
+    if (modalImg) {
+        modalImg.src = imagen;
+        modalImg.alt = nombre;
+    }
+
     if (modalDesc) modalDesc.innerText = descripcion;
     productoTemporal.imagen = imagen;
 
     calcularSubtotalModal();
+
     const modalProducto = document.getElementById('modal-producto');
     if (modalProducto) modalProducto.style.display = 'flex';
 }
@@ -312,13 +334,17 @@ function cerrarVentanita() {
 function calcularSubtotalModal() {
     const cantInput = document.getElementById('modal-cantidad');
     let cantidad = cantInput ? parseInt(cantInput.value) : 1;
+
     if (isNaN(cantidad) || cantidad < 1) cantidad = 1;
-    
+
     let precioUnitario = 0;
+
     if (productoTemporal.tipo === 'pastel') {
         const selectTamano = document.getElementById('modal-select-tamano');
+
         if (selectTamano && selectTamano.options && selectTamano.selectedIndex >= 0) {
             const opcionSeleccionada = selectTamano.options[selectTamano.selectedIndex];
+
             if (opcionSeleccionada && opcionSeleccionada.dataset && opcionSeleccionada.dataset.precio) {
                 precioUnitario = parseFloat(opcionSeleccionada.dataset.precio);
             }
@@ -326,54 +352,62 @@ function calcularSubtotalModal() {
     } else if (productoTemporal.precioBase) {
         precioUnitario = productoTemporal.precioBase;
     }
-    
-    let subtotal = precioUnitario * cantidad;
+
+    const subtotal = precioUnitario * cantidad;
     const pInfo = document.getElementById('modal-precio-info');
     const pSubtotal = document.getElementById('modal-subtotal');
+
     if (pInfo) pInfo.innerText = "Precio unitario: Q" + precioUnitario.toFixed(2);
     if (pSubtotal) pSubtotal.innerText = "Q" + subtotal.toFixed(2);
 }
 
 function agregarDesdeVentanita() {
     reproducirSonidoGotita();
+
     const cantInput = document.getElementById('modal-cantidad');
     let cantidad = cantInput ? parseInt(cantInput.value) : 1;
+
     if (isNaN(cantidad) || cantidad < 1) cantidad = 1;
-    
+
     let nombreFinal = productoTemporal.nombre || "Producto";
     let precioFinal = 0;
 
     if (productoTemporal.tipo === 'pastel') {
         const selectTamano = document.getElementById('modal-select-tamano');
-        let tamanoNombre = selectTamano ? selectTamano.value : 'Mediano';
+        const tamanoNombre = selectTamano ? selectTamano.value : 'Mediano';
+
         if (selectTamano && selectTamano.options && selectTamano.selectedIndex >= 0) {
             const opcionSeleccionada = selectTamano.options[selectTamano.selectedIndex];
+
             if (opcionSeleccionada && opcionSeleccionada.dataset && opcionSeleccionada.dataset.precio) {
                 precioFinal = parseFloat(opcionSeleccionada.dataset.precio);
             }
         }
+
         nombreFinal = `${productoTemporal.nombre} (${tamanoNombre})`;
     } else {
         precioFinal = productoTemporal.precioBase || 0;
     }
 
     const productoExistente = orden.find(item => item.nombre === nombreFinal);
+
     if (productoExistente) {
-        productoExistente.cantidad += cantidad; 
+        productoExistente.cantidad += cantidad;
     } else {
-        orden.push({ 
-            nombre: nombreFinal, 
-            precio: precioFinal, 
+        orden.push({
+            nombre: nombreFinal,
+            precio: precioFinal,
             cantidad: cantidad,
             imagen: productoTemporal.imagen || ''
         });
     }
-    
+
     total += (precioFinal * cantidad);
     actualizarCarrito();
     cerrarVentanita();
-    
+
     const panelLateral = document.getElementById('carrito-lateral');
+
     if (panelLateral && !panelLateral.classList.contains('abierto')) {
         toggleCarrito();
     }
@@ -381,73 +415,42 @@ function agregarDesdeVentanita() {
 
 function abrirModalPersonalizar() {
     reproducirSonidoGotita();
+
     const modal = document.getElementById('modal-personalizar');
-    if (modal) modal.style.display = 'flex';
+
+    if (modal) {
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-abierto');
+        modal.querySelector('.cerrar-personalizar').focus();
+    }
 }
 
 function cerrarModalPersonalizar() {
     reproducirSonidoGotita();
+
     const modal = document.getElementById('modal-personalizar');
-    if (modal) modal.style.display = 'none';
-}
 
-function previsualizarImagenCustom(event) {
-    const file = event.target.files[0];
-    const previewContainer = document.getElementById('preview-custom-container');
-    const previewImg = document.getElementById('preview-custom-img');
-
-    if (file && previewImg && previewContainer) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            previewImg.src = e.target.result;
-            previewContainer.style.display = 'block';
-        }
-        reader.readAsDataURL(file);
-    } else if (previewContainer) {
-        previewContainer.style.display = 'none';
+    if (modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-abierto');
     }
 }
 
 function enviarPedidoPersonalizadoWhatsApp() {
     reproducirSonidoGotita();
-    
-    const descripcion = document.getElementById('custom-descripcion').value.trim();
-    const fecha = document.getElementById('custom-fecha').value;
-    const nombre = document.getElementById('custom-nombre').value.trim();
-    const fileInput = document.getElementById('custom-imagen');
 
-    if (descripcion === "" || fecha === "" || nombre === "") {
-        alert("Por favor llena la descripción, tu nombre y la fecha deseada para procesar tu cotización.");
-        return;
-    }
-
-    let texto = `🎂 *COTIZACIÓN DE PASTEL PERSONALIZADO* 🎂\n`;
-    texto += `──────────────────────────────\n\n`;
-    texto += `👤 *Cliente:* ${nombre}\n`;
-    texto += `📅 *Fecha requerida:* ${fecha}\n\n`;
-    texto += `📝 *Detalles del diseño deseado:*\n${descripcion}\n\n`;
-    
-    if (fileInput && fileInput.files.length > 0) {
-        texto += `📷 *(Adjunto/Enviaré la foto de referencia guardada desde mi dispositivo)*\n\n`;
-    }
-
-    texto += `──────────────────────────────\n`;
-    texto += `_Mensaje enviado desde ${URL_SITIO_GITHUB}_`;
-
+    const texto = 'Hola, Cake Chavez. Quisiera personalizar un pastel. ¿Me pueden ayudar con sabores, tamaños y diseños disponibles?';
     const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
-    window.open(url, '_blank');
 
-    document.getElementById('custom-descripcion').value = '';
-    document.getElementById('custom-fecha').value = '';
-    document.getElementById('custom-nombre').value = '';
-    if (fileInput) fileInput.value = '';
-    const prev = document.getElementById('preview-custom-container');
-    if (prev) prev.style.display = 'none';
+    window.open(url, '_blank', 'noopener,noreferrer');
     cerrarModalPersonalizar();
 }
 
 function eliminarItem(index) {
     reproducirSonidoGotita();
+
     if (orden[index]) {
         total -= (orden[index].precio * orden[index].cantidad);
         orden.splice(index, 1);
@@ -460,10 +463,10 @@ function actualizarCarrito() {
     const totalPrecio = document.getElementById('total-precio');
     const datosCliente = document.getElementById('datos-cliente');
     const contadorBurbuja = document.getElementById('contador-carrito');
-    
+
     if (!lista) return;
 
-    lista.innerHTML = ''; 
+    lista.innerHTML = '';
     let cantidadTotalArticulos = 0;
     total = 0;
 
@@ -475,16 +478,18 @@ function actualizarCarrito() {
 
     if (orden.length === 0) {
         lista.innerHTML = '<li class="empty-msg">Tu orden está vacía.</li>';
-        if (datosCliente) datosCliente.style.display = 'none'; 
+
+        if (datosCliente) datosCliente.style.display = 'none';
         if (contadorBurbuja) contadorBurbuja.innerText = 0;
     } else {
         orden.forEach((item, index) => {
             cantidadTotalArticulos += item.cantidad;
+
             const li = document.createElement('li');
             li.innerHTML = `
                 <div style="flex: 1; padding-right: 10px;">
                     <b>${item.cantidad}x</b> ${item.nombre}
-                </div> 
+                </div>
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span>Q${(item.precio * item.cantidad).toFixed(2)}</span>
                     <button class="btn-eliminar-item" onclick="eliminarItem(${index})" title="Quitar producto">
@@ -492,16 +497,18 @@ function actualizarCarrito() {
                     </button>
                 </div>
             `;
+
             lista.appendChild(li);
         });
-        if (datosCliente) datosCliente.style.display = 'block'; 
+
+        if (datosCliente) datosCliente.style.display = 'block';
         if (contadorBurbuja) contadorBurbuja.innerText = cantidadTotalArticulos;
     }
 }
 
 function confirmarOrden() {
     reproducirSonidoGotita();
-    
+
     const nombre = document.getElementById('cliente-nombre').value.trim();
     const fecha = document.getElementById('cliente-fecha').value;
     const direccion = document.getElementById('cliente-direccion').value.trim();
@@ -520,12 +527,16 @@ function confirmarOrden() {
     texto += `──────────────────────────────\n\n`;
     texto += `🛒 *DETALLE DE LA ORDEN:*\n`;
 
-    let fotosLista = [];
+    const fotosLista = [];
 
     orden.forEach(item => {
         texto += `• ${item.cantidad}x ${item.nombre} — Q${(item.precio * item.cantidad).toFixed(2)}\n`;
+
         if (item.imagen && item.imagen.trim() !== '') {
-            let rutaAbsolutaImg = item.imagen.startsWith('http') ? item.imagen : `${URL_SITIO_GITHUB}/${item.imagen}`;
+            const rutaAbsolutaImg = item.imagen.startsWith('http')
+                ? item.imagen
+                : `${URL_SITIO_GITHUB}/${item.imagen}`;
+
             fotosLista.push(`• ${item.nombre}:\n${rutaAbsolutaImg}`);
         }
     });
@@ -541,7 +552,8 @@ function confirmarOrden() {
         texto += `🖼️ *FOTOS DE REFERENCIA DE LOS PRODUCTOS:*\n`;
         texto += fotosLista.join('\n\n') + '\n\n';
     }
-texto += `──────────────────────────────\n`;
+
+    texto += `──────────────────────────────\n`;
     texto += `_Mensaje generado automáticamente desde ${URL_SITIO_GITHUB}_`;
 
     const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
@@ -549,10 +561,68 @@ texto += `───────────────────────�
 
     orden = [];
     total = 0;
-    if (document.getElementById('cliente-nombre')) document.getElementById('cliente-nombre').value = '';
-    if (document.getElementById('cliente-fecha')) document.getElementById('cliente-fecha').value = '';
-    if (document.getElementById('cliente-direccion')) document.getElementById('cliente-direccion').value = '';
-    
+
+    if (document.getElementById('cliente-nombre')) {
+        document.getElementById('cliente-nombre').value = '';
+    }
+
+    if (document.getElementById('cliente-fecha')) {
+        document.getElementById('cliente-fecha').value = '';
+    }
+
+    if (document.getElementById('cliente-direccion')) {
+        document.getElementById('cliente-direccion').value = '';
+    }
+
     actualizarCarrito();
     toggleCarrito();
 }
+
+// Mantiene la barra de categorías visible al bajar y la devuelve a su sitio al volver arriba.
+(function activarBarraCategoriasFija() {
+    const barra = document.querySelector('.zona-portada nav');
+    if (!barra) return;
+
+    const espacio = document.createElement('div');
+    espacio.className = 'espacio-barra-categorias';
+    espacio.hidden = true;
+    barra.parentNode.insertBefore(espacio, barra);
+
+    let puntoFijacion = 0;
+
+    function medirPunto() {
+        if (!barra.classList.contains('barra-categorias-fija')) {
+            puntoFijacion = barra.getBoundingClientRect().top + window.scrollY;
+        }
+    }
+
+    function actualizarBarra() {
+        const fijar = window.scrollY >= puntoFijacion;
+        barra.classList.toggle('barra-categorias-fija', fijar);
+        espacio.hidden = !fijar;
+
+        if (fijar) {
+            espacio.style.height = `${barra.offsetHeight}px`;
+        }
+    }
+
+    medirPunto();
+
+    window.addEventListener('scroll', actualizarBarra, { passive: true });
+    window.addEventListener('resize', () => {
+        medirPunto();
+        actualizarBarra();
+    });
+    window.addEventListener('load', () => {
+        medirPunto();
+        actualizarBarra();
+    });
+
+    document.addEventListener('keydown', event => {
+        const modal = document.getElementById('modal-personalizar');
+
+        if (event.key === 'Escape' && modal?.style.display === 'flex') {
+            cerrarModalPersonalizar();
+        }
+    });
+})();
