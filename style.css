@@ -65,8 +65,8 @@ header {
 }
 
 .logo {
-    width: 700px;
-    max-width: 500%;
+    width: 750px;
+    max-width: 85%;
     height: auto;
     object-fit: contain;
 }
