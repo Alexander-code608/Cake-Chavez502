@@ -1190,8 +1190,8 @@ footer {
     .zona-portada .logo-container { margin-bottom: 13px; }
 
     .zona-portada .logo {
-        width: 78px;
-        max-width: 27vw;
+        width: 200px;
+        max-width: 80vw;
         max-height: 54px;
     }
 
