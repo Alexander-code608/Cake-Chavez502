@@ -1008,7 +1008,7 @@ footer {
 .zona-portada .logo {
     display: block;
     width: 500px;
-    max-width: 50%;
+    max-width: 400%;
     height: auto;
     object-fit: contain;
 }
