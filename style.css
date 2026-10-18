@@ -65,8 +65,8 @@ header {
 }
 
 .logo {
-    width: 500px;
-    max-width: 50%;
+    width: 750px;
+    max-width: 85%;
     height: auto;
     object-fit: contain;
 }
@@ -952,7 +952,7 @@ footer {
         font-size: 0.82rem;
     }
 
-    .logo { max-width: 70%; }
+    .logo { max-width: 95%; }
     .slogan { font-size: 1.3rem; }
 
     nav {
