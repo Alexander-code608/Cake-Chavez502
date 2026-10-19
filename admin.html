@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Administración segura | Cake Chavez</title>
+  <link rel="stylesheet" href="admin.css?v=1">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <!-- PANEL PRIVADO: la seguridad real la garantizan Supabase Auth y las políticas RLS. -->
+  <main class="admin-shell">
+    <header class="admin-topbar">
+      <a class="admin-brand" href="index.html"><span class="admin-brand-icon"><i class="fas fa-cake-candles"></i></span><span><strong>Cake Chavez</strong><small>Panel de administración</small></span></a>
+      <a class="admin-store-link" href="index.html"><i class="fas fa-arrow-left"></i> Ver tienda</a>
+    </header>
+
+    <section id="admin-config-notice" class="admin-notice" hidden>
+      <h1>Configura la conexión segura</h1>
+      <p>Antes de usar este panel, crea tu proyecto Supabase, ejecuta <code>supabase/schema.sql</code> y completa <code>supabase-config.js</code> con el Project URL y la clave pública. No pongas la clave service_role en el navegador.</p>
+      <p>Consulta <code>INSTRUCCIONES_ADMIN_Cake_Chavez.txt</code> dentro del ZIP para los pasos.</p>
+    </section>
+
+    <section id="admin-login-view" class="admin-auth-card">
+      <span class="admin-eyebrow">ACCESO SOLO PARA LA ADMINISTRADORA</span>
+      <h1>Bienvenida de nuevo</h1>
+      <p>Inicia sesión con el usuario que creaste en Supabase. El panel no permite registrarse desde esta página.</p>
+      <form id="admin-login-form">
+        <label for="admin-email">Correo electrónico</label>
+        <input id="admin-email" type="email" autocomplete="username" required>
+        <label for="admin-password">Contraseña</label>
+        <input id="admin-password" type="password" autocomplete="current-password" required>
+        <button class="admin-button admin-button-primary" type="submit"><i class="fas fa-lock"></i> Iniciar sesión</button>
+      </form>
+      <p id="admin-login-message" class="admin-message" role="status"></p>
+    </section>
+
+    <section id="admin-app-view" hidden>
+      <div class="admin-welcome">
+        <div><span class="admin-eyebrow">RESUMEN DE TU TIENDA</span><h1>Panel de Cake Chavez</h1><p id="admin-user-line">Sesión autenticada</p></div>
+        <button type="button" id="admin-logout" class="admin-button admin-button-outline"><i class="fas fa-right-from-bracket"></i> Cerrar sesión</button>
+      </div>
+      <div class="admin-stats" id="admin-stats">
+        <article><span>Productos</span><strong id="stat-products">—</strong></article>
+        <article><span>Ofertas activas</span><strong id="stat-offers">—</strong></article>
+        <article><span>Pedidos por revisar</span><strong id="stat-orders">—</strong></article>
+      </div>
+
+      <nav class="admin-tabs" aria-label="Secciones de administración">
+        <button type="button" class="admin-tab active" data-admin-tab="products">Productos y ofertas</button>
+        <button type="button" class="admin-tab" data-admin-tab="orders">Pedidos</button>
+        <button type="button" class="admin-tab" data-admin-tab="reviews">Opiniones reales</button>
+        <button type="button" class="admin-tab" data-admin-tab="settings">Entregas y pagos</button>
+      </nav>
+
+      <!-- MEJORA 17: gestionar productos, precios, fotos, favoritos destacados y ofertas. -->
+      <section class="admin-section active" id="admin-panel-products">
+        <div class="admin-section-head"><div><h2>Catálogo de productos</h2><p>Las modificaciones se reflejan en la tienda cuando Supabase está conectado.</p></div><button type="button" id="admin-new-product" class="admin-button admin-button-primary"><i class="fas fa-plus"></i> Nuevo producto</button></div>
+        <div class="admin-product-layout">
+          <form id="admin-product-form" class="admin-form-card">
+            <input type="hidden" id="product-id">
+            <h3 id="product-form-title">Agregar producto</h3>
+            <div class="admin-form-grid">
+              <div><label for="product-name">Nombre</label><input id="product-name" required maxlength="140"></div>
+              <div><label for="product-slug">Enlace corto (slug)</label><input id="product-slug" required maxlength="140"></div>
+              <div><label for="product-category">Categoría</label><select id="product-category" required><option value="pasteles">Pasteles</option><option value="postres">Postres</option><option value="galletas">Galletas</option><option value="bocaditos">Bocaditos</option><option value="especiales">Especiales</option></select></div>
+              <div><label for="product-price">Precio base (Q)</label><input id="product-price" type="number" step="0.01" min="0" required value="0"></div>
+              <div><label for="product-price-small">Precio pequeño (Q)</label><input id="product-price-small" type="number" step="0.01" min="0" placeholder="Opcional"></div>
+              <div><label for="product-price-medium">Precio mediano (Q)</label><input id="product-price-medium" type="number" step="0.01" min="0" placeholder="Opcional"></div>
+              <div><label for="product-price-large">Precio grande (Q)</label><input id="product-price-large" type="number" step="0.01" min="0" placeholder="Opcional"></div>
+              <div><label for="product-sale-price">Precio de oferta (Q)</label><input id="product-sale-price" type="number" step="0.01" min="0" placeholder="Dejar vacío si no aplica"></div>
+              <div class="admin-full"><label for="product-description">Descripción</label><textarea id="product-description" rows="3" maxlength="1000"></textarea></div>
+              <div class="admin-full"><label for="product-images">Fotos del producto</label><input id="product-images" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple><small>La primera imagen será la portada. Máximo 5 MB por imagen.</small><div id="product-current-gallery" class="admin-current-gallery"></div></div>
+              <div class="admin-full"><label for="product-gallery-urls">O agrega URLs adicionales de imágenes (una por línea)</label><textarea id="product-gallery-urls" rows="2" placeholder="https://..."></textarea></div>
+              <div><label for="product-occasion">Temática u ocasión</label><input id="product-occasion" placeholder="Cumpleaños, boda, flores…"></div>
+              <div><label for="product-order">Orden de aparición</label><input id="product-order" type="number" step="1" value="100"></div>
+              <div class="admin-checkboxes admin-full">
+                <label><input id="product-has-sizes" type="checkbox"> Tiene tamaños con diferentes precios</label>
+                <label><input id="product-active" type="checkbox" checked> Publicado en el catálogo</label>
+                <label><input id="product-featured" type="checkbox"> Mostrar como destacado</label>
+                <label><input id="product-is-offer" type="checkbox"> Incluir en ofertas</label>
+              </div>
+            </div>
+            <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar producto</button><button type="button" id="admin-cancel-product" class="admin-button admin-button-outline">Cancelar</button></div>
+            <p id="admin-product-message" class="admin-message" role="status"></p>
+          </form>
+          <div class="admin-list-card"><div class="admin-list-toolbar"><h3>Productos guardados</h3><input id="admin-product-search" type="search" placeholder="Buscar producto…"></div><div id="admin-products-list" class="admin-products-list"><p>Cargando…</p></div></div>
+        </div>
+      </section>
+
+      <!-- MEJORA 11: estados del pedido gestionados en el panel. -->
+      <section class="admin-section" id="admin-panel-orders" hidden>
+        <div class="admin-section-head"><div><h2>Pedidos con seguimiento</h2><p>Solo los pedidos registrados con la conexión activa aparecerán aquí. Los mensajes de WhatsApp antiguos no se importan automáticamente.</p></div><button type="button" id="admin-refresh-orders" class="admin-button admin-button-outline">Actualizar</button></div>
+        <div id="admin-orders-list" class="admin-orders-list"><p>Cargando pedidos…</p></div>
+      </section>
+
+      <!-- MEJORA 13: publicar solo comentarios auténticos y con permiso. -->
+      <section class="admin-section" id="admin-panel-reviews" hidden>
+        <div class="admin-section-head"><div><h2>Opiniones de clientes</h2><p>Agrega un comentario real con permiso del cliente y publícalo cuando lo revises.</p></div></div>
+        <form id="admin-review-form" class="admin-form-card">
+          <input type="hidden" id="review-id">
+          <div class="admin-form-grid">
+            <div><label for="review-name">Nombre mostrado</label><input id="review-name" required maxlength="80"></div>
+            <div><label for="review-rating">Calificación</label><select id="review-rating"><option value="5">5 estrellas</option><option value="4">4 estrellas</option><option value="3">3 estrellas</option><option value="2">2 estrellas</option><option value="1">1 estrella</option></select></div>
+            <div class="admin-full"><label for="review-text">Opinión real</label><textarea id="review-text" rows="3" maxlength="1200" required></textarea></div>
+            <div class="admin-full"><label for="review-photo">Foto opcional</label><input id="review-photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><small>Solicita permiso antes de publicar la foto o el nombre de una persona.</small></div>
+            <div class="admin-full"><label class="admin-inline-check"><input type="checkbox" id="review-published"> Publicar esta opinión en la tienda</label></div>
+          </div>
+          <div class="admin-form-actions"><button class="admin-button admin-button-primary" type="submit">Guardar opinión</button><button class="admin-button admin-button-outline" type="button" id="admin-cancel-review">Limpiar</button></div>
+          <p id="admin-review-message" class="admin-message" role="status"></p>
+        </form>
+        <div id="admin-reviews-list" class="admin-reviews-list"><p>Cargando opiniones…</p></div>
+      </section>
+
+      <!-- MEJORA 16: editar información pública de entrega y pagos. -->
+      <section class="admin-section" id="admin-panel-settings" hidden>
+        <div class="admin-section-head"><div><h2>Entregas y pagos</h2><p>Escribe solo información que puedas confirmar y mantener actualizada.</p></div></div>
+        <form id="admin-settings-form" class="admin-form-card">
+          <label for="setting-delivery">Zonas de entrega / recogida</label><textarea id="setting-delivery" rows="4" maxlength="1200" required></textarea>
+          <label for="setting-payment">Métodos de pago</label><textarea id="setting-payment" rows="3" maxlength="800" required></textarea>
+          <label for="setting-notice">Anticipación y aviso del pedido</label><textarea id="setting-notice" rows="3" maxlength="800" required></textarea>
+          <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary">Guardar información pública</button></div>
+          <p id="admin-settings-message" class="admin-message" role="status"></p>
+        </form>
+      </section>
+      <p id="admin-global-message" class="admin-message admin-global-message" role="status"></p>
+    </section>
+    <footer class="admin-footer">Cake Chavez · Panel protegido con autenticación y políticas de base de datos.</footer>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js?v=1"></script>
+  <script src="admin.js?v=1"></script>
+</body>
+</html>

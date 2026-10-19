@@ -1500,3 +1500,1485 @@ footer {
         transition-duration: .01ms !important;
     }
 }
+
+
+/* =========================================================
+   MEJORA 1: SECCIÓN DE PRODUCTOS DESTACADOS
+   ========================================================= */
+.destacados-section {
+    width: min(1100px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 12px 0 34px;
+    color: var(--cake-texto);
+}
+
+.destacados-cabecera {
+    text-align: center;
+    margin: 0 auto 20px;
+}
+
+.destacados-etiqueta {
+    display: inline-block;
+    margin-bottom: 7px;
+    color: var(--cake-rosa);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.destacados-cabecera h2 {
+    margin-bottom: 7px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.65rem, 3.4vw, 2.25rem);
+    color: var(--cake-texto);
+}
+
+.destacados-cabecera p {
+    color: var(--cake-texto-suave);
+    font-size: .9rem;
+    line-height: 1.6;
+}
+
+.destacados-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.destacado-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--cake-borde);
+    border-radius: 14px;
+    background: var(--cake-panel);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .18);
+    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.destacado-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--cake-rosa-fuerte);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .28);
+}
+
+.destacado-imagen-wrap {
+    position: relative;
+    overflow: hidden;
+    background: var(--cake-panel-oscuro);
+    aspect-ratio: 4 / 3;
+}
+
+.destacado-imagen {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s ease;
+}
+
+.destacado-card:hover .destacado-imagen {
+    transform: scale(1.04);
+}
+
+.destacado-sello {
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    z-index: 1;
+    max-width: calc(100% - 22px);
+    padding: 6px 10px;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 999px;
+    background: var(--cake-rosa-fuerte);
+    color: #fff;
+    font-size: .68rem;
+    font-weight: 700;
+}
+
+.destacado-info {
+    padding: 16px;
+}
+
+.destacado-info h3 {
+    margin-bottom: 6px;
+    color: var(--cake-texto);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.12rem;
+}
+
+.destacado-info p {
+    min-height: 40px;
+    margin-bottom: 14px;
+    color: var(--cake-texto-suave);
+    font-size: .82rem;
+    line-height: 1.5;
+}
+
+.destacado-boton {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border: 1px solid var(--cake-rosa-fuerte);
+    border-radius: 8px;
+    background: var(--cake-rosa-fuerte);
+    color: #fff;
+    font-size: .84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.destacado-boton:hover {
+    background: var(--cake-rosa-hover);
+    transform: translateY(-1px);
+}
+
+#producto-pastel-fresa,
+#producto-pastel-aniversario,
+#producto-macarons {
+    scroll-margin-top: 100px;
+}
+
+/* =========================================================
+   MEJORA 2: FORMULARIO DE PERSONALIZACIÓN + FOTO
+   ========================================================= */
+.modal-personalizar-visual {
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.modal-personalizar-visual .modal-personalizar-etiqueta,
+.modal-personalizar-visual h2,
+.modal-personalizar-visual > .modal-personalizar-texto,
+.modal-personalizar-visual > .nota-privacidad-foto {
+    text-align: center;
+}
+
+.personalizar-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+    margin: 18px 0 12px;
+}
+
+.campo-personalizar {
+    min-width: 0;
+    text-align: left;
+}
+
+.campo-personalizar-ancho {
+    grid-column: 1 / -1;
+}
+
+.campo-personalizar label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--cake-texto);
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.input-personalizar,
+.input-foto-personalizar {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 43px;
+    padding: 10px 11px;
+    border: 1px solid var(--cake-borde);
+    border-radius: 8px;
+    outline: none;
+    background: var(--cake-panel-oscuro);
+    color: var(--cake-texto);
+    font-family: 'Poppins', sans-serif;
+    font-size: .84rem;
+}
+
+.input-personalizar:focus,
+.input-foto-personalizar:focus {
+    border-color: var(--cake-rosa);
+    box-shadow: 0 0 0 3px rgba(240, 156, 187, .12);
+}
+
+.input-personalizar::placeholder {
+    color: var(--cake-texto-suave);
+    opacity: 1;
+}
+
+.input-personalizar option {
+    background: var(--cake-panel-oscuro);
+    color: var(--cake-texto);
+}
+
+.textarea-personalizar {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.input-foto-personalizar {
+    padding: 8px;
+    font-size: .78rem;
+}
+
+.input-foto-personalizar::file-selector-button {
+    margin-right: 10px;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--cake-rosa-fuerte);
+    color: #fff;
+    cursor: pointer;
+}
+
+.ayuda-foto-personalizar,
+.nota-privacidad-foto {
+    margin-top: 7px;
+    color: var(--cake-texto-suave);
+    font-size: .72rem;
+    line-height: 1.55;
+}
+
+.vista-foto-personalizada {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px solid var(--cake-borde);
+    border-radius: 9px;
+    background: var(--cake-panel-oscuro);
+}
+
+.vista-foto-personalizada[hidden] {
+    display: none !important;
+}
+
+.vista-foto-personalizada img {
+    display: block;
+    width: 86px;
+    height: 86px;
+    flex: 0 0 86px;
+    border-radius: 7px;
+    object-fit: cover;
+    background: var(--cake-panel);
+}
+
+.vista-foto-detalles {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.nombre-foto-personalizada {
+    max-width: 100%;
+    color: var(--cake-texto);
+    font-size: .78rem;
+    overflow-wrap: anywhere;
+}
+
+.quitar-foto-personalizada {
+    padding: 6px 9px;
+    border: 1px solid var(--cake-borde);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--cake-rosa);
+    font-size: .75rem;
+    cursor: pointer;
+}
+
+.modal-personalizar-visual .btn-confirmar-whatsapp {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    margin-top: 18px;
+    padding: 12px 16px;
+    background: var(--cake-rosa-fuerte);
+    color: #fff;
+}
+
+.modal-personalizar-visual .btn-confirmar-whatsapp:hover {
+    background: var(--cake-rosa-hover);
+}
+
+@media (max-width: 700px) {
+    .destacados-section {
+        width: calc(100% - 24px);
+        padding: 10px 0 26px;
+    }
+
+    .destacados-grid {
+        grid-template-columns: 1fr;
+        gap: 13px;
+        max-width: 430px;
+        margin: 0 auto;
+    }
+
+    .destacado-card {
+        display: grid;
+        grid-template-columns: minmax(105px, 38%) minmax(0, 1fr);
+        align-items: stretch;
+    }
+
+    .destacado-imagen-wrap {
+        aspect-ratio: auto;
+        min-height: 155px;
+        height: 100%;
+    }
+
+    .destacado-sello {
+        top: 7px;
+        left: 7px;
+        padding: 5px 7px;
+        font-size: .58rem;
+    }
+
+    .destacado-info {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        padding: 11px;
+    }
+
+    .destacado-info h3 {
+        font-size: .98rem;
+    }
+
+    .destacado-info p {
+        min-height: 0;
+        margin-bottom: 10px;
+        font-size: .74rem;
+    }
+
+    .destacado-boton {
+        padding: 9px 7px;
+        font-size: .75rem;
+    }
+
+    .modal-personalizar-visual {
+        width: 100%;
+        max-width: 600px;
+        padding: 50px 16px 22px;
+    }
+
+    .personalizar-form-grid {
+        grid-template-columns: 1fr;
+        gap: 11px;
+        margin-top: 16px;
+    }
+
+    .campo-personalizar-ancho {
+        grid-column: auto;
+    }
+
+    .modal-personalizar-visual .modal-personalizar-etiqueta {
+        margin-bottom: 12px;
+        font-size: .62rem;
+    }
+
+    .modal-personalizar-visual h2 {
+        font-size: 1.65rem;
+    }
+
+    .modal-personalizar-visual .modal-personalizar-texto {
+        margin-bottom: 14px;
+        font-size: .82rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .destacado-card,
+    .destacado-imagen,
+    .destacado-boton {
+        transition: none;
+    }
+}
+
+.producto-destacado-enfasis {
+    outline: 2px solid var(--cake-rosa);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 6px rgba(240, 156, 187, .12), 0 12px 28px rgba(0, 0, 0, .28);
+}
+
+
+/* =========================================================
+   MEJORA 3: OPINIONES DE CLIENTES
+   Los botones preparan una consulta por WhatsApp; aquí no se inventan reseñas.
+   ========================================================= */
+.opiniones-section,
+.galeria-inspiracion-section,
+.calendario-pedidos-section,
+.preguntas-section {
+    width: min(1100px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 30px 0;
+    color: var(--cake-texto);
+}
+
+.seccion-cabecera {
+    max-width: 760px;
+    margin: 0 auto 22px;
+    text-align: center;
+}
+
+.seccion-etiqueta {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--cake-rosa);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .075em;
+    text-transform: uppercase;
+}
+
+.seccion-cabecera h2,
+.calendario-pedidos-contenido h2 {
+    margin-bottom: 8px;
+    color: var(--cake-texto);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+    line-height: 1.25;
+}
+
+.seccion-cabecera p,
+.calendario-pedidos-contenido > p {
+    color: var(--cake-texto-suave);
+    font-size: .88rem;
+    line-height: 1.65;
+}
+
+.opiniones-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.opinion-invitacion-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 22px;
+    border: 1px solid var(--cake-borde);
+    border-radius: 14px;
+    background: var(--cake-panel);
+    box-shadow: 0 8px 22px rgba(0,0,0,.16);
+}
+
+.opinion-icono {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 14px;
+    place-items: center;
+    border: 1px solid rgba(240,156,187,.28);
+    border-radius: 12px;
+    background: rgba(240,156,187,.1);
+    color: var(--cake-rosa);
+    font-size: 1.1rem;
+}
+
+.opinion-invitacion-card h3 {
+    margin-bottom: 8px;
+    color: var(--cake-texto);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.08rem;
+}
+
+.opinion-invitacion-card p {
+    flex: 1;
+    margin-bottom: 16px;
+    color: var(--cake-texto-suave);
+    font-size: .82rem;
+    line-height: 1.6;
+}
+
+.boton-secundario-rosa,
+.boton-principal-rosa {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border: 1px solid var(--cake-rosa-fuerte);
+    border-radius: 8px;
+    background: var(--cake-rosa-fuerte);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: .82rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease, border-color .2s ease;
+}
+
+.boton-secundario-rosa:hover,
+.boton-principal-rosa:hover {
+    transform: translateY(-1px);
+    border-color: var(--cake-rosa-hover);
+    background: var(--cake-rosa-hover);
+}
+
+.nota-opiniones {
+    margin-top: 16px;
+    color: var(--cake-texto-suave);
+    font-size: .72rem;
+    line-height: 1.55;
+    text-align: center;
+}
+
+/* =========================================================
+   MEJORA 4: TARJETAS DE OCASIONES ESPECIALES
+   ========================================================= */
+.ocasiones-section {
+    width: min(1100px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 12px 0 34px;
+    color: var(--cake-texto);
+}
+
+.ocasiones-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.ocasion-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    padding: 18px 13px;
+    border: 1px solid var(--cake-borde);
+    border-radius: 13px;
+    background: var(--cake-panel);
+    text-align: center;
+    transition: transform .2s ease, border-color .2s ease;
+}
+
+.ocasion-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--cake-rosa-fuerte);
+}
+
+.ocasion-icono {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(240,156,187,.11);
+    color: var(--cake-rosa);
+    font-size: 1.2rem;
+}
+
+.ocasion-card h3 {
+    margin-bottom: 7px;
+    color: var(--cake-texto);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: .98rem;
+}
+
+.ocasion-card p {
+    flex: 1;
+    margin-bottom: 14px;
+    color: var(--cake-texto-suave);
+    font-size: .74rem;
+    line-height: 1.5;
+}
+
+.ocasion-card button {
+    width: 100%;
+    min-height: 38px;
+    padding: 8px 9px;
+    border: 1px solid var(--cake-borde);
+    border-radius: 7px;
+    background: transparent;
+    color: var(--cake-rosa);
+    font-family: 'Poppins', sans-serif;
+    font-size: .73rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+.ocasion-card button:hover {
+    border-color: var(--cake-rosa-fuerte);
+    background: var(--cake-rosa-fuerte);
+    color: #fff;
+}
+
+/* =========================================================
+   MEJORA 5: ETIQUETAS Y PRESENTACIÓN DE LAS TARJETAS DE PRODUCTO
+   ========================================================= */
+#productos-container .producto {
+    position: relative;
+    overflow: hidden;
+}
+
+.producto-etiqueta {
+    display: inline-flex;
+    max-width: 100%;
+    align-items: center;
+    align-self: flex-start;
+    margin: 0 auto 11px;
+    padding: 5px 9px;
+    border: 1px solid rgba(240,156,187,.25);
+    border-radius: 999px;
+    background: rgba(240,156,187,.09);
+    color: var(--cake-rosa);
+    font-size: .65rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.producto .precio {
+    letter-spacing: .01em;
+}
+
+.producto button:focus-visible,
+.destacado-boton:focus-visible,
+.ocasion-card button:focus-visible,
+.boton-principal-rosa:focus-visible,
+.boton-secundario-rosa:focus-visible,
+.galeria-inspiracion-item:focus-visible,
+.pregunta-item summary:focus-visible {
+    outline: 2px solid var(--cake-rosa);
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   MEJORA 6: GALERÍA DE INSPIRACIÓN
+   ========================================================= */
+.galeria-inspiracion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.galeria-inspiracion-item {
+    position: relative;
+    display: block;
+    min-width: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid var(--cake-borde);
+    border-radius: 12px;
+    background: var(--cake-panel-oscuro);
+    text-align: left;
+    cursor: pointer;
+}
+
+.galeria-inspiracion-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s ease, opacity .3s ease;
+}
+
+.galeria-inspiracion-item:hover img {
+    transform: scale(1.05);
+    opacity: .78;
+}
+
+.galeria-inspiracion-pie {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 26px 12px 11px;
+    background: linear-gradient(transparent, rgba(25,22,22,.92));
+    color: #fff;
+    font-size: .82rem;
+    font-weight: 600;
+}
+
+.galeria-inspiracion-ampliar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    background: rgba(25,22,22,.72);
+    color: #fff;
+}
+
+.galeria-inspiracion-accion {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* =========================================================
+   MEJORA 7: CONSULTA DE FECHA Y ANTICIPACIÓN DE PEDIDOS
+   ========================================================= */
+.calendario-pedidos-panel {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 22px;
+    padding: clamp(20px, 4vw, 36px);
+    border: 1px solid var(--cake-borde);
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--cake-panel), var(--cake-panel-oscuro));
+    box-shadow: 0 10px 28px rgba(0,0,0,.18);
+}
+
+.calendario-pedidos-icono {
+    display: grid;
+    width: 66px;
+    height: 66px;
+    place-items: center;
+    border: 1px solid rgba(240,156,187,.25);
+    border-radius: 16px;
+    background: rgba(240,156,187,.1);
+    color: var(--cake-rosa);
+    font-size: 1.8rem;
+}
+
+.calendario-pedidos-contenido h2 {
+    margin-top: 0;
+}
+
+.calendario-pedidos-controles {
+    display: grid;
+    grid-template-columns: minmax(170px, .8fr) minmax(210px, 1fr) auto;
+    align-items: end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.calendario-pedidos-controles label {
+    grid-column: 1 / -1;
+    margin-bottom: -4px;
+    color: var(--cake-texto);
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.calendario-pedidos-controles .input-personalizar {
+    min-height: 44px;
+}
+
+.nota-disponibilidad-fecha {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin-top: 13px;
+    color: var(--cake-texto-suave);
+    font-size: .73rem !important;
+}
+
+.nota-disponibilidad-fecha i {
+    margin-top: 3px;
+    color: var(--cake-rosa);
+}
+
+/* =========================================================
+   MEJORA 8: PREGUNTAS FRECUENTES Y CONSULTAS DE SERVICIO
+   ========================================================= */
+.preguntas-lista {
+    display: grid;
+    gap: 10px;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.pregunta-item {
+    overflow: hidden;
+    border: 1px solid var(--cake-borde);
+    border-radius: 10px;
+    background: var(--cake-panel);
+}
+
+.pregunta-item summary {
+    position: relative;
+    padding: 16px 44px 16px 17px;
+    color: var(--cake-texto);
+    font-size: .88rem;
+    font-weight: 600;
+    line-height: 1.5;
+    list-style: none;
+    cursor: pointer;
+}
+
+.pregunta-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.pregunta-item summary::after {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    right: 17px;
+    transform: translateY(-50%);
+    color: var(--cake-rosa);
+    font-size: 1.35rem;
+    font-weight: 400;
+}
+
+.pregunta-item[open] summary::after {
+    content: '−';
+}
+
+.pregunta-item p {
+    padding: 0 17px 17px;
+    color: var(--cake-texto-suave);
+    font-size: .82rem;
+    line-height: 1.7;
+}
+
+.preguntas-contacto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+    text-align: center;
+}
+
+.preguntas-contacto p {
+    color: var(--cake-texto-suave);
+    font-size: .86rem;
+}
+
+/* Ajustes responsive de las seis mejoras nuevas */
+@media (max-width: 900px) {
+    .ocasiones-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .calendario-pedidos-controles {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .calendario-pedidos-controles label {
+        grid-column: 1 / -1;
+    }
+
+    .calendario-pedidos-controles .boton-principal-rosa {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 650px) {
+    .opiniones-section,
+    .galeria-inspiracion-section,
+    .calendario-pedidos-section,
+    .preguntas-section,
+    .ocasiones-section {
+        width: calc(100% - 24px);
+        padding-top: 23px;
+        padding-bottom: 23px;
+    }
+
+    .opiniones-grid {
+        grid-template-columns: 1fr;
+        gap: 11px;
+        max-width: 440px;
+        margin: 0 auto;
+    }
+
+    .opinion-invitacion-card {
+        padding: 17px;
+    }
+
+    .opinion-invitacion-card p {
+        margin-bottom: 12px;
+    }
+
+    .ocasiones-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .ocasion-card {
+        padding: 15px 10px;
+    }
+
+    .galeria-inspiracion-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+    }
+
+    .galeria-inspiracion-pie {
+        padding: 23px 8px 8px;
+        font-size: .72rem;
+    }
+
+    .galeria-inspiracion-ampliar {
+        top: 7px;
+        right: 7px;
+        width: 29px;
+        height: 29px;
+        font-size: .8rem;
+    }
+
+    .calendario-pedidos-panel {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 19px 16px;
+    }
+
+    .calendario-pedidos-icono {
+        width: 52px;
+        height: 52px;
+        border-radius: 13px;
+        font-size: 1.35rem;
+    }
+
+    .calendario-pedidos-controles {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .calendario-pedidos-controles label,
+    .calendario-pedidos-controles .boton-principal-rosa {
+        grid-column: auto;
+    }
+
+    .boton-principal-rosa,
+    .boton-secundario-rosa {
+        width: 100%;
+    }
+
+    .pregunta-item summary {
+        padding: 14px 39px 14px 13px;
+        font-size: .82rem;
+    }
+
+    .pregunta-item p {
+        padding: 0 13px 14px;
+        font-size: .78rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .ocasiones-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ocasion-card {
+        display: grid;
+        grid-template-columns: 42px minmax(0, 1fr);
+        align-items: center;
+        column-gap: 10px;
+        text-align: left;
+    }
+
+    .ocasion-icono {
+        grid-row: 1 / span 2;
+        width: 42px;
+        height: 42px;
+        margin: 0;
+    }
+
+    .ocasion-card h3,
+    .ocasion-card p {
+        grid-column: 2;
+    }
+
+    .ocasion-card p {
+        margin-bottom: 7px;
+    }
+
+    .ocasion-card button {
+        grid-column: 1 / -1;
+        margin-top: 5px;
+    }
+}
+
+/* =========================================================
+   MEJORA 9: ENTRADA DEL LOGO Y REVELADO AL DESPLAZARSE
+   ========================================================= */
+@keyframes cakeLogoZoomRegreso {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scale(1.34);
+        filter: blur(3px);
+    }
+    62% {
+        opacity: 1;
+        transform: translateY(-2px) scale(.96);
+        filter: blur(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes cakeTextoEntrada {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* El logo aparece destacado y luego vuelve suavemente a su tamaño normal. */
+.zona-portada .logo {
+    transform-origin: center center;
+    animation: cakeLogoZoomRegreso 1.25s cubic-bezier(.2, .8, .2, 1) .08s both;
+    will-change: transform, opacity;
+}
+
+/* El aviso y el eslogan aparecen después del logo, sin cambiar su posición final. */
+.zona-portada .aviso-pedido {
+    animation: cakeTextoEntrada .65s ease .48s both;
+}
+
+.zona-portada .slogan {
+    animation: cakeTextoEntrada .7s ease .6s both;
+}
+
+/* Separación extra para que los productos no queden debajo de la barra fija. */
+#productos-container .producto {
+    scroll-margin-top: 125px;
+}
+
+/* Las secciones aparecen con suavidad cuando entran en pantalla. */
+.revelar-scroll {
+    opacity: 0;
+    transform: translate3d(0, 25px, 0);
+    transition:
+        opacity .68s ease,
+        transform .68s cubic-bezier(.22, 1, .36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+.revelar-scroll.visible-scroll {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+/* Evita que las animaciones antiguas de entrada anulen el revelado al hacer scroll. */
+.animar-entrada-top.revelar-scroll,
+.producto.mostrar.revelar-scroll {
+    animation: none;
+}
+
+/* Mantiene el efecto de elevación de las tarjetas al pasar el cursor. */
+#productos-container .producto.revelar-scroll.visible-scroll:hover {
+    transform: translate3d(0, -5px, 0);
+}
+
+@media (max-width: 600px) {
+    .zona-portada .logo {
+        max-width: 90vw;
+        height: auto;
+        animation-duration: 1.05s;
+    }
+
+    .revelar-scroll {
+        transform: translate3d(0, 18px, 0);
+        transition-duration: .52s;
+    }
+
+    #productos-container .producto {
+        scroll-margin-top: 150px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zona-portada .logo,
+    .zona-portada .aviso-pedido,
+    .zona-portada .slogan {
+        animation: none !important;
+        filter: none !important;
+    }
+
+    .revelar-scroll,
+    .revelar-scroll.visible-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+
+/* =========================================================
+   MEJORA 10: ANIMACIÓN LENTA DEL LOGO Y ENTRADA ESCALONADA
+   El logo se destaca primero y vuelve con suavidad a su tamaño normal.
+   ========================================================= */
+@keyframes cakeLogoZoomRegresoV2 {
+    0% {
+        opacity: 0;
+        transform: translateY(12px) scale(1.38);
+        filter: blur(4px);
+    }
+    32% {
+        opacity: 1;
+        transform: translateY(2px) scale(1.22);
+        filter: blur(1px);
+    }
+    68% {
+        opacity: 1;
+        transform: translateY(-2px) scale(.96);
+        filter: blur(0);
+    }
+    84% {
+        transform: translateY(1px) scale(1.025);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+.zona-portada .logo {
+    transform-origin: center center;
+    animation: cakeLogoZoomRegresoV2 3.2s cubic-bezier(.2, .72, .22, 1) .08s both;
+    will-change: transform, opacity, filter;
+}
+
+/* La información del encabezado entra después de que el logo ya se ha destacado. */
+.zona-portada .aviso-pedido {
+    animation: cakeTextoEntrada .75s ease 2.15s both;
+}
+
+.zona-portada .slogan {
+    animation: cakeTextoEntrada .85s ease 2.45s both;
+}
+
+/* =========================================================
+   MEJORA 11: ACCIONES DENTRO DEL VISOR DE PRODUCTOS
+   Incluye el acceso al pedido y el enlace para compartir en Facebook.
+   ========================================================= */
+.galeria-acciones-producto {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.galeria-acciones-producto[hidden] {
+    display: none !important;
+}
+
+.galeria-pedir-btn,
+.galeria-compartir-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    min-height: 46px;
+    padding: 11px 18px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: .88rem;
+    font-weight: 600;
+    line-height: 1.25;
+    transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+
+.galeria-pedir-btn {
+    background: var(--cake-rosa-fuerte);
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(168, 59, 101, .22);
+}
+
+.galeria-pedir-btn:hover {
+    transform: translateY(-2px);
+    background: var(--cake-rosa-hover);
+    box-shadow: 0 7px 18px rgba(168, 59, 101, .28);
+}
+
+.galeria-compartir-btn {
+    border-color: var(--cake-borde);
+    background: var(--cake-panel-oscuro);
+    color: var(--cake-texto);
+}
+
+.galeria-compartir-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--cake-rosa);
+    color: var(--cake-rosa);
+}
+
+.galeria-pedir-btn:focus-visible,
+.galeria-compartir-btn:focus-visible {
+    outline: 3px solid var(--cake-rosa);
+    outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+    /* Conserva la animación completa también en teléfono; no comprime el logo. */
+    .zona-portada .logo {
+        width: 320px;
+        max-width: 90vw;
+        max-height: none;
+        animation-duration: 3.2s;
+    }
+
+    .zona-portada .aviso-pedido {
+        animation-delay: 2.05s;
+    }
+
+    .zona-portada .slogan {
+        animation-delay: 2.35s;
+    }
+
+    .caja-solo-imagen {
+        width: min(96%, 540px);
+        max-height: calc(100dvh - 18px);
+        padding: 13px 12px 16px;
+        border-radius: 15px;
+    }
+
+    .galeria-visor-wrapper {
+        margin-bottom: 12px;
+    }
+
+    .solo-img-grande {
+        max-height: min(48dvh, 430px);
+    }
+
+    .galeria-acciones-producto {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 9px;
+        margin-top: 14px;
+    }
+
+    .galeria-pedir-btn,
+    .galeria-compartir-btn {
+        width: 100%;
+        min-height: 46px;
+        padding: 12px 14px;
+        font-size: .87rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .galeria-arrow {
+        width: 34px;
+        height: 34px;
+    }
+
+    .solo-img-titulo {
+        font-size: 1.25rem;
+    }
+
+    .solo-img-descripcion {
+        font-size: .86rem;
+    }
+}
+
+/* Respeta la preferencia de quien reduce animaciones en su dispositivo. */
+@media (prefers-reduced-motion: reduce) {
+    .zona-portada .logo,
+    .zona-portada .aviso-pedido,
+    .zona-portada .slogan {
+        animation: none !important;
+        filter: none !important;
+        will-change: auto;
+    }
+
+    .galeria-pedir-btn,
+    .galeria-compartir-btn {
+        transition: none !important;
+    }
+}
+
+
+/* =========================================================
+   MEJORA 9: OFERTAS ESPECIALES
+   Productos con marca is_offer desde el panel privado.
+   ========================================================= */
+.cake-ofertas-section,
+.cake-calculadora-section,
+.cake-seguimiento-section,
+.cake-entregas-section {
+    padding: clamp(26px, 4vw, 48px) clamp(14px, 3vw, 28px);
+    background: var(--cake-fondo);
+    color: var(--cake-texto);
+}
+.cake-ofertas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 18px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.cake-estado-vacio {
+    grid-column: 1 / -1;
+    padding: 20px;
+    border: 1px dashed var(--cake-borde);
+    border-radius: 14px;
+    color: var(--cake-texto-suave);
+    text-align: center;
+    background: var(--cake-panel);
+}
+.cake-oferta-card {
+    overflow: hidden;
+    background: var(--cake-panel);
+    border: 1px solid var(--cake-borde);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+.cake-oferta-card img { width: 100%; height: 200px; display:block; object-fit: cover; }
+.cake-oferta-info { padding: 15px; }
+.cake-oferta-sello {
+    display: inline-block; margin-bottom: 8px; padding: 4px 9px;
+    border-radius: 999px; background: rgba(240,156,187,.13); color: var(--cake-rosa);
+    font-size: .72rem; font-weight: 700;
+}
+.cake-oferta-info h3 { color: var(--cake-texto); margin-bottom: 6px; }
+.cake-oferta-info p { color: var(--cake-texto-suave); font-size: .88rem; margin-bottom: 12px; }
+.cake-oferta-precio { display:flex; gap:9px; flex-wrap:wrap; align-items:baseline; margin-bottom:13px; }
+.cake-oferta-precio strong { color: var(--cake-rosa); font-size:1.15rem; }
+.cake-oferta-precio del { color: var(--cake-texto-suave); }
+.cake-centro-accion { text-align:center; margin-top:18px; }
+
+/* =========================================================
+   MEJORA 10: CALCULADORA DE PRECIOS ESTIMADOS
+   ========================================================= */
+.cake-calculadora-panel,
+.cake-seguimiento-panel {
+    max-width: 1000px; margin: 0 auto; padding: clamp(18px, 3vw, 32px);
+    background: var(--cake-panel); border: 1px solid var(--cake-borde); border-radius: 22px;
+    box-shadow: 0 10px 28px rgba(0,0,0,.2);
+}
+.cake-calculadora-intro { max-width: 650px; margin: 0 auto 22px; text-align:center; }
+.cake-calculadora-intro h2,
+.cake-seguimiento-contenido h2 { color: var(--cake-rosa); font-family:'Playfair Display',serif; font-size:clamp(1.6rem,4vw,2.3rem); margin:8px 0; }
+.cake-calculadora-intro p,
+.cake-seguimiento-contenido > p { color:var(--cake-texto-suave); line-height:1.6; }
+.cake-calculadora-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; align-items:end; }
+.cake-campo { display:flex; flex-direction:column; gap:7px; min-width:0; }
+.cake-campo label,
+.cake-seguimiento-form label { color:var(--cake-texto); font-size:.88rem; font-weight:600; }
+.cake-calculo-total { display:flex; flex-direction:column; gap:3px; padding:13px 16px; border-radius:12px; background:var(--cake-panel-oscuro); border:1px solid var(--cake-borde); }
+.cake-calculo-total span { color:var(--cake-texto-suave); font-size:.78rem; }
+.cake-calculo-total strong { color:var(--cake-rosa); font-size:1.65rem; }
+.cake-calculo-total small { color:var(--cake-texto-suave); font-size:.73rem; line-height:1.4; }
+.cake-calculadora-form > button { min-height:48px; }
+.cake-calculadora-form [hidden] { display:none !important; }
+
+/* =========================================================
+   MEJORA 12: FAVORITOS GUARDADOS EN EL DISPOSITIVO
+   ========================================================= */
+.cake-favoritos-acceso { max-width:1100px; margin: 8px auto 12px; padding:0 18px 12px; text-align:center; }
+.cake-favoritos-toggle { display:inline-flex; justify-content:center; align-items:center; gap:9px; min-height:42px; padding:9px 16px; border:1px solid var(--cake-borde); border-radius:999px; background:var(--cake-panel); color:var(--cake-rosa); cursor:pointer; font-weight:600; }
+.cake-favoritos-toggle[aria-pressed="true"] { background:var(--cake-rosa-fuerte); color:#fff; }
+#cake-favoritos-contador { display:inline-grid; min-width:23px; height:23px; place-items:center; border-radius:50%; background:rgba(240,156,187,.18); font-size:.75rem; }
+#cake-favoritos-aviso { margin-top:8px; color:var(--cake-texto-suave); font-size:.78rem; }
+.producto-favorito-btn { display:flex; align-items:center; justify-content:center; gap:7px; width:100%; min-height:38px; margin:0 0 10px; padding:7px 10px; border:1px solid var(--cake-borde); border-radius:8px; background:var(--cake-panel-oscuro); color:var(--cake-rosa); cursor:pointer; font-size:.82rem; font-weight:600; }
+.producto-favorito-btn[aria-pressed="true"] { background:rgba(168,59,101,.25); border-color:var(--cake-rosa-fuerte); }
+.producto.favorito-oculto { display:none !important; }
+.producto-favorito-btn:focus-visible,.cake-favoritos-toggle:focus-visible { outline:3px solid var(--cake-rosa); outline-offset:3px; }
+
+/* =========================================================
+   MEJORA 13: OPINIONES REALES Y APROBADAS
+   ========================================================= */
+.cake-opiniones-publicadas { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr)); gap:15px; margin: 0 0 22px; }
+.cake-opinion-card { display:flex; flex-direction:column; gap:9px; padding:16px; border:1px solid var(--cake-borde); border-radius:15px; background:var(--cake-panel); }
+.cake-opinion-card img { width:100%; max-height:220px; object-fit:cover; border-radius:10px; }
+.cake-opinion-estrellas { color:var(--cake-rosa); letter-spacing:.08em; }
+.cake-opinion-card blockquote { color:var(--cake-texto); font-size:.92rem; line-height:1.6; }
+.cake-opinion-card strong { color:var(--cake-rosa); font-size:.87rem; }
+
+/* =========================================================
+   MEJORA 14: ASISTENTE RÁPIDO FLOTANTE
+   ========================================================= */
+.cake-asistente { position:fixed; right:18px; bottom:105px; z-index:997; display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+.cake-asistente-boton { display:flex; align-items:center; justify-content:center; gap:9px; min-height:50px; padding:12px 17px; border:1px solid rgba(255,255,255,.2); border-radius:999px; background:var(--cake-rosa-fuerte); color:white; box-shadow:0 8px 24px rgba(0,0,0,.28); cursor:pointer; font-weight:700; }
+.cake-asistente-boton i { font-size:1.15rem; }
+.cake-asistente-panel { width:min(360px,calc(100vw - 28px)); padding:0 15px 15px; border:1px solid var(--cake-borde); border-radius:17px; background:var(--cake-panel); box-shadow:0 14px 38px rgba(0,0,0,.38); }
+.cake-asistente-panel[hidden] { display:none !important; }
+.cake-asistente-header { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:13px 0; border-bottom:1px solid var(--cake-borde); }
+.cake-asistente-header div { display:flex; flex-direction:column; gap:2px; }
+.cake-asistente-header strong { color:var(--cake-rosa); }
+.cake-asistente-header span { color:var(--cake-texto-suave); font-size:.73rem; }
+.cake-asistente-header button { width:33px; height:33px; border:1px solid var(--cake-borde); border-radius:50%; background:transparent; color:var(--cake-texto); font-size:1.35rem; cursor:pointer; }
+.cake-asistente-saludo { padding:13px 0; color:var(--cake-texto); font-size:.86rem; line-height:1.5; }
+.cake-asistente-opciones { display:grid; gap:8px; }
+.cake-asistente-opciones button { display:flex; align-items:center; gap:10px; width:100%; padding:11px; border:1px solid var(--cake-borde); border-radius:10px; background:var(--cake-panel-oscuro); color:var(--cake-texto); text-align:left; cursor:pointer; }
+.cake-asistente-opciones button i { width:20px; color:var(--cake-rosa); text-align:center; }
+.cake-asistente-opciones button:hover { border-color:var(--cake-rosa); }
+
+/* =========================================================
+   MEJORA 11: ESTADO DEL PEDIDO
+   ========================================================= */
+.cake-seguimiento-panel { display:grid; grid-template-columns:70px minmax(0,1fr); gap:20px; align-items:start; }
+.cake-seguimiento-icono { display:grid; place-items:center; width:64px; height:64px; border-radius:17px; background:rgba(240,156,187,.12); color:var(--cake-rosa); font-size:1.7rem; }
+.cake-seguimiento-form { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; align-items:end; margin-top:17px; }
+.cake-seguimiento-form label { grid-column:1/-1; }
+.cake-seguimiento-form input { min-width:0; text-transform:uppercase; }
+.cake-seguimiento-form button { min-height:48px; white-space:nowrap; }
+.cake-seguimiento-resultado { margin-top:14px; padding:12px 14px; border:1px dashed var(--cake-borde); border-radius:10px; color:var(--cake-texto-suave); background:var(--cake-panel-oscuro); font-size:.85rem; line-height:1.55; }
+.cake-seguimiento-resultado strong { color:var(--cake-rosa); }
+.cake-seguimiento-status { display:inline-block; padding:4px 9px; border-radius:999px; background:rgba(240,156,187,.12); color:var(--cake-rosa); font-weight:700; }
+
+/* =========================================================
+   MEJORA 16: DETALLES DE ENTREGA Y PAGO
+   ========================================================= */
+.cake-entregas-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; max-width:1100px; margin:0 auto; }
+.cake-entrega-card { padding:20px; border:1px solid var(--cake-borde); border-radius:15px; background:var(--cake-panel); }
+.cake-entrega-icono { display:grid; place-items:center; width:43px; height:43px; margin-bottom:11px; border-radius:12px; color:var(--cake-rosa); background:rgba(240,156,187,.12); }
+.cake-entrega-card h3 { margin-bottom:7px; color:var(--cake-texto); }
+.cake-entrega-card p { color:var(--cake-texto-suave); font-size:.86rem; line-height:1.6; }
+.cake-admin-link { display:inline-block; margin-top:10px; color:var(--cake-texto-suave); font-size:.75rem; text-decoration:underline; text-underline-offset:3px; }
+.cake-admin-link:hover { color:var(--cake-rosa); }
+
+@media (max-width: 640px) {
+    .cake-ofertas-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+    .cake-oferta-card img { height:140px; }
+    .cake-oferta-info { padding:11px; }
+    .cake-oferta-info h3 { font-size:.92rem; }
+    .cake-oferta-info p { font-size:.76rem; }
+    .cake-oferta-precio strong { font-size:1rem; }
+    .cake-calculadora-form { grid-template-columns:1fr; gap:13px; }
+    .cake-seguimiento-panel { grid-template-columns:1fr; gap:12px; padding:18px; }
+    .cake-seguimiento-icono { width:50px; height:50px; border-radius:13px; font-size:1.3rem; }
+    .cake-seguimiento-form { grid-template-columns:1fr; }
+    .cake-seguimiento-form label { grid-column:auto; }
+    .cake-seguimiento-form button { width:100%; }
+    .cake-entregas-grid { grid-template-columns:1fr; }
+    .cake-asistente { right:10px; bottom:91px; }
+    .cake-asistente-boton { min-height:47px; padding:11px 14px; }
+    .cake-asistente-panel { width:min(350px,calc(100vw - 20px)); }
+}
+@media (max-width: 370px) {
+    .cake-ofertas-grid { grid-template-columns:1fr; }
+    .cake-asistente-boton span { display:none; }
+    .cake-asistente-boton { width:48px; height:48px; padding:0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .cake-oferta-card,.producto-favorito-btn,.cake-asistente-boton { transition:none !important; }
+}
+
+/* =========================================================
+   MEJORA 15: TARJETAS DE INSPIRACIÓN POR TEMÁTICA
+   ========================================================= */
+.cake-tematicas-section { padding:26px clamp(14px,3vw,28px) 34px; background:var(--cake-fondo); }
+.cake-tematicas-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; max-width:1100px; margin:0 auto; }
+.cake-tematica-card { min-width:0; display:flex; flex-direction:column; align-items:center; gap:8px; padding:18px 10px; border:1px solid var(--cake-borde); border-radius:15px; background:var(--cake-panel); color:var(--cake-texto); cursor:pointer; transition:transform .2s ease,border-color .2s ease,background .2s ease; text-align:center; }
+.cake-tematica-card:hover { transform:translateY(-3px); border-color:var(--cake-rosa); background:#35292e; }
+.cake-tematica-card span { display:grid; place-items:center; width:42px; height:42px; border-radius:13px; background:rgba(240,156,187,.12); color:var(--cake-rosa); font-size:1.1rem; }
+.cake-tematica-card strong { font-size:.9rem; }
+.cake-tematica-card small { color:var(--cake-texto-suave); font-size:.72rem; }
+@media(max-width:760px){.cake-tematicas-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.cake-tematica-card:last-child{grid-column:1/-1;}}
+@media(prefers-reduced-motion:reduce){.cake-tematica-card{transition:none}}
