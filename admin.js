@@ -153,10 +153,20 @@
   document.addEventListener('DOMContentLoaded',async()=>{
     client=configuredClient();
     if(!client){$('admin-config-notice').hidden=false;$('admin-login-view').hidden=true;return;}
-    $('admin-login-form').addEventListener('submit',async event=>{event.preventDefault();message('admin-login-message','Verificando…');const {data,error}=await client.auth.signInWithPassword({email:$('admin-email').value.trim(),password:$('admin-password').value});if(error){message('admin-login-message','No se pudo iniciar sesión. Revisa tu correo y contraseña.','error');return;}if(!data.user){message('admin-login-message','No se recibió una sesión válida.','error');return;}await boot(data.user);});
+    const forcePanel = new URLSearchParams(window.location.search).get('panel') === '1';
+    $('admin-login-form').addEventListener('submit',async event=>{
+      event.preventDefault();message('admin-login-message','Verificando…');
+      const {data,error}=await client.auth.signInWithPassword({email:$('admin-email').value.trim(),password:$('admin-password').value});
+      if(error){message('admin-login-message','No se pudo iniciar sesión. Revisa tu correo y contraseña.','error');return;}
+      if(!data.user){message('admin-login-message','No se recibió una sesión válida.','error');return;}
+      if(forcePanel){await boot(data.user);return;}
+      if(await requireAdmin(data.user)) window.location.href='index.html?modo=edicion';
+    });
     $('admin-logout').addEventListener('click',async()=>{await client.auth.signOut();showAuth();message('admin-login-message','Sesión cerrada.','success');});
     document.querySelectorAll('[data-admin-tab]').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.adminTab)));
     $('admin-product-form').addEventListener('submit',saveProduct);$('admin-new-product').addEventListener('click',resetProductForm);$('admin-cancel-product').addEventListener('click',resetProductForm);$('admin-product-search').addEventListener('input',filterProducts);$('admin-refresh-orders').addEventListener('click',loadOrders);$('admin-review-form').addEventListener('submit',saveReview);$('admin-cancel-review').addEventListener('click',()=>{$('admin-review-form').reset();$('review-id').value='';message('admin-review-message','');});$('admin-settings-form').addEventListener('submit',saveSettings);
-    const {data:{session}}=await client.auth.getSession();if(session?.user)await boot(session.user);else showAuth();
+    const {data:{session}}=await client.auth.getSession();
+    if(session?.user){if(forcePanel) await boot(session.user);else window.location.replace('index.html?modo=edicion');}
+    else showAuth();
   });
 })();

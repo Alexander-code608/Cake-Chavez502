@@ -1,0 +1,156 @@
+/* Herramientas de edición visual: solo se activan para la cuenta administradora. */
+.cake-editor-ui { font-family: 'Poppins', sans-serif; }
+.cake-editor-toolbar {
+  position: fixed; z-index: 10020; top: 10px; left: 50%; transform: translateX(-50%);
+  width: min(980px, calc(100vw - 20px)); display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 10px 13px; border: 1px solid rgba(240,156,187,.55); border-radius: 16px;
+  background: rgba(36,31,30,.97); color: #fbeaf0; box-shadow: 0 15px 44px rgba(0,0,0,.27); backdrop-filter: blur(10px);
+}
+.cake-editor-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.cake-editor-mark { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 11px; color: #241f1e; background: #f09cbb; font-size: 1.3rem; }
+.cake-editor-brand strong,.cake-editor-brand small { display: block; }
+.cake-editor-brand strong { color: #f09cbb; font-size: .9rem; }
+.cake-editor-brand small { color: #d3bdc6; font-size: .67rem; }
+.cake-editor-toolbar-actions { display: flex; align-items: center; justify-content: flex-end; gap: 7px; flex-wrap: wrap; }
+.cake-editor-toolbar button,.cake-editor-toolbar a,.cake-editor-add-category,.cake-editor-action,.cake-editor-image-action,.cake-editor-product-actions button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 7px 11px;
+  border: 1px solid transparent; border-radius: 9px; cursor: pointer; text-decoration: none; font-size: .74rem; font-weight: 700; line-height: 1.2;
+  transition: transform .15s ease, background .15s ease;
+}
+.cake-editor-toolbar button:hover,.cake-editor-toolbar a:hover,.cake-editor-add-category:hover,.cake-editor-action:hover,.cake-editor-image-action:hover,.cake-editor-product-actions button:hover { transform: translateY(-1px); }
+.cake-editor-primary { background: #a83b65; border-color: #b95078!important; color: #fff; }
+.cake-editor-secondary { background: transparent; border-color: #65535b!important; color: #f8e6ed; }
+.cake-editor-logout { background: rgba(225,120,136,.12); border-color: rgba(225,120,136,.35)!important; color: #ffcad3; }
+.cake-editor-target { position: relative !important; outline: 1px dashed rgba(168,59,101,.43); outline-offset: 3px; }
+.cake-editor-action { position: absolute; z-index: 9998; top: -12px; right: -5px; min-height: 25px; padding: 4px 7px; border: 1px solid #e8a1bc; border-radius: 7px; background: #913254; color: white; box-shadow: 0 3px 10px rgba(0,0,0,.18); font-size: .65rem; white-space: nowrap; }
+.cake-editor-image-parent { position: relative !important; }
+.cake-editor-image-action { position: absolute; z-index: 9998; top: 7px; right: 7px; min-height: 27px; padding: 5px 8px; border-color: #e8a1bc; background: #913254; color: white; box-shadow: 0 3px 10px rgba(0,0,0,.18); font-size: .68rem; }
+.cake-editor-add-category { min-height: 30px; margin: 4px 5px 4px 0; padding: 6px 9px; border-color: rgba(168,59,101,.45); background: #fff1f6; color: #8d2d50; font-size: .68rem; white-space: nowrap; }
+.cake-editor-product-card { overflow: visible !important; }
+.cake-editor-product-actions { position: absolute; z-index: 9997; top: 7px; right: 7px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; max-width: calc(100% - 14px); }
+.cake-editor-product-actions button { width: auto !important; min-height: 29px; padding: 6px 8px; background: #913254; border: 1px solid #e8a1bc; color: white; font-size: .68rem; box-shadow: 0 3px 10px rgba(0,0,0,.22); }
+.cake-editor-product-actions button:last-child { background: #4f2d37; border-color: #9b6b7b; }
+.cake-editor-toast { position: fixed; z-index: 10030; right: 16px; bottom: 16px; width: min(420px, calc(100vw - 32px)); padding: 13px 16px; border: 1px solid #db94b0; border-radius: 12px; background: #302528; color: #fff3f7; box-shadow: 0 12px 38px rgba(0,0,0,.25); font-size: .84rem; line-height: 1.5; opacity: 0; transform: translateY(9px); pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+.cake-editor-toast.visible { opacity: 1; transform: translateY(0); }
+.cake-editor-toast[data-kind="success"] { border-color: #7dba92; }
+.cake-editor-toast[data-kind="error"] { border-color: #dc7185; }
+.cake-editor-modal[hidden] { display: none !important; }
+.cake-editor-modal { position: fixed; z-index: 10050; inset: 0; display: flex; align-items: center; justify-content: center; padding: 18px; overflow-y: auto; background: rgba(20,13,16,.76); backdrop-filter: blur(5px); }
+.cake-editor-dialog { position: relative; width: min(590px,100%); max-height: min(90vh,900px); overflow-y: auto; padding: clamp(20px,4vw,32px); border: 1px solid #6c4b58; border-top: 5px solid #a83b65; border-radius: 20px; background: #2b2525; color: #f4dde5; box-shadow: 0 24px 80px rgba(0,0,0,.42); }
+.cake-editor-product-dialog { width: min(780px,100%); }
+.cake-editor-dialog h2 { margin: 8px 35px 20px 0; color: #f09cbb; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.45rem,3vw,2rem); }
+.cake-editor-kicker { color: #f09cbb; font-size: .67rem; letter-spacing: .12em; font-weight: 700; }
+.cake-editor-close { position: absolute; top: 13px; right: 13px; width: 37px; height: 37px; border: 1px solid #69525d; border-radius: 50%; background: #1f191b; color: #ffe7ef; font-size: 1.4rem; cursor: pointer; }
+.cake-editor-dialog form { display: grid; gap: 12px; text-align: left; }
+.cake-editor-dialog label { display: block; margin: 0 0 6px; color: #f7dfe8; font-size: .8rem; font-weight: 600; }
+.cake-editor-dialog input:not([type="checkbox"]):not([type="file"]),.cake-editor-dialog textarea,.cake-editor-dialog select { display: block; width: 100%; min-width: 0; padding: 11px 12px; border: 1px solid #554149; border-radius: 9px; outline: none; background: #191516; color: #fff0f5; font: inherit; font-size: .85rem; }
+.cake-editor-dialog input[type="file"] { display: block; width: 100%; min-width: 0; color: #d3bdc6; font-size: .77rem; }
+.cake-editor-dialog input:focus,.cake-editor-dialog textarea:focus,.cake-editor-dialog select:focus { border-color: #f09cbb; box-shadow: 0 0 0 3px rgba(240,156,187,.12); }
+.cake-editor-dialog small { display: block; margin: 5px 0 10px; color: #bca8b0; font-size: .7rem; line-height: 1.5; }
+.cake-editor-form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.cake-editor-form-grid > div { min-width: 0; }
+.cake-editor-form-grid .cake-editor-full { grid-column: 1/-1; }
+.cake-editor-checks { display: flex; flex-direction: column; justify-content: center; gap: 7px; }
+.cake-editor-checks label { display: flex; align-items: center; gap: 7px; margin: 0; font-size: .74rem; font-weight: 400; }
+.cake-editor-checks input { accent-color: #a83b65; }
+.cake-editor-form-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
+.cake-editor-form-actions button { min-height: 41px; padding: 10px 14px; border-radius: 9px; cursor: pointer; font: inherit; font-size: .8rem; font-weight: 700; }
+.cake-editor-message { min-height: 18px; margin: 0; color: #d4b7c2; font-size: .78rem; line-height: 1.5; }
+body.cake-editor-modal-open { overflow: hidden; }
+@media(max-width:740px) {
+  .cake-editor-toolbar { top: 6px; gap: 8px; align-items: flex-start; padding: 8px; border-radius: 13px; }
+  .cake-editor-brand { gap: 7px; }
+  .cake-editor-mark { width: 30px; height: 30px; flex-basis: 30px; font-size: 1rem; }
+  .cake-editor-brand strong { font-size: .76rem; }
+  .cake-editor-brand small { font-size: .57rem; }
+  .cake-editor-toolbar-actions { gap: 4px; }
+  .cake-editor-toolbar button,.cake-editor-toolbar a { min-height: 29px; padding: 6px 7px; font-size: .62rem; }
+  .cake-editor-add-category { margin: 4px 3px 4px 0; padding: 5px 7px; font-size: .61rem; }
+  .cake-editor-action { top: -9px; right: -3px; min-height: 22px; padding: 3px 5px; font-size: .58rem; }
+  .cake-editor-form-grid { grid-template-columns: 1fr; }
+  .cake-editor-form-grid .cake-editor-full { grid-column: auto; }
+}
+@media(max-width:460px) {
+  .cake-editor-toolbar { width: calc(100vw - 10px); flex-direction: column; align-items: stretch; }
+  .cake-editor-toolbar-actions { justify-content: space-between; }
+  .cake-editor-toolbar button,.cake-editor-toolbar a { flex: 1; }
+  .cake-editor-product-actions button { font-size: .58rem; min-height: 25px; padding: 5px 6px; }
+}
+
+/* Tarjetas de alta rápida: aparecen como primeras tarjetas del catálogo al editar. */
+#productos-container .cake-editor-add-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-width: 0;
+  min-height: 265px;
+  padding: 24px 16px;
+  border: 2px dashed #d889a6;
+  border-radius: 15px;
+  background: linear-gradient(155deg, #fff7fa 0%, #fce7ef 100%);
+  color: #542638;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 5px 17px rgba(107, 44, 69, .08);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+#productos-container .cake-editor-add-tile[hidden] { display: none !important; }
+#productos-container .cake-editor-add-tile:hover,
+#productos-container .cake-editor-add-tile:focus-visible {
+  transform: translateY(-3px);
+  border-color: #a83b65;
+  border-style: solid;
+  box-shadow: 0 10px 24px rgba(107, 44, 69, .16);
+  outline: 3px solid rgba(168, 59, 101, .14);
+  outline-offset: 2px;
+}
+.cake-editor-add-tile-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 23px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #a83b65;
+  color: #fff;
+  font-size: .64rem;
+  font-weight: 800;
+  letter-spacing: .11em;
+}
+.cake-editor-add-tile-plus {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 1px solid #e6a1ba;
+  border-radius: 50%;
+  background: #fff;
+  color: #a83b65;
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: 1;
+}
+#productos-container .cake-editor-add-tile strong {
+  color: #7b2849;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+#productos-container .cake-editor-add-tile small {
+  color: #835d6c;
+  font-size: .75rem;
+  line-height: 1.5;
+}
+@media(max-width:760px) {
+  #productos-container .cake-editor-add-tile {
+    min-height: 215px;
+    gap: 7px;
+    padding: 16px 8px;
+    border-radius: 11px;
+  }
+  .cake-editor-add-tile-plus { width: 44px; height: 44px; font-size: 1.8rem; }
+  #productos-container .cake-editor-add-tile strong { font-size: .83rem; }
+  #productos-container .cake-editor-add-tile small { font-size: .65rem; }
+}
