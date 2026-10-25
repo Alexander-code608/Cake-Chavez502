@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Administración segura | Cake Chavez</title>
-  <link rel="stylesheet" href="admin.css?v=1">
+  <link rel="stylesheet" href="admin.css?v=2">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -19,8 +19,8 @@
 
     <section id="admin-config-notice" class="admin-notice" hidden>
       <h1>Configura la conexión segura</h1>
-      <p>Antes de usar este panel, crea tu proyecto Supabase, ejecuta <code>supabase/schema.sql</code> y completa <code>supabase-config.js</code> con el Project URL y la clave pública. No pongas la clave service_role en el navegador.</p>
-      <p>Consulta <code>INSTRUCCIONES_ADMIN_Cake_Chavez.txt</code> dentro del ZIP para los pasos.</p>
+      <p>Antes de usar este panel, completa <code>supabase-config.js</code> con la URL del proyecto y la clave pública de Supabase. Sigue el archivo <code>README.md</code> y las instrucciones de <code>documentacion/INSTALACION_Y_PRUEBAS.md</code>. Nunca pongas la clave <code>service_role</code> en el navegador.</p>
+      <p>No ejecutes archivos SQL de otros proyectos. Antes de ejecutar una migración, confirma que corresponde a tu base de datos actual.</p>
     </section>
 
     <section id="admin-login-view" class="admin-auth-card">
@@ -124,6 +124,26 @@
           <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary">Guardar información pública</button></div>
           <p id="admin-settings-message" class="admin-message" role="status"></p>
         </form>
+        <div class="admin-form-card cake-capacity-card">
+          <h3>Límite diario de pedidos</h3>
+          <p>El límite es compartido por todos los pasteles y categorías. Los pedidos entregados siguen contando; los cancelados liberan espacio.</p>
+          <form id="cake-capacity-settings-form">
+            <label for="cake-daily-limit">Máximo de pedidos por día</label>
+            <input id="cake-daily-limit" type="number" min="1" max="500" value="5" required>
+            <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary">Guardar límite general</button></div>
+            <p id="cake-capacity-settings-message" class="admin-message" role="status"></p>
+          </form>
+          <hr>
+          <h3>Excepción para una fecha</h3>
+          <form id="cake-capacity-override-form" class="admin-form-grid">
+            <div><label for="cake-capacity-date">Fecha</label><input id="cake-capacity-date" type="date" required></div>
+            <div><label for="cake-capacity-override-limit">Límite para esa fecha (0 = no aceptar pedidos)</label><input id="cake-capacity-override-limit" type="number" min="0" max="500" value="0" required></div>
+            <div class="admin-full"><label for="cake-capacity-note">Nota (opcional)</label><input id="cake-capacity-note" maxlength="200" placeholder="Ej. Día ocupado / evento especial"></div>
+            <div class="admin-form-actions admin-full"><button type="submit" class="admin-button admin-button-primary">Guardar fecha especial</button></div>
+            <p id="cake-capacity-override-message" class="admin-message admin-full" role="status"></p>
+          </form>
+          <div id="cake-capacity-overrides-list" class="admin-orders-list"><p>Cargando fechas especiales…</p></div>
+        </div>
       </section>
       <p id="admin-global-message" class="admin-message admin-global-message" role="status"></p>
     </section>
@@ -131,6 +151,6 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="admin.js?v=2"></script>
+  <script src="admin.js?v=3"></script>
 </body>
 </html>

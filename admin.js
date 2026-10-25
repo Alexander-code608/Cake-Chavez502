@@ -42,7 +42,7 @@
   function setTab(tab) {
     document.querySelectorAll('[data-admin-tab]').forEach(b=>b.classList.toggle('active',b.dataset.adminTab===tab));
     document.querySelectorAll('.admin-section').forEach(s=>{const active=s.id===`admin-panel-${tab}`;s.classList.toggle('active',active);s.hidden=!active;});
-    if(tab==='orders') loadOrders(); if(tab==='reviews') loadReviews(); if(tab==='settings') loadSettings();
+    if(tab==='orders') loadOrders(); if(tab==='reviews') loadReviews(); if(tab==='settings') { loadSettings(); loadCapacitySettings(); }
   }
   function updateStats() {
     $('stat-products').textContent=products.length;
@@ -121,23 +121,46 @@
   }
   function createOrderRow(order) {
     const card=document.createElement('article'); card.className='admin-order-row';
-    const top=document.createElement('div'); top.className='admin-order-top'; const code=document.createElement('strong');code.className='admin-order-code';code.textContent=order.order_code;
-    const date=document.createElement('small');date.style.color='var(--muted)';date.textContent=order.created_at?new Date(order.created_at).toLocaleString('es-GT'):'Fecha no disponible';top.append(code,date);
-    const payload=order.payload||{};const detail=document.createElement('p');detail.className='admin-order-detail';
-    const items=Array.isArray(payload.items)?payload.items.map(i=>`${i.quantity||1}× ${i.name||'Producto'}`).join(', '):'';
-    detail.textContent=`Cliente: ${payload.name||'No indicado'}\nFecha deseada: ${payload.delivery_date||'No indicada'}\nDirección: ${payload.address||'No indicada'}\nArtículos: ${items||'No indicados'}\nTotal informado: ${fmtQ(payload.total)}`;
-    const statusRow=document.createElement('div');statusRow.className='admin-order-status'; const select=document.createElement('select');
-    STATUS.forEach(([value,label])=>{const o=document.createElement('option');o.value=value;o.textContent=label;select.appendChild(o);});select.value=order.status||'recibido';
-    const save=document.createElement('button');save.type='button';save.className='admin-button admin-button-primary';save.textContent='Actualizar';save.addEventListener('click',async()=>{const {error}=await client.from('orders').update({status:select.value}).eq('order_code',order.order_code);if(error){globalMessage(`No se pudo actualizar el pedido: ${error.message}`,'error');return;}globalMessage(`Estado de ${order.order_code} actualizado.`,'success');await loadOrders();});
-    statusRow.append(select,save);card.append(top,detail,statusRow);return card;
+    const payload=order.payload||{};
+    const top=document.createElement('div'); top.className='admin-order-top';
+    const code=document.createElement('strong'); code.className='admin-order-code'; code.textContent=order.order_code;
+    const date=document.createElement('small'); date.style.color='var(--muted)'; date.textContent=order.created_at?new Date(order.created_at).toLocaleString('es-GT'):'Fecha no disponible'; top.append(code,date);
+    const items=Array.isArray(payload.items)?payload.items:[];
+    const firstImage=items.find(i=>i.image)?.image;
+    if(firstImage){const img=document.createElement('img');img.className='admin-order-image';img.src=firstImage;img.alt='Foto del producto pedido';img.loading='lazy';img.onerror=()=>img.remove();card.appendChild(img);}
+    const detail=document.createElement('p');detail.className='admin-order-detail';
+    const itemText=items.map(i=>`${i.quantity||1}× ${i.name||'Producto'}${i.price!=null?' ('+fmtQ(i.price)+')':''}`).join(', ');
+    detail.textContent=`Cliente: ${payload.name||'No indicado'}\nFecha deseada: ${payload.delivery_date||'No indicada'}\nDirección: ${payload.address||'No indicada'}\nArtículos: ${itemText||'No indicados'}\nTotal informado: ${fmtQ(payload.total)}\nDetalles adicionales: ${payload.customization||payload.personalization||'No registrados en el sistema actual'}`;
+    const statusRow=document.createElement('div');statusRow.className='admin-order-status';
+    const select=document.createElement('select');STATUS.forEach(([value,label])=>{const o=document.createElement('option');o.value=value;o.textContent=label;select.appendChild(o);});select.value=order.status||'recibido';
+    const save=document.createElement('button');save.type='button';save.className='admin-button admin-button-primary';save.textContent='Guardar estado';save.addEventListener('click',async()=>{const {error}=await client.from('orders').update({status:select.value}).eq('order_code',order.order_code);if(error){globalMessage(`No se pudo actualizar el pedido: ${error.message}`,'error');return;}globalMessage(`Estado de ${order.order_code} actualizado.`,'success');await loadOrders();});
+    statusRow.append(select,save);
+    const actions=document.createElement('div');actions.className='admin-row-actions';actions.style.justifyContent='flex-start';
+    const delivered=document.createElement('button');delivered.type='button';delivered.className='admin-button admin-button-primary';delivered.textContent='Marcar entregado';delivered.addEventListener('click',()=>setOrderStatus(order.order_code,'entregado'));
+    const cancel=document.createElement('button');cancel.type='button';cancel.className='admin-button admin-button-danger';cancel.textContent='Cancelar pedido';cancel.addEventListener('click',()=>{if(confirm('¿Marcar este pedido como cancelado? Se conservará en el historial.'))setOrderStatus(order.order_code,'cancelado');});
+    const edit=document.createElement('button');edit.type='button';edit.className='admin-button admin-button-outline';edit.textContent='Editar datos';edit.addEventListener('click',()=>editOrder(order));
+    actions.append(delivered,cancel,edit);card.append(top,detail,statusRow,actions);return card;
+  }
+  async function setOrderStatus(code,status){const {error}=await client.from('orders').update({status}).eq('order_code',code);if(error){globalMessage(`No se pudo actualizar el pedido: ${error.message}`,'error');return;}globalMessage('Pedido actualizado; se conserva su registro.','success');await loadOrders();}
+  async function editOrder(order){
+    const p={...(order.payload||{})};
+    const name=prompt('Nombre del cliente:',p.name||'');if(name===null)return;
+    const delivery=prompt('Fecha de entrega (AAAA-MM-DD):',p.delivery_date||'');if(delivery===null)return;
+    const address=prompt('Dirección de entrega:',p.address||'');if(address===null)return;
+    const customization=prompt('Personalización / dedicatoria (si aplica):',p.customization||p.personalization||'');if(customization===null)return;
+    p.name=name.trim();p.delivery_date=delivery.trim();p.address=address.trim();p.customization=customization.trim();
+    const {error}=await client.from('orders').update({payload:p}).eq('order_code',order.order_code);
+    if(error){globalMessage(`No se pudieron guardar los datos: ${error.message}`,'error');return;}
+    globalMessage('Datos del pedido guardados.','success');await loadOrders();
   }
   async function loadOrders() {
     const list=$('admin-orders-list');list.replaceChildren(Object.assign(document.createElement('p'),{textContent:'Cargando pedidos…'}));
-    const {data,error}=await client.from('orders').select('order_code,status,payload,created_at').order('created_at',{ascending:false}).limit(100);
+    const {data,error}=await client.from('orders').select('order_code,status,payload,created_at').order('created_at',{ascending:false}).limit(300);
     if(error){list.replaceChildren(Object.assign(document.createElement('p'),{textContent:`No se pudieron cargar pedidos: ${error.message}`}));return;}
     const rows=data||[];$('stat-orders').textContent=rows.filter(o=>!['entregado','cancelado'].includes(o.status)).length;list.replaceChildren();
     if(!rows.length){list.appendChild(Object.assign(document.createElement('p'),{textContent:'No hay pedidos registrados para seguimiento todavía.'}));return;}
-    rows.forEach(o=>list.appendChild(createOrderRow(o)));
+    const groups=[['recibido','Pedidos nuevos'],['en_preparacion','En preparación'],['listo','Listos para entrega'],['entregado','Pedidos entregados'],['cancelado','Pedidos cancelados']];
+    groups.forEach(([status,label])=>{const matching=rows.filter(o=>(o.status||'recibido')===status);if(!matching.length)return;const heading=document.createElement('h3');heading.className='admin-order-group-title';heading.textContent=`${label} (${matching.length})`;list.appendChild(heading);matching.forEach(o=>list.appendChild(createOrderRow(o)));});
   }
   async function loadReviews() {
     const {data,error}=await client.from('testimonials').select('*').order('created_at',{ascending:false});const list=$('admin-reviews-list');list.replaceChildren();
@@ -149,7 +172,36 @@
   async function saveReview(event){event.preventDefault();message('admin-review-message','Guardando…');try{let photoUrl=reviews.find(r=>r.id===$('review-id').value)?.photo_url||'';const file=$('review-photo').files?.[0];if(file)photoUrl=await uploadPhoto(file,'reviews');const payload={customer_name:$('review-name').value.trim(),review_text:$('review-text').value.trim(),rating:Number($('review-rating').value),photo_url:photoUrl||null,is_published:$('review-published').checked};const id=$('review-id').value;const q=id?client.from('testimonials').update(payload).eq('id',id):client.from('testimonials').insert(payload);const {error}=await q;if(error)throw error;message('admin-review-message','Opinión guardada.','success');$('admin-review-form').reset();$('review-id').value='';await loadReviews();}catch(e){message('admin-review-message',e.message||'No se pudo guardar.','error');}}
   async function loadSettings(){const {data,error}=await client.from('store_settings').select('*').eq('id',1).maybeSingle();if(error){message('admin-settings-message',error.message,'error');return;}if(data){$('setting-delivery').value=data.delivery_info||'';$('setting-payment').value=data.payment_info||'';$('setting-notice').value=data.order_notice||'';}}
   async function saveSettings(event){event.preventDefault();message('admin-settings-message','Guardando…');const payload={id:1,delivery_info:$('setting-delivery').value.trim(),payment_info:$('setting-payment').value.trim(),order_notice:$('setting-notice').value.trim(),updated_at:new Date().toISOString()};const {error}=await client.from('store_settings').upsert(payload,{onConflict:'id'});if(error){message('admin-settings-message',error.message,'error');return;}message('admin-settings-message','Información pública actualizada.','success');}
-  async function boot(user){if(!(await requireAdmin(user)))return;showApp(user);await loadProducts();await loadSettings();}
+  async function loadCapacitySettings(){
+    const {data,error}=await client.from('cake_order_capacity_settings').select('daily_limit').eq('id',1).maybeSingle();
+    if(error){message('cake-capacity-settings-message','Primero ejecuta el archivo supabase/capacidad_pedidos.sql en Supabase. Detalle: '+error.message,'error');return;}
+    if(data)$('cake-daily-limit').value=String(data.daily_limit);
+    await loadCapacityOverrides();
+  }
+  async function saveCapacitySettings(event){
+    event.preventDefault();const limit=Number($('cake-daily-limit').value);
+    if(!Number.isInteger(limit)||limit<1||limit>500){message('cake-capacity-settings-message','Escribe un número entre 1 y 500.','error');return;}
+    message('cake-capacity-settings-message','Guardando…');
+    const {data:{user}}=await client.auth.getUser();
+    const {error}=await client.from('cake_order_capacity_settings').upsert({id:1,daily_limit:limit,updated_at:new Date().toISOString(),updated_by:user?.id||null},{onConflict:'id'});
+    if(error){message('cake-capacity-settings-message','No se guardó: '+error.message,'error');return;}
+    message('cake-capacity-settings-message','Límite general guardado.','success');
+  }
+  async function loadCapacityOverrides(){
+    const list=$('cake-capacity-overrides-list');if(!list)return;list.replaceChildren(Object.assign(document.createElement('p'),{textContent:'Cargando fechas especiales…'}));
+    const {data,error}=await client.from('cake_order_capacity_overrides').select('*').order('delivery_date',{ascending:true}).limit(120);
+    if(error){list.replaceChildren(Object.assign(document.createElement('p'),{textContent:'No se pudieron cargar las fechas: '+error.message}));return;}
+    list.replaceChildren();if(!data?.length){list.appendChild(Object.assign(document.createElement('p'),{textContent:'No hay fechas especiales configuradas.'}));return;}
+    data.forEach(row=>{const item=document.createElement('article');item.className='admin-order-row';const title=document.createElement('strong');title.textContent=`${row.delivery_date} · límite ${row.daily_limit}`;const note=document.createElement('p');note.textContent=row.note||'Sin nota';const del=document.createElement('button');del.type='button';del.className='admin-button admin-button-danger';del.textContent='Quitar excepción';del.addEventListener('click',async()=>{if(!confirm(`¿Quitar la excepción del ${row.delivery_date}? Se usará el límite general.`))return;const {error}=await client.from('cake_order_capacity_overrides').delete().eq('delivery_date',row.delivery_date);if(error){message('cake-capacity-override-message',error.message,'error');return;}await loadCapacityOverrides();});item.append(title,note,del);list.appendChild(item);});
+  }
+  async function saveCapacityOverride(event){
+    event.preventDefault();const date=$('cake-capacity-date').value,limit=Number($('cake-capacity-override-limit').value),note=$('cake-capacity-note').value.trim();
+    if(!date||!Number.isInteger(limit)||limit<0||limit>500){message('cake-capacity-override-message','Revisa la fecha y usa un límite de 0 a 500.','error');return;}
+    const {data:{user}}=await client.auth.getUser();const {error}=await client.from('cake_order_capacity_overrides').upsert({delivery_date:date,daily_limit:limit,note,updated_at:new Date().toISOString(),updated_by:user?.id||null},{onConflict:'delivery_date'});
+    if(error){message('cake-capacity-override-message','No se guardó: '+error.message,'error');return;}
+    message('cake-capacity-override-message','Fecha especial guardada.','success');$('cake-capacity-override-form').reset();$('cake-capacity-override-limit').value='0';await loadCapacityOverrides();
+  }
+  async function boot(user){if(!(await requireAdmin(user)))return;showApp(user);await loadProducts();await loadSettings();await loadCapacitySettings();}
   document.addEventListener('DOMContentLoaded',async()=>{
     client=configuredClient();
     if(!client){$('admin-config-notice').hidden=false;$('admin-login-view').hidden=true;return;}
@@ -164,7 +216,7 @@
     });
     $('admin-logout').addEventListener('click',async()=>{await client.auth.signOut();showAuth();message('admin-login-message','Sesión cerrada.','success');});
     document.querySelectorAll('[data-admin-tab]').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.adminTab)));
-    $('admin-product-form').addEventListener('submit',saveProduct);$('admin-new-product').addEventListener('click',resetProductForm);$('admin-cancel-product').addEventListener('click',resetProductForm);$('admin-product-search').addEventListener('input',filterProducts);$('admin-refresh-orders').addEventListener('click',loadOrders);$('admin-review-form').addEventListener('submit',saveReview);$('admin-cancel-review').addEventListener('click',()=>{$('admin-review-form').reset();$('review-id').value='';message('admin-review-message','');});$('admin-settings-form').addEventListener('submit',saveSettings);
+    $('admin-product-form').addEventListener('submit',saveProduct);$('admin-new-product').addEventListener('click',resetProductForm);$('admin-cancel-product').addEventListener('click',resetProductForm);$('admin-product-search').addEventListener('input',filterProducts);$('admin-refresh-orders').addEventListener('click',loadOrders);$('admin-review-form').addEventListener('submit',saveReview);$('admin-cancel-review').addEventListener('click',()=>{$('admin-review-form').reset();$('review-id').value='';message('admin-review-message','');});$('admin-settings-form').addEventListener('submit',saveSettings);$('cake-capacity-settings-form').addEventListener('submit',saveCapacitySettings);$('cake-capacity-override-form').addEventListener('submit',saveCapacityOverride);
     const {data:{session}}=await client.auth.getSession();
     if(session?.user){if(forcePanel) await boot(session.user);else window.location.replace('index.html?modo=edicion');}
     else showAuth();

@@ -1,0 +1,27 @@
+CAKE CHAVEZ — INSTALACIÓN DEL LÍMITE DIARIO DE PEDIDOS
+
+ANTES DE EMPEZAR
+- Haz una copia de seguridad del proyecto y no borres tablas existentes.
+- Este archivo crea únicamente dos tablas nuevas de configuración y funciones/triggers.
+- El límite inicial es 5 pedidos por fecha. Puedes cambiarlo luego desde el panel privado.
+- Los pedidos ENTREGADOS siguen contando para el límite de ese día.
+- Los pedidos CANCELADOS no cuentan y liberan espacio.
+- El límite 0 en una fecha especial cierra ese día para nuevos pedidos.
+
+PASOS EN SUPABASE
+1. Abre tu proyecto Cake Chávez en Supabase.
+2. Entra en SQL Editor.
+3. Pulsa New query.
+4. Abre el archivo supabase/capacidad_pedidos.sql de este ZIP, copia TODO su contenido y pégalo en SQL Editor.
+5. Pulsa Run una sola vez y espera el mensaje de éxito. Si aparece un error, no ejecutes fragmentos al azar: copia el mensaje exacto para revisarlo.
+6. Entra a Table Editor y confirma que existan cake_order_capacity_settings y cake_order_capacity_overrides.
+7. Publica los archivos del ZIP actualizado en el mismo lugar donde publicaste tu sitio (conserva el respaldo anterior).
+8. Inicia sesión en el panel privado y abre Entregas y pagos. Verás el límite general y el formulario de fechas especiales.
+9. Prueba con límite 1: registra un pedido de prueba para una fecha futura, vuelve a consultar esa fecha y confirma que ya no admite otro. Después cancela el pedido de prueba para liberar el espacio.
+
+IMPORTANTE
+- No pongas la clave service_role en archivos del sitio.
+- La validación se realiza en Supabase al registrar pedidos; no depende solamente del navegador.
+- Los pedidos antiguos cuentan si tienen payload.delivery_date con formato YYYY-MM-DD y su estado no es cancelado.
+- El formulario de WhatsApp sigue siendo el medio de confirmación con el cliente; el código de capacidad evita que se registre un pedido si la fecha está llena.
+- Si tus políticas existentes de orders impiden que el panel lea/edite pedidos, hay que revisar esas políticas por separado; este script no las elimina.

@@ -2982,3 +2982,21 @@ footer {
 .cake-tematica-card small { color:var(--cake-texto-suave); font-size:.72rem; }
 @media(max-width:760px){.cake-tematicas-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.cake-tematica-card:last-child{grid-column:1/-1;}}
 @media(prefers-reduced-motion:reduce){.cake-tematica-card{transition:none}}
+
+
+/* Cake Chávez: mantener despejada la galería y transiciones fluidas */
+body.galeria-modal-abierto .zona-portada nav,
+body.galeria-modal-abierto .espacio-barra-categorias { display: none !important; }
+#solo-img-src { transition: opacity .16s ease, transform .16s ease; will-change: opacity; }
+#solo-img-src.galeria-cambiando { opacity: .72; }
+@media (prefers-reduced-motion: reduce) { #solo-img-src { transition: none; } }
+@media (max-width: 600px) {
+  .caja-solo-imagen { width: calc(100vw - 20px); max-height: calc(100dvh - 20px); overflow-y: auto; }
+  .galeria-visor-wrapper { min-height: 220px; }
+}
+
+/* Calendario: destacar una fecha sin disponibilidad. */
+input.cake-fecha-completa { border: 2px solid #c62828 !important; background: #fff0f0 !important; color: #9f1d1d !important; outline-color: #c62828; }
+.nota-disponibilidad-fecha { transition: color .18s ease; }
+.cake-capacity-card { margin-top: 1.25rem; }
+.cake-capacity-card hr { margin: 1.25rem 0; border: 0; border-top: 1px solid var(--border, #ddd); }

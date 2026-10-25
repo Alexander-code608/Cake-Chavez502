@@ -247,6 +247,8 @@ function abrirSoloImagen(imagenes, titulo, descripcion, tarjetaProducto = null) 
     }
 
     if (imgElement) imgElement.src = imagenesGaleriaActual[0] || '';
+    // Precarga las imágenes cercanas para que el cambio de foto sea inmediato.
+    precargarImagenesGaleria(0);
     if (imgElement) imgElement.alt = titulo || 'Imagen de producto';
     if (tituloElement) tituloElement.innerText = titulo || '';
     if (descElement) descElement.innerText = descripcion || '';
@@ -270,7 +272,7 @@ function abrirSoloImagen(imagenes, titulo, descripcion, tarjetaProducto = null) 
         if (indContainer) indContainer.innerHTML = '';
     }
 
-    if (modalSolo) modalSolo.style.display = 'flex';
+    if (modalSolo) { modalSolo.style.display = 'flex'; document.body.classList.add('galeria-modal-abierto'); }
 }
 
 function pedirProductoGaleria() {
@@ -393,6 +395,11 @@ function manejarEnlaceDirectoProducto() {
     });
 }
 
+function precargarImagenesGaleria(indice) {
+    if (!Array.isArray(imagenesGaleriaActual) || imagenesGaleriaActual.length < 2) return;
+    [-1, 1].forEach(delta => { const i = (indice + delta + imagenesGaleriaActual.length) % imagenesGaleriaActual.length; const img = new Image(); img.decoding = 'async'; img.src = imagenesGaleriaActual[i]; });
+}
+
 function deslizarGaleria(direccion) {
     if (imagenesGaleriaActual.length <= 1) return;
     reproducirSonidoGotita();
@@ -403,11 +410,11 @@ function deslizarGaleria(direccion) {
 
     const imgElement = document.getElementById('solo-img-src');
     if (imgElement) {
-        imgElement.style.opacity = '0.3';
-        window.setTimeout(() => {
-            imgElement.src = imagenesGaleriaActual[indiceImagenActual];
-            imgElement.style.opacity = '1';
-        }, 140);
+        // No retrasar la interacción con un temporizador: el navegador cambia a la foto ya precargada.
+        imgElement.classList.add('galeria-cambiando');
+        imgElement.src = imagenesGaleriaActual[indiceImagenActual];
+        imgElement.onload = () => imgElement.classList.remove('galeria-cambiando');
+        precargarImagenesGaleria(indiceImagenActual);
     }
 
     const dots = document.querySelectorAll('.dot-galeria');
@@ -418,6 +425,7 @@ function cerrarSoloImagen() {
     reproducirSonidoGotita();
     const modalSolo = document.getElementById('modal-solo-imagen');
     if (modalSolo) modalSolo.style.display = 'none';
+    document.body.classList.remove('galeria-modal-abierto');
 }
 
 // =========================================================
@@ -784,7 +792,7 @@ function generarGaleriaInspiracion() {
 
 // =========================================================
 // MEJORA 7: CALENDARIO DE PEDIDOS
-// Permite elegir una fecha tentativa; no verifica reservas en tiempo real.
+// Consulta en Supabase la capacidad disponible; el registro final vuelve a validar de forma atómica.
 // =========================================================
 function formatoFechaLocal(fecha) {
     const anio = fecha.getFullYear();
@@ -801,8 +809,30 @@ function configurarCalendarioPedidos() {
 
     ['fecha-consulta-pedidos', 'fecha-personalizar', 'cliente-fecha'].forEach(id => {
         const campoFecha = document.getElementById(id);
-        if (campoFecha) campoFecha.min = fechaMinima;
+        if (campoFecha) { campoFecha.min = fechaMinima; campoFecha.addEventListener('change', () => comprobarDisponibilidadFechaCake(campoFecha)); }
     });
+}
+
+async function comprobarDisponibilidadFechaCake(campoFecha) {
+    if (!campoFecha || !campoFecha.value) return true;
+    const client = obtenerClienteSupabaseCake();
+    const aviso = document.getElementById('aviso-disponibilidad-fecha');
+    if (!client) return true;
+    if (aviso) aviso.textContent = 'Consultando disponibilidad para esa fecha…';
+    const { data, error } = await client.rpc('cake_check_order_date', { p_date: campoFecha.value });
+    if (error) { if (aviso) aviso.textContent = 'No pudimos confirmar los espacios en este momento. Puedes consultar por WhatsApp.'; return true; }
+    const estado = Array.isArray(data) ? data[0] : data;
+    if (estado && estado.available === false) {
+        campoFecha.setCustomValidity('Esta fecha ya está completa. Elige otra fecha.');
+        campoFecha.classList.add('cake-fecha-completa');
+        if (aviso) aviso.textContent = 'Esta fecha está COMPLETA. Elige otro día para continuar.';
+        alert('Esta fecha ya está completa. Por favor, elige otro día.');
+        campoFecha.reportValidity();
+        return false;
+    }
+    campoFecha.setCustomValidity(''); campoFecha.classList.remove('cake-fecha-completa');
+    if (aviso && estado) aviso.textContent = `Hay espacio para esa fecha: ${estado.remaining} pedido(s) disponible(s). La fecha se confirma por WhatsApp.`;
+    return true;
 }
 
 function abrirPersonalizadorDesdeCalendario() {
@@ -814,9 +844,11 @@ function abrirPersonalizadorDesdeCalendario() {
         if (campoConsulta) campoConsulta.focus();
         return;
     }
-
-    if (campoPersonalizar) campoPersonalizar.value = campoConsulta.value;
-    abrirModalPersonalizar();
+    comprobarDisponibilidadFechaCake(campoConsulta).then(disponible => {
+        if (!disponible) return;
+        if (campoPersonalizar) campoPersonalizar.value = campoConsulta.value;
+        abrirModalPersonalizar();
+    });
 }
 
 // =========================================================
@@ -1121,7 +1153,13 @@ async function confirmarOrden() {
                 items: orden.map(item => ({ nombre: item.nombre, precio: item.precio, cantidad: item.cantidad, imagen: item.imagen || '' }))
             }) || '';
         } catch (error) {
-            console.error('No se pudo registrar el seguimiento. El pedido seguirá por WhatsApp.', error);
+            console.error('No se pudo registrar el pedido:', error);
+        }
+        // Si Supabase no pudo confirmar el cupo, no se debe enviar el pedido a WhatsApp
+        // como si hubiera sido aceptado. El RPC ya muestra el motivo al cliente.
+        if (!codigoSeguimiento) {
+            if (ventanaWhatsapp && !ventanaWhatsapp.closed) ventanaWhatsapp.close();
+            return;
         }
     }
 
@@ -1604,12 +1642,17 @@ window.registrarPedidoCake = async function (datosPedido) {
         total: Number(datosPedido.total) || 0,
         items: Array.isArray(datosPedido.items) ? datosPedido.items.slice(0, 80).map(i => ({ name: String(i.nombre || '').slice(0, 160), price: Number(i.precio)||0, quantity: Math.max(1, Math.min(99, Number(i.cantidad)||1)), image: String(i.imagen||'').slice(0, 600) })) : []
     };
-    const { error } = await client.from('orders').insert({ order_code: code, status: 'recibido', payload });
+    const { data, error } = await client.rpc('cake_register_order_with_capacity', { p_order_code: code, p_payload: payload });
     if (error) {
-        console.warn('El pedido se enviará por WhatsApp, pero no pudo registrarse para seguimiento:', error.message);
+        console.warn('No se pudo registrar el pedido:', error.message);
+        if (/FECHA_COMPLETA|límite de pedidos|fecha de entrega/i.test(error.message || '')) {
+            alert(error.message.replace('FECHA_COMPLETA: ', ''));
+        } else {
+            alert('No pudimos confirmar el espacio de esa fecha. No se registró el pedido en el sistema; por favor, consulta por WhatsApp antes de continuar.');
+        }
         return '';
     }
-    return code;
+    return (Array.isArray(data) ? data[0] : data)?.order_code || code;
 };
 async function consultarEstadoPedidoCake(event) {
     if (event) event.preventDefault();

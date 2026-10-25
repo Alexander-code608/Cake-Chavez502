@@ -1,0 +1,16 @@
+CAKE CHAVEZ — PAQUETE ACTUALIZADO
+
+Incluye:
+- Código de la página pública y del panel privado.
+- Galería con precarga de imágenes y barra de categorías oculta durante el visor.
+- Pedidos agrupados por estado, con acciones para marcar entregado/cancelar y editar los campos disponibles en Supabase.
+- Configuración de límite diario general y excepciones por fecha desde el panel.
+- Consulta de disponibilidad y registro de pedido mediante RPC de Supabase con validación de capacidad en la base de datos.
+- SQL, instrucciones de instalación y lista de pruebas en la carpeta documentacion/.
+
+IMPORTANTE:
+- El SQL todavía debe ejecutarse manualmente en el proyecto correcto de Supabase; este ZIP no cambia la base de datos por sí solo.
+- Haz copia de seguridad antes de publicar.
+- No uses la clave service_role en el frontend.
+- Los detalles que nunca se guardaron en Supabase no se pueden recuperar retroactivamente.
+- Prueba primero con una fecha futura y un límite bajo antes de usarlo con clientes.
