@@ -1004,13 +1004,21 @@ async function enviarPedidoPersonalizadoWhatsApp() {
     const fecha = obtenerValorPersonalizacion('fecha-personalizar');
     const detalles = obtenerValorPersonalizacion('detalles-personalizar');
 
+    // La fecha de entrega es obligatoria también para pasteles personalizados.
+    if (!fecha || fecha === 'No indicado') {
+        alert('Selecciona la fecha de entrega para continuar con tu solicitud de pastel personalizado.');
+        const campoFecha = document.getElementById('fecha-personalizar');
+        if (campoFecha) { campoFecha.focus(); campoFecha.reportValidity?.(); }
+        return;
+    }
+
     let texto = 'Hola, Cake Chavez. Quisiera cotizar un pastel personalizado.\n\n';
     texto += `Nombre: ${nombre}\n`;
     texto += `Ocasión: ${ocasion}\n`;
     texto += `Sabor: ${sabor}\n`;
     texto += `Tamaño: ${tamano}\n`;
     texto += `Colores o temática: ${colores}\n`;
-    texto += `Fecha deseada: ${fecha === 'No indicado' ? 'Flexible / no indicada' : fecha}\n`;
+    texto += `Fecha de entrega: ${fecha}\n`;
     texto += `Detalles: ${detalles}\n`;
 
     // Registrar la solicitud personalizada antes de abrir WhatsApp.
@@ -1023,7 +1031,7 @@ async function enviarPedidoPersonalizadoWhatsApp() {
     const payloadPersonalizado = {
         order_type: 'pastel_personalizado',
         name: String(nombre === 'No indicado' ? '' : nombre).slice(0, 120),
-        delivery_date: String(fecha === 'No indicado' ? '' : fecha).slice(0, 10),
+        delivery_date: String(fecha).slice(0, 10),
         address: '', total: 0, items: [],
         occasion: String(ocasion).slice(0, 100),
         flavor: String(sabor).slice(0, 100),
