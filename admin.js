@@ -130,7 +130,7 @@
     if(firstImage){const img=document.createElement('img');img.className='admin-order-image';img.src=firstImage;img.alt='Foto del producto pedido';img.loading='lazy';img.onerror=()=>img.remove();card.appendChild(img);}
     const detail=document.createElement('p');detail.className='admin-order-detail';
     const itemText=items.map(i=>`${i.quantity||1}× ${i.name||'Producto'}${i.price!=null?' ('+fmtQ(i.price)+')':''}`).join(', ');
-    detail.textContent=`Cliente: ${payload.name||'No indicado'}\nFecha deseada: ${payload.delivery_date||'No indicada'}\nDirección: ${payload.address||'No indicada'}\nArtículos: ${itemText||'No indicados'}\nTotal informado: ${fmtQ(payload.total)}\nDetalles adicionales: ${payload.customization||payload.personalization||'No registrados en el sistema actual'}`;
+    detail.textContent=`Tipo: ${payload.order_type==='pastel_personalizado'?'Pastel personalizado':'Pedido de catálogo'}\nCliente: ${payload.name||'No indicado'}\nOcasión: ${payload.occasion||'No indicada'}\nSabor: ${payload.flavor||'No indicado'}\nTamaño: ${payload.size||'No indicado'}\nColores/temática: ${payload.colors_theme||'No indicado'}\nFecha deseada: ${payload.delivery_date||'No indicada'}\nDirección: ${payload.address||'Por confirmar'}\nArtículos: ${itemText||'No indicados'}\nTotal informado: ${fmtQ(payload.total)}\nDetalles adicionales: ${payload.customization||payload.personalization||'No registrados'}\nFoto de referencia: ${payload.photo_reference_name||'No adjunta al sistema'}`;
     const statusRow=document.createElement('div');statusRow.className='admin-order-status';
     const select=document.createElement('select');STATUS.forEach(([value,label])=>{const o=document.createElement('option');o.value=value;o.textContent=label;select.appendChild(o);});select.value=order.status||'recibido';
     const save=document.createElement('button');save.type='button';save.className='admin-button admin-button-primary';save.textContent='Guardar estado';save.addEventListener('click',async()=>{const {error}=await client.from('orders').update({status:select.value}).eq('order_code',order.order_code);if(error){globalMessage(`No se pudo actualizar el pedido: ${error.message}`,'error');return;}globalMessage(`Estado de ${order.order_code} actualizado.`,'success');await loadOrders();});
@@ -147,7 +147,8 @@
     const name=prompt('Nombre del cliente:',p.name||'');if(name===null)return;
     const delivery=prompt('Fecha de entrega (AAAA-MM-DD):',p.delivery_date||'');if(delivery===null)return;
     const address=prompt('Dirección de entrega:',p.address||'');if(address===null)return;
-    const customization=prompt('Personalización / dedicatoria (si aplica):',p.customization||p.personalization||'');if(customization===null)return;
+    const customization=prompt('Detalles / personalización / dedicatoria:',p.customization||p.personalization||'');if(customization===null)return;
+    if(p.order_type==='pastel_personalizado'){const occasion=prompt('Ocasión:',p.occasion||'');if(occasion===null)return;const flavor=prompt('Sabor:',p.flavor||'');if(flavor===null)return;const size=prompt('Tamaño:',p.size||'');if(size===null)return;const colors=prompt('Colores o temática:',p.colors_theme||'');if(colors===null)return;p.occasion=occasion.trim();p.flavor=flavor.trim();p.size=size.trim();p.colors_theme=colors.trim();}
     p.name=name.trim();p.delivery_date=delivery.trim();p.address=address.trim();p.customization=customization.trim();
     const {error}=await client.from('orders').update({payload:p}).eq('order_code',order.order_code);
     if(error){globalMessage(`No se pudieron guardar los datos: ${error.message}`,'error');return;}

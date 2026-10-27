@@ -1013,6 +1013,37 @@ async function enviarPedidoPersonalizadoWhatsApp() {
     texto += `Fecha deseada: ${fecha === 'No indicado' ? 'Flexible / no indicada' : fecha}\n`;
     texto += `Detalles: ${detalles}\n`;
 
+    // Registrar la solicitud personalizada antes de abrir WhatsApp.
+    const clienteSupabase = obtenerClienteSupabaseCake();
+    if (!clienteSupabase) {
+        alert('No se pudo conectar con el sistema de pedidos. No se ha enviado la solicitud. Inténtalo más tarde o contáctanos por WhatsApp.');
+        return;
+    }
+    const codigoPersonalizado = `CC-${(window.crypto?.randomUUID ? crypto.randomUUID().replace(/-/g, '') : `${Date.now()}${Math.random().toString(16).slice(2)}`).toUpperCase().slice(0, 16)}`;
+    const payloadPersonalizado = {
+        order_type: 'pastel_personalizado',
+        name: String(nombre === 'No indicado' ? '' : nombre).slice(0, 120),
+        delivery_date: String(fecha === 'No indicado' ? '' : fecha).slice(0, 10),
+        address: '', total: 0, items: [],
+        occasion: String(ocasion).slice(0, 100),
+        flavor: String(sabor).slice(0, 100),
+        size: String(tamano).slice(0, 100),
+        colors_theme: String(colores).slice(0, 500),
+        customization: String(detalles).slice(0, 2000),
+        photo_reference_name: foto ? String(foto.name).slice(0, 200) : ''
+    };
+    const { data: registroPersonalizado, error: errorRegistroPersonalizado } = await clienteSupabase.rpc(
+        'cake_register_order_with_capacity',
+        { p_order_code: codigoPersonalizado, p_payload: payloadPersonalizado }
+    );
+    if (errorRegistroPersonalizado) {
+        console.error('No se pudo registrar la solicitud personalizada:', errorRegistroPersonalizado.message);
+        alert('No se pudo guardar tu solicitud en el sistema, por lo que no abriremos WhatsApp todavía. Inténtalo de nuevo o contáctanos por WhatsApp.');
+        return;
+    }
+    const codigoGuardado = (Array.isArray(registroPersonalizado) ? registroPersonalizado[0] : registroPersonalizado)?.order_code || codigoPersonalizado;
+    texto += `\nCódigo de solicitud: ${codigoGuardado}\n`;
+
     // En navegadores compatibles, comparte la foto y el texto mediante el menú
     // nativo del teléfono. El cliente aún debe elegir WhatsApp y confirmar el envío.
     let puedeCompartirFoto = false;
