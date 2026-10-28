@@ -772,7 +772,8 @@ textarea.input-datos {
 .overlay-modal {
     position: fixed;
     inset: 0;
-    z-index: 1001;
+    /* Debe quedar por encima de la barra fija de categorías (z-index: 1100). */
+    z-index: 1200;
     display: none;
     justify-content: center;
     align-items: center;
@@ -2974,14 +2975,15 @@ footer {
    MEJORA 15: TARJETAS DE INSPIRACIÓN POR TEMÁTICA
    ========================================================= */
 .cake-tematicas-section { padding:26px clamp(14px,3vw,28px) 34px; background:var(--cake-fondo); }
-.cake-tematicas-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; max-width:1100px; margin:0 auto; }
+.cake-tematicas-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; max-width:1100px; margin:0 auto; }
 .cake-tematica-card { min-width:0; display:flex; flex-direction:column; align-items:center; gap:8px; padding:18px 10px; border:1px solid var(--cake-borde); border-radius:15px; background:var(--cake-panel); color:var(--cake-texto); cursor:pointer; transition:transform .2s ease,border-color .2s ease,background .2s ease; text-align:center; }
 .cake-tematica-card:hover { transform:translateY(-3px); border-color:var(--cake-rosa); background:#35292e; }
 .cake-tematica-card span { display:grid; place-items:center; width:42px; height:42px; border-radius:13px; background:rgba(240,156,187,.12); color:var(--cake-rosa); font-size:1.1rem; }
 .cake-tematica-card strong { font-size:.9rem; }
 .cake-tematica-card small { color:var(--cake-texto-suave); font-size:.72rem; }
 @media(max-width:760px){.cake-tematicas-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-.cake-tematicas-grid > .cake-tematica-card:nth-last-child(-n+2) { grid-column: 1 / -1; width: 100%; }
+/* Todas las temáticas usan la cuadrícula normal: Baby shower ocupa el hueco
+   junto a Graduación, sin crear una fila extra de ancho completo. */
 @media(prefers-reduced-motion:reduce){.cake-tematica-card{transition:none}}
 
 
@@ -3001,3 +3003,65 @@ input.cake-fecha-completa { border: 2px solid #c62828 !important; background: #f
 .nota-disponibilidad-fecha { transition: color .18s ease; }
 .cake-capacity-card { margin-top: 1.25rem; }
 .cake-capacity-card hr { margin: 1.25rem 0; border: 0; border-top: 1px solid var(--border, #ddd); }
+
+
+/* AJUSTE FINAL: Graduación y Baby shower ocupan celdas separadas de la misma fila.
+   No se crea una tarjeta extra ni se fuerza ninguna de las dos a ancho completo. */
+.cake-tematicas-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-flow: row;
+}
+.cake-tematicas-grid > .cake-tematica-card {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    width: 100%;
+}
+@media (max-width: 760px) {
+    .cake-tematicas-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cake-tematicas-grid > .cake-tematica-card:nth-child(5),
+    .cake-tematicas-grid > .cake-tematica-card:nth-child(6) { grid-column: auto !important; }
+}
+
+/* Mantener el botón de cierre visible encima del contenido del modal. */
+.overlay-modal { z-index: 2000; }
+.cerrar-personalizar { z-index: 5; }
+
+
+/* AJUSTES SOLICITADOS: Baby shower ocupa el hueco de la fila de ocasiones,
+   y el personalizador queda despejado de la barra fija de categorías. */
+@media (max-width: 760px) {
+    /* La tarjeta Baby shower es la última dentro de .ocasiones-grid. */
+    .ocasiones-grid > .ocasion-card:last-child {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
+/* Mientras el formulario está abierto, se oculta la barra fija que tapaba la X. */
+body.modal-abierto .zona-portada nav,
+body.modal-abierto .espacio-barra-categorias {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Modal y botón de cierre por encima de cualquier barra fija o asistente flotante. */
+#modal-personalizar.overlay-modal {
+    z-index: 20000 !important;
+    isolation: isolate;
+}
+#modal-personalizar .caja-modal-personalizar {
+    position: relative;
+}
+#modal-personalizar .cerrar-personalizar {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 20002 !important;
+}
+
+/* La tarjeta de Graduación conserva el ancho completo de la última fila temática en móvil. */
+@media (max-width: 760px) {
+    .cake-tematicas-grid > .cake-tematica-card:nth-child(5) {
+        grid-column: 1 / -1 !important;
+    }
+}
