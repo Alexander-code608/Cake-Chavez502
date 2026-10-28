@@ -893,9 +893,9 @@ function contactarPorWhatsApp() {
 
 // MEJORA 2: PERSONALIZADOR — vista previa temporal de la foto elegida.
 let fotoPersonalizadaObjectUrl = null;
-const MAX_FOTO_PERSONALIZADA_MB = 8;
+const MAX_FOTO_PERSONALIZADA_MB = 5;
 
-// Muestra una vista previa local de la foto elegida; no se sube al sitio.
+// Muestra una vista previa local. Al enviar la solicitud, la foto se guarda en product-images/custom-orders; el bucket de catálogo usa URL pública, pero la foto no se añade a la galería del sitio.
 function previsualizarFotoPersonalizada(event) {
     const input = event && event.target;
     const archivo = input && input.files ? input.files[0] : null;
@@ -1028,6 +1028,29 @@ async function enviarPedidoPersonalizadoWhatsApp() {
         return;
     }
     const codigoPersonalizado = `CC-${(window.crypto?.randomUUID ? crypto.randomUUID().replace(/-/g, '') : `${Date.now()}${Math.random().toString(16).slice(2)}`).toUpperCase().slice(0, 16)}`;
+    let fotoReferenciaUrl = '';
+    if (foto) {
+        if (!/^image\/(jpeg|png|webp|gif)$/i.test(foto.type) || foto.size > MAX_FOTO_PERSONALIZADA_MB * 1024 * 1024) {
+            alert(`La foto debe ser JPG, PNG, WebP o GIF y pesar máximo ${MAX_FOTO_PERSONALIZADA_MB} MB.`);
+            return;
+        }
+        try {
+            const extension = ({'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'})[foto.type] || 'jpg';
+            const rutaFoto = `custom-orders/${codigoPersonalizado.replace(/[^A-Z0-9-]/g, '')}.${extension}`;
+            const { data: subida, error: errorSubida } = await clienteSupabase.storage.from('product-images').upload(rutaFoto, foto, { cacheControl: '3600', upsert: false, contentType: foto.type });
+            if (errorSubida) throw errorSubida;
+            const { data: urlFoto } = clienteSupabase.storage.from('product-images').getPublicUrl(subida.path);
+            fotoReferenciaUrl = urlFoto?.publicUrl || '';
+            if (!fotoReferenciaUrl) throw new Error('No se obtuvo la dirección de la foto.');
+        } catch (error) {
+            console.error('No se pudo guardar la foto de referencia:', error);
+            alert('No se pudo guardar la foto en el sistema. No se registró el pedido. Revisa la configuración de Storage y vuelve a intentarlo.');
+            return;
+        }
+    }
+    // La URL se incorpora después de subir la foto y antes de guardar/enviar el pedido.
+    if (fotoReferenciaUrl) texto += `Foto de referencia guardada: ${fotoReferenciaUrl}\n`;
+
     const payloadPersonalizado = {
         order_type: 'pastel_personalizado',
         name: String(nombre === 'No indicado' ? '' : nombre).slice(0, 120),
@@ -1038,7 +1061,9 @@ async function enviarPedidoPersonalizadoWhatsApp() {
         size: String(tamano).slice(0, 100),
         colors_theme: String(colores).slice(0, 500),
         customization: String(detalles).slice(0, 2000),
-        photo_reference_name: foto ? String(foto.name).slice(0, 200) : ''
+        photo_reference_name: foto ? String(foto.name).slice(0, 200) : '',
+        photo_reference_url: fotoReferenciaUrl,
+        theme: String(colores).slice(0, 500)
     };
     const { data: registroPersonalizado, error: errorRegistroPersonalizado } = await clienteSupabase.rpc(
         'cake_register_order_with_capacity',
