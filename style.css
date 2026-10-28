@@ -2980,7 +2980,8 @@ footer {
 .cake-tematica-card span { display:grid; place-items:center; width:42px; height:42px; border-radius:13px; background:rgba(240,156,187,.12); color:var(--cake-rosa); font-size:1.1rem; }
 .cake-tematica-card strong { font-size:.9rem; }
 .cake-tematica-card small { color:var(--cake-texto-suave); font-size:.72rem; }
-@media(max-width:760px){.cake-tematicas-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.cake-tematica-card:last-child{grid-column:1/-1;}}
+@media(max-width:760px){.cake-tematicas-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+.cake-tematicas-grid > .cake-tematica-card:nth-last-child(-n+2) { grid-column: 1 / -1; width: 100%; }
 @media(prefers-reduced-motion:reduce){.cake-tematica-card{transition:none}}
 
 
