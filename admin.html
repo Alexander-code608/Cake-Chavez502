@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Administración segura | Cake Chavez</title>
-  <link rel="stylesheet" href="admin.css?v=2">
+  <link rel="stylesheet" href="admin.css?v=3">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -57,7 +57,7 @@
 
       <!-- MEJORA 17: gestionar productos, precios, fotos, favoritos destacados y ofertas. -->
       <section class="admin-section active" id="admin-panel-products">
-        <div class="admin-section-head"><div><h2>Catálogo de productos</h2><p>Las modificaciones se reflejan en la tienda cuando Supabase está conectado.</p></div><button type="button" id="admin-new-product" class="admin-button admin-button-primary"><i class="fas fa-plus"></i> Nuevo producto</button></div>
+        <div class="admin-section-head"><div><h2>Catálogo de productos</h2><p>Las especialidades se administran como productos de la categoría «Especiales». Puedes subir una portada y hasta 3 fotos adicionales.</p></div><div class="admin-header-actions"><button type="button" id="admin-new-specialty" class="admin-button admin-button-outline"><i class="fas fa-star"></i> Añadir especialidad</button><button type="button" id="admin-new-product" class="admin-button admin-button-primary"><i class="fas fa-plus"></i> Nuevo producto</button></div></div>
         <div class="admin-product-layout">
           <form id="admin-product-form" class="admin-form-card">
             <input type="hidden" id="product-id">
@@ -72,7 +72,7 @@
               <div><label for="product-price-large">Precio grande (Q)</label><input id="product-price-large" type="number" step="0.01" min="0" placeholder="Opcional"></div>
               <div><label for="product-sale-price">Precio de oferta (Q)</label><input id="product-sale-price" type="number" step="0.01" min="0" placeholder="Dejar vacío si no aplica"></div>
               <div class="admin-full"><label for="product-description">Descripción</label><textarea id="product-description" rows="3" maxlength="1000"></textarea></div>
-              <div class="admin-full"><label for="product-images">Fotos del producto</label><input id="product-images" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple><small>La primera imagen será la portada. Máximo 5 MB por imagen.</small><div id="product-current-gallery" class="admin-current-gallery"></div></div>
+              <div class="admin-full"><label for="product-images">Fotos del producto</label><input id="product-images" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple><small>La primera imagen será la portada. Para Especiales puedes guardar 1 portada y hasta 3 fotos adicionales. Máximo 5 MB por imagen.</small><div id="product-current-gallery" class="admin-current-gallery"></div></div>
               <div class="admin-full"><label for="product-gallery-urls">O agrega URLs adicionales de imágenes (una por línea)</label><textarea id="product-gallery-urls" rows="2" placeholder="https://..."></textarea></div>
               <div><label for="product-occasion">Temática u ocasión</label><input id="product-occasion" placeholder="Cumpleaños, boda, flores…"></div>
               <div><label for="product-order">Orden de aparición</label><input id="product-order" type="number" step="1" value="100"></div>
@@ -92,7 +92,23 @@
 
       <!-- MEJORA 11: estados del pedido gestionados en el panel. -->
       <section class="admin-section" id="admin-panel-orders" hidden>
-        <div class="admin-section-head"><div><h2>Pedidos con seguimiento</h2><p>Solo los pedidos registrados con la conexión activa aparecerán aquí. Los mensajes de WhatsApp antiguos no se importan automáticamente.</p></div><button type="button" id="admin-refresh-orders" class="admin-button admin-button-outline">Actualizar</button></div>
+        <div class="admin-section-head"><div><h2>Pedidos con seguimiento</h2><p>Solo los pedidos registrados con la conexión activa aparecerán aquí. Los mensajes de WhatsApp antiguos no se importan automáticamente.</p></div><div class="admin-header-actions"><button type="button" id="admin-toggle-add-order" class="admin-button admin-button-primary"><i class="fas fa-plus"></i> Añadir pedido</button><button type="button" id="admin-refresh-orders" class="admin-button admin-button-outline">Actualizar</button></div></div>
+        <form id="admin-add-order-form" class="admin-form-card admin-manual-order" hidden>
+          <div class="admin-section-head"><div><h3>Registrar pedido manual</h3><p>Para pedidos recibidos por teléfono, en persona o por otro medio. También se validará la capacidad de la fecha.</p></div><button type="button" id="admin-cancel-add-order" class="admin-button admin-button-outline">Cerrar</button></div>
+          <div class="admin-form-grid">
+            <div><label for="manual-order-name">Nombre del cliente</label><input id="manual-order-name" maxlength="120" required></div>
+            <div><label for="manual-order-phone">Teléfono</label><input id="manual-order-phone" type="tel" maxlength="30" required></div>
+            <div><label for="manual-order-date">Fecha de entrega</label><input id="manual-order-date" type="date" required></div>
+            <div><label for="manual-order-product">Pastel o producto</label><input id="manual-order-product" maxlength="160" required></div>
+            <div><label for="manual-order-size">Tamaño (opcional)</label><input id="manual-order-size" maxlength="80" placeholder="Pequeño, mediano, grande…"></div>
+            <div><label for="manual-order-quantity">Cantidad</label><input id="manual-order-quantity" type="number" min="1" max="99" value="1" required></div>
+            <div><label for="manual-order-price">Precio unitario (Q)</label><input id="manual-order-price" type="number" min="0" step="0.01" required></div>
+            <div class="admin-full"><label for="manual-order-address">Dirección de entrega</label><input id="manual-order-address" maxlength="500" required></div>
+            <div class="admin-full"><label for="manual-order-notes">Detalles del pedido (opcional)</label><textarea id="manual-order-notes" rows="3" maxlength="1500"></textarea></div>
+          </div>
+          <p id="admin-add-order-message" class="admin-message" role="status"></p>
+          <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar pedido</button></div>
+        </form>
         <div id="admin-orders-list" class="admin-orders-list"><p>Cargando pedidos…</p></div>
       </section>
 
@@ -151,6 +167,6 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="admin.js?v=3"></script>
+  <script src="admin.js?v=4"></script>
 </body>
 </html>

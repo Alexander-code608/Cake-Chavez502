@@ -11,3 +11,10 @@
 .admin-order-group-title{grid-column:1/-1;margin:15px 0 0;color:var(--pink);font-family:'Playfair Display',serif}
 .admin-order-row .admin-row-actions{margin-top:10px}
 @media(max-width:600px){.admin-order-status{align-items:stretch;flex-direction:column}.admin-order-status select,.admin-order-status button{width:100%}.admin-order-row{min-width:0}}
+
+.admin-header-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center;}
+.admin-manual-order{margin:0 0 22px;}
+.admin-manual-order[hidden]{display:none!important;}
+.admin-manual-order .admin-section-head{margin-bottom:16px;}
+@media(max-width:650px){.admin-header-actions{width:100%;}.admin-header-actions .admin-button{flex:1;}.admin-manual-order .admin-section-head{align-items:flex-start;}.admin-manual-order .admin-section-head .admin-button{width:auto;}}
+

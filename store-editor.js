@@ -445,13 +445,14 @@
       const slug = slugify(manualSlug || name);
       if (!slug) throw new Error('Escribe un nombre para el enlace corto.');
       const files = Array.from($('cake-editor-product-images').files || []);
+      if(category==='especiales' && files.length>4) throw new Error('Para una especialidad puedes seleccionar máximo 4 fotos: 1 portada y 3 adicionales.');
       const uploaded = [];
       for (const file of files) uploaded.push(await uploadImage(file, 'products'));
       let imageUrl = uploaded[0] || safeImageUrl($('cake-editor-product-image-url').value);
       if (!imageUrl && id) imageUrl = productBySlug(slug)?.image_url || '';
       if (!imageUrl) throw new Error('Selecciona una foto o escribe una URL de imagen.');
       const otherUrls = $('cake-editor-product-gallery').value.split(/\r?\n/).map(value => safeImageUrl(value)).filter(Boolean);
-      const gallery = Array.from(new Set([...uploaded.slice(1), ...otherUrls])).filter(value => value !== imageUrl).slice(0, 20);
+      const gallery = Array.from(new Set([...uploaded.slice(1), ...otherUrls])).filter(value => value !== imageUrl).slice(0, category==='especiales' ? 3 : 20);
       const numberOrNull = elementId => $(elementId).value.trim() === '' ? null : Number($(elementId).value);
       const payload = {
         slug, name, category,

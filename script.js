@@ -39,6 +39,7 @@ function reproducirSonidoGotita() {
 // =========================================================
 document.addEventListener("DOMContentLoaded", () => {
     configurarEnlacesDirectosProductos();
+    document.getElementById('modal-img')?.addEventListener('click', abrirGaleriaDesdeModalProductoCake);
     filtrar('todos');
     generarCarruselAutomatico();
     agregarEtiquetasTarjetasCatalogo();
@@ -272,7 +273,7 @@ function abrirSoloImagen(imagenes, titulo, descripcion, tarjetaProducto = null) 
         if (indContainer) indContainer.innerHTML = '';
     }
 
-    if (modalSolo) { modalSolo.style.display = 'flex'; document.body.classList.add('galeria-modal-abierto'); }
+    if (modalSolo) { mostrarModalAnimadoCake(modalSolo); document.body.classList.add('galeria-modal-abierto'); }
 }
 
 function pedirProductoGaleria() {
@@ -289,7 +290,7 @@ function pedirProductoGaleria() {
     }
 
     cerrarSoloImagen();
-    window.setTimeout(() => botonPedido.click(), 120);
+    window.setTimeout(() => botonPedido.click(), 220);
 }
 
 async function compartirEnlaceProducto() {
@@ -424,7 +425,7 @@ function deslizarGaleria(direccion) {
 function cerrarSoloImagen() {
     reproducirSonidoGotita();
     const modalSolo = document.getElementById('modal-solo-imagen');
-    if (modalSolo) modalSolo.style.display = 'none';
+    if (modalSolo) cerrarModalAnimadoCake(modalSolo);
     document.body.classList.remove('galeria-modal-abierto');
 }
 
@@ -528,7 +529,28 @@ function toggleCarrito() {
     if (overlay) overlay.classList.toggle('mostrar');
 }
 
-function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7) {
+const cakeModalCloseTimers = new WeakMap();
+function mostrarModalAnimadoCake(modal) {
+    if (!modal) return;
+    const timer = cakeModalCloseTimers.get(modal);
+    if (timer) window.clearTimeout(timer);
+    modal.classList.remove('cake-modal-closing', 'cake-modal-visible');
+    modal.style.display = 'flex';
+    void modal.offsetWidth;
+    modal.classList.add('cake-modal-visible');
+}
+function cerrarModalAnimadoCake(modal) {
+    if (!modal) return;
+    modal.classList.remove('cake-modal-visible');
+    modal.classList.add('cake-modal-closing');
+    const timer = window.setTimeout(() => {
+        modal.style.display = 'none';
+        modal.classList.remove('cake-modal-closing');
+    }, 190);
+    cakeModalCloseTimers.set(modal, timer);
+}
+
+function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7, arg8) {
     reproducirSonidoGotita();
 
     const modalTitulo = document.getElementById('modal-titulo');
@@ -549,38 +571,36 @@ function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7) {
         const pequeno = Number(arg2) || 0;
         const mediano = Number(arg3) || 0;
         const grande = Number(arg4) || 0;
-
-        productoTemporal = {
-            nombre: nombre,
-            pequeno,
-            mediano,
-            grande,
-            tipo: 'pastel'
-        };
-        imagen = arg6 || '';
-        descripcion = arg7 || '';
-
-        // Muestra solo los tamaños que tengan precio configurado; evita opciones Q0.00.
         const opciones = [
             { nombre: 'Pequeño', precio: pequeno },
             { nombre: 'Mediano', precio: mediano },
             { nombre: 'Grande', precio: grande }
         ].filter(opcion => Number.isFinite(opcion.precio) && opcion.precio > 0);
 
-        if (!opciones.length) {
-            const respaldo = pequeno || mediano || grande || 0;
-            opciones.push({ nombre: 'Mediano', precio: respaldo });
-        }
-
-        if (divTamano) divTamano.style.display = 'block';
-        if (selectTamano) {
-            const indiceMediano = opciones.findIndex(opcion => opcion.nombre === 'Mediano');
-            const indiceSeleccionado = indiceMediano >= 0 ? indiceMediano : 0;
-            selectTamano.innerHTML = opciones.map((opcion, indice) => {
-                const precio = opcion.precio.toFixed(2);
-                const seleccionado = indice === indiceSeleccionado ? ' selected' : '';
-                return `<option value="${opcion.nombre}" data-precio="${precio}"${seleccionado}>${opcion.nombre} - Q${precio}</option>`;
-            }).join('');
+        imagen = arg6 || '';
+        descripcion = arg7 || '';
+        if (opciones.length) {
+            productoTemporal = { nombre, pequeno, mediano, grande, tipo: 'pastel', galeria: Array.isArray(arg8) ? arg8.filter(Boolean) : [imagen].filter(Boolean) };
+            if (divTamano) divTamano.style.display = 'block';
+            if (selectTamano) {
+                const indiceMediano = opciones.findIndex(opcion => opcion.nombre === 'Mediano');
+                const indiceSeleccionado = indiceMediano >= 0 ? indiceMediano : 0;
+                selectTamano.innerHTML = opciones.map((opcion, indice) => {
+                    const precio = opcion.precio.toFixed(2);
+                    const seleccionado = indice === indiceSeleccionado ? ' selected' : '';
+                    return `<option value="${opcion.nombre}" data-precio="${precio}"${seleccionado}>${opcion.nombre} - Q${precio}</option>`;
+                }).join('');
+            }
+        } else {
+            // Si no hay precios de tamaño, usar el precio base de la tarjeta (catálogo local)
+            // o el precio base proporcionado por el catálogo remoto. Nunca mostrar tamaños en Q0.
+            const tarjetaLocal = Array.from(document.querySelectorAll('#productos-container .producto'))
+                .find(card => (card.querySelector('h3')?.textContent || '').trim().toLowerCase() === String(nombre).trim().toLowerCase());
+            const textoPrecio = tarjetaLocal?.querySelector('.precio')?.textContent || '';
+            const precioDesdeTarjeta = Number((textoPrecio.match(/Q\s*([\d,.]+)/i)?.[1] || '0').replace(/,/g, '')) || 0;
+            const base = Math.max(0, Number(arg8?.basePrice) || precioDesdeTarjeta || 0);
+            productoTemporal = { nombre, precioBase: base, tipo: 'unidad', galeria: Array.isArray(arg8) ? arg8.filter(Boolean) : [imagen].filter(Boolean) };
+            if (divTamano) divTamano.style.display = 'none';
         }
     } else {
         // En algunos botones antiguos el precio aparece en arg2 y en otros en arg3.
@@ -591,7 +611,8 @@ function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7) {
         productoTemporal = {
             nombre: nombre,
             precioBase,
-            tipo: 'unidad'
+            tipo: 'unidad',
+            galeria: Array.isArray(arg8) ? arg8.filter(Boolean) : [arg6 || ''].filter(Boolean)
         };
         imagen = arg6 || '';
         descripcion = arg7 || '';
@@ -609,13 +630,20 @@ function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7) {
     calcularSubtotalModal();
 
     const modalProducto = document.getElementById('modal-producto');
-    if (modalProducto) modalProducto.style.display = 'flex';
+    mostrarModalAnimadoCake(modalProducto);
 }
 
 function cerrarVentanita() {
     reproducirSonidoGotita();
     const modalProducto = document.getElementById('modal-producto');
-    if (modalProducto) modalProducto.style.display = 'none';
+    cerrarModalAnimadoCake(modalProducto);
+}
+
+function abrirGaleriaDesdeModalProductoCake() {
+    const producto = productoTemporal || {};
+    const galeria = Array.isArray(producto.galeria) && producto.galeria.length ? producto.galeria : [producto.imagen].filter(Boolean);
+    if (!galeria.length) return;
+    abrirSoloImagen(galeria, producto.nombre || 'Pastel', document.getElementById('modal-descripcion')?.textContent || '', null);
 }
 
 function calcularSubtotalModal() {
@@ -1508,7 +1536,7 @@ function extraerDatosPrecioDeTarjetaCake(tarjeta) {
         ].filter(x => x.price > 0);
         return {
             slug: p.slug, name: p.name, price: Number(p.price) || (sizes.length ? Math.min(...sizes.map(x => x.price)) : 0),
-            hasSizes: Boolean(p.has_sizes), sizes, description: p.description || '', image: p.image_url || ''
+            hasSizes: sizes.length > 0, sizes, description: p.description || '', image: p.image_url || ''
         };
     }
     const titulo = tarjeta?.querySelector('h3')?.textContent.trim() || 'Producto';
@@ -1537,14 +1565,21 @@ function rellenarCalculadoraCake() {
         const datos = extraerDatosPrecioDeTarjetaCake(tarjeta);
         const op = document.createElement('option');
         op.value = datos.slug;
-        op.textContent = `${datos.name} · Desde Q${datos.price.toFixed(2)}`;
+        op.textContent = `${datos.name} · Q${datos.price.toFixed(2)}`;
         op.dataset.price = String(datos.price);
-        op.dataset.hasSizes = String(datos.hasSizes);
+        op.dataset.hasSizes = String(datos.sizes.length > 0);
         op.dataset.prices = JSON.stringify(datos.sizes);
         select.appendChild(op);
     });
     if (seleccionadoPrevio && Array.from(select.options).some(o => o.value === seleccionadoPrevio)) select.value = seleccionadoPrevio;
     actualizarCalculadoraCake();
+}
+function sizesFromOptionCake(option) {
+    try {
+        const raw = JSON.parse(option?.dataset.prices || '[]');
+        return raw.map((item, idx) => typeof item === 'number' ? ({ name:['Pequeño','Mediano','Grande'][idx] || 'Tamaño', price:item }) : item)
+            .filter(item => Number(item.price) > 0);
+    } catch (_) { return []; }
 }
 function actualizarCalculadoraCake() {
     const select = document.getElementById('cake-calculo-producto');
@@ -1557,11 +1592,8 @@ function actualizarCalculadoraCake() {
     const option = select.options[select.selectedIndex];
     if (!option) { total.textContent = 'Q0.00'; return; }
     let unit = Number(option.dataset.price) || 0;
-    const hasSizes = option.dataset.hasSizes === 'true';
-    let sizes = [];
-    try { sizes = JSON.parse(option.dataset.prices || '[]'); } catch (error) { sizes = []; }
-    // Compatibilidad si una opción antigua guarda solo números.
-    sizes = sizes.map((item, idx) => typeof item === 'number' ? ({ name:['Pequeño','Mediano','Grande'][idx] || 'Tamaño', price:item }) : item).filter(item => Number(item.price) > 0);
+    const hasSizes = sizesFromOptionCake(option).length > 0;
+    const sizes = sizesFromOptionCake(option);
     if (wrapTamano) wrapTamano.hidden = !hasSizes || sizes.length <= 1;
     if (selectTamano) {
         const oldValue = selectTamano.value;
@@ -1777,13 +1809,17 @@ function construirTarjetaRemotaCake(producto) {
     const h3=crearElementoTextoCake('h3','',producto.name || 'Producto');
     const desc=crearElementoTextoCake('p','',producto.description || 'Consulta los detalles de este producto.');
     const sizePrices=[producto.price_small,producto.price_medium,producto.price_large].map(v=>Number(v)||0).filter(v=>v>0);
-    const unitPrice=(producto.has_sizes && sizePrices.length ? Math.min(...sizePrices) : Number(producto.price)||0);
+    const unitPrice=(sizePrices.length ? Math.min(...sizePrices) : Number(producto.price)||0);
     const salePrice=Number(producto.sale_price)||0;
-    const price=crearElementoTextoCake('span','precio', salePrice>0 && salePrice<unitPrice ? `Oferta Q${salePrice.toFixed(2)}` : (producto.has_sizes ? `Desde Q${unitPrice.toFixed(2)}` : `Q${unitPrice.toFixed(2)}`));
+    const price=crearElementoTextoCake('span','precio', unitPrice>0 ? (salePrice>0 && salePrice<unitPrice ? `Oferta Q${salePrice.toFixed(2)}` : (sizePrices.length ? `Desde Q${unitPrice.toFixed(2)}` : `Q${unitPrice.toFixed(2)}`)) : '');
+    price.hidden = !(unitPrice > 0);
     const orderButton=document.createElement('button'); orderButton.type='button'; orderButton.dataset.orderButton='true'; orderButton.textContent='Añadir a la orden';
+    if (!(unitPrice > 0)) { orderButton.disabled = true; orderButton.textContent = 'Precio por definir'; }
     orderButton.addEventListener('click',()=>{
         const small=Number(producto.price_small)||0, medium=Number(producto.price_medium)||0, large=Number(producto.price_large)||0;
-        abrirVentanita(producto.name, producto.has_sizes ? small : unitPrice, producto.has_sizes ? medium : 0, producto.has_sizes ? large : 0, producto.has_sizes ? 'pastel':'unidad', producto.image_url, producto.description || '');
+        const gallery=[producto.image_url,...(Array.isArray(producto.gallery_urls)?producto.gallery_urls:[])].filter(Boolean).slice(0,20);
+        if(sizePrices.length) abrirVentanita(producto.name,small,medium,large,'pastel',producto.image_url,producto.description||'',gallery);
+        else abrirVentanita(producto.name,(salePrice>0&&salePrice<unitPrice)?salePrice:unitPrice,0,0,'unidad',producto.image_url,producto.description||'',gallery);
     });
     card.append(img,h3,desc,price,orderButton);
     return card;
@@ -1798,7 +1834,8 @@ async function sincronizarCatalogoAdminCake() {
     if (!contenedor) return null;
     contenedor.replaceChildren();
     const fragment=document.createDocumentFragment();
-    data.forEach(p=>fragment.appendChild(construirTarjetaRemotaCake(p)));
+    window.CAKE_ESPECIALIDADES_REMOTAS = data.filter(p=>p.category==='especiales' && p.is_active!==false);
+    data.filter(p=>p.category!=='especiales').forEach(p=>fragment.appendChild(construirTarjetaRemotaCake(p)));
     contenedor.appendChild(fragment);
     window.CAKE_PRODUCTOS_REMOTOS = data;
     configurarEnlacesDirectosProductos();
@@ -1806,17 +1843,124 @@ async function sincronizarCatalogoAdminCake() {
     return data;
 }
 
-// MEJORA 15: TEMÁTICAS — la selección se incorpora al personalizador sin prometer un diseño fijo.
-function configurarTematicasCake() {
-    document.querySelectorAll('[data-cake-theme]').forEach(button => button.addEventListener('click', () => {
-        const theme = button.dataset.cakeTheme || '';
-        const campo = document.getElementById('colores-personalizar');
-        const detalles = document.getElementById('detalles-personalizar');
-        if (campo && !campo.value.trim()) campo.value = theme;
-        else if (campo && !campo.value.includes(theme)) campo.value += `, ${theme}`;
-        if (detalles && !detalles.value.trim()) detalles.value = `Me gustaría un pastel con temática ${theme.toLowerCase()}.`;
-        abrirModalPersonalizar();
-    }));
+// ESPECIALIDADES: catálogo remoto por categoría "especiales". Usa la misma tabla products.
+let cakeEspecialidades = [];
+let cakeIndiceEspecialidad = 0;
+function normalizarPrecioCake(value) { const n = Number(value); return Number.isFinite(n) && n > 0 ? n : 0; }
+function precioVisibleEspecialidadCake(producto) {
+    const preciosTamano = [producto.price_small, producto.price_medium, producto.price_large].map(normalizarPrecioCake).filter(v => v > 0);
+    const base = normalizarPrecioCake(producto.price);
+    const oferta = normalizarPrecioCake(producto.sale_price);
+    if (preciosTamano.length) return oferta > 0 && oferta < Math.min(...preciosTamano) ? `Oferta Q${oferta.toFixed(2)}` : `Desde Q${Math.min(...preciosTamano).toFixed(2)}`;
+    return oferta > 0 && base > 0 && oferta < base ? `Oferta Q${oferta.toFixed(2)}` : `Q${base.toFixed(2)}`;
+}
+function convertirEspecialLocalCake(tarjeta) {
+    let gallery = [];
+    try { gallery = JSON.parse(tarjeta.dataset.productGallery || '[]'); } catch (_) {}
+    const image = tarjeta.querySelector('.img-producto')?.getAttribute('src') || '';
+    const name = tarjeta.querySelector('h3')?.textContent.trim() || 'Especialidad';
+    const priceText = tarjeta.querySelector('.precio')?.textContent || '';
+    const match = priceText.match(/Q\s*([\d,.]+)/i);
+    const base = match ? Number(match[1].replace(/,/g,'')) : 0;
+    return { name, slug: tarjeta.dataset.productSlug || crearSlugProducto(name), category:'especiales', description: tarjeta.dataset.productDescription || tarjeta.querySelector('p')?.textContent || '', image_url:image, gallery_urls:(gallery.length ? gallery : [image]).filter(Boolean).slice(1), price:base, price_small:null, price_medium:null, price_large:null, has_sizes:false, is_active:true };
+}
+function crearTarjetaEspecialidadCake(producto, indice) {
+    const card = document.createElement('article');
+    card.className = `cake-special-slide${indice === cakeIndiceEspecialidad ? ' is-active' : ''}`;
+    card.setAttribute('role','group');
+    card.setAttribute('aria-roledescription','diapositiva');
+    const gallery = [producto.image_url, ...(Array.isArray(producto.gallery_urls) ? producto.gallery_urls : [])].filter(Boolean).slice(0,4);
+    const image = gallery[0] || '';
+    const name = String(producto.name || 'Especialidad');
+    const description = String(producto.description || 'Una creación especial de Cake Chavez.');
+    card.dataset.productSlug = crearSlugProducto(producto.slug || name);
+    card.dataset.productDescription = description;
+    card.dataset.productGallery = JSON.stringify(gallery);
+    card.__cakeProduct = producto;
+
+    const imageFrame = document.createElement('div'); imageFrame.className = 'cake-special-image-frame';
+    const img = document.createElement('img'); img.className = 'cake-special-image'; img.src = image; img.alt = name; img.loading = 'lazy';
+    img.addEventListener('click', () => abrirSoloImagen(gallery, name, description, card));
+    const imagePrev = document.createElement('button'); imagePrev.type='button'; imagePrev.className='cake-special-image-arrow prev'; imagePrev.setAttribute('aria-label','Foto anterior'); imagePrev.innerHTML='<i class="fas fa-chevron-left" aria-hidden="true"></i>';
+    const imageNext = document.createElement('button'); imageNext.type='button'; imageNext.className='cake-special-image-arrow next'; imageNext.setAttribute('aria-label','Foto siguiente'); imageNext.innerHTML='<i class="fas fa-chevron-right" aria-hidden="true"></i>';
+    const imageDots = document.createElement('div'); imageDots.className='cake-special-image-dots';
+    let imageIndex = 0;
+    function showImage(nextIndex) {
+        if (!gallery.length) return;
+        imageIndex = (nextIndex + gallery.length) % gallery.length;
+        img.classList.add('cake-image-changing');
+        img.src = gallery[imageIndex];
+        img.onload = () => img.classList.remove('cake-image-changing');
+        imageDots.querySelectorAll('button').forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === imageIndex));
+    }
+    imagePrev.hidden = gallery.length < 2; imageNext.hidden = gallery.length < 2;
+    imagePrev.addEventListener('click', e=>{e.stopPropagation();showImage(imageIndex-1);});
+    imageNext.addEventListener('click', e=>{e.stopPropagation();showImage(imageIndex+1);});
+    gallery.forEach((_,dotIndex)=>{const dot=document.createElement('button');dot.type='button';dot.className=dotIndex===0?'active':'';dot.setAttribute('aria-label',`Ver foto ${dotIndex+1}`);dot.addEventListener('click',e=>{e.stopPropagation();showImage(dotIndex);});imageDots.appendChild(dot);});
+    imageFrame.append(img,imagePrev,imageNext,imageDots);
+
+    const info = document.createElement('div'); info.className='cake-special-info';
+    const eyebrow=document.createElement('span');eyebrow.className='cake-special-kicker';eyebrow.textContent='ESPECIALIDAD CAKE CHÁVEZ';
+    const title=document.createElement('h3');title.textContent=name;
+    const desc=document.createElement('p');desc.textContent=description;
+    const sizes=[producto.price_small,producto.price_medium,producto.price_large].map(normalizarPrecioCake);
+    const base=normalizarPrecioCake(producto.price);
+    const sale=normalizarPrecioCake(producto.sale_price);
+    const price=document.createElement('strong');price.className='cake-special-price';price.textContent=precioVisibleEspecialidadCake(producto);price.hidden=!(sizes.some(v=>v>0)||base>0);
+    const request=document.createElement('button');request.type='button';request.dataset.orderButton='true';request.className='cake-special-request';request.innerHTML='Solicitar pedido <i class="fas fa-arrow-right" aria-hidden="true"></i>';
+    request.addEventListener('click',()=>{
+        const galleryForModal = gallery.length ? gallery : [image];
+        if (sizes.some(v=>v>0)) abrirVentanita(name,sizes[0],sizes[1],sizes[2],'pastel',image,description,galleryForModal);
+        else abrirVentanita(name,sale>0&&base>0&&sale<base?sale:base,0,0,'unidad',image,description,galleryForModal);
+    });
+    if (!sizes.some(v=>v>0) && !(sale>0&&base>0) && base<=0) { request.disabled=true; request.textContent='Precio por definir'; }
+    info.append(eyebrow,title,desc,price,request);
+    card.append(imageFrame,info);
+    return card;
+}
+function pintarEspecialidadActualCake() {
+    const track=document.getElementById('cake-special-track');
+    const dots=document.getElementById('cake-special-dots');
+    if(!track)return;
+    const cards=Array.from(track.querySelectorAll('.cake-special-slide'));
+    cards.forEach((card,index)=>{card.classList.toggle('is-active',index===cakeIndiceEspecialidad);card.setAttribute('aria-hidden',String(index!==cakeIndiceEspecialidad));});
+    if(dots)dots.querySelectorAll('button').forEach((dot,index)=>{dot.classList.toggle('active',index===cakeIndiceEspecialidad);dot.setAttribute('aria-current',index===cakeIndiceEspecialidad?'true':'false');});
+}
+function cambiarEspecialidadCake(direction) {
+    if(!cakeEspecialidades.length)return;
+    cakeIndiceEspecialidad=(cakeIndiceEspecialidad+direction+cakeEspecialidades.length)%cakeEspecialidades.length;
+    pintarEspecialidadActualCake();
+}
+function renderizarEspecialidadesCake(productosRemotos) {
+    const section=document.getElementById('cake-especialidades');
+    const track=document.getElementById('cake-special-track');
+    const dots=document.getElementById('cake-special-dots');
+    if(!section||!track)return;
+    let productos=[];
+    if(Array.isArray(productosRemotos)) productos=productosRemotos.filter(p=>p.category==='especiales' && p.is_active!==false);
+    else {
+        productos=Array.from(document.querySelectorAll('#productos-container .producto.especiales')).map(convertirEspecialLocalCake);
+        document.querySelectorAll('#productos-container .producto.especiales').forEach(card=>card.remove());
+    }
+    cakeEspecialidades=productos;
+    cakeIndiceEspecialidad=0;
+    track.replaceChildren(); if(dots)dots.replaceChildren();
+    if(!productos.length){section.hidden=true;return;}
+    section.hidden=false;
+    productos.forEach((p,index)=>{
+        track.appendChild(crearTarjetaEspecialidadCake(p,index));
+        if(dots){const dot=document.createElement('button');dot.type='button';dot.className=index===0?'active':'';dot.setAttribute('aria-label',`Ver especialidad ${index+1}: ${p.name||'Especialidad'}`);dot.addEventListener('click',()=>{cakeIndiceEspecialidad=index;pintarEspecialidadActualCake();});dots.appendChild(dot);}
+    });
+    pintarEspecialidadActualCake();
+    document.getElementById('cake-special-prev')?.addEventListener('click',()=>cambiarEspecialidadCake(-1),{once:true});
+    document.getElementById('cake-special-next')?.addEventListener('click',()=>cambiarEspecialidadCake(1),{once:true});
+    const carousel=document.getElementById('cake-special-carousel');
+    if(carousel && !carousel.dataset.swipeReady){
+        let startX=null;
+        carousel.addEventListener('touchstart',event=>{startX=event.changedTouches?.[0]?.clientX??null;},{passive:true});
+        carousel.addEventListener('touchend',event=>{if(startX===null)return;const delta=(event.changedTouches?.[0]?.clientX??startX)-startX;if(Math.abs(delta)>45)cambiarEspecialidadCake(delta<0?1:-1);startX=null;},{passive:true});
+        carousel.dataset.swipeReady='1';
+    }
 }
 
 // INICIALIZACIÓN DE LAS MEJORAS: corre después de los scripts actuales del catálogo.
@@ -1832,9 +1976,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('cake-calculo-consultar')?.addEventListener('click', consultarEstimadoCake);
     document.getElementById('cake-seguimiento-form')?.addEventListener('submit', consultarEstadoPedidoCake);
     configurarAsistenteCake();
-    configurarTematicasCake();
-
     const productosRemotos = await sincronizarCatalogoAdminCake();
+    renderizarEspecialidadesCake(productosRemotos);
     // Después de la posible sincronización, regeneramos elementos derivados del catálogo.
     configurarEnlacesDirectosProductos();
     agregarEtiquetasTarjetasCatalogo();

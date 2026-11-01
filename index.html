@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cake Chavez - Repostería</title>
-    <link rel="stylesheet" href="style.css?v=11">
-    <link rel="stylesheet" href="store-editor.css?v=2">
+    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="store-editor.css?v=3">
     <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <!-- Íconos de FontAwesome -->
@@ -71,7 +71,7 @@
         <button class="nav-btn" onclick="filtrar('postres', this)">Postres</button>
         <button class="nav-btn" onclick="filtrar('galletas', this)">Galletas</button>
         <button class="nav-btn" onclick="filtrar('bocaditos', this)">Bocaditos</button>
-        <button class="nav-btn" onclick="filtrar('especiales', this)">Especiales</button>
+        <button class="nav-btn" type="button" onclick="document.getElementById('cake-especialidades')?.scrollIntoView({behavior:'smooth',block:'center'})">Especialidades</button>
     </nav>
 
     <!-- Bienvenida al catálogo -->
@@ -174,20 +174,21 @@
         </div>
     </section>
 
-    <!-- MEJORA 15: INSPIRACIÓN POR TEMÁTICA; estas etiquetas cargan la idea en el personalizador. -->
-    <section class="cake-tematicas-section seccion-extra" id="inspiracion-tematicas" aria-labelledby="titulo-tematicas">
-        <div class="seccion-cabecera">
-            <span class="seccion-etiqueta"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i> Tu idea puede tomar forma</span>
-            <h2 id="titulo-tematicas">Inspírate por temática</h2>
-            <p>Elige un estilo y lo agregaremos a tu consulta para personalizarlo contigo.</p>
+    <!-- ESPECIALIDADES: los productos de la categoría "especiales" se administran desde Supabase. -->
+    <section class="cake-especialidades-section seccion-extra" id="cake-especialidades" aria-labelledby="cake-especialidades-title">
+        <div class="seccion-cabecera cake-especialidades-heading">
+            <span class="seccion-etiqueta"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i> Creaciones para celebrar</span>
+            <h2 id="cake-especialidades-title">Nuestras especialidades</h2>
+            <p>Descubre nuestras creaciones especiales. Desliza para conocer cada una y solicita la tuya.</p>
         </div>
-        <div class="cake-tematicas-grid">
-            <button type="button" class="cake-tematica-card" data-cake-theme="Flores y tonos pastel"><span><i class="fas fa-spa"></i></span><strong>Flores y pastel</strong><small>Delicado y romántico</small></button>
-            <button type="button" class="cake-tematica-card" data-cake-theme="Diseño elegante minimalista"><span><i class="fas fa-gem"></i></span><strong>Elegante</strong><small>Detalles sencillos</small></button>
-            <button type="button" class="cake-tematica-card" data-cake-theme="Temática infantil colorida"><span><i class="fas fa-rainbow"></i></span><strong>Infantil</strong><small>Color y diversión</small></button>
-            <button type="button" class="cake-tematica-card" data-cake-theme="Romántico con corazones"><span><i class="fas fa-heart"></i></span><strong>Romántico</strong><small>Para compartir</small></button>
-            <button type="button" class="cake-tematica-card" data-cake-theme="Graduación con detalles personalizados"><span><i class="fas fa-graduation-cap"></i></span><strong>Graduación</strong><small>Un logro especial</small></button>
+        <div class="cake-special-carousel" id="cake-special-carousel" aria-roledescription="carrusel" aria-label="Especialidades de Cake Chavez">
+            <button type="button" class="cake-special-arrow cake-special-prev" id="cake-special-prev" aria-label="Ver especialidad anterior"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+            <div class="cake-special-track" id="cake-special-track" aria-live="polite">
+                <p class="cake-special-empty">Estamos preparando nuestras especialidades. Vuelve pronto.</p>
+            </div>
+            <button type="button" class="cake-special-arrow cake-special-next" id="cake-special-next" aria-label="Ver especialidad siguiente"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
         </div>
+        <div class="cake-special-dots" id="cake-special-dots" aria-label="Elegir especialidad"></div>
     </section>
 
 
@@ -787,7 +788,7 @@
     <!-- CONFIGURACIÓN: completar supabase-config.js cuando se cree el proyecto Supabase. -->
     <script src="supabase-config.js?v=1"></script>
     <!-- SCRIPT PRINCIPAL: carrito, catálogo, galería y navegación existente. -->
-    <script src="script.js?v=11"></script>
-    <script src="store-editor.js?v=2"></script>
+    <script src="script.js?v=12"></script>
+    <script src="store-editor.js?v=3"></script>
 </body>
 </html>
