@@ -369,10 +369,15 @@
       del.type = 'button'; del.textContent = '🗑️ Eliminar';
       del.addEventListener('click', async event => {
         event.preventDefault(); event.stopPropagation();
-        if (!product.id || !confirm(`¿Seguro que deseas eliminar «${product.name}»? Esta acción no se puede deshacer.`)) return;
-        const { error } = await state.client.from('products').delete().eq('id', product.id);
-        if (error) { toast(`No se pudo eliminar: ${error.message}`, 'error'); return; }
-        toast('Producto eliminado.', 'success');
+        if (!product.id || !confirm(`¿Enviar «${product.name}» a la papelera? Podrás recuperarlo desde el panel de Pedidos → Papelera.`)) return;
+        const { error } = await state.client.from('products').update({
+          deleted_at: new Date().toISOString(),
+          deleted_previous_is_active: product.is_active !== false,
+          is_active: false,
+          updated_at: new Date().toISOString()
+        }).eq('id', product.id);
+        if (error) { toast(`No se pudo enviar a la papelera: ${error.message}. Comprueba que ejecutaste el SQL de papelera.`, 'error'); return; }
+        toast('Producto movido a la papelera.', 'success');
         window.setTimeout(() => window.location.reload(), 500);
       });
       actions.append(edit, del);

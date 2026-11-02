@@ -1759,7 +1759,7 @@ async function consultarEstadoPedidoCake(event) {
     if (!resultado || !code) return;
     if (!client) { resultado.textContent = 'El seguimiento necesita que Cake Chavez configure la conexión segura. Mientras tanto, consulta el estado por WhatsApp.'; return; }
     resultado.textContent = 'Buscando tu pedido…';
-    const { data, error } = await client.rpc('lookup_order_status', { p_code: code });
+    const { data, error } = await client.rpc('cake_lookup_order_status', { p_code: code });
     if (error) { resultado.textContent = 'No fue posible consultar el seguimiento en este momento. Escríbenos por WhatsApp para recibir ayuda.'; return; }
     const registro = Array.isArray(data) ? data[0] : data;
     if (!registro) { resultado.textContent = 'No encontramos un pedido con ese código. Comprueba que lo escribiste correctamente o consúltanos por WhatsApp.'; return; }
@@ -1809,10 +1809,18 @@ function construirTarjetaRemotaCake(producto) {
     const h3=crearElementoTextoCake('h3','',producto.name || 'Producto');
     const desc=crearElementoTextoCake('p','',producto.description || 'Consulta los detalles de este producto.');
     const sizePrices=[producto.price_small,producto.price_medium,producto.price_large].map(v=>Number(v)||0).filter(v=>v>0);
-    const unitPrice=(sizePrices.length ? Math.min(...sizePrices) : Number(producto.price)||0);
+    const basePrice=Number(producto.price)||0;
+    const unitPrice=(sizePrices.length ? Math.min(...sizePrices) : basePrice);
     const salePrice=Number(producto.sale_price)||0;
-    const price=crearElementoTextoCake('span','precio', unitPrice>0 ? (salePrice>0 && salePrice<unitPrice ? `Oferta Q${salePrice.toFixed(2)}` : (sizePrices.length ? `Desde Q${unitPrice.toFixed(2)}` : `Q${unitPrice.toFixed(2)}`)) : '');
-    price.hidden = !(unitPrice > 0);
+    // La tarjeta conserva el precio base. Los tamaños se muestran al abrir el pedido;
+    // si no existe precio base, se informa el menor tamaño válido como referencia.
+    const catalogPriceText = sizePrices.length
+        ? (basePrice > 0 ? `Q${basePrice.toFixed(2)}` : `Desde Q${unitPrice.toFixed(2)}`)
+        : (salePrice > 0 && basePrice > 0 && salePrice < basePrice
+            ? `Oferta Q${salePrice.toFixed(2)} · Antes Q${basePrice.toFixed(2)}`
+            : (basePrice > 0 ? `Q${basePrice.toFixed(2)}` : ''));
+    const price=crearElementoTextoCake('span','precio', catalogPriceText);
+    price.hidden = !(basePrice > 0 || sizePrices.length > 0);
     const orderButton=document.createElement('button'); orderButton.type='button'; orderButton.dataset.orderButton='true'; orderButton.textContent='Añadir a la orden';
     if (!(unitPrice > 0)) { orderButton.disabled = true; orderButton.textContent = 'Precio por definir'; }
     orderButton.addEventListener('click',()=>{
@@ -1827,7 +1835,7 @@ function construirTarjetaRemotaCake(producto) {
 async function sincronizarCatalogoAdminCake() {
     const client = obtenerClienteSupabaseCake();
     if (!client) return null;
-    const { data, error } = await client.from('products').select('*').eq('is_active', true).order('display_order', { ascending:true }).order('created_at',{ascending:true});
+    const { data, error } = await client.from('products').select('*').eq('is_active', true).is('deleted_at', null).order('display_order', { ascending:true }).order('created_at',{ascending:true});
     if (error) { console.warn('Se mantiene el catálogo local porque no se pudo consultar la base de datos:', error.message); return null; }
     if (!Array.isArray(data)) return null;
     const contenedor=document.getElementById('productos-container');
@@ -1851,8 +1859,11 @@ function precioVisibleEspecialidadCake(producto) {
     const preciosTamano = [producto.price_small, producto.price_medium, producto.price_large].map(normalizarPrecioCake).filter(v => v > 0);
     const base = normalizarPrecioCake(producto.price);
     const oferta = normalizarPrecioCake(producto.sale_price);
-    if (preciosTamano.length) return oferta > 0 && oferta < Math.min(...preciosTamano) ? `Oferta Q${oferta.toFixed(2)}` : `Desde Q${Math.min(...preciosTamano).toFixed(2)}`;
-    return oferta > 0 && base > 0 && oferta < base ? `Oferta Q${oferta.toFixed(2)}` : `Q${base.toFixed(2)}`;
+    // Mostrar el precio base en la tarjeta aunque existan tamaños.
+    // La ventana de pedido muestra únicamente los tamaños con precio mayor que cero.
+    if (preciosTamano.length) return base > 0 ? `Q${base.toFixed(2)}` : `Desde Q${Math.min(...preciosTamano).toFixed(2)}`;
+    if (oferta > 0 && base > 0 && oferta < base) return `Oferta Q${oferta.toFixed(2)} · Antes Q${base.toFixed(2)}`;
+    return base > 0 ? `Q${base.toFixed(2)}` : '';
 }
 function convertirEspecialLocalCake(tarjeta) {
     let gallery = [];

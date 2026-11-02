@@ -9,8 +9,13 @@
   let products = [];
   let reviews = [];
   let currentGallery = [];
+  let activeOrdersView = 'nuevos';
+  let activeOrders = [];
+  let trashOrders = [];
+  let trashProducts = [];
+  let trashCount = 0;
   const CATEGORIES = ['pasteles','postres','galletas','bocaditos','especiales'];
-  const STATUS = [['recibido','Recibido'],['en_preparacion','En preparación'],['listo','Listo para entrega'],['entregado','Entregado'],['cancelado','Cancelado']];
+  const STATUS = [['recibido','Pedidos nuevos'],['entregado','Pedidos entregados'],['cancelado','Pedidos cancelados']];
   function message(id, text, type='') { const el=$(id); if(!el)return; el.textContent=text; el.className=`admin-message ${type}`.trim(); }
   function globalMessage(text,type='') { message('admin-global-message',text,type); }
   function esc(value) { return String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -59,15 +64,16 @@
     meta.append(name,price,flags);
     const actions=document.createElement('div'); actions.className='admin-row-actions';
     const edit=document.createElement('button'); edit.type='button'; edit.className='admin-button admin-button-outline'; edit.textContent='Editar'; edit.addEventListener('click',()=>fillProduct(p));
-    const remove=document.createElement('button'); remove.type='button'; remove.className='admin-button admin-button-danger'; remove.textContent='Eliminar'; remove.addEventListener('click',()=>deleteProduct(p));
+    const remove=document.createElement('button'); remove.type='button'; remove.className='admin-button admin-button-danger'; remove.textContent='Enviar a papelera'; remove.addEventListener('click',()=>deleteProduct(p));
     actions.append(edit,remove); row.append(img,meta,actions); return row;
   }
   async function loadProducts() {
     globalMessage('Cargando productos…');
-    const {data,error}=await client.from('products').select('*').order('display_order',{ascending:true}).order('created_at',{ascending:true});
+    const {data,error}=await client.from('products').select('*').is('deleted_at',null).order('display_order',{ascending:true}).order('created_at',{ascending:true});
     if(error){globalMessage(`No se pudieron cargar productos: ${error.message}`,'error');return;}
     products=data||[]; updateStats();
     const list=$('admin-products-list'); list.replaceChildren();
+    await refreshTrashCount();
     if(!products.length){list.appendChild(Object.assign(document.createElement('p'),{textContent:'Todavía no hay productos en la base de datos. Puedes agregar uno o ejecutar el archivo SQL de productos iniciales.'}));}
     else products.forEach(p=>list.appendChild(productRow(p)));
     filterProducts(); globalMessage('Productos actualizados.','success');
@@ -115,57 +121,255 @@
     } catch(error) { message('admin-product-message',error?.message||'No se pudo guardar el producto.','error'); }
   }
   async function deleteProduct(p) {
-    if(!confirm(`¿Eliminar “${p.name}”? Esta acción no se puede deshacer.`)) return;
-    const {error}=await client.from('products').delete().eq('id',p.id);
-    if(error){globalMessage(`No se pudo eliminar: ${error.message}`,'error');return;}
-    await loadProducts(); resetProductForm(); globalMessage(`Se eliminó “${p.name}”.`,'success');
+    if(!confirm(`¿Enviar “${p.name}” a la papelera? Podrás recuperarlo después.`)) return;
+    const {error}=await client.from('products').update({
+      deleted_at:new Date().toISOString(),
+      deleted_previous_is_active:p.is_active!==false,
+      is_active:false,
+      updated_at:new Date().toISOString()
+    }).eq('id',p.id);
+    if(error){globalMessage(`No se pudo enviar a la papelera: ${error.message}. Comprueba que ejecutaste el SQL de papelera.`,'error');return;}
+    await loadProducts(); resetProductForm(); globalMessage(`“${p.name}” se movió a la papelera.`,'success');
+    if(activeOrdersView==='papelera') await loadTrash();
   }
-  function createOrderRow(order) {
-    const card=document.createElement('article'); card.className='admin-order-row';
+  function normalizeOrderStatus(status) {
+    const value=String(status||'recibido').toLowerCase();
+    if(value==='entregado') return 'entregado';
+    if(value==='cancelado') return 'cancelado';
+    return 'recibido';
+  }
+  function statusView(status) {
+    const normalized=normalizeOrderStatus(status);
+    return normalized==='entregado'?'entregados':normalized==='cancelado'?'cancelados':'nuevos';
+  }
+  function updateOrderViewButtons() {
+    const counts={
+      nuevos:activeOrders.filter(o=>statusView(o.status)==='nuevos').length,
+      entregados:activeOrders.filter(o=>statusView(o.status)==='entregados').length,
+      cancelados:activeOrders.filter(o=>statusView(o.status)==='cancelados').length,
+      papelera:trashCount
+    };
+    document.querySelectorAll('[data-order-view]').forEach(button=>{
+      const view=button.dataset.orderView;
+      button.classList.toggle('active',view===activeOrdersView);
+      button.setAttribute('aria-pressed',view===activeOrdersView?'true':'false');
+      const count=button.querySelector('[data-order-view-count]');
+      if(count) count.textContent=String(counts[view]??0);
+    });
+  }
+  async function refreshTrashCount() {
+    const [ordersResult,productsResult]=await Promise.all([
+      client.from('orders').select('order_code',{count:'exact',head:true}).not('deleted_at','is',null),
+      client.from('products').select('id',{count:'exact',head:true}).not('deleted_at','is',null)
+    ]);
+    if(!ordersResult.error&&!productsResult.error) trashCount=(ordersResult.count||0)+(productsResult.count||0);
+    updateOrderViewButtons();
+  }
+  function setOrdersView(view) {
+    activeOrdersView=view;
+    updateOrderViewButtons();
+    if(view==='papelera') loadTrash(); else renderOrdersView();
+  }
+  function addInfoField(parent,label,value) {
+    const item=document.createElement('div');item.className='admin-order-info-item';
+    const caption=document.createElement('span');caption.textContent=label;
+    const content=document.createElement('strong');content.textContent=(value===null||value===undefined||String(value).trim()==='')?'No indicado':String(value);
+    item.append(caption,content);parent.appendChild(item);
+  }
+  function addInfoGroup(parent,title,fields) {
+    const group=document.createElement('section');group.className='admin-order-info-group';
+    const heading=document.createElement('h4');heading.textContent=title;group.appendChild(heading);
+    const grid=document.createElement('div');grid.className='admin-order-info-grid';
+    fields.forEach(([label,value])=>addInfoField(grid,label,value));
+    group.appendChild(grid);parent.appendChild(group);
+  }
+  function imageStoragePath(url,bucket='product-images') {
+    if(!url||typeof url!=='string') return null;
+    const escaped=bucket.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const match=url.match(new RegExp('/storage/v1/object/(?:public|sign)/'+escaped+'/([^?#]+)'));
+    if(!match) return null;
+    try{return decodeURIComponent(match[1]);}catch(_){return match[1];}
+  }
+  async function removeStoredImages(urls) {
+    const paths=Array.from(new Set((urls||[]).map(url=>imageStoragePath(url)).filter(Boolean)));
+    if(!paths.length) return;
+    const {error}=await client.storage.from('product-images').remove(paths);
+    if(error) throw new Error(`No se pudieron borrar las imágenes de Storage: ${error.message}`);
+  }
+  function openOrderImage(url,alt='Fotografía del pedido') {
+    const viewer=$('admin-image-lightbox');
+    if(!viewer||!url) return;
+    const image=$('admin-image-lightbox-image');
+    image.src=url;image.alt=alt;viewer.hidden=false;document.body.classList.add('admin-lightbox-open');
+    $('admin-image-lightbox-close')?.focus();
+  }
+  function closeOrderImage() {
+    const viewer=$('admin-image-lightbox');if(!viewer)return;
+    viewer.hidden=true;$('admin-image-lightbox-image').src='';document.body.classList.remove('admin-lightbox-open');
+  }
+  function createOrderRow(order,{trash=false}={}) {
+    const card=document.createElement('article'); card.className='admin-order-row'+(trash?' admin-order-row-trash':'');
     const payload=order.payload||{};
     const top=document.createElement('div'); top.className='admin-order-top';
-    const code=document.createElement('strong'); code.className='admin-order-code'; code.textContent=order.order_code;
-    const date=document.createElement('small'); date.style.color='var(--muted)'; date.textContent=order.created_at?new Date(order.created_at).toLocaleString('es-GT'):'Fecha no disponible'; top.append(code,date);
+    const code=document.createElement('strong'); code.className='admin-order-code'; code.textContent=order.order_code||'Pedido sin código';
+    const date=document.createElement('small'); date.className='admin-order-date'; date.textContent=order.created_at?new Date(order.created_at).toLocaleString('es-GT'):'Fecha no disponible'; top.append(code,date);
     const items=Array.isArray(payload.items)?payload.items:[];
-    const firstImage=items.find(i=>i.image)?.image;
+    const firstImage=items.find(i=>i?.image)?.image;
     const referenceImage=payload.photo_reference_url||payload.reference_image_url||payload.inspiration_image_url||'';
     const orderImage=referenceImage||firstImage;
-    if(orderImage){const img=document.createElement('img');img.className='admin-order-image';img.src=orderImage;img.alt=referenceImage?'Foto de referencia del pastel personalizado':'Foto del producto pedido';img.loading='lazy';img.onerror=()=>img.remove();card.appendChild(img);}
-    const detail=document.createElement('p');detail.className='admin-order-detail';
-    const itemText=items.map(i=>`${i.quantity||1}× ${i.name||'Producto'}${i.price!=null?' ('+fmtQ(i.price)+')':''}`).join(', ');
-    detail.textContent=`Tipo: ${payload.order_type==='pastel_personalizado'?'Pastel personalizado':payload.order_type==='pedido_administrador'?'Pedido añadido por administración':'Pedido de catálogo'}\nCliente: ${payload.name||'No indicado'}\nTeléfono: ${payload.phone||'No indicado'}\nOcasión: ${payload.occasion||'No indicada'}\nSabor: ${payload.flavor||'No indicado'}\nTamaño: ${payload.size||'No indicado'}\nColores/temática: ${payload.colors_theme||'No indicada'}\nFecha deseada: ${payload.delivery_date||'No indicada'}\nDirección: ${payload.address||'Por confirmar'}\nArtículos: ${itemText||'No indicados'}\nTotal informado: ${fmtQ(payload.total)}\nDetalles adicionales: ${payload.customization||payload.personalization||'No registrados'}\nFoto de referencia: ${payload.photo_reference_name||'No adjunta al sistema'}\nURL de imagen guardada: ${payload.photo_reference_url||'No hay imagen guardada'}`;
+    if(orderImage){
+      const imageButton=document.createElement('button');imageButton.type='button';imageButton.className='admin-order-image-button';
+      imageButton.setAttribute('aria-label','Ampliar fotografía del pedido');
+      const img=document.createElement('img');img.className='admin-order-image';img.src=orderImage;img.alt=referenceImage?'Foto de referencia del pastel personalizado':'Foto del producto pedido';img.loading='lazy';img.onerror=()=>imageButton.remove();
+      imageButton.appendChild(img);imageButton.addEventListener('click',()=>openOrderImage(orderImage,img.alt));card.appendChild(imageButton);
+    } else {
+      const noImage=document.createElement('div');noImage.className='admin-order-no-image';noImage.textContent='Este pedido no tiene fotografía adjunta.';card.appendChild(noImage);
+    }
+    const info=document.createElement('div');info.className='admin-order-info';
+    const type=payload.order_type==='pastel_personalizado'?'Pastel personalizado':payload.order_type==='pedido_administrador'?'Pedido añadido por administración':'Pedido de catálogo';
+    addInfoGroup(info,'Cliente', [['Nombre',payload.name],['Teléfono',payload.phone],['Tipo de pedido',type]]);
+    addInfoGroup(info,'Pastel y personalización', [['Ocasión',payload.occasion],['Sabor',payload.flavor],['Tamaño',payload.size],['Colores o temática',payload.colors_theme||payload.theme]]);
+    addInfoGroup(info,'Entrega', [['Fecha deseada',payload.delivery_date],['Dirección',payload.address]]);
+    const itemsGroup=document.createElement('section');itemsGroup.className='admin-order-info-group admin-order-items-group';
+    const itemsHeading=document.createElement('h4');itemsHeading.textContent='Artículos y total';itemsGroup.appendChild(itemsHeading);
+    if(items.length){
+      const list=document.createElement('ul');list.className='admin-order-items';
+      items.forEach(item=>{const li=document.createElement('li');const quantity=Number(item.quantity)||1;const label=document.createElement('span');label.textContent=`${quantity} × ${item.name||'Producto'}`;const price=document.createElement('strong');price.textContent=item.price!=null?fmtQ(Number(item.price)*quantity):'Precio no indicado';li.append(label,price);list.appendChild(li);});
+      itemsGroup.appendChild(list);
+    } else {
+      const empty=document.createElement('p');empty.className='admin-order-muted';empty.textContent='No se registraron artículos.';itemsGroup.appendChild(empty);
+    }
+    const total=document.createElement('div');total.className='admin-order-total';
+    const totalLabel=document.createElement('span');totalLabel.textContent='Total informado';
+    const totalValue=document.createElement('strong');totalValue.textContent=fmtQ(payload.total);
+    total.append(totalLabel,totalValue);itemsGroup.appendChild(total);info.appendChild(itemsGroup);
+    addInfoGroup(info,'Detalles adicionales', [['Personalización / dedicatoria',payload.customization||payload.personalization],['Foto de referencia',payload.photo_reference_name|| (referenceImage?'Imagen adjunta':'No adjunta')]]);
+    card.append(top,info);
+
+    if(trash){
+      const trashActions=document.createElement('div');trashActions.className='admin-row-actions admin-trash-actions';trashActions.style.justifyContent='flex-start';
+      const restore=document.createElement('button');restore.type='button';restore.className='admin-button admin-button-primary';restore.textContent='Recuperar pedido';
+      restore.addEventListener('click',async()=>{const {error}=await client.from('orders').update({deleted_at:null,status:order.deleted_previous_status||'recibido',deleted_previous_status:null}).eq('order_code',order.order_code);if(error){globalMessage(`No se pudo recuperar el pedido: ${error.message}`,'error');return;}globalMessage(`Pedido ${order.order_code} recuperado.`,'success');await loadOrders();});
+      const remove=document.createElement('button');remove.type='button';remove.className='admin-button admin-button-danger';remove.textContent='Eliminar definitivamente';
+      remove.addEventListener('click',()=>permanentlyDeleteOrder(order));trashActions.append(restore,remove);card.appendChild(trashActions);
+      return card;
+    }
+
     const statusRow=document.createElement('div');statusRow.className='admin-order-status';
-    const select=document.createElement('select');STATUS.forEach(([value,label])=>{const o=document.createElement('option');o.value=value;o.textContent=label;select.appendChild(o);});select.value=order.status||'recibido';
-    const save=document.createElement('button');save.type='button';save.className='admin-button admin-button-primary';save.textContent='Guardar estado';save.addEventListener('click',async()=>{const {error}=await client.from('orders').update({status:select.value}).eq('order_code',order.order_code);if(error){globalMessage(`No se pudo actualizar el pedido: ${error.message}`,'error');return;}globalMessage(`Estado de ${order.order_code} actualizado.`,'success');await loadOrders();});
+    const select=document.createElement('select');select.setAttribute('aria-label','Mover pedido a una sección');
+    STATUS.forEach(([value,label])=>{const option=document.createElement('option');option.value=value;option.textContent=label;select.appendChild(option);});
+    select.value=normalizeOrderStatus(order.status);
+    const save=document.createElement('button');save.type='button';save.className='admin-button admin-button-primary';save.textContent='Guardar estado';
+    save.addEventListener('click',async()=>{const destination=statusView(select.value);await saveOrderStatus(order.order_code,select.value,destination);});
     statusRow.append(select,save);
-    const actions=document.createElement('div');actions.className='admin-row-actions';actions.style.justifyContent='flex-start';
-    const delivered=document.createElement('button');delivered.type='button';delivered.className='admin-button admin-button-primary';delivered.textContent='Marcar entregado';delivered.addEventListener('click',()=>setOrderStatus(order.order_code,'entregado'));
-    const cancel=document.createElement('button');cancel.type='button';cancel.className='admin-button admin-button-danger';cancel.textContent='Cancelar pedido';cancel.addEventListener('click',()=>{if(confirm('¿Marcar este pedido como cancelado? Se conservará en el historial.'))setOrderStatus(order.order_code,'cancelado');});
+    const actions=document.createElement('div');actions.className='admin-row-actions admin-order-actions';actions.style.justifyContent='flex-start';
     const edit=document.createElement('button');edit.type='button';edit.className='admin-button admin-button-outline';edit.textContent='Editar datos';edit.addEventListener('click',()=>editOrder(order));
-    actions.append(delivered,cancel,edit);card.append(top,detail,statusRow,actions);return card;
+    const remove=document.createElement('button');remove.type='button';remove.className='admin-button admin-button-danger';remove.textContent='Eliminar pedido';remove.addEventListener('click',()=>moveOrderToTrash(order));
+    actions.append(edit,remove);card.append(statusRow,actions);return card;
   }
-  async function setOrderStatus(code,status){const {error}=await client.from('orders').update({status}).eq('order_code',code);if(error){globalMessage(`No se pudo actualizar el pedido: ${error.message}`,'error');return;}globalMessage('Pedido actualizado; se conserva su registro.','success');await loadOrders();}
-  async function editOrder(order){
-    const p={...(order.payload||{})};
-    const name=prompt('Nombre del cliente:',p.name||'');if(name===null)return;
-    const delivery=prompt('Fecha de entrega (AAAA-MM-DD):',p.delivery_date||'');if(delivery===null)return;
-    const address=prompt('Dirección de entrega:',p.address||'');if(address===null)return;
-    const customization=prompt('Detalles / personalización / dedicatoria:',p.customization||p.personalization||'');if(customization===null)return;
-    if(p.order_type==='pastel_personalizado'){const occasion=prompt('Ocasión:',p.occasion||'');if(occasion===null)return;const flavor=prompt('Sabor:',p.flavor||'');if(flavor===null)return;const size=prompt('Tamaño:',p.size||'');if(size===null)return;const colors=prompt('Colores o temática:',p.colors_theme||'');if(colors===null)return;p.occasion=occasion.trim();p.flavor=flavor.trim();p.size=size.trim();p.colors_theme=colors.trim();}
-    p.name=name.trim();p.delivery_date=delivery.trim();p.address=address.trim();p.customization=customization.trim();
-    const {error}=await client.from('orders').update({payload:p}).eq('order_code',order.order_code);
+  async function saveOrderStatus(code,status,destination) {
+    const {error}=await client.from('orders').update({status}).eq('order_code',code);
+    if(error){globalMessage(`No se pudo actualizar el pedido: ${error.message}`,'error');return;}
+    activeOrdersView=destination;
+    globalMessage(`Pedido ${code} movido a ${destination==='entregados'?'Pedidos entregados':destination==='cancelados'?'Pedidos cancelados':'Pedidos nuevos'}.`,'success');
+    await loadOrders();
+  }
+  async function moveOrderToTrash(order) {
+    if(!confirm(`¿Enviar el pedido ${order.order_code} a la papelera? Podrás recuperarlo después.`))return;
+    const {error}=await client.from('orders').update({deleted_at:new Date().toISOString(),deleted_previous_status:order.status||'recibido',status:'cancelado'}).eq('order_code',order.order_code);
+    if(error){globalMessage(`No se pudo enviar el pedido a la papelera: ${error.message}. Comprueba el SQL de papelera.`,'error');return;}
+    activeOrdersView='papelera';globalMessage(`Pedido ${order.order_code} enviado a la papelera.`,'success');await loadOrders();
+  }
+  async function permanentlyDeleteOrder(order) {
+    if(!confirm(`¿Eliminar definitivamente el pedido ${order.order_code}? Esta acción no se puede deshacer.`))return;
+    const payload=order.payload||{};
+    try {
+      await removeStoredImages([payload.photo_reference_url,payload.reference_image_url,payload.inspiration_image_url]);
+      const {data,error}=await client.from('orders').delete().eq('order_code',order.order_code).select('order_code');
+      if(error)throw error;
+      if(!data?.length)throw new Error('Supabase no confirmó la eliminación. Revisa los permisos de administrador.');
+      globalMessage(`Pedido ${order.order_code} eliminado definitivamente.`,'success');await loadTrash();
+    } catch(error) {globalMessage(error?.message||'No se pudo eliminar definitivamente el pedido.','error');}
+  }
+  async function permanentlyDeleteProduct(product) {
+    if(!confirm(`¿Eliminar definitivamente “${product.name}” y sus fotos guardadas en Supabase Storage? Esta acción no se puede deshacer.`))return;
+    const urls=[product.image_url,...(Array.isArray(product.gallery_urls)?product.gallery_urls:[])];
+    try {
+      await removeStoredImages(urls);
+      const {data,error}=await client.from('products').delete().eq('id',product.id).select('id');
+      if(error)throw error;
+      if(!data?.length)throw new Error('Supabase no confirmó la eliminación. Revisa los permisos de administrador.');
+      globalMessage(`“${product.name}” y sus fotografías guardadas fueron eliminados definitivamente.`,'success');
+      await loadProducts();await loadTrash();
+    } catch(error) {globalMessage(error?.message||'No se pudo eliminar definitivamente el producto.','error');}
+  }
+  function createTrashProductRow(product) {
+    const row=document.createElement('article');row.className='admin-trash-product-row';
+    const img=document.createElement('img');img.src=product.image_url||'';img.alt=product.name||'Producto';img.loading='lazy';img.onerror=()=>img.remove();
+    const meta=document.createElement('div');meta.className='admin-product-meta';
+    const name=document.createElement('strong');name.textContent=product.name||'Producto sin nombre';
+    const price=document.createElement('span');price.textContent=`${fmtQ(product.price)} · ${product.category||'Sin categoría'}`;
+    const date=document.createElement('small');date.textContent=product.deleted_at?`Eliminado: ${new Date(product.deleted_at).toLocaleString('es-GT')}`:'En papelera';meta.append(name,price,date);
+    const actions=document.createElement('div');actions.className='admin-row-actions admin-trash-actions';
+    const restore=document.createElement('button');restore.type='button';restore.className='admin-button admin-button-primary';restore.textContent='Recuperar producto';
+    restore.addEventListener('click',async()=>{const {error}=await client.from('products').update({deleted_at:null,is_active:product.deleted_previous_is_active!==false,deleted_previous_is_active:null,updated_at:new Date().toISOString()}).eq('id',product.id);if(error){globalMessage(`No se pudo recuperar el producto: ${error.message}`,'error');return;}globalMessage(`“${product.name}” recuperado.`,'success');await loadProducts();await loadTrash();});
+    const remove=document.createElement('button');remove.type='button';remove.className='admin-button admin-button-danger';remove.textContent='Eliminar definitivamente';remove.addEventListener('click',()=>permanentlyDeleteProduct(product));
+    actions.append(restore,remove);row.append(img,meta,actions);return row;
+  }
+  async function loadTrash() {
+    const list=$('admin-orders-list');list.replaceChildren(Object.assign(document.createElement('p'),{textContent:'Cargando papelera…'}));
+    const [ordersResult,productsResult]=await Promise.all([
+      client.from('orders').select('order_code,status,payload,created_at,deleted_at,deleted_previous_status').not('deleted_at','is',null).order('deleted_at',{ascending:false}).limit(500),
+      client.from('products').select('*').not('deleted_at','is',null).order('deleted_at',{ascending:false}).limit(500)
+    ]);
+    if(ordersResult.error||productsResult.error){const errors=[ordersResult.error,productsResult.error].filter(Boolean).map(e=>e.message).join(' · ');list.replaceChildren(Object.assign(document.createElement('p'),{textContent:`No se pudo cargar la papelera: ${errors}. Comprueba que ejecutaste el SQL de papelera.`}));return;}
+    trashOrders=ordersResult.data||[];trashProducts=productsResult.data||[];trashCount=trashOrders.length+trashProducts.length;updateOrderViewButtons();list.replaceChildren();
+    if(!trashOrders.length&&!trashProducts.length){list.appendChild(Object.assign(document.createElement('p'),{textContent:'La papelera está vacía.'}));return;}
+    if(trashOrders.length){const title=document.createElement('h3');title.className='admin-order-group-title';title.textContent=`Pedidos eliminados (${trashOrders.length})`;list.appendChild(title);trashOrders.forEach(order=>list.appendChild(createOrderRow(order,{trash:true})));}
+    if(trashProducts.length){const title=document.createElement('h3');title.className='admin-order-group-title';title.textContent=`Productos eliminados (${trashProducts.length})`;list.appendChild(title);trashProducts.forEach(product=>list.appendChild(createTrashProductRow(product)));}
+  }
+  function renderOrdersView() {
+    const list=$('admin-orders-list');if(!list)return;
+    updateOrderViewButtons();list.replaceChildren();
+    const filtered=activeOrders.filter(order=>statusView(order.status)===activeOrdersView);
+    const labels={nuevos:'Pedidos nuevos',entregados:'Pedidos entregados',cancelados:'Pedidos cancelados'};
+    const title=document.createElement('h3');title.className='admin-order-group-title';title.textContent=`${labels[activeOrdersView]||'Pedidos'} (${filtered.length})`;list.appendChild(title);
+    if(!filtered.length){list.appendChild(Object.assign(document.createElement('p'),{textContent:activeOrdersView==='nuevos'?'No hay pedidos nuevos.':activeOrdersView==='entregados'?'Todavía no hay pedidos entregados.':'Todavía no hay pedidos cancelados.'}));return;}
+    filtered.forEach(order=>list.appendChild(createOrderRow(order)));
+  }
+  async function loadOrders() {
+    const list=$('admin-orders-list');list.replaceChildren(Object.assign(document.createElement('p'),{textContent:'Cargando pedidos…'}));
+    const {data,error}=await client.from('orders').select('order_code,status,payload,created_at,deleted_at,deleted_previous_status').is('deleted_at',null).order('created_at',{ascending:false}).limit(500);
+    if(error){list.replaceChildren(Object.assign(document.createElement('p'),{textContent:`No se pudieron cargar pedidos: ${error.message}. Comprueba que ejecutaste el SQL de papelera.`}));return;}
+    activeOrders=data||[];$('stat-orders').textContent=activeOrders.filter(o=>statusView(o.status)==='nuevos').length;
+    await refreshTrashCount();
+    if(activeOrdersView==='papelera') await loadTrash(); else renderOrdersView();
+  }
+  async function editOrder(order) {
+    const payload={...(order.payload||{})};
+    const name=prompt('Nombre del cliente:',payload.name||'');if(name===null)return;
+    const delivery=prompt('Fecha de entrega (AAAA-MM-DD):',payload.delivery_date||'');if(delivery===null)return;
+    const address=prompt('Dirección de entrega:',payload.address||'');if(address===null)return;
+    const customization=prompt('Detalles / personalización / dedicatoria:',payload.customization||payload.personalization||'');if(customization===null)return;
+    if(payload.order_type==='pastel_personalizado'){
+      const occasion=prompt('Ocasión:',payload.occasion||'');if(occasion===null)return;
+      const flavor=prompt('Sabor:',payload.flavor||'');if(flavor===null)return;
+      const size=prompt('Tamaño:',payload.size||'');if(size===null)return;
+      const colors=prompt('Colores o temática:',payload.colors_theme||'');if(colors===null)return;
+      payload.occasion=occasion.trim();payload.flavor=flavor.trim();payload.size=size.trim();payload.colors_theme=colors.trim();
+    }
+    payload.name=name.trim();payload.delivery_date=delivery.trim();payload.address=address.trim();payload.customization=customization.trim();
+    const {error}=await client.from('orders').update({payload}).eq('order_code',order.order_code);
     if(error){globalMessage(`No se pudieron guardar los datos: ${error.message}`,'error');return;}
     globalMessage('Datos del pedido guardados.','success');await loadOrders();
   }
   function toggleManualOrder(show) {
-    const form=$('admin-add-order-form');
-    if(!form)return;
-    form.hidden = typeof show === 'boolean' ? !show : !form.hidden;
-    if(!form.hidden) form.scrollIntoView({behavior:'smooth',block:'start'});
+    const form=$('admin-add-order-form');if(!form)return;
+    form.hidden=typeof show==='boolean'?!show:!form.hidden;
+    if(!form.hidden)form.scrollIntoView({behavior:'smooth',block:'start'});
   }
   async function saveManualOrder(event) {
-    event.preventDefault();
-    message('admin-add-order-message','Guardando pedido…');
+    event.preventDefault();message('admin-add-order-message','Guardando pedido…');
     const name=$('manual-order-name').value.trim();
     const phone=$('manual-order-phone').value.trim();
     const deliveryDate=$('manual-order-date').value;
@@ -185,16 +389,7 @@
     const saved=(Array.isArray(data)?data[0]:data)?.order_code||orderCode;
     $('admin-add-order-form').reset();$('manual-order-quantity').value='1';
     message('admin-add-order-message',`Pedido ${saved} guardado correctamente.`,'success');
-    await loadOrders();
-  }
-  async function loadOrders() {
-    const list=$('admin-orders-list');list.replaceChildren(Object.assign(document.createElement('p'),{textContent:'Cargando pedidos…'}));
-    const {data,error}=await client.from('orders').select('order_code,status,payload,created_at').order('created_at',{ascending:false}).limit(300);
-    if(error){list.replaceChildren(Object.assign(document.createElement('p'),{textContent:`No se pudieron cargar pedidos: ${error.message}`}));return;}
-    const rows=data||[];$('stat-orders').textContent=rows.filter(o=>!['entregado','cancelado'].includes(o.status)).length;list.replaceChildren();
-    if(!rows.length){list.appendChild(Object.assign(document.createElement('p'),{textContent:'No hay pedidos registrados para seguimiento todavía.'}));return;}
-    const groups=[['recibido','Pedidos nuevos'],['en_preparacion','En preparación'],['listo','Listos para entrega'],['entregado','Pedidos entregados'],['cancelado','Pedidos cancelados']];
-    groups.forEach(([status,label])=>{const matching=rows.filter(o=>(o.status||'recibido')===status);if(!matching.length)return;const heading=document.createElement('h3');heading.className='admin-order-group-title';heading.textContent=`${label} (${matching.length})`;list.appendChild(heading);matching.forEach(o=>list.appendChild(createOrderRow(o)));});
+    activeOrdersView='nuevos';await loadOrders();
   }
   async function loadReviews() {
     const {data,error}=await client.from('testimonials').select('*').order('created_at',{ascending:false});const list=$('admin-reviews-list');list.replaceChildren();
@@ -250,6 +445,10 @@
     });
     $('admin-logout').addEventListener('click',async()=>{await client.auth.signOut();showAuth();message('admin-login-message','Sesión cerrada.','success');});
     document.querySelectorAll('[data-admin-tab]').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.adminTab)));
+    document.querySelectorAll('[data-order-view]').forEach(b=>b.addEventListener('click',()=>setOrdersView(b.dataset.orderView)));
+    $('admin-image-lightbox-close')?.addEventListener('click',closeOrderImage);
+    $('admin-image-lightbox')?.addEventListener('click',event=>{if(event.target===$('admin-image-lightbox'))closeOrderImage();});
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('admin-image-lightbox')?.hidden)closeOrderImage();});
     $('admin-product-form').addEventListener('submit',saveProduct);$('admin-new-product').addEventListener('click',resetProductForm);$('admin-new-specialty').addEventListener('click',()=>{resetProductForm();$('product-category').value='especiales';$('product-form-title').textContent='Agregar especialidad';$('product-name').focus();$('admin-product-form').scrollIntoView({behavior:'smooth',block:'start'});});$('admin-cancel-product').addEventListener('click',resetProductForm);$('admin-product-search').addEventListener('input',filterProducts);$('admin-refresh-orders').addEventListener('click',loadOrders);$('admin-toggle-add-order').addEventListener('click',()=>toggleManualOrder());$('admin-cancel-add-order').addEventListener('click',()=>toggleManualOrder(false));$('admin-add-order-form').addEventListener('submit',saveManualOrder);$('admin-review-form').addEventListener('submit',saveReview);$('admin-cancel-review').addEventListener('click',()=>{$('admin-review-form').reset();$('review-id').value='';message('admin-review-message','');});$('admin-settings-form').addEventListener('submit',saveSettings);$('cake-capacity-settings-form').addEventListener('submit',saveCapacitySettings);$('cake-capacity-override-form').addEventListener('submit',saveCapacityOverride);
     const {data:{session}}=await client.auth.getSession();
     if(session?.user){if(forcePanel) await boot(session.user);else window.location.replace('index.html?modo=edicion');}

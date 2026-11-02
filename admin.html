@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Administración segura | Cake Chavez</title>
-  <link rel="stylesheet" href="admin.css?v=3">
+  <link rel="stylesheet" href="admin.css?v=4">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -109,6 +109,13 @@
           <p id="admin-add-order-message" class="admin-message" role="status"></p>
           <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar pedido</button></div>
         </form>
+        <div class="admin-order-views" role="group" aria-label="Filtrar pedidos por destino">
+          <button type="button" class="admin-order-view active" data-order-view="nuevos" aria-pressed="true">Pedidos nuevos <span data-order-view-count>0</span></button>
+          <button type="button" class="admin-order-view" data-order-view="entregados" aria-pressed="false">Pedidos entregados <span data-order-view-count>0</span></button>
+          <button type="button" class="admin-order-view" data-order-view="cancelados" aria-pressed="false">Pedidos cancelados <span data-order-view-count>0</span></button>
+          <button type="button" class="admin-order-view admin-order-view-trash" data-order-view="papelera" aria-pressed="false">Papelera <span data-order-view-count>0</span></button>
+        </div>
+        <p class="admin-order-views-note">Al guardar un estado, el pedido se moverá automáticamente a la sección elegida. La papelera incluye pedidos y productos eliminados.</p>
         <div id="admin-orders-list" class="admin-orders-list"><p>Cargando pedidos…</p></div>
       </section>
 
@@ -162,11 +169,15 @@
         </div>
       </section>
       <p id="admin-global-message" class="admin-message admin-global-message" role="status"></p>
+      <div id="admin-image-lightbox" class="admin-image-lightbox" hidden role="dialog" aria-modal="true" aria-label="Fotografía ampliada">
+        <button id="admin-image-lightbox-close" type="button" class="admin-image-lightbox-close" aria-label="Cerrar fotografía">×</button>
+        <img id="admin-image-lightbox-image" alt="Fotografía ampliada">
+      </div>
     </section>
     <footer class="admin-footer">Cake Chavez · Panel protegido con autenticación y políticas de base de datos.</footer>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="admin.js?v=4"></script>
+  <script src="admin.js?v=5"></script>
 </body>
 </html>

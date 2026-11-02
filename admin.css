@@ -18,3 +18,62 @@
 .admin-manual-order .admin-section-head{margin-bottom:16px;}
 @media(max-width:650px){.admin-header-actions{width:100%;}.admin-header-actions .admin-button{flex:1;}.admin-manual-order .admin-section-head{align-items:flex-start;}.admin-manual-order .admin-section-head .admin-button{width:auto;}}
 
+
+
+/* CAKE CHAVEZ 502 — filtros, ficha legible, papelera y visor de pedidos */
+.admin-order-views{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0 8px}
+.admin-order-view{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:10px 14px;border:1px solid var(--border);border-radius:11px;background:var(--panel2);color:var(--text);font-size:.84rem;font-weight:700;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+.admin-order-view:hover{transform:translateY(-1px);border-color:var(--pink)}
+.admin-order-view.active{background:var(--pink2);border-color:var(--pink2);color:#fff}
+.admin-order-view span{display:inline-grid;place-items:center;min-width:23px;height:23px;padding:0 6px;border-radius:999px;background:rgba(255,255,255,.15);font-size:.73rem}
+.admin-order-view-trash{border-color:rgba(225,120,136,.35)}
+.admin-order-views-note{margin:0 0 16px;color:var(--muted);font-size:.79rem;line-height:1.55}
+.admin-orders-list{align-items:start}
+.admin-order-row{min-width:0;padding:15px;align-self:start}
+.admin-order-top{align-items:flex-start;flex-wrap:wrap;margin-bottom:10px}
+.admin-order-date{color:var(--muted);font-size:.76rem;text-align:right}
+.admin-order-image-button{display:block;width:100%;padding:0;margin:0 0 13px;border:0;border-radius:12px;background:transparent;overflow:hidden;cursor:zoom-in}
+.admin-order-image{display:block;width:100%;height:clamp(210px,28vw,330px);max-height:none;object-fit:cover;border-radius:12px;margin:0;transition:transform .2s ease}
+.admin-order-image-button:hover .admin-order-image{transform:scale(1.025)}
+.admin-order-no-image{display:grid;place-items:center;min-height:92px;margin:0 0 12px;padding:16px;border:1px dashed var(--border);border-radius:12px;color:var(--muted);font-size:.82rem;text-align:center}
+.admin-order-info{display:grid;gap:11px;margin-top:8px}
+.admin-order-info-group{min-width:0;padding:11px 12px;border:1px solid rgba(81,70,74,.75);border-radius:10px;background:rgba(25,22,22,.45)}
+.admin-order-info-group h4{margin:0 0 9px;color:var(--pink);font-family:'Playfair Display',serif;font-size:1rem}
+.admin-order-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+.admin-order-info-item{display:grid;gap:3px;min-width:0}
+.admin-order-info-item span{color:var(--muted);font-size:.72rem;font-weight:600;letter-spacing:.02em}
+.admin-order-info-item strong{color:var(--text);font-size:.82rem;font-weight:500;line-height:1.45;overflow-wrap:anywhere;white-space:pre-wrap}
+.admin-order-items{display:grid;gap:7px;margin:0;padding:0;list-style:none}
+.admin-order-items li{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:7px;border-bottom:1px solid rgba(81,70,74,.55);font-size:.81rem;line-height:1.45}
+.admin-order-items li:last-child{border-bottom:0;padding-bottom:0}
+.admin-order-items li span{min-width:0;overflow-wrap:anywhere}
+.admin-order-items li strong{white-space:nowrap;color:var(--text)}
+.admin-order-total{display:flex;justify-content:space-between;gap:12px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:.87rem}
+.admin-order-total span{color:var(--muted)}
+.admin-order-total strong{color:var(--pink);font-size:1rem}
+.admin-order-muted{margin:0;color:var(--muted);font-size:.8rem}
+.admin-order-status{align-items:stretch;margin-top:13px}
+.admin-order-status select{min-height:44px;padding:10px 12px}
+.admin-order-status button{min-width:140px}
+.admin-order-actions{margin-top:10px}
+.admin-trash-product-row{display:grid;grid-template-columns:74px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--panel2)}
+.admin-trash-product-row>img{width:74px;height:74px;object-fit:cover;border-radius:9px;background:var(--panel)}
+.admin-trash-actions{justify-content:flex-start;gap:8px}
+.admin-image-lightbox[hidden]{display:none!important}
+.admin-image-lightbox{position:fixed;z-index:10000;inset:0;display:flex;align-items:center;justify-content:center;padding:55px 20px 22px;background:rgba(10,8,9,.94);backdrop-filter:blur(7px)}
+.admin-image-lightbox img{display:block;max-width:min(96vw,1400px);max-height:calc(100vh - 95px);width:auto;height:auto;object-fit:contain;border-radius:12px;box-shadow:0 20px 70px rgba(0,0,0,.5)}
+.admin-image-lightbox-close{position:absolute;top:13px;right:18px;width:44px;height:44px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(30,25,27,.85);color:#fff;font-size:1.8rem;line-height:1;cursor:pointer}
+body.admin-lightbox-open{overflow:hidden}
+@media(max-width:650px){
+  .admin-order-views{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .admin-order-view{justify-content:center;padding:10px 8px;font-size:.74rem}
+  .admin-order-info-grid{grid-template-columns:1fr;gap:9px}
+  .admin-order-image{height:250px}
+  .admin-order-status{align-items:stretch;flex-direction:column}
+  .admin-order-status select,.admin-order-status button{width:100%;min-width:0}
+  .admin-trash-product-row{grid-template-columns:58px minmax(0,1fr)}
+  .admin-trash-product-row>img{width:58px;height:58px}
+  .admin-trash-product-row .admin-row-actions{grid-column:1/-1}
+  .admin-order-date{text-align:left}
+  .admin-image-lightbox{padding:58px 10px 12px}
+}
