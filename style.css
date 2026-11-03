@@ -3109,3 +3109,77 @@ input.cake-fecha-completa { border: 2px solid #c62828 !important; background: #f
   .overlay-modal.cake-modal-closing .caja-modal,.overlay-modal.cake-modal-closing .caja-solo-imagen { animation:none !important; transition:none !important; }
 }
 
+
+/* Ajuste móvil: la imagen de Ofertas ocupa todo el ancho de su tarjeta,
+   sin márgenes internos laterales ni deformar la fotografía. */
+@media (max-width: 760px) {
+    .cake-oferta-card {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .cake-oferta-card > img {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        aspect-ratio: auto;
+        padding: 0;
+        object-fit: contain;
+        object-position: center;
+        background: transparent;
+    }
+}
+
+/* =========================================================
+   AJUSTE DEFINITIVO: IMAGEN DE OFERTAS SIN BANDAS VACÍAS
+   La foto llena por completo su columna en escritorio y la
+   tarjeta en móvil. No se deforma; el clic sigue abriendo
+   la fotografía original completa.
+   ========================================================= */
+.cake-oferta-card {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+    align-items: stretch;
+}
+
+.cake-oferta-card > img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-height: 340px;
+    max-height: 420px;
+    margin: 0;
+    padding: 0 !important;
+    object-fit: cover;
+    object-position: center center;
+    background: transparent;
+}
+
+@media (max-width: 760px) {
+    .cake-oferta-card {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cake-oferta-card > img {
+        width: 100%;
+        max-width: 100%;
+        height: clamp(270px, 94vw, 380px);
+        min-height: 0;
+        max-height: 380px;
+        aspect-ratio: auto;
+        padding: 0 !important;
+        object-fit: cover;
+        object-position: center center;
+        background: transparent;
+    }
+}
+
+@media (max-width: 380px) {
+    .cake-oferta-card > img {
+        height: 270px;
+        max-height: 270px;
+    }
+}
