@@ -5,6 +5,30 @@ let audioCtx = null;
 const NUMERO_WHATSAPP = "50231253629";
 const URL_SITIO_GITHUB = "https://alexander-code608.github.io/Cake-Chavez502";
 
+// Cuando alguien llega desde un enlace compartido, evita la animación de bienvenida
+// para que el producto se muestre en cuanto termine de cargarse el catálogo.
+(function prepararEntradaDirectaProductoCake() {
+    let hayProductoEnlace = false;
+    try { hayProductoEnlace = Boolean(new URLSearchParams(window.location.search).get('producto')); }
+    catch (_) { hayProductoEnlace = false; }
+    if (!hayProductoEnlace) return;
+
+    const estilo = document.createElement('style');
+    estilo.id = 'cake-producto-directo-sin-intro';
+    estilo.textContent = `
+        .zona-portada .logo,
+        .zona-portada .aviso-pedido,
+        .zona-portada .slogan,
+        .animar-entrada-top {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+        }
+    `;
+    (document.head || document.documentElement).appendChild(estilo);
+})();
+
 // =========================================================
 // EFECTO DE SONIDO: pequeño sonido al interactuar con la página
 // =========================================================
@@ -184,11 +208,14 @@ function configurarEnlacesDirectosProductos() {
 
 function buscarTarjetaPorSlug(slug) {
     const solicitado = crearSlugProducto(slug);
-    return Array.from(document.querySelectorAll('#productos-container .producto'))
-        .find(tarjeta => {
-            const h3 = tarjeta.querySelector('h3');
-            return crearSlugProducto(tarjeta.dataset.productSlug || (h3 && h3.textContent)) === solicitado;
-        }) || null;
+    // La mayoría de productos vive en el catálogo. La categoría "especiales"
+    // se presenta en un carrusel independiente, así que también se busca allí.
+    return Array.from(document.querySelectorAll(
+        '#productos-container .producto, #cake-special-track .cake-special-slide'
+    )).find(tarjeta => {
+        const h3 = tarjeta.querySelector('h3');
+        return crearSlugProducto(tarjeta.dataset.productSlug || (h3 && h3.textContent)) === solicitado;
+    }) || null;
 }
 
 function crearEnlaceDirectoProducto(tarjeta) {
@@ -200,28 +227,38 @@ function crearEnlaceDirectoProducto(tarjeta) {
     return url.href;
 }
 
-function abrirSoloImagenDesdeTarjeta(imagenElemento) {
-    const tarjeta = imagenElemento && imagenElemento.closest('#productos-container .producto');
-    if (!tarjeta) return;
+function abrirGaleriaDesdeTarjetaCake(tarjeta) {
+    if (!tarjeta) return false;
 
     let imagenes = [];
     try {
         imagenes = JSON.parse(tarjeta.dataset.productGallery || '[]');
-    } catch (error) {
+    } catch (_) {
         imagenes = [];
     }
     if (!Array.isArray(imagenes) || !imagenes.length) {
-        const imagen = tarjeta.querySelector('.img-producto');
-        if (imagen) imagenes = [imagen.getAttribute('src')];
+        const imagen = tarjeta.querySelector('.img-producto, .cake-special-image.is-visible, .cake-special-image');
+        if (imagen) imagenes = [imagen.currentSrc || imagen.getAttribute('src')].filter(Boolean);
     }
 
     const titulo = tarjeta.querySelector('h3');
+    const descripcion = tarjeta.dataset.productDescription
+        || tarjeta.querySelector('.cake-special-description, p')?.textContent.trim()
+        || '';
     abrirSoloImagen(
         imagenes,
         titulo ? titulo.textContent.trim() : 'Producto Cake Chavez',
-        tarjeta.dataset.productDescription || '',
+        descripcion,
         tarjeta
     );
+    return true;
+}
+
+function abrirSoloImagenDesdeTarjeta(imagenElemento) {
+    const tarjeta = imagenElemento && imagenElemento.closest(
+        '#productos-container .producto, #cake-special-track .cake-special-slide'
+    );
+    if (tarjeta) abrirGaleriaDesdeTarjetaCake(tarjeta);
 }
 
 function abrirSoloImagen(imagenes, titulo, descripcion, tarjetaProducto = null) {
@@ -296,7 +333,7 @@ function pedirProductoGaleria() {
 async function compartirEnlaceProducto() {
     const tarjeta = productoGaleriaActual;
     if (!tarjeta) {
-        alert('Abre el producto desde el catálogo para obtener su enlace directo.');
+        alert('Abre el producto desde el catálogo o las especialidades para obtener su enlace directo.');
         return;
     }
 
@@ -374,26 +411,24 @@ function manejarEnlaceDirectoProducto() {
         return;
     }
 
-    // Si el enlace viene de Facebook, el logo termina su animación antes de abrir el producto.
-    ejecutarDespuesDeLaAnimacionDelLogo(() => {
-        const h3 = tarjeta.querySelector('h3');
-        let imagenes = [];
-        try {
-            imagenes = JSON.parse(tarjeta.dataset.productGallery || '[]');
-        } catch (error) {
-            imagenes = [];
-        }
-        if (!Array.isArray(imagenes) || !imagenes.length) {
-            const img = tarjeta.querySelector('.img-producto');
-            if (img) imagenes = [img.getAttribute('src')];
-        }
-        abrirSoloImagen(
-            imagenes,
-            h3 ? h3.textContent.trim() : 'Producto Cake Chavez',
-            tarjeta.dataset.productDescription || '',
-            tarjeta
-        );
-    });
+    // Abrir de inmediato: no esperar la animación de bienvenida al entrar desde un enlace.
+    const h3 = tarjeta.querySelector('h3');
+    let imagenes = [];
+    try {
+        imagenes = JSON.parse(tarjeta.dataset.productGallery || '[]');
+    } catch (_) {
+        imagenes = [];
+    }
+    if (!Array.isArray(imagenes) || !imagenes.length) {
+        const img = tarjeta.querySelector('.img-producto, .cake-special-image.is-visible, .cake-special-image');
+        if (img) imagenes = [img.currentSrc || img.getAttribute('src')].filter(Boolean);
+    }
+    abrirSoloImagen(
+        imagenes,
+        h3 ? h3.textContent.trim() : 'Producto Cake Chavez',
+        tarjeta.dataset.productDescription || tarjeta.querySelector('.cake-special-description, p')?.textContent.trim() || '',
+        tarjeta
+    );
 }
 
 function precargarImagenesGaleria(indice) {
@@ -1701,7 +1736,14 @@ function renderizarOfertasCake(productosRemotos) {
         const card = document.createElement('article'); card.className = 'cake-oferta-card';
         const img = document.createElement('img'); img.src = p.image_url || ''; img.alt = `${p.name || 'Producto en oferta'}. Toca para ampliar la fotografía`; img.loading = 'lazy';
         img.tabIndex = 0; img.setAttribute('role', 'button'); img.setAttribute('aria-label', `Ampliar fotografía de ${p.name || 'producto en oferta'}`);
-        const ampliarOferta = () => abrirSoloImagen([img.currentSrc || img.src], p.name || 'Producto Cake Chavez', p.description || '');
+        const obtenerTarjetaOferta = () => buscarTarjetaPorSlug(p.slug || p.name);
+        const galeriaOferta = tarjetaProducto => {
+            if (tarjetaProducto) return abrirGaleriaDesdeTarjetaCake(tarjetaProducto);
+            const galeriaFallback = [p.image_url, ...(Array.isArray(p.gallery_urls) ? p.gallery_urls : [])].filter(Boolean);
+            abrirSoloImagen(galeriaFallback, p.name || 'Producto Cake Chavez', p.description || '');
+            return false;
+        };
+        const ampliarOferta = () => galeriaOferta(obtenerTarjetaOferta());
         img.addEventListener('click', ampliarOferta);
         img.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); ampliarOferta(); } });
         img.onerror = () => { img.style.display = 'none'; };
@@ -1717,8 +1759,20 @@ function renderizarOfertasCake(productosRemotos) {
             price.appendChild(crearElementoTextoCake('strong', '', Number(p.price) > 0 ? `Desde Q${Number(p.price).toFixed(2)}` : 'Consultar precio'));
         }
         const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'destacado-boton'; btn.textContent = 'Ver producto'; btn.addEventListener('click', () => {
-            const cardCatalogo = buscarTarjetaPorSlug(p.slug);
-            if (cardCatalogo) { filtrar('todos'); window.setTimeout(() => { desplazarseHastaElementoConMenu(cardCatalogo); abrirSoloImagenDesdeTarjeta(cardCatalogo.querySelector('.img-producto')); }, 180); }
+            const tarjetaProducto = obtenerTarjetaOferta();
+            if (!tarjetaProducto) { galeriaOferta(null); return; }
+
+            if (tarjetaProducto.matches('#productos-container .producto')) {
+                filtrar('todos');
+                window.setTimeout(() => {
+                    desplazarseHastaElementoConMenu(tarjetaProducto);
+                    abrirGaleriaDesdeTarjetaCake(tarjetaProducto);
+                }, 180);
+                return;
+            }
+
+            document.getElementById('cake-especialidades')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            galeriaOferta(tarjetaProducto);
         });
         info.append(price, btn); card.append(img, info); grid.appendChild(card);
     });
