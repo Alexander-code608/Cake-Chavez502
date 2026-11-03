@@ -1854,6 +1854,9 @@ async function sincronizarCatalogoAdminCake() {
 // ESPECIALIDADES: catálogo remoto por categoría "especiales". Usa la misma tabla products.
 let cakeEspecialidades = [];
 let cakeIndiceEspecialidad = 0;
+const cakeCacheImagenesEspecialidades = new Map();
+const CAKE_INTERVALO_FOTOS_ESPECIALIDADES = 4800;
+
 function normalizarPrecioCake(value) { const n = Number(value); return Number.isFinite(n) && n > 0 ? n : 0; }
 function precioVisibleEspecialidadCake(producto) {
     const preciosTamano = [producto.price_small, producto.price_medium, producto.price_large].map(normalizarPrecioCake).filter(v => v > 0);
@@ -1875,6 +1878,35 @@ function convertirEspecialLocalCake(tarjeta) {
     const base = match ? Number(match[1].replace(/,/g,'')) : 0;
     return { name, slug: tarjeta.dataset.productSlug || crearSlugProducto(name), category:'especiales', description: tarjeta.dataset.productDescription || tarjeta.querySelector('p')?.textContent || '', image_url:image, gallery_urls:(gallery.length ? gallery : [image]).filter(Boolean).slice(1), price:base, price_small:null, price_medium:null, price_large:null, has_sizes:false, is_active:true };
 }
+
+// Prepara las imágenes de antemano y espera a que el navegador pueda decodificarlas.
+// Así la foto siguiente está lista antes del fundido y se reducen los saltos visuales.
+function precargarImagenEspecialidadCake(url) {
+    if (!url) return Promise.resolve(false);
+    if (cakeCacheImagenesEspecialidades.has(url)) return cakeCacheImagenesEspecialidades.get(url);
+
+    const promise = new Promise(resolve => {
+        const preload = new Image();
+        preload.decoding = 'async';
+        let settled = false;
+        const finish = async ok => {
+            if (settled) return;
+            settled = true;
+            if (ok && typeof preload.decode === 'function') {
+                try { await preload.decode(); } catch (_) { /* La imagen ya cargada puede mostrarse igualmente. */ }
+            }
+            resolve(Boolean(ok && preload.naturalWidth > 0));
+        };
+        preload.onload = () => { void finish(true); };
+        preload.onerror = () => { void finish(false); };
+        preload.src = url;
+        if (preload.complete) void finish(preload.naturalWidth > 0);
+    });
+    cakeCacheImagenesEspecialidades.set(url, promise);
+    promise.then(ok => { if (!ok) cakeCacheImagenesEspecialidades.delete(url); });
+    return promise;
+}
+
 function crearTarjetaEspecialidadCake(producto, indice) {
     const card = document.createElement('article');
     card.className = `cake-special-slide${indice === cakeIndiceEspecialidad ? ' is-active' : ''}`;
@@ -1890,25 +1922,117 @@ function crearTarjetaEspecialidadCake(producto, indice) {
     card.__cakeProduct = producto;
 
     const imageFrame = document.createElement('div'); imageFrame.className = 'cake-special-image-frame';
-    const img = document.createElement('img'); img.className = 'cake-special-image'; img.src = image; img.alt = name; img.loading = 'lazy';
-    img.addEventListener('click', () => abrirSoloImagen(gallery, name, description, card));
+    const imageFront = document.createElement('img');
+    imageFront.className = 'cake-special-image is-visible';
+    imageFront.src = image;
+    imageFront.alt = name;
+    imageFront.decoding = 'async';
+    imageFront.loading = indice === cakeIndiceEspecialidad ? 'eager' : 'lazy';
+    const imageBack = document.createElement('img');
+    imageBack.className = 'cake-special-image cake-special-image-back';
+    imageBack.alt = name;
+    imageBack.decoding = 'async';
+    imageBack.setAttribute('aria-hidden','true');
+    const openGallery = () => abrirSoloImagen(gallery, name, description, card);
+    imageFront.addEventListener('click', openGallery);
+    imageBack.addEventListener('click', openGallery);
+
     const imagePrev = document.createElement('button'); imagePrev.type='button'; imagePrev.className='cake-special-image-arrow prev'; imagePrev.setAttribute('aria-label','Foto anterior'); imagePrev.innerHTML='<i class="fas fa-chevron-left" aria-hidden="true"></i>';
     const imageNext = document.createElement('button'); imageNext.type='button'; imageNext.className='cake-special-image-arrow next'; imageNext.setAttribute('aria-label','Foto siguiente'); imageNext.innerHTML='<i class="fas fa-chevron-right" aria-hidden="true"></i>';
     const imageDots = document.createElement('div'); imageDots.className='cake-special-image-dots';
+    imageDots.hidden = gallery.length < 2;
+
     let imageIndex = 0;
-    function showImage(nextIndex) {
-        if (!gallery.length) return;
-        imageIndex = (nextIndex + gallery.length) % gallery.length;
-        img.classList.add('cake-image-changing');
-        img.src = gallery[imageIndex];
-        img.onload = () => img.classList.remove('cake-image-changing');
-        imageDots.querySelectorAll('button').forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === imageIndex));
+    let frontLayer = imageFront;
+    let backLayer = imageBack;
+    let photoTimer = null;
+    let transitionToken = 0;
+    let imageIsChanging = false;
+
+    function actualizarPuntosImagen() {
+        imageDots.querySelectorAll('button').forEach((dot, dotIndex) => {
+            dot.classList.toggle('active', dotIndex === imageIndex);
+            dot.setAttribute('aria-current', dotIndex === imageIndex ? 'true' : 'false');
+        });
     }
+    async function mostrarImagen(nextIndex) {
+        if (gallery.length < 2 || imageIsChanging) return;
+        const targetIndex = (nextIndex + gallery.length) % gallery.length;
+        if (targetIndex === imageIndex) return;
+        imageIsChanging = true;
+        const token = ++transitionToken;
+        try {
+            const ready = await precargarImagenEspecialidadCake(gallery[targetIndex]);
+            if (!ready || token !== transitionToken) return;
+
+            backLayer.src = gallery[targetIndex];
+            backLayer.alt = name;
+            if (typeof backLayer.decode === 'function') {
+                try { await backLayer.decode(); } catch (_) {
+                    if (!backLayer.complete || !backLayer.naturalWidth) return;
+                }
+            } else if (!backLayer.complete) {
+                const loaded = await new Promise(resolve => {
+                    backLayer.onload = () => resolve(true);
+                    backLayer.onerror = () => resolve(false);
+                });
+                if (!loaded) return;
+            }
+            if (token !== transitionToken || !card.classList.contains('is-active')) return;
+
+            // Los dos elementos se superponen: uno aparece mientras el otro se desvanece.
+            requestAnimationFrame(() => {
+                if (token !== transitionToken) return;
+                backLayer.classList.add('is-visible');
+                backLayer.setAttribute('aria-hidden','false');
+                frontLayer.classList.remove('is-visible');
+                frontLayer.setAttribute('aria-hidden','true');
+                const previousFront = frontLayer;
+                frontLayer = backLayer;
+                backLayer = previousFront;
+                imageIndex = targetIndex;
+                actualizarPuntosImagen();
+                void precargarImagenEspecialidadCake(gallery[(imageIndex + 1) % gallery.length]);
+            });
+        } finally {
+            imageIsChanging = false;
+        }
+    }
+    function detenerAutoplayFotos() {
+        if (photoTimer) window.clearInterval(photoTimer);
+        photoTimer = null;
+        transitionToken++;
+    }
+    function programarAutoplayFotos() {
+        if (photoTimer) window.clearInterval(photoTimer);
+        photoTimer = null;
+        if (gallery.length < 2 || !card.classList.contains('is-active') || document.hidden) return;
+        void precargarImagenEspecialidadCake(gallery[(imageIndex + 1) % gallery.length]);
+        photoTimer = window.setInterval(() => { void mostrarImagen(imageIndex + 1); }, CAKE_INTERVALO_FOTOS_ESPECIALIDADES);
+    }
+    function iniciarAutoplayFotos() {
+        detenerAutoplayFotos();
+        programarAutoplayFotos();
+    }
+    function navegarFotoManualmente(nextIndex) {
+        if (photoTimer) window.clearInterval(photoTimer);
+        photoTimer = null;
+        void mostrarImagen(nextIndex);
+        programarAutoplayFotos();
+    }
+
     imagePrev.hidden = gallery.length < 2; imageNext.hidden = gallery.length < 2;
-    imagePrev.addEventListener('click', e=>{e.stopPropagation();showImage(imageIndex-1);});
-    imageNext.addEventListener('click', e=>{e.stopPropagation();showImage(imageIndex+1);});
-    gallery.forEach((_,dotIndex)=>{const dot=document.createElement('button');dot.type='button';dot.className=dotIndex===0?'active':'';dot.setAttribute('aria-label',`Ver foto ${dotIndex+1}`);dot.addEventListener('click',e=>{e.stopPropagation();showImage(dotIndex);});imageDots.appendChild(dot);});
-    imageFrame.append(img,imagePrev,imageNext,imageDots);
+    imagePrev.addEventListener('click', e=>{e.stopPropagation();navegarFotoManualmente(imageIndex-1);});
+    imageNext.addEventListener('click', e=>{e.stopPropagation();navegarFotoManualmente(imageIndex+1);});
+    gallery.forEach((_,dotIndex)=>{
+        const dot=document.createElement('button');
+        dot.type='button';
+        dot.className=dotIndex===0?'active':'';
+        dot.setAttribute('aria-label',`Ver foto ${dotIndex+1}`);
+        dot.addEventListener('click',e=>{e.stopPropagation();navegarFotoManualmente(dotIndex);});
+        imageDots.appendChild(dot);
+    });
+    imageFrame.append(imageFront,imageBack,imagePrev,imageNext,imageDots);
 
     const info = document.createElement('div'); info.className='cake-special-info';
     const eyebrow=document.createElement('span');eyebrow.className='cake-special-kicker';eyebrow.textContent='ESPECIALIDAD CAKE CHÁVEZ';
@@ -1927,21 +2051,78 @@ function crearTarjetaEspecialidadCake(producto, indice) {
     if (!sizes.some(v=>v>0) && !(sale>0&&base>0) && base<=0) { request.disabled=true; request.textContent='Precio por definir'; }
     info.append(eyebrow,title,desc,price,request);
     card.append(imageFrame,info);
+
+    card.__cakeGalleryController = {
+        start: iniciarAutoplayFotos,
+        stop: detenerAutoplayFotos,
+        preloadCover: () => precargarImagenEspecialidadCake(image)
+    };
     return card;
 }
-function pintarEspecialidadActualCake() {
+
+function pintarEspecialidadActualCake(direction = 1, previousIndex = null) {
     const track=document.getElementById('cake-special-track');
     const dots=document.getElementById('cake-special-dots');
     if(!track)return;
     const cards=Array.from(track.querySelectorAll('.cake-special-slide'));
-    cards.forEach((card,index)=>{card.classList.toggle('is-active',index===cakeIndiceEspecialidad);card.setAttribute('aria-hidden',String(index!==cakeIndiceEspecialidad));});
-    if(dots)dots.querySelectorAll('button').forEach((dot,index)=>{dot.classList.toggle('active',index===cakeIndiceEspecialidad);dot.setAttribute('aria-current',index===cakeIndiceEspecialidad?'true':'false');});
+    cards.forEach((card,index)=>{
+        if (index === cakeIndiceEspecialidad) {
+            card.classList.remove('is-leaving');
+            if (card.__cakeLeaveTimer) window.clearTimeout(card.__cakeLeaveTimer);
+            card.style.setProperty('--cake-slide-offset', direction > 0 ? '22px' : '-22px');
+            if (previousIndex !== null && previousIndex !== cakeIndiceEspecialidad) void card.offsetWidth;
+            card.classList.add('is-active');
+            card.setAttribute('aria-hidden','false');
+            card.inert = false;
+        } else {
+            card.classList.remove('is-active');
+            card.setAttribute('aria-hidden','true');
+            card.inert = true;
+            if (index === previousIndex && previousIndex !== cakeIndiceEspecialidad) {
+                card.style.setProperty('--cake-leave-offset', direction > 0 ? '-22px' : '22px');
+                card.classList.add('is-leaving');
+                if (card.__cakeLeaveTimer) window.clearTimeout(card.__cakeLeaveTimer);
+                card.__cakeLeaveTimer = window.setTimeout(() => card.classList.remove('is-leaving'), 560);
+            } else {
+                card.classList.remove('is-leaving');
+                if (card.__cakeLeaveTimer) window.clearTimeout(card.__cakeLeaveTimer);
+            }
+        }
+        if (card.__cakeGalleryController) {
+            if (index === cakeIndiceEspecialidad) card.__cakeGalleryController.start();
+            else card.__cakeGalleryController.stop();
+        }
+    });
+    if(dots)dots.querySelectorAll('button').forEach((dot,index)=>{
+        dot.classList.toggle('active',index===cakeIndiceEspecialidad);
+        dot.setAttribute('aria-current',index===cakeIndiceEspecialidad?'true':'false');
+    });
+
+    // Se prepara también la portada de la especialidad contigua para que el cambio externo sea ligero.
+    if (cakeEspecialidades.length > 1) {
+        const nextIndex = (cakeIndiceEspecialidad + 1) % cakeEspecialidades.length;
+        const previousIndex = (cakeIndiceEspecialidad - 1 + cakeEspecialidades.length) % cakeEspecialidades.length;
+        cards[nextIndex]?.__cakeGalleryController?.preloadCover();
+        cards[previousIndex]?.__cakeGalleryController?.preloadCover();
+    }
+}
+
+function seleccionarEspecialidadCake(nextIndex) {
+    if (!cakeEspecialidades.length) return;
+    const previousIndex = cakeIndiceEspecialidad;
+    const next = (nextIndex + cakeEspecialidades.length) % cakeEspecialidades.length;
+    if (next === previousIndex) return;
+    const forward = next === (previousIndex + 1) % cakeEspecialidades.length;
+    const backward = next === (previousIndex - 1 + cakeEspecialidades.length) % cakeEspecialidades.length;
+    const direction = forward ? 1 : backward ? -1 : (next > previousIndex ? 1 : -1);
+    cakeIndiceEspecialidad = next;
+    pintarEspecialidadActualCake(direction, previousIndex);
 }
 function cambiarEspecialidadCake(direction) {
-    if(!cakeEspecialidades.length)return;
-    cakeIndiceEspecialidad=(cakeIndiceEspecialidad+direction+cakeEspecialidades.length)%cakeEspecialidades.length;
-    pintarEspecialidadActualCake();
+    if (!cakeEspecialidades.length) return;
+    seleccionarEspecialidadCake(cakeIndiceEspecialidad + direction);
 }
+
 function renderizarEspecialidadesCake(productosRemotos) {
     const section=document.getElementById('cake-especialidades');
     const track=document.getElementById('cake-special-track');
@@ -1953,6 +2134,10 @@ function renderizarEspecialidadesCake(productosRemotos) {
         productos=Array.from(document.querySelectorAll('#productos-container .producto.especiales')).map(convertirEspecialLocalCake);
         document.querySelectorAll('#productos-container .producto.especiales').forEach(card=>card.remove());
     }
+    track.querySelectorAll('.cake-special-slide').forEach(oldCard => {
+        oldCard.__cakeGalleryController?.stop();
+        if (oldCard.__cakeLeaveTimer) window.clearTimeout(oldCard.__cakeLeaveTimer);
+    });
     cakeEspecialidades=productos;
     cakeIndiceEspecialidad=0;
     track.replaceChildren(); if(dots)dots.replaceChildren();
@@ -1960,17 +2145,35 @@ function renderizarEspecialidadesCake(productosRemotos) {
     section.hidden=false;
     productos.forEach((p,index)=>{
         track.appendChild(crearTarjetaEspecialidadCake(p,index));
-        if(dots){const dot=document.createElement('button');dot.type='button';dot.className=index===0?'active':'';dot.setAttribute('aria-label',`Ver especialidad ${index+1}: ${p.name||'Especialidad'}`);dot.addEventListener('click',()=>{cakeIndiceEspecialidad=index;pintarEspecialidadActualCake();});dots.appendChild(dot);}
+        if(dots){
+            const dot=document.createElement('button');
+            dot.type='button';
+            dot.className=index===0?'active':'';
+            dot.setAttribute('aria-label',`Ver especialidad ${index+1}: ${p.name||'Especialidad'}`);
+            dot.addEventListener('click',()=>seleccionarEspecialidadCake(index));
+            dots.appendChild(dot);
+        }
     });
     pintarEspecialidadActualCake();
-    document.getElementById('cake-special-prev')?.addEventListener('click',()=>cambiarEspecialidadCake(-1),{once:true});
-    document.getElementById('cake-special-next')?.addEventListener('click',()=>cambiarEspecialidadCake(1),{once:true});
+    const prevButton=document.getElementById('cake-special-prev');
+    const nextButton=document.getElementById('cake-special-next');
+    if(prevButton && !prevButton.dataset.cakeBound){prevButton.addEventListener('click',()=>cambiarEspecialidadCake(-1));prevButton.dataset.cakeBound='1';}
+    if(nextButton && !nextButton.dataset.cakeBound){nextButton.addEventListener('click',()=>cambiarEspecialidadCake(1));nextButton.dataset.cakeBound='1';}
     const carousel=document.getElementById('cake-special-carousel');
     if(carousel && !carousel.dataset.swipeReady){
         let startX=null;
         carousel.addEventListener('touchstart',event=>{startX=event.changedTouches?.[0]?.clientX??null;},{passive:true});
         carousel.addEventListener('touchend',event=>{if(startX===null)return;const delta=(event.changedTouches?.[0]?.clientX??startX)-startX;if(Math.abs(delta)>45)cambiarEspecialidadCake(delta<0?1:-1);startX=null;},{passive:true});
         carousel.dataset.swipeReady='1';
+    }
+    if (!document.documentElement.dataset.cakeSpecialVisibilityReady) {
+        document.addEventListener('visibilitychange', () => {
+            const activeCard=document.querySelector('#cake-special-track .cake-special-slide.is-active');
+            if (!activeCard?.__cakeGalleryController) return;
+            if (document.hidden) activeCard.__cakeGalleryController.stop();
+            else activeCard.__cakeGalleryController.start();
+        });
+        document.documentElement.dataset.cakeSpecialVisibilityReady='1';
     }
 }
 

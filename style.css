@@ -3002,28 +3002,29 @@ input.cake-fecha-completa { border: 2px solid #c62828 !important; background: #f
 .cake-capacity-card hr { margin: 1.25rem 0; border: 0; border-top: 1px solid var(--border, #ddd); }
 
 /* =========================================================
-   ESPECIALIDADES: carrusel elegante, táctil y adaptable
+   ESPECIALIDADES: cambio manual con flechas y fotos automáticas
    ========================================================= */
 .cake-especialidades-section { width:min(1160px,calc(100% - 32px)); margin:26px auto 38px; padding:clamp(20px,3vw,34px); border:1px solid rgba(240,156,187,.2); border-radius:24px; background:radial-gradient(circle at 12% 8%,rgba(240,156,187,.12),transparent 34%),linear-gradient(135deg,#2b2525,#1c1819); box-shadow:0 18px 48px rgba(0,0,0,.24); color:var(--cake-texto); }
 .cake-especialidades-section[hidden] { display:none !important; }
 .cake-especialidades-heading { margin-bottom:22px; }
 .cake-especialidades-heading h2 { color:var(--cake-rosa-claro); }
 .cake-special-carousel { position:relative; display:grid; grid-template-columns:48px minmax(0,1fr) 48px; align-items:center; gap:12px; }
-.cake-special-track { min-width:0; }
+.cake-special-track { display:grid; position:relative; min-width:0; isolation:isolate; }
 .cake-special-empty { padding:28px 12px; color:var(--cake-texto-suave); text-align:center; }
-.cake-special-slide { display:none; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); min-height:340px; overflow:hidden; border:1px solid rgba(240,156,187,.24); border-radius:20px; background:linear-gradient(115deg,#33282b,#211c1d); box-shadow:0 16px 40px rgba(0,0,0,.28); animation:cakeSpecialSlideIn .34s cubic-bezier(.22,1,.36,1) both; }
-.cake-special-slide.is-active { display:grid; }
-@keyframes cakeSpecialSlideIn { from { opacity:0; transform:translateX(20px) scale(.985); } to { opacity:1; transform:translateX(0) scale(1); } }
-.cake-special-image-frame { position:relative; min-height:340px; overflow:hidden; background:#181415; }
-.cake-special-image { display:block; width:100%; height:100%; min-height:340px; max-height:470px; object-fit:cover; cursor:zoom-in; transition:opacity .22s ease,transform .45s cubic-bezier(.2,.8,.2,1); }
-.cake-special-image:hover { transform:scale(1.025); }
-.cake-special-image.cake-image-changing { opacity:.35; }
-.cake-special-image-arrow { position:absolute; top:50%; z-index:2; display:grid; place-items:center; width:38px; height:38px; border:1px solid rgba(255,255,255,.28); border-radius:50%; background:rgba(23,18,20,.76); color:#fff; cursor:pointer; transform:translateY(-50%); transition:background .18s,transform .18s; }
+.cake-special-slide { grid-area:1 / 1; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); min-height:340px; overflow:hidden; border:1px solid rgba(240,156,187,.24); border-radius:20px; background:linear-gradient(115deg,#33282b,#211c1d); box-shadow:0 16px 40px rgba(0,0,0,.28); opacity:0; pointer-events:none; transform:translateX(var(--cake-slide-offset,22px)) scale(.99); transition:opacity .46s ease,transform .55s cubic-bezier(.22,1,.36,1); will-change:opacity,transform; z-index:0; }
+.cake-special-slide.is-active { opacity:1; pointer-events:auto; transform:translateX(0) scale(1); z-index:2; }
+.cake-special-slide.is-leaving { opacity:0; pointer-events:none; transform:translateX(var(--cake-leave-offset,-22px)) scale(.99); z-index:1; }
+.cake-special-image-frame { position:relative; min-height:340px; overflow:hidden; background:#181415; isolation:isolate; }
+.cake-special-image { position:absolute; inset:0; display:block; width:100%; height:100%; min-height:0; max-height:none; object-fit:cover; object-position:center; cursor:zoom-in; opacity:0; pointer-events:none; transform:scale(1.012); transition:opacity .68s cubic-bezier(.22,.75,.25,1),transform .9s cubic-bezier(.2,.8,.2,1); will-change:opacity; z-index:0; }
+.cake-special-image.is-visible { opacity:1; pointer-events:auto; transform:scale(1); z-index:1; }
+.cake-special-image.is-visible:hover { transform:scale(1.025); }
+.cake-special-image-arrow { position:absolute; top:50%; z-index:3; display:grid; place-items:center; width:38px; height:38px; border:1px solid rgba(255,255,255,.28); border-radius:50%; background:rgba(23,18,20,.76); color:#fff; cursor:pointer; transform:translateY(-50%); transition:background .18s,transform .18s; }
 .cake-special-image-arrow:hover { background:var(--cake-rosa-fuerte); transform:translateY(-50%) scale(1.07); }
 .cake-special-image-arrow.prev { left:12px; }
 .cake-special-image-arrow.next { right:12px; }
 .cake-special-image-arrow[hidden] { display:none; }
-.cake-special-image-dots { position:absolute; bottom:13px; left:0; right:0; display:flex; align-items:center; justify-content:center; gap:7px; }
+.cake-special-image-dots { position:absolute; bottom:13px; left:0; right:0; z-index:4; display:flex; align-items:center; justify-content:center; gap:7px; }
+.cake-special-image-dots[hidden] { display:none !important; }
 .cake-special-image-dots button,.cake-special-dots button { width:9px; height:9px; padding:0; border:0; border-radius:50%; background:rgba(255,255,255,.46); cursor:pointer; transition:width .2s,background .2s; }
 .cake-special-image-dots button.active,.cake-special-dots button.active { width:23px; border-radius:8px; background:var(--cake-rosa); }
 .cake-special-info { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:14px; padding:clamp(22px,4vw,48px); text-align:left; }
@@ -3037,6 +3038,7 @@ input.cake-fecha-completa { border: 2px solid #c62828 !important; background: #f
 .cake-special-dots { display:flex; justify-content:center; align-items:center; gap:8px; margin-top:17px; }
 .cake-special-arrow { display:grid; place-items:center; width:46px; height:46px; border:1px solid rgba(240,156,187,.38); border-radius:50%; background:#34292d; color:var(--cake-rosa-claro); cursor:pointer; box-shadow:0 7px 18px rgba(0,0,0,.2); transition:background .2s,transform .2s; }
 .cake-special-arrow:hover { background:var(--cake-rosa-fuerte); transform:scale(1.06); }
+.cake-special-arrow:focus-visible,.cake-special-image-arrow:focus-visible,.cake-special-dots button:focus-visible,.cake-special-image-dots button:focus-visible { outline:2px solid var(--cake-rosa-claro); outline-offset:3px; }
 
 /* Ventanas de pedido y fotografías: misma animación para todos los productos. */
 .overlay-modal.cake-modal-visible { animation:cakeModalBackdropIn .22s ease both; }
