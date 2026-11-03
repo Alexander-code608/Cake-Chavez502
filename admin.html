@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Administración segura | Cake Chavez</title>
-  <link rel="stylesheet" href="admin.css?v=4">
+  <link rel="stylesheet" href="admin.css?v=5">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -169,6 +169,57 @@
         </div>
       </section>
       <p id="admin-global-message" class="admin-message admin-global-message" role="status"></p>
+      <div id="admin-order-edit-modal" class="admin-order-edit-modal" hidden role="dialog" aria-modal="true" aria-labelledby="admin-order-edit-title">
+        <section class="admin-order-edit-panel">
+          <header class="admin-order-edit-header">
+            <div>
+              <h2 id="admin-order-edit-title"><i class="fas fa-pen-to-square"></i> Editar pedido</h2>
+              <small id="admin-order-edit-code">Actualiza los datos y la fotografía del pedido.</small>
+            </div>
+            <button type="button" id="admin-order-edit-close" class="admin-order-edit-close" aria-label="Cerrar ventana">×</button>
+          </header>
+          <form id="admin-order-edit-form">
+            <input type="hidden" id="edit-order-code">
+            <div class="admin-order-edit-layout">
+              <aside class="admin-order-edit-photo">
+                <div class="admin-order-edit-preview-wrap">
+                  <img id="edit-order-image-preview" alt="Fotografía actual del pedido" hidden>
+                  <div id="edit-order-image-empty" class="admin-order-edit-empty"><i class="fas fa-camera"></i><span>Este pedido no tiene fotografía</span></div>
+                </div>
+                <label for="edit-order-image-file" class="admin-button admin-button-outline"><i class="fas fa-image"></i> Cambiar imagen</label>
+                <input id="edit-order-image-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+                <button type="button" id="edit-order-remove-image" class="admin-button admin-button-danger">Quitar imagen</button>
+                <small>JPG, PNG, WebP o GIF · Máximo 5 MB</small>
+              </aside>
+              <div class="admin-order-edit-fields">
+                <div class="admin-order-edit-grid">
+                  <div><label for="edit-order-name">Nombre del cliente</label><input id="edit-order-name" type="text" maxlength="120"></div>
+                  <div><label for="edit-order-phone">Teléfono</label><input id="edit-order-phone" type="tel" maxlength="30"></div>
+                  <div><label for="edit-order-type">Tipo de pedido</label><input id="edit-order-type" type="text" readonly></div>
+                  <div><label for="edit-order-date">Fecha de entrega</label><input id="edit-order-date" type="date"></div>
+                  <div class="admin-order-edit-full"><label for="edit-order-address">Dirección de entrega</label><input id="edit-order-address" type="text" maxlength="500"></div>
+                  <div><label for="edit-order-occasion">Ocasión</label><input id="edit-order-occasion" type="text" maxlength="100"></div>
+                  <div><label for="edit-order-flavor">Sabor</label><input id="edit-order-flavor" type="text" maxlength="100"></div>
+                  <div><label for="edit-order-size">Tamaño</label><input id="edit-order-size" type="text" maxlength="100"></div>
+                  <div><label for="edit-order-theme">Colores o temática</label><input id="edit-order-theme" type="text" maxlength="500"></div>
+                  <div class="admin-order-edit-full"><label for="edit-order-customization">Personalización / dedicatoria / detalles</label><textarea id="edit-order-customization" rows="3" maxlength="2000"></textarea></div>
+                  <div><label for="edit-order-total">Precio / total (Q)</label><input id="edit-order-total" type="number" min="0" step="0.01"></div>
+                  <div><label for="edit-order-status">Estado del pedido</label><select id="edit-order-status"><option value="recibido">Pedidos nuevos</option><option value="entregado">Pedidos entregados</option><option value="cancelado">Pedidos cancelados</option></select></div>
+                </div>
+                <section class="admin-order-edit-items-section">
+                  <div class="admin-order-edit-items-heading"><h3>Artículos del pedido</h3><button type="button" id="edit-order-add-item" class="admin-button admin-button-outline"><i class="fas fa-plus"></i> Añadir artículo</button></div>
+                  <div id="edit-order-items-list" class="admin-order-edit-items-list"></div>
+                </section>
+              </div>
+            </div>
+            <p id="admin-order-edit-message" class="admin-message" role="status"></p>
+            <footer class="admin-order-edit-actions">
+              <button type="submit" id="admin-order-edit-save" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar cambios</button>
+              <button type="button" id="admin-order-edit-cancel" class="admin-button admin-button-outline">Cancelar</button>
+            </footer>
+          </form>
+        </section>
+      </div>
       <div id="admin-image-lightbox" class="admin-image-lightbox" hidden role="dialog" aria-modal="true" aria-label="Fotografía ampliada">
         <button id="admin-image-lightbox-close" type="button" class="admin-image-lightbox-close" aria-label="Cerrar fotografía">×</button>
         <img id="admin-image-lightbox-image" alt="Fotografía ampliada">
@@ -178,6 +229,6 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="admin.js?v=5"></script>
+  <script src="admin.js?v=6"></script>
 </body>
 </html>

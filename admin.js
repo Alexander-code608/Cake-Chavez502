@@ -14,6 +14,9 @@
   let trashOrders = [];
   let trashProducts = [];
   let trashCount = 0;
+  let editingOrder = null;
+  let editOrderPreviewUrl = '';
+  let clearOrderImage = false;
   const CATEGORIES = ['pasteles','postres','galletas','bocaditos','especiales'];
   const STATUS = [['recibido','Pedidos nuevos'],['entregado','Pedidos entregados'],['cancelado','Pedidos cancelados']];
   function message(id, text, type='') { const el=$(id); if(!el)return; el.textContent=text; el.className=`admin-message ${type}`.trim(); }
@@ -263,7 +266,7 @@
     save.addEventListener('click',async()=>{const destination=statusView(select.value);await saveOrderStatus(order.order_code,select.value,destination);});
     statusRow.append(select,save);
     const actions=document.createElement('div');actions.className='admin-row-actions admin-order-actions';actions.style.justifyContent='flex-start';
-    const edit=document.createElement('button');edit.type='button';edit.className='admin-button admin-button-outline';edit.textContent='Editar datos';edit.addEventListener('click',()=>editOrder(order));
+    const edit=document.createElement('button');edit.type='button';edit.className='admin-button admin-button-outline';edit.textContent='Editar datos';edit.addEventListener('click',()=>openOrderEdit(order));
     const remove=document.createElement('button');remove.type='button';remove.className='admin-button admin-button-danger';remove.textContent='Eliminar pedido';remove.addEventListener('click',()=>moveOrderToTrash(order));
     actions.append(edit,remove);card.append(statusRow,actions);return card;
   }
@@ -345,23 +348,141 @@
     await refreshTrashCount();
     if(activeOrdersView==='papelera') await loadTrash(); else renderOrdersView();
   }
-  async function editOrder(order) {
+  function getOrderImage(order) {
+    const payload=order?.payload||{};
+    const items=Array.isArray(payload.items)?payload.items:[];
+    return payload.photo_reference_url||payload.reference_image_url||payload.inspiration_image_url||items.find(item=>item?.image||item?.imagen)?.image||items.find(item=>item?.imagen)?.imagen||'';
+  }
+  function setOrderEditImagePreview(url) {
+    const image=$('edit-order-image-preview');
+    const empty=$('edit-order-image-empty');
+    if(url){image.src=url;image.hidden=false;empty.hidden=true;}
+    else {image.removeAttribute('src');image.hidden=true;empty.hidden=false;}
+  }
+  function closeOrderEdit() {
+    const modal=$('admin-order-edit-modal');
+    if(!modal||modal.hidden)return;
+    modal.hidden=true;document.body.classList.remove('admin-order-edit-open');
+    $('edit-order-image-file').value='';
+    if(editOrderPreviewUrl){URL.revokeObjectURL(editOrderPreviewUrl);editOrderPreviewUrl='';}
+    editingOrder=null;clearOrderImage=false;
+    $('admin-order-edit-message').textContent='';
+  }
+  function addOrderItemEditor(item={},originalIndex=null) {
+    const list=$('edit-order-items-list');
+    const row=document.createElement('article');row.className='admin-order-edit-item';if(originalIndex!==null)row.dataset.originalIndex=String(originalIndex);
+    const fields=document.createElement('div');fields.className='admin-order-edit-item-fields';
+    const makeField=(labelText,value,type,step)=>{
+      const wrap=document.createElement('label');wrap.className='admin-order-edit-item-field';wrap.appendChild(document.createTextNode(labelText));
+      const input=document.createElement('input');input.type=type;input.value=value??'';input.required=type==='text';
+      if(type==='number'){input.min='0';if(step)input.step=step;}
+      wrap.appendChild(input);fields.appendChild(wrap);return input;
+    };
+    const name=makeField('Producto / pastel',item.name??item.nombre??'','text');
+    const price=makeField('Precio unitario (Q)',item.price??item.precio??0,'number','0.01');
+    const quantity=makeField('Cantidad',item.quantity??item.cantidad??1,'number','1');quantity.min='1';quantity.max='99';quantity.step='1';
+    const remove=document.createElement('button');remove.type='button';remove.className='admin-button admin-button-danger admin-order-edit-item-remove';remove.textContent='Quitar';
+    remove.addEventListener('click',()=>row.remove());
+    row.append(fields,remove);list.appendChild(row);
+  }
+  function openOrderEdit(order) {
+    editingOrder=order;clearOrderImage=false;
+    const payload=order.payload||{};
+    const items=Array.isArray(payload.items)?payload.items:[];
+    $('edit-order-code').value=order.order_code||'';
+    $('admin-order-edit-code').textContent=`Pedido ${order.order_code||'sin código'} · Puedes modificar sus datos y su fotografía`;
+    $('edit-order-name').value=payload.name||'';
+    $('edit-order-phone').value=payload.phone||'';
+    $('edit-order-type').value=payload.order_type==='pastel_personalizado'?'Pastel personalizado':payload.order_type==='pedido_administrador'?'Pedido añadido por administración': 'Pedido de catálogo';
+    $('edit-order-date').value=String(payload.delivery_date||'').slice(0,10);
+    $('edit-order-address').value=payload.address||'';
+    $('edit-order-occasion').value=payload.occasion||'';
+    $('edit-order-flavor').value=payload.flavor||'';
+    $('edit-order-size').value=payload.size||'';
+    $('edit-order-theme').value=payload.colors_theme||payload.theme||'';
+    $('edit-order-customization').value=payload.customization||payload.personalization||'';
+    $('edit-order-total').value=Number(payload.total)||0;
+    $('edit-order-status').value=normalizeOrderStatus(order.status);
+    $('edit-order-items-list').replaceChildren();
+    items.forEach((item,index)=>addOrderItemEditor(item,index));
+    if(!items.length && payload.order_type!=='pastel_personalizado') addOrderItemEditor({});
+    $('edit-order-image-file').value='';
+    if(editOrderPreviewUrl){URL.revokeObjectURL(editOrderPreviewUrl);editOrderPreviewUrl='';}
+    setOrderEditImagePreview(getOrderImage(order));
+    $('admin-order-edit-modal').hidden=false;
+    document.body.classList.add('admin-order-edit-open');
+    $('edit-order-name').focus();
+  }
+  async function saveOrderEdit(event) {
+    event.preventDefault();
+    if(!editingOrder)return;
+    const order=editingOrder;
     const payload={...(order.payload||{})};
-    const name=prompt('Nombre del cliente:',payload.name||'');if(name===null)return;
-    const delivery=prompt('Fecha de entrega (AAAA-MM-DD):',payload.delivery_date||'');if(delivery===null)return;
-    const address=prompt('Dirección de entrega:',payload.address||'');if(address===null)return;
-    const customization=prompt('Detalles / personalización / dedicatoria:',payload.customization||payload.personalization||'');if(customization===null)return;
-    if(payload.order_type==='pastel_personalizado'){
-      const occasion=prompt('Ocasión:',payload.occasion||'');if(occasion===null)return;
-      const flavor=prompt('Sabor:',payload.flavor||'');if(flavor===null)return;
-      const size=prompt('Tamaño:',payload.size||'');if(size===null)return;
-      const colors=prompt('Colores o temática:',payload.colors_theme||'');if(colors===null)return;
-      payload.occasion=occasion.trim();payload.flavor=flavor.trim();payload.size=size.trim();payload.colors_theme=colors.trim();
+    const saveButton=$('admin-order-edit-save');
+    let uploadedPhotoUrl='';
+    let persisted=false;
+    saveButton.disabled=true;saveButton.textContent='Guardando…';
+    message('admin-order-edit-message','Guardando los cambios…');
+    try {
+      payload.name=$('edit-order-name').value.trim();
+      payload.phone=$('edit-order-phone').value.trim();
+      payload.delivery_date=$('edit-order-date').value;
+      payload.address=$('edit-order-address').value.trim();
+      payload.occasion=$('edit-order-occasion').value.trim();
+      payload.flavor=$('edit-order-flavor').value.trim();
+      payload.size=$('edit-order-size').value.trim();
+      payload.colors_theme=$('edit-order-theme').value.trim();
+      payload.theme=payload.colors_theme;
+      payload.customization=$('edit-order-customization').value.trim();
+      if(Object.prototype.hasOwnProperty.call(payload,'personalization'))payload.personalization=payload.customization;
+      payload.total=Number($('edit-order-total').value)||0;
+      const previousItems=Array.isArray(payload.items)?payload.items:[];
+      payload.items=Array.from($('edit-order-items-list').querySelectorAll('.admin-order-edit-item')).map(row=>{
+        const inputs=row.querySelectorAll('input');
+        const name=inputs[0]?.value.trim()||'';
+        if(!name)throw new Error('Escribe el nombre de cada artículo o quita la fila vacía.');
+        const price=Number(inputs[1]?.value)||0;
+        const quantity=Math.max(1,Math.min(99,Math.round(Number(inputs[2]?.value)||1)));
+        const originalIndex=row.dataset.originalIndex===undefined?null:Number(row.dataset.originalIndex);
+        return {...(originalIndex!==null&&previousItems[originalIndex]?previousItems[originalIndex]:{}),name,price,quantity};
+      });
+
+      const file=$('edit-order-image-file').files?.[0];
+      const currentPhoto=getOrderImage(order);
+      if(file){
+        uploadedPhotoUrl=await uploadPhoto(file,'custom-orders');
+        payload.photo_reference_url=uploadedPhotoUrl;
+        payload.photo_reference_name=file.name.slice(0,200);
+      } else if(clearOrderImage){
+        delete payload.photo_reference_url;delete payload.reference_image_url;delete payload.inspiration_image_url;
+        payload.photo_reference_name='';
+        payload.items=(payload.items||[]).map(item=>({...item,image:''}));
+      }
+
+      const nextStatus=normalizeOrderStatus($('edit-order-status').value);
+      const {error}=await client.from('orders').update({payload,status:nextStatus}).eq('order_code',order.order_code);
+      if(error)throw error;
+      persisted=true;
+      if((file||clearOrderImage)&&currentPhoto){
+        const path=imageStoragePath(currentPhoto);
+        if(path&&path.startsWith('custom-orders/')){
+          const {error:removeError}=await client.storage.from('product-images').remove([path]);
+          if(removeError)globalMessage('El pedido se guardó, pero no se pudo limpiar la fotografía anterior: '+removeError.message,'error');
+        }
+      }
+      activeOrdersView=statusView(nextStatus);
+      closeOrderEdit();
+      globalMessage(`Pedido ${order.order_code} actualizado correctamente.`,'success');
+      await loadOrders();
+    } catch(error) {
+      if(uploadedPhotoUrl&&!persisted){
+        const path=imageStoragePath(uploadedPhotoUrl);
+        if(path)await client.storage.from('product-images').remove([path]).catch(()=>{});
+      }
+      message('admin-order-edit-message',error?.message||'No se pudieron guardar los cambios.','error');
+    } finally {
+      saveButton.disabled=false;saveButton.innerHTML='<i class="fas fa-save"></i> Guardar cambios';
     }
-    payload.name=name.trim();payload.delivery_date=delivery.trim();payload.address=address.trim();payload.customization=customization.trim();
-    const {error}=await client.from('orders').update({payload}).eq('order_code',order.order_code);
-    if(error){globalMessage(`No se pudieron guardar los datos: ${error.message}`,'error');return;}
-    globalMessage('Datos del pedido guardados.','success');await loadOrders();
   }
   function toggleManualOrder(show) {
     const form=$('admin-add-order-form');if(!form)return;
@@ -447,8 +568,15 @@
     document.querySelectorAll('[data-admin-tab]').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.adminTab)));
     document.querySelectorAll('[data-order-view]').forEach(b=>b.addEventListener('click',()=>setOrdersView(b.dataset.orderView)));
     $('admin-image-lightbox-close')?.addEventListener('click',closeOrderImage);
+    $('admin-order-edit-close')?.addEventListener('click',closeOrderEdit);
+    $('admin-order-edit-cancel')?.addEventListener('click',closeOrderEdit);
+    $('admin-order-edit-modal')?.addEventListener('click',event=>{if(event.target===$('admin-order-edit-modal'))closeOrderEdit();});
+    $('admin-order-edit-form')?.addEventListener('submit',saveOrderEdit);
+    $('edit-order-add-item')?.addEventListener('click',()=>addOrderItemEditor({name:'',price:0,quantity:1}));
+    $('edit-order-image-file')?.addEventListener('change',event=>{const file=event.target.files?.[0];if(!file)return;if(!isImage(file)){message('admin-order-edit-message','Elige una foto JPG, PNG, WebP o GIF de máximo 5 MB.','error');event.target.value='';return;}if(editOrderPreviewUrl)URL.revokeObjectURL(editOrderPreviewUrl);editOrderPreviewUrl=URL.createObjectURL(file);clearOrderImage=false;setOrderEditImagePreview(editOrderPreviewUrl);message('admin-order-edit-message','Nueva imagen lista. Guarda los cambios para aplicarla.','');});
+    $('edit-order-remove-image')?.addEventListener('click',()=>{clearOrderImage=true;$('edit-order-image-file').value='';if(editOrderPreviewUrl){URL.revokeObjectURL(editOrderPreviewUrl);editOrderPreviewUrl='';}setOrderEditImagePreview('');message('admin-order-edit-message','La imagen se quitará cuando guardes los cambios.','');});
     $('admin-image-lightbox')?.addEventListener('click',event=>{if(event.target===$('admin-image-lightbox'))closeOrderImage();});
-    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('admin-image-lightbox')?.hidden)closeOrderImage();});
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('admin-order-edit-modal')?.hidden)closeOrderEdit();else if(event.key==='Escape'&&!$('admin-image-lightbox')?.hidden)closeOrderImage();});
     $('admin-product-form').addEventListener('submit',saveProduct);$('admin-new-product').addEventListener('click',resetProductForm);$('admin-new-specialty').addEventListener('click',()=>{resetProductForm();$('product-category').value='especiales';$('product-form-title').textContent='Agregar especialidad';$('product-name').focus();$('admin-product-form').scrollIntoView({behavior:'smooth',block:'start'});});$('admin-cancel-product').addEventListener('click',resetProductForm);$('admin-product-search').addEventListener('input',filterProducts);$('admin-refresh-orders').addEventListener('click',loadOrders);$('admin-toggle-add-order').addEventListener('click',()=>toggleManualOrder());$('admin-cancel-add-order').addEventListener('click',()=>toggleManualOrder(false));$('admin-add-order-form').addEventListener('submit',saveManualOrder);$('admin-review-form').addEventListener('submit',saveReview);$('admin-cancel-review').addEventListener('click',()=>{$('admin-review-form').reset();$('review-id').value='';message('admin-review-message','');});$('admin-settings-form').addEventListener('submit',saveSettings);$('cake-capacity-settings-form').addEventListener('submit',saveCapacitySettings);$('cake-capacity-override-form').addEventListener('submit',saveCapacityOverride);
     const {data:{session}}=await client.auth.getSession();
     if(session?.user){if(forcePanel) await boot(session.user);else window.location.replace('index.html?modo=edicion');}

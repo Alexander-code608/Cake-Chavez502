@@ -77,3 +77,49 @@ body.admin-lightbox-open{overflow:hidden}
   .admin-order-date{text-align:left}
   .admin-image-lightbox{padding:58px 10px 12px}
 }
+
+
+/* Ventana flotante para editar pedidos y reemplazar su fotografía */
+.admin-order-edit-modal[hidden]{display:none!important}
+.admin-order-edit-modal{position:fixed;z-index:11000;inset:0;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(12,9,10,.78);backdrop-filter:blur(6px);animation:adminEditFadeIn .18s ease-out}
+.admin-order-edit-panel{width:min(1050px,100%);max-height:min(92vh,940px);overflow:auto;border:1px solid rgba(240,156,187,.35);border-radius:18px;background:var(--panel);box-shadow:0 25px 90px rgba(0,0,0,.55);animation:adminEditRise .2s ease-out}
+.admin-order-edit-header{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:17px 22px;background:linear-gradient(115deg,#a83b65,#d95689);color:#fff}
+.admin-order-edit-header h2{margin:0;font-family:'Playfair Display',serif;font-size:1.45rem;display:flex;align-items:center;gap:10px}
+.admin-order-edit-header small{display:block;margin-top:4px;color:rgba(255,255,255,.83);font-size:.76rem}
+.admin-order-edit-close{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border:1px solid rgba(255,255,255,.38);border-radius:50%;background:rgba(70,20,40,.16);color:#fff;font-size:1.75rem;line-height:1}
+.admin-order-edit-close:hover{background:rgba(70,20,40,.32)}
+#admin-order-edit-form{padding:20px 22px 22px}
+.admin-order-edit-layout{display:grid;grid-template-columns:minmax(210px, .72fr) minmax(0,1.7fr);gap:22px;align-items:start}
+.admin-order-edit-photo{display:grid;gap:10px;align-content:start}
+.admin-order-edit-preview-wrap{display:grid;place-items:center;min-height:215px;overflow:hidden;border:1px solid var(--border);border-radius:13px;background:var(--panel2)}
+.admin-order-edit-preview-wrap img{display:block;width:100%;height:250px;object-fit:cover}
+.admin-order-edit-preview-wrap img[hidden],.admin-order-edit-empty[hidden]{display:none!important}
+.admin-order-edit-empty{display:flex;min-height:215px;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px;color:var(--muted);text-align:center;font-size:.82rem}
+.admin-order-edit-empty i{font-size:2rem;color:var(--pink)}
+.admin-order-edit-photo>.admin-button{width:100%}
+.admin-order-edit-photo>small{color:var(--muted);font-size:.73rem;line-height:1.5;text-align:center}
+.admin-order-edit-fields{min-width:0}
+.admin-order-edit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
+.admin-order-edit-grid>div{display:flex;min-width:0;flex-direction:column;gap:6px}
+.admin-order-edit-grid .admin-order-edit-full{grid-column:1/-1}
+.admin-order-edit-grid label,.admin-order-edit-item-field{color:var(--text);font-size:.8rem;font-weight:600}
+.admin-order-edit-grid input,.admin-order-edit-grid textarea,.admin-order-edit-grid select,.admin-order-edit-item-field input{width:100%;min-width:0;padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:var(--panel2);color:var(--text);outline:none}
+.admin-order-edit-grid textarea{resize:vertical;line-height:1.5}
+.admin-order-edit-grid input:focus,.admin-order-edit-grid textarea:focus,.admin-order-edit-grid select:focus,.admin-order-edit-item-field input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(240,156,187,.1)}
+.admin-order-edit-grid input[readonly]{opacity:.7}
+.admin-order-edit-items-section{margin-top:18px;padding-top:15px;border-top:1px solid var(--border)}
+.admin-order-edit-items-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px}
+.admin-order-edit-items-heading h3{margin:0;color:var(--pink);font-family:'Playfair Display',serif;font-size:1.05rem}
+.admin-order-edit-items-heading .admin-button{min-height:36px;padding:7px 10px;font-size:.75rem}
+.admin-order-edit-items-list{display:grid;gap:9px}
+.admin-order-edit-item{display:flex;align-items:end;gap:9px;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--panel2)}
+.admin-order-edit-item-fields{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(90px,.8fr) minmax(75px,.65fr);gap:9px;flex:1;min-width:0}
+.admin-order-edit-item-field{display:grid;gap:5px;font-size:.73rem}
+.admin-order-edit-item-remove{min-height:38px;padding:7px 10px;font-size:.72rem}
+.admin-order-edit-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:9px;margin-top:14px;padding-top:15px;border-top:1px solid var(--border)}
+.admin-order-edit-actions .admin-button{min-width:145px}
+body.admin-order-edit-open{overflow:hidden}
+@keyframes adminEditFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes adminEditRise{from{opacity:.7;transform:translateY(10px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:760px){.admin-order-edit-modal{padding:10px}.admin-order-edit-panel{max-height:96vh;border-radius:14px}.admin-order-edit-header{padding:14px 16px}.admin-order-edit-header h2{font-size:1.2rem}#admin-order-edit-form{padding:15px}.admin-order-edit-layout{grid-template-columns:1fr;gap:16px}.admin-order-edit-photo{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}.admin-order-edit-preview-wrap{grid-row:span 3;min-height:160px}.admin-order-edit-preview-wrap img{height:185px}.admin-order-edit-empty{min-height:160px}.admin-order-edit-photo>small{grid-column:2}.admin-order-edit-grid{gap:10px}.admin-order-edit-item-fields{grid-template-columns:1fr 1fr}.admin-order-edit-item-field:first-child{grid-column:1/-1}}
+@media(max-width:460px){.admin-order-edit-modal{padding:6px}.admin-order-edit-header h2{font-size:1.08rem}.admin-order-edit-header small{font-size:.68rem}.admin-order-edit-grid{grid-template-columns:1fr}.admin-order-edit-grid .admin-order-edit-full{grid-column:auto}.admin-order-edit-photo{grid-template-columns:1fr 1fr}.admin-order-edit-preview-wrap{grid-column:1/-1;grid-row:auto}.admin-order-edit-preview-wrap img{height:210px}.admin-order-edit-empty{min-height:170px}.admin-order-edit-photo>small{grid-column:1/-1}.admin-order-edit-items-heading{align-items:flex-start;flex-direction:column}.admin-order-edit-item{align-items:stretch;flex-direction:column}.admin-order-edit-item-fields{grid-template-columns:1fr 1fr}.admin-order-edit-item-field:first-child{grid-column:1/-1}.admin-order-edit-item-remove{align-self:flex-end}.admin-order-edit-actions{display:grid;grid-template-columns:1fr}.admin-order-edit-actions .admin-button{width:100%}}
