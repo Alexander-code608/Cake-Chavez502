@@ -953,8 +953,8 @@ let cakeReviewPreviewUrls = [];
 const cakeReviewSignedUrlCache = new Map();
 let cakeReviewLastFingerprint = '';
 let cakeReviewLoadInFlight = null;
-let cakeReviewRefreshQueued = false;
 let cakeReviewRefreshTimer = null;
+let cakeReviewRefreshQueued = false;
 function cakeReviewDeviceId(){
     const key='cake-chavez-review-device-v1'; let value='';
     try { value=localStorage.getItem(key)||''; if(!value){value=crypto.randomUUID();localStorage.setItem(key,value);} } catch(_){value=crypto.randomUUID();}
@@ -966,8 +966,7 @@ function cakeReviewSetRating(value){cakeReviewSelectedRating=Math.max(1,Math.min
 function cakeReviewClearPreviews(){cakeReviewPreviewUrls.forEach(URL.revokeObjectURL);cakeReviewPreviewUrls=[];const box=document.getElementById('cake-review-previews');if(box)box.replaceChildren();}
 function cakeReviewRenderPreviews(){cakeReviewClearPreviews();const files=Array.from(document.getElementById('cake-review-photos')?.files||[]);const box=document.getElementById('cake-review-previews');if(!box)return;files.slice(0,10).forEach(file=>{const url=URL.createObjectURL(file);cakeReviewPreviewUrls.push(url);const img=document.createElement('img');img.src=url;img.alt='Vista previa de foto';box.appendChild(img);});}
 function cakeReviewSignedPhotos(review){
-    // Una lista vacía explícita significa que las URLs firmadas aún están cargando.
-    if(Array.isArray(review.__signedPhotos))return review.__signedPhotos;
+    if(Array.isArray(review.__signedPhotos)&&review.__signedPhotos.length)return review.__signedPhotos;
     const paths=Array.isArray(review.photo_paths)?review.photo_paths:[];
     if(paths.length)return paths;
     return review.photo_url?[review.photo_url]:[];
@@ -1018,51 +1017,24 @@ async function cakeReviewCreateSignedUrls(client, paths) {
     return list.map(path => /^https?:\/\//i.test(path) ? path : (map.get(path) || '')).filter(Boolean);
 }
 function cakeReviewRenderCarousel(){
-    const host=document.getElementById('cake-opiniones-publicadas');
-    if(!host)return;
-    host.replaceChildren();
-    if(!cakeReviews.length){
-        host.appendChild(crearElementoTextoCake('p','cake-estado-vacio','Todavía no hay reseñas aprobadas. ¡Sé la primera persona en compartir tu experiencia!'));
-        const prev=document.getElementById('cake-reviews-prev'),next=document.getElementById('cake-reviews-next');
-        if(prev)prev.disabled=true;if(next)next.disabled=true;
-        return;
-    }
-    const mobile=window.matchMedia('(max-width: 650px)').matches;
-    const visible=mobile?2:3;
-    const maxStart=Math.max(0,cakeReviews.length-visible);
-    cakeReviewOffset=Math.min(cakeReviewOffset,maxStart);
-    const shown=cakeReviews.slice(cakeReviewOffset,cakeReviewOffset+visible);
+    const host=document.getElementById('cake-opiniones-publicadas');if(!host)return;host.replaceChildren();
+    if(!cakeReviews.length){host.appendChild(crearElementoTextoCake('p','cake-estado-vacio','Todavía no hay reseñas aprobadas. ¡Sé la primera persona en compartir tu experiencia!'));return;}
+    const mobile=window.matchMedia('(max-width: 650px)').matches;const visible=mobile?2:3;const maxStart=Math.max(0,cakeReviews.length-visible);cakeReviewOffset=Math.min(cakeReviewOffset,maxStart);
+    const shown= cakeReviews.slice(cakeReviewOffset,cakeReviewOffset+visible);
     shown.forEach(review=>{
         const card=document.createElement('article');card.className='cake-opinion-card';
         const head=document.createElement('div');head.className='cake-opinion-card-head';
         const avatar=document.createElement('span');avatar.className='cake-opinion-avatar';avatar.setAttribute('aria-hidden','true');avatar.innerHTML='<i class="fas fa-user"></i>';
-        const meta=document.createElement('div');meta.className='cake-opinion-meta';
-        meta.appendChild(crearElementoTextoCake('strong','',review.customer_name||'Cliente de Cake Chávez'));
-        const rating=Math.max(1,Math.min(5,Number(review.rating)||5));
-        meta.appendChild(crearElementoTextoCake('span','cake-opinion-estrellas','★'.repeat(rating)+'☆'.repeat(5-rating)));
+        const meta=document.createElement('div');meta.className='cake-opinion-meta';meta.appendChild(crearElementoTextoCake('strong','',review.customer_name||'Cliente de Cake Chávez'));
+        meta.appendChild(crearElementoTextoCake('span','cake-opinion-estrellas','★'.repeat(Math.max(1,Math.min(5,Number(review.rating)||5)))+'☆'.repeat(5-Math.max(1,Math.min(5,Number(review.rating)||5)))));
         head.append(avatar,meta);card.appendChild(head);
         if(review.product_name)card.appendChild(crearElementoTextoCake('small','cake-opinion-product',review.product_name));
         card.appendChild(crearElementoTextoCake('p','cake-opinion-quote',review.review_text||''));
-        const photoPaths=Array.isArray(review.photo_paths)&&review.photo_paths.length?review.photo_paths:(review.photo_url?[review.photo_url]:[]);
-        const photos=cakeReviewSignedPhotos(review);
-        if(photos.length){
-            const photoButton=document.createElement('button');photoButton.type='button';photoButton.className='cake-opinion-photo-preview';
-            photoButton.setAttribute('aria-label',`Ver ${photoPaths.length} fotografías de ${review.customer_name||'la reseña'}`);
-            const img=document.createElement('img');img.src=photos[0];img.alt='Foto de pastel compartida por un cliente';img.loading='lazy';img.decoding='async';
-            photoButton.appendChild(img);
-            if(photoPaths.length>1)photoButton.appendChild(crearElementoTextoCake('span','cake-opinion-photo-count',`+${photoPaths.length-1} fotos`));
-            photoButton.addEventListener('click',()=>cakeReviewOpenLightbox(review,0));card.appendChild(photoButton);
-        }else if(photoPaths.length){
-            const pending=document.createElement('div');pending.className='cake-opinion-photo-preview cake-opinion-photo-loading';
-            pending.setAttribute('aria-label','Preparando fotografía');pending.textContent='Preparando foto…';card.appendChild(pending);
-        }
+        const photos=cakeReviewSignedPhotos(review);const photoCount=Array.isArray(review.photo_paths)&&review.photo_paths.length?review.photo_paths.length:(review.photo_url?1:0);if(photos.length){const photoButton=document.createElement('button');photoButton.type='button';photoButton.className='cake-opinion-photo-preview';photoButton.setAttribute('aria-label',`Ver ${photos.length} fotografías de ${review.customer_name||'la reseña'}`);const img=document.createElement('img');img.src=photos[0];img.alt='Foto de pastel compartida por un cliente';img.loading='lazy';photoButton.appendChild(img);if(photoCount>1)photoButton.appendChild(crearElementoTextoCake('span','cake-opinion-photo-count',`+${photoCount-1} fotos`));photoButton.addEventListener('click',()=>cakeReviewOpenLightbox(review,0));card.appendChild(photoButton);}
         host.appendChild(card);
     });
-    const prev=document.getElementById('cake-reviews-prev'),next=document.getElementById('cake-reviews-next');
-    if(prev)prev.disabled=cakeReviewOffset===0;
-    if(next)next.disabled=cakeReviewOffset>=maxStart;
+    const prev=document.getElementById('cake-reviews-prev'),next=document.getElementById('cake-reviews-next');if(prev)prev.disabled=cakeReviewOffset===0;if(next)next.disabled=cakeReviewOffset>=maxStart;
 }
-
 async function cakeReviewOpenLightbox(review,index){
     const client=obtenerClienteSupabaseCake();if(!client)return;const paths=Array.isArray(review.photo_paths)&&review.photo_paths.length?review.photo_paths:(review.photo_url?[review.photo_url]:[]);const photos=await cakeReviewCreateSignedUrls(client,paths);if(!photos.length)return;
     cakeReviewLightboxState={reviewId:review.id,photos,index:Math.max(0,Math.min(index,photos.length-1)),likes:[]};
@@ -1074,89 +1046,103 @@ function cakeReviewCloseLightbox(){const box=document.getElementById('cake-revie
 async function cakeReviewLoadLikes(){const client=obtenerClienteSupabaseCake();if(!client)return;const state=cakeReviewLightboxState;const {data}=await client.rpc('cake_get_testimonial_photo_likes',{p_review_id:String(state.reviewId)});state.likes=data||[];cakeReviewPaintLightbox();}
 async function cakeReviewLikeCurrentPhoto(){const client=obtenerClienteSupabaseCake();if(!client)return;const state=cakeReviewLightboxState;const voter=cakeReviewDeviceId();const key=`${state.reviewId}:${state.index}`;let liked=[];try{liked=JSON.parse(localStorage.getItem('cake-chavez-photo-likes-v1')||'[]');}catch(_){}const btn=document.getElementById('cake-review-photo-like');if(liked.includes(key))return;btn.disabled=true;try{const {data,error}=await client.rpc('cake_like_testimonial_photo',{p_review_id:String(state.reviewId),p_photo_index:state.index,p_voter_id:voter});if(error)throw error;liked.push(key);localStorage.setItem('cake-chavez-photo-likes-v1',JSON.stringify(liked));await cakeReviewLoadLikes();}catch(e){console.warn('No se pudo registrar el me gusta:',e.message);}finally{btn.disabled=false;}}
 async function cargarOpinionesAprobadasCake(client, force = false) {
-    const contenedor=document.getElementById('cake-opiniones-publicadas');
-    if(!contenedor)return;
-    if(!client){
-        contenedor.replaceChildren(crearElementoTextoCake('p','cake-estado-vacio','No se pudo conectar con Supabase. Revisa la configuración de la tienda.'));
+    const contenedor = document.getElementById('cake-opiniones-publicadas');
+    if (!contenedor) return;
+    if (!client) {
+        contenedor.replaceChildren(crearElementoTextoCake('p', 'cake-estado-vacio', 'Las reseñas aparecerán aquí cuando se conecte Supabase.'));
         return;
     }
-    if(cakeReviewLoadInFlight){
-        if(force)cakeReviewRefreshQueued=true;
+    if (cakeReviewLoadInFlight) {
+        // Si Realtime avisa mientras hay una consulta en curso, repetimos al terminar
+        // para no perder la aprobación recién guardada.
+        if (force) cakeReviewRefreshQueued = true;
         return cakeReviewLoadInFlight;
     }
 
-    cakeReviewLoadInFlight=(async()=>{
-        contenedor.setAttribute('aria-busy','true');
-        try{
-            const {data,error}=await client.from('testimonials')
-                .select('id, customer_name, review_text, rating, photo_url, photo_paths, product_name, created_at, published_at')
-                .eq('is_published',true)
-                .order('published_at',{ascending:false,nullsFirst:false})
-                .order('created_at',{ascending:false})
-                .limit(40);
-            if(error)throw error;
-
-            const rows=Array.isArray(data)?data:[];
-            const fingerprint=JSON.stringify(rows.map(r=>[r.id,r.published_at,r.created_at,r.customer_name,r.review_text,r.rating,r.product_name,r.photo_paths,r.photo_url]));
-            const previewPaths=rows.map(review=>{
-                const paths=Array.isArray(review.photo_paths)&&review.photo_paths.length?review.photo_paths:(review.photo_url?[review.photo_url]:[]);
-                return paths[0]||'';
-            }).filter(Boolean);
-            const needsRenewal=previewPaths.some(path=>{
-                if(/^https?:\/\//i.test(path))return false;
-                const cached=cakeReviewSignedUrlCache.get(path);
-                return !cached||cached.expiresAt<=Date.now()+60000;
-            });
-            if(!force&&fingerprint===cakeReviewLastFingerprint&&!needsRenewal)return;
-
-            const changed=fingerprint!==cakeReviewLastFingerprint;
-            // Mostrar primero nombre, estrellas y comentario; las fotos se preparan en segundo plano.
-            cakeReviews=rows.map(review=>({...review,__signedPhotos:[]}));
-            cakeReviewLastFingerprint=fingerprint;
-            if(changed)cakeReviewOffset=0;
-            cakeReviewRenderCarousel();
-
-            if(previewPaths.length){
-                const signedMap=await cakeReviewCreateSignedUrlMap(client,previewPaths);
-                cakeReviews=rows.map(review=>{
-                    const paths=Array.isArray(review.photo_paths)&&review.photo_paths.length?review.photo_paths:(review.photo_url?[review.photo_url]:[]);
-                    const first=paths[0]||'';
-                    const previewUrl=first?( /^https?:\/\//i.test(first)?first:(signedMap.get(first)||'') ):'';
-                    return {...review,__signedPhotos:previewUrl?[previewUrl]:[]};
-                });
-                cakeReviewRenderCarousel();
-            }
-        }catch(error){
-            console.error('No se pudieron cargar las reseñas aprobadas:',error);
-            contenedor.replaceChildren(crearElementoTextoCake('p','cake-estado-vacio',`No pudimos cargar las reseñas. ${error.message||'Revisa la conexión y los permisos de lectura en Supabase.'}`));
-        }finally{
-            contenedor.removeAttribute('aria-busy');
+    cakeReviewLoadInFlight = (async () => {
+        const { data, error } = await client.from('testimonials')
+            .select('id, customer_name, review_text, rating, photo_url, photo_paths, product_name, created_at, published_at')
+            .eq('is_published', true)
+            .order('published_at', { ascending: false, nullsFirst: false })
+            .order('created_at', { ascending: false })
+            .limit(40);
+        if (error) {
+            console.warn('No se pudieron cargar reseñas:', error.message);
+            // Mostrar un aviso útil en la sección, en lugar de dejarla vacía sin explicación.
+            contenedor.replaceChildren(crearElementoTextoCake('p', 'cake-estado-vacio', `No pudimos cargar las reseñas. ${error.message}`));
+            return;
         }
-    })().finally(()=>{
-        cakeReviewLoadInFlight=null;
-        if(cakeReviewRefreshQueued){cakeReviewRefreshQueued=false;void cargarOpinionesAprobadasCake(client,true);}
+
+        const rows = data || [];
+        const fingerprint = JSON.stringify(rows.map(r => [r.id, r.published_at, r.created_at, r.customer_name, r.review_text, r.rating, r.product_name, r.photo_paths, r.photo_url]));
+        const previewPaths = rows.map(review => {
+            const paths = Array.isArray(review.photo_paths) && review.photo_paths.length
+                ? review.photo_paths : (review.photo_url ? [review.photo_url] : []);
+            return paths[0] || '';
+        }).filter(Boolean);
+        const needsRenewal = previewPaths.some(path => {
+            if (/^https?:\/\//i.test(path)) return false;
+            const cached = cakeReviewSignedUrlCache.get(path);
+            return !cached || cached.expiresAt <= Date.now() + 60000;
+        });
+        if (!force && fingerprint === cakeReviewLastFingerprint && !needsRenewal) return;
+
+        // Todas las miniaturas se firman en una sola petición, no una petición por reseña.
+        const signedMap = await cakeReviewCreateSignedUrlMap(client, previewPaths);
+        cakeReviews = rows.map(review => {
+            const paths = Array.isArray(review.photo_paths) && review.photo_paths.length
+                ? review.photo_paths : (review.photo_url ? [review.photo_url] : []);
+            const first = paths[0] || '';
+            const previewUrl = first
+                ? (/^https?:\/\//i.test(first) ? first : (signedMap.get(first) || ''))
+                : '';
+            return { ...review, __signedPhotos: previewUrl ? [previewUrl] : [] };
+        });
+        cakeReviewLastFingerprint = fingerprint;
+        // Al aprobarse una reseña nueva, vuelve al inicio para mostrarla primero.
+        cakeReviewOffset = 0;
+        cakeReviewRenderCarousel();
+    })().finally(() => {
+        cakeReviewLoadInFlight = null;
+        if (cakeReviewRefreshQueued) {
+            cakeReviewRefreshQueued = false;
+            window.setTimeout(() => { void cargarOpinionesAprobadasCake(client, true); }, 0);
+        }
     });
     return cakeReviewLoadInFlight;
 }
 
 function cakeReviewStartRefresh(client) {
-    if(!client||cakeReviewRefreshTimer)return;
-    const refresh=(force=true)=>{
-        if(document.visibilityState==='visible')void cargarOpinionesAprobadasCake(client,force);
+    if (!client || cakeReviewRefreshTimer) return;
+    const refresh = () => {
+        if (document.visibilityState === 'visible') {
+            void cargarOpinionesAprobadasCake(client, false);
+        }
     };
-    // Respaldo rápido: si Realtime no está habilitado, la galería consulta cada 5 segundos.
-    cakeReviewRefreshTimer=window.setInterval(()=>refresh(false),5000);
-    document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refresh(true);});
-    window.addEventListener('focus',()=>refresh(true),{passive:true});
-    try{
-        if(typeof client.channel==='function'){
+    // Si la página ya estaba abierta mientras se aprobó una opinión, la galería se actualiza sola.
+    // Realtime actualiza al instante cuando está habilitado; este respaldo consulta
+    // cada 4 segundos para que una aprobación se vea rápido incluso sin Realtime.
+    cakeReviewRefreshTimer = window.setInterval(refresh, 4000);
+    document.addEventListener('visibilitychange', refresh);
+    window.addEventListener('focus', refresh, { passive: true });
+    // Usa Realtime si la tabla está habilitada en la publicación de Supabase; el sondeo anterior es respaldo.
+    try {
+        if (typeof client.channel === 'function') {
             client.channel('cake-chavez-opiniones-publicas')
-                .on('postgres_changes',{event:'*',schema:'public',table:'testimonials'},()=>refresh(true))
-                .subscribe(status=>{
-                    if(status==='CHANNEL_ERROR'||status==='TIMED_OUT')console.info('Realtime no disponible; se mantiene la actualización automática cada 5 segundos.');
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'testimonials' }, payload => {
+                    if (payload?.new?.is_published === true || payload?.old?.is_published === true) {
+                        void cargarOpinionesAprobadasCake(client, true);
+                    }
+                })
+                .subscribe(status => {
+                    if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+                        console.info('Realtime no está disponible; se mantiene la actualización automática cada 4 segundos.');
+                    }
                 });
         }
-    }catch(error){console.info('Se usará la actualización automática cada 5 segundos.',error);}
+    } catch (error) {
+        console.info('La actualización en vivo usará la comprobación automática.', error);
+    }
 }
 
 async function cakeReviewOptimizePhoto(file) {
