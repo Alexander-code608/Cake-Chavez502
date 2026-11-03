@@ -943,20 +943,99 @@ function abrirPersonalizadorConOcasion(ocasion) {
 }
 
 // =========================================================
-// MEJORA 3: SOLICITUD DE OPINIÓN REAL POR WHATSAPP
-// No publica reseñas automáticamente; solo prepara un mensaje para el cliente.
-// =========================================================
-function solicitarOpinionWhatsapp(tema) {
-    const mensajes = {
-        sabor: 'Quisiera compartir mi opinión sobre el sabor de un producto.',
-        pedido: 'Quisiera compartir mi experiencia con mi pedido.',
-        foto: 'Quisiera compartir una foto y una opinión sobre mi pedido.'
-    };
-    const texto = `Hola, Cake Chavez. ${mensajes[tema] || 'Quisiera compartir mi opinión sobre Cake Chavez.'}\n\nProducto o pedido: [escribe aquí]\nMi opinión: [escribe aquí]\n\nPor favor, consúltenme antes de publicar mi comentario o mi foto.`;
-    const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
-    const ventana = window.open(url, '_blank');
-    if (ventana) ventana.opener = null;
-    else window.location.href = url;
+// RESEÑAS PÚBLICAS: formulario, moderación, carrusel, galería y likes por foto.
+const CAKE_REVIEW_BUCKET = 'review-photos';
+let cakeReviews = [];
+let cakeReviewOffset = 0;
+let cakeReviewLightboxState = { reviewId: null, photos: [], index: 0, likes: [] };
+let cakeReviewSelectedRating = 5;
+let cakeReviewPreviewUrls = [];
+function cakeReviewDeviceId(){
+    const key='cake-chavez-review-device-v1'; let value='';
+    try { value=localStorage.getItem(key)||''; if(!value){value=crypto.randomUUID();localStorage.setItem(key,value);} } catch(_){value=crypto.randomUUID();}
+    return value;
+}
+function cakeReviewOpen(){const modal=document.getElementById('cake-review-modal');if(!modal)return;modal.hidden=false;modal.setAttribute('aria-hidden','false');document.body.classList.add('cake-review-open');document.getElementById('cake-review-name')?.focus();}
+function cakeReviewClose(){const modal=document.getElementById('cake-review-modal');if(!modal)return;modal.hidden=true;modal.setAttribute('aria-hidden','true');document.body.classList.remove('cake-review-open');}
+function cakeReviewSetRating(value){cakeReviewSelectedRating=Math.max(1,Math.min(5,Number(value)||5));const input=document.getElementById('cake-review-rating');if(input)input.value=String(cakeReviewSelectedRating);document.querySelectorAll('.cake-star-picker [data-rating]').forEach(b=>{const active=Number(b.dataset.rating)<=cakeReviewSelectedRating;b.classList.toggle('active',active);b.setAttribute('aria-checked',String(Number(b.dataset.rating)===cakeReviewSelectedRating));});}
+function cakeReviewClearPreviews(){cakeReviewPreviewUrls.forEach(URL.revokeObjectURL);cakeReviewPreviewUrls=[];const box=document.getElementById('cake-review-previews');if(box)box.replaceChildren();}
+function cakeReviewRenderPreviews(){cakeReviewClearPreviews();const files=Array.from(document.getElementById('cake-review-photos')?.files||[]);const box=document.getElementById('cake-review-previews');if(!box)return;files.slice(0,10).forEach(file=>{const url=URL.createObjectURL(file);cakeReviewPreviewUrls.push(url);const img=document.createElement('img');img.src=url;img.alt='Vista previa de foto';img.draggable=false;box.appendChild(img);});}
+function cakeReviewSignedPhotos(review){
+    if(Array.isArray(review.__signedPhotos)&&review.__signedPhotos.length)return review.__signedPhotos;
+    const paths=Array.isArray(review.photo_paths)?review.photo_paths:[];
+    if(paths.length)return paths;
+    return review.photo_url?[review.photo_url]:[];
+}
+async function cakeReviewCreateSignedUrls(client,paths){
+    const results=await Promise.all(paths.map(async path=>{if(/^https?:\/\//i.test(path))return path;const {data,error}=await client.storage.from(CAKE_REVIEW_BUCKET).createSignedUrl(path,3600);if(error){console.warn('No se pudo abrir una foto de reseña:',error.message);return '';}return data?.signedUrl||'';}));
+    return results.filter(Boolean);
+}
+function cakeReviewRenderCarousel(){
+    const host=document.getElementById('cake-opiniones-publicadas');if(!host)return;host.replaceChildren();
+    if(!cakeReviews.length){host.appendChild(crearElementoTextoCake('p','cake-estado-vacio','Todavía no hay reseñas aprobadas. ¡Sé la primera persona en compartir tu experiencia!'));return;}
+    const mobile=window.matchMedia('(max-width: 650px)').matches;const visible=mobile?2:3;const maxStart=Math.max(0,cakeReviews.length-visible);cakeReviewOffset=Math.min(cakeReviewOffset,maxStart);
+    const shown= cakeReviews.slice(cakeReviewOffset,cakeReviewOffset+visible);
+    shown.forEach(review=>{
+        const card=document.createElement('article');card.className='cake-opinion-card';
+        const head=document.createElement('div');head.className='cake-opinion-card-head';
+        const avatar=document.createElement('span');avatar.className='cake-opinion-avatar';avatar.setAttribute('aria-hidden','true');avatar.innerHTML='<i class="fas fa-user"></i>';
+        const meta=document.createElement('div');meta.className='cake-opinion-meta';meta.appendChild(crearElementoTextoCake('strong','',review.customer_name||'Cliente de Cake Chávez'));
+        meta.appendChild(crearElementoTextoCake('span','cake-opinion-estrellas','★'.repeat(Math.max(1,Math.min(5,Number(review.rating)||5)))+'☆'.repeat(5-Math.max(1,Math.min(5,Number(review.rating)||5)))));
+        head.append(avatar,meta);card.appendChild(head);
+        if(review.product_name)card.appendChild(crearElementoTextoCake('small','cake-opinion-product',review.product_name));
+        card.appendChild(crearElementoTextoCake('p','cake-opinion-quote',review.review_text||''));
+        const photos=cakeReviewSignedPhotos(review);const photoCount=Array.isArray(review.photo_paths)&&review.photo_paths.length?review.photo_paths.length:(review.photo_url?1:0);if(photos.length){const photoButton=document.createElement('button');photoButton.type='button';photoButton.className='cake-opinion-photo-preview';photoButton.setAttribute('aria-label',`Ver ${photos.length} fotografías de ${review.customer_name||'la reseña'}`);const img=document.createElement('img');img.src=photos[0];img.alt='Foto de pastel compartida por un cliente';img.loading='lazy';img.draggable=false;photoButton.appendChild(img);if(photoCount>1)photoButton.appendChild(crearElementoTextoCake('span','cake-opinion-photo-count',`+${photoCount-1} fotos`));photoButton.addEventListener('click',()=>cakeReviewOpenLightbox(review,0));card.appendChild(photoButton);}
+        host.appendChild(card);
+    });
+    const prev=document.getElementById('cake-reviews-prev'),next=document.getElementById('cake-reviews-next');if(prev)prev.disabled=cakeReviewOffset===0;if(next)next.disabled=cakeReviewOffset>=maxStart;
+}
+async function cakeReviewOpenLightbox(review,index){
+    const client=obtenerClienteSupabaseCake();if(!client)return;const paths=Array.isArray(review.photo_paths)&&review.photo_paths.length?review.photo_paths:(review.photo_url?[review.photo_url]:[]);const photos=await cakeReviewCreateSignedUrls(client,paths);if(!photos.length)return;
+    cakeReviewLightboxState={reviewId:review.id,photos,index:Math.max(0,Math.min(index,photos.length-1)),likes:[]};
+    const {data}=await client.rpc('cake_get_testimonial_photo_likes',{p_review_id:String(review.id)});
+    cakeReviewLightboxState.likes=data||[];cakeReviewPaintLightbox();const box=document.getElementById('cake-review-lightbox');box.hidden=false;box.setAttribute('aria-hidden','false');document.body.classList.add('cake-review-lightbox-open');
+}
+function cakeReviewPaintLightbox(){const state=cakeReviewLightboxState;const img=document.getElementById('cake-review-lightbox-image');if(!img||!state.photos.length)return;img.src=state.photos[state.index];img.draggable=false;document.getElementById('cake-review-photo-count').textContent=`Foto ${state.index+1} de ${state.photos.length}`;document.getElementById('cake-review-photo-prev').disabled=state.photos.length<2;document.getElementById('cake-review-photo-next').disabled=state.photos.length<2;let localLikes=[];try{localLikes=JSON.parse(localStorage.getItem('cake-chavez-photo-likes-v1')||'[]');}catch(_){}const liked=localLikes.includes(`${state.reviewId}:${state.index}`);const likeBtn=document.getElementById('cake-review-photo-like');likeBtn.classList.toggle('liked',liked);likeBtn.querySelector('i').className=liked?'fas fa-heart':'far fa-heart';document.getElementById('cake-review-photo-likes').textContent=String(state.likes.find(x=>Number(x.photo_index)===state.index)?.like_count||0);}
+function cakeReviewCloseLightbox(){const box=document.getElementById('cake-review-lightbox');if(box){box.hidden=true;box.setAttribute('aria-hidden','true');}document.body.classList.remove('cake-review-lightbox-open');document.getElementById('cake-review-lightbox-image').removeAttribute('src');}
+async function cakeReviewLoadLikes(){const client=obtenerClienteSupabaseCake();if(!client)return;const state=cakeReviewLightboxState;const {data}=await client.rpc('cake_get_testimonial_photo_likes',{p_review_id:String(state.reviewId)});state.likes=data||[];cakeReviewPaintLightbox();}
+async function cakeReviewLikeCurrentPhoto(){const client=obtenerClienteSupabaseCake();if(!client)return;const state=cakeReviewLightboxState;const voter=cakeReviewDeviceId();const key=`${state.reviewId}:${state.index}`;let liked=[];try{liked=JSON.parse(localStorage.getItem('cake-chavez-photo-likes-v1')||'[]');}catch(_){}const btn=document.getElementById('cake-review-photo-like');if(liked.includes(key))return;btn.disabled=true;try{const {data,error}=await client.rpc('cake_like_testimonial_photo',{p_review_id:String(state.reviewId),p_photo_index:state.index,p_voter_id:voter});if(error)throw error;liked.push(key);localStorage.setItem('cake-chavez-photo-likes-v1',JSON.stringify(liked));await cakeReviewLoadLikes();}catch(e){console.warn('No se pudo registrar el me gusta:',e.message);}finally{btn.disabled=false;}}
+async function cargarOpinionesAprobadasCake(client){
+    const contenedor=document.getElementById('cake-opiniones-publicadas');if(!contenedor)return;
+    if(!client){contenedor.replaceChildren(crearElementoTextoCake('p','cake-estado-vacio','Las reseñas aparecerán aquí cuando se conecte Supabase.'));return;}
+    const {data,error}=await client.from('testimonials').select('id, customer_name, review_text, rating, photo_url, photo_paths, product_name, created_at, published_at').eq('is_published',true).order('published_at',{ascending:false,nullsFirst:false}).order('created_at',{ascending:false}).limit(40);
+    if(error){console.warn('No se pudieron cargar reseñas:',error.message);return;}
+    cakeReviews=await Promise.all((data||[]).map(async review=>{const paths=Array.isArray(review.photo_paths)&&review.photo_paths.length?review.photo_paths:(review.photo_url?[review.photo_url]:[]);return {...review,__signedPhotos:await cakeReviewCreateSignedUrls(client,paths.slice(0,1))};}));
+    cakeReviewOffset=0;cakeReviewRenderCarousel();
+}
+function configurarResenasPublicasCake(){
+    document.getElementById('cake-open-review')?.addEventListener('click',cakeReviewOpen);
+    document.querySelectorAll('[data-review-close]').forEach(el=>el.addEventListener('click',cakeReviewClose));
+    document.querySelectorAll('.cake-star-picker [data-rating]').forEach(btn=>btn.addEventListener('click',()=>cakeReviewSetRating(btn.dataset.rating)));cakeReviewSetRating(5);
+    document.getElementById('cake-review-photos')?.addEventListener('change',event=>{const files=Array.from(event.target.files||[]);if(files.length>10){event.target.value='';cakeReviewClearPreviews();document.getElementById('cake-review-status').textContent='Puedes subir como máximo 10 fotografías.';return;}if(files.some(f=>!/^image\/(jpeg|png|webp)$/i.test(f.type)||f.size>5*1024*1024)){event.target.value='';cakeReviewClearPreviews();document.getElementById('cake-review-status').textContent='Cada foto debe ser JPG, PNG o WebP y pesar máximo 5 MB.';return;}document.getElementById('cake-review-status').textContent='';cakeReviewRenderPreviews();});
+    document.getElementById('cake-public-review-form')?.addEventListener('submit',async event=>{
+        event.preventDefault();const client=obtenerClienteSupabaseCake();const status=document.getElementById('cake-review-status');const submit=event.currentTarget.querySelector('[type=submit]');
+        if(!client){status.textContent='No pudimos conectar con el servicio de reseñas. Inténtalo más tarde.';return;}
+        const name=document.getElementById('cake-review-name').value.trim(),product=document.getElementById('cake-review-product').value.trim(),text=document.getElementById('cake-review-text').value.trim(),files=Array.from(document.getElementById('cake-review-photos').files||[]);
+        if(!name||!product||!text||!document.getElementById('cake-review-consent').checked){status.textContent='Completa los campos obligatorios y acepta la autorización.';return;}
+        if(files.length>10||files.some(f=>f.size>5*1024*1024)){status.textContent='Revisa las fotografías: máximo 10, 5 MB cada una.';return;}
+        submit.disabled=true;status.textContent='Enviando tu reseña y fotografías…';const paths=[];
+        try{
+            for(const file of files){const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';const path=`incoming/${crypto.randomUUID()}.${ext}`;const {error}=await client.storage.from(CAKE_REVIEW_BUCKET).upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type});if(error)throw error;paths.push(path);}
+            const payload={customer_name:name,product_name:product,review_text:text,rating:cakeReviewSelectedRating,photo_paths:paths,photo_url:null,is_published:false,consent_to_publish:true};const {error}=await client.from('testimonials').insert(payload);if(error)throw error;
+            document.getElementById('cake-review-form-view').hidden=true;document.getElementById('cake-review-success').hidden=false;event.currentTarget.reset();cakeReviewSetRating(5);cakeReviewClearPreviews();
+        }catch(error){console.error('Error enviando reseña:',error);status.textContent='No se pudo enviar la reseña. '+(error.message||'Inténtalo nuevamente.');if(paths.length)await client.storage.from(CAKE_REVIEW_BUCKET).remove(paths).catch(()=>{});}
+        finally{submit.disabled=false;}
+    });
+    document.getElementById('cake-review-modal')?.addEventListener('click',event=>{if(event.target.matches('[data-review-close]')){document.getElementById('cake-review-form-view').hidden=false;document.getElementById('cake-review-success').hidden=true;}});
+    document.getElementById('cake-reviews-prev')?.addEventListener('click',()=>{cakeReviewOffset=Math.max(0,cakeReviewOffset-(window.matchMedia('(max-width: 650px)').matches?1:1));cakeReviewRenderCarousel();});
+    document.getElementById('cake-reviews-next')?.addEventListener('click',()=>{const visible=window.matchMedia('(max-width: 650px)').matches?2:3;cakeReviewOffset=Math.min(Math.max(0,cakeReviews.length-visible),cakeReviewOffset+1);cakeReviewRenderCarousel();});
+    window.addEventListener('resize',cakeReviewRenderCarousel);
+    document.querySelectorAll('[data-review-lightbox-close]').forEach(el=>el.addEventListener('click',cakeReviewCloseLightbox));
+    document.getElementById('cake-review-photo-prev')?.addEventListener('click',()=>{const s=cakeReviewLightboxState;s.index=(s.index-1+s.photos.length)%s.photos.length;cakeReviewPaintLightbox();cakeReviewLoadLikes();});
+    document.getElementById('cake-review-photo-next')?.addEventListener('click',()=>{const s=cakeReviewLightboxState;s.index=(s.index+1)%s.photos.length;cakeReviewPaintLightbox();cakeReviewLoadLikes();});
+    document.getElementById('cake-review-photo-like')?.addEventListener('click',cakeReviewLikeCurrentPhoto);
+    const lightboxImg=document.getElementById('cake-review-lightbox-image');lightboxImg?.addEventListener('contextmenu',e=>e.preventDefault());lightboxImg?.addEventListener('dragstart',e=>e.preventDefault());
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'){cakeReviewClose();cakeReviewCloseLightbox();}if(!document.getElementById('cake-review-lightbox')?.hidden&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){const s=cakeReviewLightboxState;s.index=(s.index+(e.key==='ArrowRight'?1:-1)+s.photos.length)%s.photos.length;cakeReviewPaintLightbox();cakeReviewLoadLikes();}});
 }
 
 // =========================================================
@@ -1819,32 +1898,6 @@ function renderizarDestacadosDesdeAdminCake(productosRemotos) {
     });
 }
 
-// MEJORA 13: OPINIONES REALES — solamente las aprobadas desde la administración.
-async function cargarOpinionesAprobadasCake(client) {
-    const contenedor = document.getElementById('cake-opiniones-publicadas');
-    if (!contenedor) return;
-    if (!client) {
-        contenedor.replaceChildren(crearElementoTextoCake('p', 'cake-estado-vacio', 'Las opiniones de clientes aparecerán aquí cuando se conecte el panel y se publiquen comentarios reales con permiso.'));
-        return;
-    }
-    const { data, error } = await client.from('testimonials').select('id, customer_name, review_text, rating, photo_url').eq('is_published', true).order('created_at', { ascending: false }).limit(12);
-    if (error) {
-        console.warn('No se pudieron cargar las opiniones publicadas.', error.message);
-        return;
-    }
-    contenedor.replaceChildren();
-    if (!data?.length) { contenedor.appendChild(crearElementoTextoCake('p', 'cake-estado-vacio', 'Todavía no hay opiniones aprobadas para mostrar.')); return; }
-    data.forEach(review => {
-        const card = document.createElement('article'); card.className = 'cake-opinion-card';
-        if (review.photo_url) { const img = document.createElement('img'); img.src = review.photo_url; img.alt = `Fotografía compartida por ${review.customer_name || 'un cliente'}`; img.loading = 'lazy'; img.onerror=()=>img.remove(); card.appendChild(img); }
-        const puntuacion = Math.max(1, Math.min(5, Number(review.rating) || 5));
-        card.appendChild(crearElementoTextoCake('div', 'cake-opinion-estrellas', '★'.repeat(puntuacion) + '☆'.repeat(5 - puntuacion)));
-        const quote = document.createElement('blockquote'); quote.textContent = review.review_text || ''; card.appendChild(quote);
-        card.appendChild(crearElementoTextoCake('strong', '', review.customer_name || 'Cliente de Cake Chavez'));
-        contenedor.appendChild(card);
-    });
-}
-
 // MEJORA 16: INFORMACIÓN DE ENTREGA — datos editables desde el panel privado.
 async function cargarInformacionTiendaCake(client) {
     if (!client) return;
@@ -2363,6 +2416,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('cake-calculo-consultar')?.addEventListener('click', consultarEstimadoCake);
     document.getElementById('cake-seguimiento-form')?.addEventListener('submit', consultarEstadoPedidoCake);
     configurarAsistenteCake();
+    configurarResenasPublicasCake();
     const productosRemotos = await sincronizarCatalogoAdminCake();
     renderizarEspecialidadesCake(productosRemotos);
     // Después de la posible sincronización, regeneramos elementos derivados del catálogo.

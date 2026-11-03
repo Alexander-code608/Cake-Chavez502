@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cake Chavez - Repostería</title>
-    <link rel="stylesheet" href="style.css?v=15">
+    <link rel="stylesheet" href="style.css?v=17">
     <link rel="stylesheet" href="store-editor.css?v=3">
     <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -406,42 +406,77 @@
         </div>
     </main>
 
-    <!-- =====================================================
-         MEJORA 3: OPINIONES Y COMENTARIOS DE CLIENTES
-         No inventa reseñas: invita a compartir una opinión real por WhatsApp.
-         ===================================================== -->
-    <section class="opiniones-section seccion-extra" id="opiniones" aria-labelledby="titulo-opiniones">
-        <div class="seccion-cabecera">
-            <span class="seccion-etiqueta"><i class="fas fa-comments" aria-hidden="true"></i> Tu experiencia nos importa</span>
-            <h2 id="titulo-opiniones">Opiniones de nuestros clientes</h2>
-            <p>Estamos reuniendo comentarios reales. Si ya hiciste un pedido, cuéntanos qué te pareció.</p>
+    <!-- OPINIONES REALES: reseñas enviadas por clientes y publicadas solo tras aprobación. -->
+    <section class="opiniones-section opiniones-v2" id="opiniones" aria-labelledby="titulo-opiniones">
+        <div class="opiniones-hero">
+            <div class="opiniones-hero-art" aria-hidden="true">
+                <img src="img/opiniones/pastel-hero-opiniones.jpg" alt="" loading="lazy">
+            </div>
+            <div class="opiniones-hero-copy">
+                <span class="opiniones-pill"><i class="fas fa-heart" aria-hidden="true"></i> Nuestros clientes</span>
+                <h2 id="titulo-opiniones">Tu Opinión Nos Motiva <span aria-hidden="true">♡</span></h2>
+                <p>Comparte tu experiencia con nosotros y ayúdanos a seguir endulzando tus momentos.</p>
+                <button type="button" class="opiniones-cta" id="cake-open-review"><i class="fas fa-pen" aria-hidden="true"></i> Deja tu reseña</button>
+            </div>
         </div>
-        <!-- MEJORA 13: OPINIONES VERIFICADAS PUBLICADAS DESDE EL PANEL; no se inventan reseñas. -->
-        <div class="cake-opiniones-publicadas" id="cake-opiniones-publicadas" aria-live="polite">
-            <p class="cake-estado-vacio">Todavía no hay opiniones publicadas. Tus comentarios reales nos ayudan a mejorar.</p>
+        <div class="opiniones-publicadas-head">
+            <span></span><h3>Reseñas de Nuestros Clientes</h3><span></span>
         </div>
-        <div class="opiniones-grid">
-            <article class="opinion-invitacion-card">
-                <span class="opinion-icono"><i class="fas fa-cookie-bite" aria-hidden="true"></i></span>
-                <h3>¿Qué te pareció el sabor?</h3>
-                <p>Cuéntanos qué producto probaste y qué fue lo que más te gustó.</p>
-                <button type="button" class="boton-secundario-rosa" onclick="solicitarOpinionWhatsapp('sabor')">Compartir opinión</button>
-            </article>
-            <article class="opinion-invitacion-card">
-                <span class="opinion-icono"><i class="fas fa-box-open" aria-hidden="true"></i></span>
-                <h3>¿Cómo fue tu pedido?</h3>
-                <p>Tu experiencia con la atención y la preparación nos ayuda a mejorar.</p>
-                <button type="button" class="boton-secundario-rosa" onclick="solicitarOpinionWhatsapp('pedido')">Compartir experiencia</button>
-            </article>
-            <article class="opinion-invitacion-card">
-                <span class="opinion-icono"><i class="fas fa-camera" aria-hidden="true"></i></span>
-                <h3>¿Nos compartes una foto?</h3>
-                <p>Si tienes una foto de tu pastel, puedes enviárnosla por WhatsApp.</p>
-                <button type="button" class="boton-secundario-rosa" onclick="solicitarOpinionWhatsapp('foto')">Enviar comentario</button>
-            </article>
+        <div class="opiniones-carousel-shell">
+            <button type="button" class="opiniones-nav opiniones-prev" id="cake-reviews-prev" aria-label="Ver reseñas anteriores"><i class="fas fa-chevron-left"></i></button>
+            <div class="cake-opiniones-publicadas" id="cake-opiniones-publicadas" aria-live="polite">
+                <p class="cake-estado-vacio">Todavía no hay reseñas aprobadas. ¡Sé la primera persona en compartir tu experiencia!</p>
+            </div>
+            <button type="button" class="opiniones-nav opiniones-next" id="cake-reviews-next" aria-label="Ver más reseñas"><i class="fas fa-chevron-right"></i></button>
         </div>
-        <p class="nota-opiniones">Las opiniones se publicarán solo si Cake Chavez las agrega después de recibirlas y contar con permiso.</p>
+        <p class="nota-opiniones">Cada reseña es revisada por Cake Chávez antes de aparecer publicada. ¡Gracias por tu confianza! 💗</p>
     </section>
+
+    <!-- Formulario público de reseña -->
+    <div class="cake-review-modal" id="cake-review-modal" hidden aria-hidden="true">
+        <div class="cake-review-backdrop" data-review-close></div>
+        <section class="cake-review-dialog" role="dialog" aria-modal="true" aria-labelledby="cake-review-title">
+            <header class="cake-review-dialog-head"><h2 id="cake-review-title"><i class="far fa-heart"></i> Comparte tu experiencia</h2><button type="button" class="cake-review-close" data-review-close aria-label="Cerrar">×</button></header>
+            <div id="cake-review-form-view">
+                <p class="cake-review-intro">Tu opinión nos ayuda a mejorar. 💗</p>
+                <form id="cake-public-review-form">
+                    <label for="cake-review-product">¿Qué producto probaste?</label>
+                    <input id="cake-review-product" name="product" maxlength="140" placeholder="Ej. Pastel de fresas" required>
+                    <fieldset class="cake-review-stars"><legend>¿Qué te pareció? <span aria-hidden="true">♡</span></legend>
+                        <div class="cake-star-picker" role="radiogroup" aria-label="Calificación de 1 a 5 estrellas">
+                            <button type="button" data-rating="1" aria-label="1 estrella">★</button><button type="button" data-rating="2" aria-label="2 estrellas">★</button><button type="button" data-rating="3" aria-label="3 estrellas">★</button><button type="button" data-rating="4" aria-label="4 estrellas">★</button><button type="button" data-rating="5" aria-label="5 estrellas">★</button>
+                        </div><input type="hidden" id="cake-review-rating" value="5">
+                    </fieldset>
+                    <label for="cake-review-text">Tu reseña (cuéntanos tu experiencia)</label>
+                    <textarea id="cake-review-text" rows="4" maxlength="1200" placeholder="Escribe aquí tu comentario…" required></textarea>
+                    <label for="cake-review-photos">Agrega tus fotos <span>(hasta 10)</span></label>
+                    <input id="cake-review-photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+                    <small class="cake-review-help">JPG, PNG o WebP · máximo 5 MB por foto. Evita incluir rostros, direcciones u otros datos personales.</small>
+                    <div class="cake-review-previews" id="cake-review-previews"></div>
+                    <label for="cake-review-name">Tu nombre</label>
+                    <input id="cake-review-name" maxlength="80" autocomplete="name" placeholder="Escribe tu nombre" required>
+                    <label class="cake-review-consent"><input type="checkbox" id="cake-review-consent" required><span>Confirmo que esta reseña es real y autorizo a Cake Chávez a revisarla y, si la aprueba, publicarla en su sitio web.</span></label>
+                    <p class="cake-review-status" id="cake-review-status" role="status" aria-live="polite"></p>
+                    <div class="cake-review-actions"><button type="submit" class="cake-review-submit"><i class="fas fa-paper-plane"></i> Enviar reseña</button><button type="button" class="cake-review-cancel" data-review-close>Cancelar</button></div>
+                </form>
+            </div>
+            <div class="cake-review-success" id="cake-review-success" hidden>
+                <div class="cake-review-success-icon"><i class="fas fa-check"></i></div><h3>¡Gracias por tu reseña!</h3><p>Tu opinión ha sido enviada correctamente. Será revisada y publicada si todo está en orden.</p><button type="button" class="opiniones-cta" data-review-close>Volver a la tienda</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Visor de fotos de reseñas: no ofrece descarga directa; las capturas no pueden bloquearse técnicamente. -->
+    <div class="cake-review-lightbox" id="cake-review-lightbox" hidden aria-hidden="true">
+        <div class="cake-review-lightbox-backdrop" data-review-lightbox-close></div>
+        <section class="cake-review-lightbox-panel" role="dialog" aria-modal="true" aria-label="Fotografías de la reseña">
+            <button type="button" class="cake-review-lightbox-close" data-review-lightbox-close aria-label="Cerrar">×</button>
+            <button type="button" class="cake-review-photo-nav prev" id="cake-review-photo-prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+            <img id="cake-review-lightbox-image" alt="Fotografía compartida en una reseña" draggable="false">
+            <button type="button" class="cake-review-photo-nav next" id="cake-review-photo-next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+            <div class="cake-review-lightbox-footer"><span id="cake-review-photo-count"></span><button type="button" id="cake-review-photo-like" class="cake-review-like"><i class="far fa-heart"></i> Me gusta <b id="cake-review-photo-likes">0</b></button></div>
+        </section>
+    </div>
 
     <!-- =====================================================
          MEJORA 6: GALERÍA DE INSPIRACIÓN
@@ -788,7 +823,7 @@
     <!-- CONFIGURACIÓN: completar supabase-config.js cuando se cree el proyecto Supabase. -->
     <script src="supabase-config.js?v=1"></script>
     <!-- SCRIPT PRINCIPAL: carrito, catálogo, galería y navegación existente. -->
-    <script src="script.js?v=9"></script>
+    <script src="script.js?v=10"></script>
     <script src="store-editor.js?v=5"></script>
 </body>
 </html>

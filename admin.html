@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Administración segura | Cake Chavez</title>
-  <link rel="stylesheet" href="admin.css?v=5">
+  <link rel="stylesheet" href="admin.css?v=6">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -121,19 +121,23 @@
 
       <!-- MEJORA 13: publicar solo comentarios auténticos y con permiso. -->
       <section class="admin-section" id="admin-panel-reviews" hidden>
-        <div class="admin-section-head"><div><h2>Opiniones de clientes</h2><p>Agrega un comentario real con permiso del cliente y publícalo cuando lo revises.</p></div></div>
+        <div class="admin-section-head"><div><h2>Opiniones de clientes</h2><p>Revisa las experiencias y fotografías que envían tus clientes. Solo se mostrarán en la tienda después de que las apruebes.</p></div><button type="button" id="admin-refresh-reviews" class="admin-button admin-button-outline"><i class="fas fa-rotate"></i> Actualizar</button></div>
+        <div class="admin-review-share-card"><div><strong><i class="fas fa-link"></i> Enlace para compartir reseñas</strong><p>Envía este enlace a tus clientes para llevarlos directamente a la sección «Tu Opinión Nos Motiva».</p><code id="admin-review-share-url"></code></div><button type="button" id="admin-copy-review-link" class="admin-button admin-button-primary"><i class="fas fa-copy"></i> Copiar enlace</button></div>
         <form id="admin-review-form" class="admin-form-card">
           <input type="hidden" id="review-id">
+          <h3>Agregar o editar una opinión</h3>
           <div class="admin-form-grid">
             <div><label for="review-name">Nombre mostrado</label><input id="review-name" required maxlength="80"></div>
+            <div><label for="review-product">Producto probado</label><input id="review-product" maxlength="140" placeholder="Pastel de fresas"></div>
             <div><label for="review-rating">Calificación</label><select id="review-rating"><option value="5">5 estrellas</option><option value="4">4 estrellas</option><option value="3">3 estrellas</option><option value="2">2 estrellas</option><option value="1">1 estrella</option></select></div>
             <div class="admin-full"><label for="review-text">Opinión real</label><textarea id="review-text" rows="3" maxlength="1200" required></textarea></div>
-            <div class="admin-full"><label for="review-photo">Foto opcional</label><input id="review-photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><small>Solicita permiso antes de publicar la foto o el nombre de una persona.</small></div>
-            <div class="admin-full"><label class="admin-inline-check"><input type="checkbox" id="review-published"> Publicar esta opinión en la tienda</label></div>
+            <div class="admin-full"><label for="review-photo">Agregar fotografías (máximo 10)</label><input id="review-photo" type="file" accept="image/jpeg,image/png,image/webp" multiple><small>Las fotografías de reseñas se guardan en el almacenamiento privado de Supabase.</small></div>
+            <div class="admin-full"><label class="admin-inline-check"><input type="checkbox" id="review-published"> Aprobar y publicar esta opinión</label></div>
           </div>
           <div class="admin-form-actions"><button class="admin-button admin-button-primary" type="submit">Guardar opinión</button><button class="admin-button admin-button-outline" type="button" id="admin-cancel-review">Limpiar</button></div>
           <p id="admin-review-message" class="admin-message" role="status"></p>
         </form>
+        <div class="admin-review-list-heading"><h3>Reseñas recibidas</h3><span>Las más recientes aparecen primero.</span></div>
         <div id="admin-reviews-list" class="admin-reviews-list"><p>Cargando opiniones…</p></div>
       </section>
 
@@ -229,6 +233,6 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="admin.js?v=6"></script>
+  <script src="admin.js?v=7"></script>
 </body>
 </html>
