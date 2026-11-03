@@ -3014,7 +3014,9 @@ input.cake-fecha-completa { border: 2px solid #c62828 !important; background: #f
 .cake-special-slide { grid-area:1 / 1; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); min-height:340px; overflow:hidden; border:1px solid rgba(240,156,187,.24); border-radius:20px; background:linear-gradient(115deg,#33282b,#211c1d); box-shadow:0 16px 40px rgba(0,0,0,.28); opacity:0; pointer-events:none; transform:translateX(var(--cake-slide-offset,22px)) scale(.99); transition:opacity .46s ease,transform .55s cubic-bezier(.22,1,.36,1); will-change:opacity,transform; z-index:0; }
 .cake-special-slide.is-active { opacity:1; pointer-events:auto; transform:translateX(0) scale(1); z-index:2; }
 .cake-special-slide.is-leaving { opacity:0; pointer-events:none; transform:translateX(var(--cake-leave-offset,-22px)) scale(.99); z-index:1; }
-.cake-special-image-frame { position:relative; min-height:340px; overflow:hidden; background:#181415; isolation:isolate; }
+.cake-special-image-frame { position:relative; min-height:340px; overflow:hidden; background:#181415; isolation:isolate; touch-action:pan-y; }
+.cake-special-slide.is-compact { min-height:0; }
+.cake-special-slide.is-compact .cake-special-image-frame { min-height:260px; height:clamp(260px,25vw,300px); }
 .cake-special-image { position:absolute; inset:0; display:block; width:100%; height:100%; min-height:0; max-height:none; object-fit:cover; object-position:center; cursor:zoom-in; opacity:0; pointer-events:none; transform:scale(1.012); transition:opacity .68s cubic-bezier(.22,.75,.25,1),transform .9s cubic-bezier(.2,.8,.2,1); will-change:opacity; z-index:0; }
 .cake-special-image.is-visible { opacity:1; pointer-events:auto; transform:scale(1); z-index:1; }
 .cake-special-image.is-visible:hover { transform:scale(1.025); }
@@ -3028,6 +3030,9 @@ input.cake-fecha-completa { border: 2px solid #c62828 !important; background: #f
 .cake-special-image-dots button,.cake-special-dots button { width:9px; height:9px; padding:0; border:0; border-radius:50%; background:rgba(255,255,255,.46); cursor:pointer; transition:width .2s,background .2s; }
 .cake-special-image-dots button.active,.cake-special-dots button.active { width:23px; border-radius:8px; background:var(--cake-rosa); }
 .cake-special-info { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:14px; padding:clamp(22px,4vw,48px); text-align:left; }
+/* Cuando no hay descripción, el título, precio y botón quedan juntos, sin un hueco intermedio. */
+.cake-special-info:not(.has-description) { justify-content:flex-start; gap:12px; padding-top:clamp(24px,3vw,38px); }
+.cake-special-description { margin:0; }
 .cake-special-kicker { color:var(--cake-rosa); font-size:.72rem; font-weight:700; letter-spacing:.16em; }
 .cake-special-info h3 { color:#fff3f7; font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.65rem,3vw,2.45rem); line-height:1.12; }
 .cake-special-info p { color:var(--cake-texto-suave); font-size:clamp(.9rem,1.4vw,1rem); line-height:1.7; }
@@ -3059,6 +3064,7 @@ input.cake-fecha-completa { border: 2px solid #c62828 !important; background: #f
   .cake-special-arrow { width:32px; height:32px; font-size:.8rem; }
   .cake-special-slide { grid-template-columns:1fr; min-height:0; border-radius:16px; }
   .cake-special-image-frame { min-height:0; height:clamp(205px,58vw,330px); }
+  .cake-special-slide.is-compact .cake-special-image-frame { min-height:0; height:clamp(190px,50vw,280px); }
   .cake-special-image { min-height:0; height:100%; max-height:none; }
   .cake-special-info { gap:10px; padding:18px 17px 20px; }
   .cake-special-info h3 { font-size:1.6rem; }

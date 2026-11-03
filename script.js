@@ -1856,6 +1856,7 @@ let cakeEspecialidades = [];
 let cakeIndiceEspecialidad = 0;
 const cakeCacheImagenesEspecialidades = new Map();
 const CAKE_INTERVALO_FOTOS_ESPECIALIDADES = 4800;
+const CAKE_DURACION_FUNDIDO_FOTOS_ESPECIALIDADES = 720;
 
 function normalizarPrecioCake(value) { const n = Number(value); return Number.isFinite(n) && n > 0 ? n : 0; }
 function precioVisibleEspecialidadCake(producto) {
@@ -1915,9 +1916,10 @@ function crearTarjetaEspecialidadCake(producto, indice) {
     const gallery = [producto.image_url, ...(Array.isArray(producto.gallery_urls) ? producto.gallery_urls : [])].filter(Boolean).slice(0,4);
     const image = gallery[0] || '';
     const name = String(producto.name || 'Especialidad');
-    const description = String(producto.description || 'Una creación especial de Cake Chavez.');
+    const description = String(producto.description || '').trim();
     card.dataset.productSlug = crearSlugProducto(producto.slug || name);
     card.dataset.productDescription = description;
+    card.classList.toggle('is-compact', !description);
     card.dataset.productGallery = JSON.stringify(gallery);
     card.__cakeProduct = producto;
 
@@ -1955,70 +1957,84 @@ function crearTarjetaEspecialidadCake(producto, indice) {
             dot.setAttribute('aria-current', dotIndex === imageIndex ? 'true' : 'false');
         });
     }
+
     async function mostrarImagen(nextIndex) {
-        if (gallery.length < 2 || imageIsChanging) return;
+        if (gallery.length < 2 || imageIsChanging || !card.classList.contains('is-active')) return false;
         const targetIndex = (nextIndex + gallery.length) % gallery.length;
-        if (targetIndex === imageIndex) return;
+        if (targetIndex === imageIndex) return true;
         imageIsChanging = true;
         const token = ++transitionToken;
         try {
             const ready = await precargarImagenEspecialidadCake(gallery[targetIndex]);
-            if (!ready || token !== transitionToken) return;
+            if (!ready || token !== transitionToken || !card.classList.contains('is-active')) return false;
 
-            backLayer.src = gallery[targetIndex];
-            backLayer.alt = name;
-            if (typeof backLayer.decode === 'function') {
-                try { await backLayer.decode(); } catch (_) {
-                    if (!backLayer.complete || !backLayer.naturalWidth) return;
+            const incomingLayer = backLayer;
+            incomingLayer.src = gallery[targetIndex];
+            incomingLayer.alt = name;
+            if (typeof incomingLayer.decode === 'function') {
+                try { await incomingLayer.decode(); } catch (_) {
+                    if (!incomingLayer.complete || !incomingLayer.naturalWidth) return false;
                 }
-            } else if (!backLayer.complete) {
+            } else if (!incomingLayer.complete || !incomingLayer.naturalWidth) {
                 const loaded = await new Promise(resolve => {
-                    backLayer.onload = () => resolve(true);
-                    backLayer.onerror = () => resolve(false);
+                    incomingLayer.onload = () => resolve(true);
+                    incomingLayer.onerror = () => resolve(false);
                 });
-                if (!loaded) return;
+                if (!loaded) return false;
             }
-            if (token !== transitionToken || !card.classList.contains('is-active')) return;
+            if (token !== transitionToken || !card.classList.contains('is-active')) return false;
 
-            // Los dos elementos se superponen: uno aparece mientras el otro se desvanece.
-            requestAnimationFrame(() => {
-                if (token !== transitionToken) return;
-                backLayer.classList.add('is-visible');
-                backLayer.setAttribute('aria-hidden','false');
-                frontLayer.classList.remove('is-visible');
-                frontLayer.setAttribute('aria-hidden','true');
-                const previousFront = frontLayer;
-                frontLayer = backLayer;
-                backLayer = previousFront;
-                imageIndex = targetIndex;
-                actualizarPuntosImagen();
-                void precargarImagenEspecialidadCake(gallery[(imageIndex + 1) % gallery.length]);
+            // Espera a que termine el fundido antes de permitir otra foto.
+            await new Promise(resolve => {
+                requestAnimationFrame(() => {
+                    if (token !== transitionToken) { resolve(); return; }
+                    incomingLayer.classList.add('is-visible');
+                    incomingLayer.setAttribute('aria-hidden', 'false');
+                    frontLayer.classList.remove('is-visible');
+                    frontLayer.setAttribute('aria-hidden', 'true');
+                    const previousFront = frontLayer;
+                    frontLayer = incomingLayer;
+                    backLayer = previousFront;
+                    imageIndex = targetIndex;
+                    actualizarPuntosImagen();
+                    void precargarImagenEspecialidadCake(gallery[(imageIndex + 1) % gallery.length]);
+                    window.setTimeout(resolve, CAKE_DURACION_FUNDIDO_FOTOS_ESPECIALIDADES);
+                });
             });
+            return token === transitionToken;
         } finally {
-            imageIsChanging = false;
+            if (token === transitionToken) imageIsChanging = false;
         }
     }
+
     function detenerAutoplayFotos() {
-        if (photoTimer) window.clearInterval(photoTimer);
+        if (photoTimer) window.clearTimeout(photoTimer);
         photoTimer = null;
         transitionToken++;
+        imageIsChanging = false;
     }
+
     function programarAutoplayFotos() {
-        if (photoTimer) window.clearInterval(photoTimer);
+        if (photoTimer) window.clearTimeout(photoTimer);
         photoTimer = null;
         if (gallery.length < 2 || !card.classList.contains('is-active') || document.hidden) return;
         void precargarImagenEspecialidadCake(gallery[(imageIndex + 1) % gallery.length]);
-        photoTimer = window.setInterval(() => { void mostrarImagen(imageIndex + 1); }, CAKE_INTERVALO_FOTOS_ESPECIALIDADES);
+        photoTimer = window.setTimeout(async () => {
+            photoTimer = null;
+            await mostrarImagen(imageIndex + 1);
+            programarAutoplayFotos();
+        }, CAKE_INTERVALO_FOTOS_ESPECIALIDADES);
     }
+
     function iniciarAutoplayFotos() {
         detenerAutoplayFotos();
         programarAutoplayFotos();
     }
+
     function navegarFotoManualmente(nextIndex) {
-        if (photoTimer) window.clearInterval(photoTimer);
+        if (photoTimer) window.clearTimeout(photoTimer);
         photoTimer = null;
-        void mostrarImagen(nextIndex);
-        programarAutoplayFotos();
+        void mostrarImagen(nextIndex).finally(programarAutoplayFotos);
     }
 
     imagePrev.hidden = gallery.length < 2; imageNext.hidden = gallery.length < 2;
@@ -2034,10 +2050,35 @@ function crearTarjetaEspecialidadCake(producto, indice) {
     });
     imageFrame.append(imageFront,imageBack,imagePrev,imageNext,imageDots);
 
+    // En celular, deslizar sobre la fotografía cambia solo las fotos de esta especialidad.
+    let galleryTouchStart = null;
+    imageFrame.addEventListener('touchstart', event => {
+        const touch = event.changedTouches?.[0];
+        if (!touch || event.target.closest('button')) { galleryTouchStart = null; return; }
+        galleryTouchStart = { x: touch.clientX, y: touch.clientY };
+    }, { passive: true });
+    imageFrame.addEventListener('touchend', event => {
+        if (!galleryTouchStart) return;
+        const touch = event.changedTouches?.[0];
+        const start = galleryTouchStart;
+        galleryTouchStart = null;
+        if (!touch || event.target.closest('button')) return;
+        const deltaX = touch.clientX - start.x;
+        const deltaY = touch.clientY - start.y;
+        if (Math.abs(deltaX) > 42 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+            event.preventDefault();
+            event.stopPropagation();
+            navegarFotoManualmente(imageIndex + (deltaX < 0 ? 1 : -1));
+        }
+    }, { passive: false });
+    imageFrame.addEventListener('touchcancel', () => { galleryTouchStart = null; }, { passive: true });
+
     const info = document.createElement('div'); info.className='cake-special-info';
     const eyebrow=document.createElement('span');eyebrow.className='cake-special-kicker';eyebrow.textContent='ESPECIALIDAD CAKE CHÁVEZ';
     const title=document.createElement('h3');title.textContent=name;
-    const desc=document.createElement('p');desc.textContent=description;
+    const desc=description ? document.createElement('p') : null;
+    if (desc) { desc.textContent=description; desc.className='cake-special-description'; }
+    info.classList.toggle('has-description', Boolean(description));
     const sizes=[producto.price_small,producto.price_medium,producto.price_large].map(normalizarPrecioCake);
     const base=normalizarPrecioCake(producto.price);
     const sale=normalizarPrecioCake(producto.sale_price);
@@ -2049,7 +2090,10 @@ function crearTarjetaEspecialidadCake(producto, indice) {
         else abrirVentanita(name,sale>0&&base>0&&sale<base?sale:base,0,0,'unidad',image,description,galleryForModal);
     });
     if (!sizes.some(v=>v>0) && !(sale>0&&base>0) && base<=0) { request.disabled=true; request.textContent='Precio por definir'; }
-    info.append(eyebrow,title,desc,price,request);
+    info.append(eyebrow,title);
+    if (desc) info.append(desc);
+    if (!price.hidden) info.append(price);
+    info.append(request);
     card.append(imageFrame,info);
 
     card.__cakeGalleryController = {
@@ -2159,13 +2203,7 @@ function renderizarEspecialidadesCake(productosRemotos) {
     const nextButton=document.getElementById('cake-special-next');
     if(prevButton && !prevButton.dataset.cakeBound){prevButton.addEventListener('click',()=>cambiarEspecialidadCake(-1));prevButton.dataset.cakeBound='1';}
     if(nextButton && !nextButton.dataset.cakeBound){nextButton.addEventListener('click',()=>cambiarEspecialidadCake(1));nextButton.dataset.cakeBound='1';}
-    const carousel=document.getElementById('cake-special-carousel');
-    if(carousel && !carousel.dataset.swipeReady){
-        let startX=null;
-        carousel.addEventListener('touchstart',event=>{startX=event.changedTouches?.[0]?.clientX??null;},{passive:true});
-        carousel.addEventListener('touchend',event=>{if(startX===null)return;const delta=(event.changedTouches?.[0]?.clientX??startX)-startX;if(Math.abs(delta)>45)cambiarEspecialidadCake(delta<0?1:-1);startX=null;},{passive:true});
-        carousel.dataset.swipeReady='1';
-    }
+    // La especialidad principal cambia solo con sus flechas o indicadores; no responde al deslizamiento sobre la foto.
     if (!document.documentElement.dataset.cakeSpecialVisibilityReady) {
         document.addEventListener('visibilitychange', () => {
             const activeCard=document.querySelector('#cake-special-track .cake-special-slide.is-active');
