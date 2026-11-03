@@ -3584,3 +3584,22 @@ body.cake-review-open,body.cake-review-lightbox-open{overflow:hidden}
         padding: 17px 13px 20px;
     }
 }
+
+
+/* CAKE CHÁVEZ · GALERÍA DE RESEÑAS: visibilidad y lectura en móviles */
+#cake-opiniones-publicadas[aria-busy="true"] { opacity: .92; }
+#cake-opiniones-publicadas .cake-opinion-photo-loading {
+    display: grid; place-items: center; color: #f4c8da; font-size: .75rem;
+    border: 1px dashed rgba(236,145,180,.4); background: rgba(30,17,24,.7);
+}
+#cake-opiniones-publicadas .cake-estado-vacio { grid-column: 1 / -1; }
+@media (max-width: 650px) {
+    .opiniones-carousel-shell { width: 100%; box-sizing: border-box; padding-inline: 28px; }
+    #cake-opiniones-publicadas.cake-opiniones-publicadas {
+        display: grid !important;
+        width: 100%; min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        align-items: stretch; gap: 8px;
+    }
+    #cake-opiniones-publicadas .cake-opinion-card { min-width: 0; width: 100%; overflow: hidden; }
+    #cake-opiniones-publicadas .cake-opinion-photo-preview { width: 100%; }
+}

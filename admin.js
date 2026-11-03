@@ -594,16 +594,25 @@
       publish.addEventListener('click', async () => {
         publish.disabled = true;
         const nextPublished = !r.is_published;
-        const { error } = await client.from('testimonials')
-          .update({ is_published: nextPublished, published_at: nextPublished ? new Date().toISOString() : null })
-          .eq('id', r.id);
-        if (error) {
+        publish.textContent = nextPublished ? 'Publicando…' : 'Ocultando…';
+        try {
+          // SELECT posterior verifica que RLS permitió modificar realmente la reseña.
+          const { data: updated, error } = await client.from('testimonials')
+            .update({ is_published: nextPublished, published_at: nextPublished ? new Date().toISOString() : null })
+            .eq('id', r.id)
+            .select('id,is_published,published_at')
+            .maybeSingle();
+          if (error) throw error;
+          if (!updated || Boolean(updated.is_published) !== nextPublished) {
+            throw new Error('Supabase no confirmó el cambio. La reseña sigue sin publicarse. Revisa las políticas UPDATE/SELECT de testimonials y que tu usuario esté en admin_users.');
+          }
+          globalMessage(nextPublished ? 'Reseña publicada correctamente. La tienda la mostrará en unos segundos.' : 'Reseña ocultada correctamente.', 'success');
+          await loadReviews();
+        } catch (error) {
+          globalMessage(`No se pudo ${nextPublished ? 'publicar' : 'ocultar'} la reseña: ${error.message || 'Error desconocido'}`, 'error');
           publish.disabled = false;
-          globalMessage(error.message, 'error');
-          return;
+          publish.textContent = r.is_published ? 'Ocultar' : 'Aprobar y publicar';
         }
-        globalMessage(nextPublished ? 'Reseña publicada. La tienda se actualizará automáticamente.' : 'Reseña ocultada.', 'success');
-        await loadReviews();
       });
 
       const del = document.createElement('button');
@@ -628,7 +637,7 @@
   async function saveReview(event){event.preventDefault();message('admin-review-message','Guardando…');try{
     const existing=reviews.find(r=>r.id===$('review-id').value);let photoPaths=Array.isArray(existing?.photo_paths)?[...existing.photo_paths]:[];const files=Array.from($('review-photo').files||[]);if(files.length>10||photoPaths.length+files.length>10)throw new Error('Una reseña puede tener máximo 10 fotografías en total.');
     for(const file of files){if(!/^image\/(jpeg|png|webp)$/i.test(file.type)||file.size>5*1024*1024)throw new Error('Cada foto debe ser JPG, PNG o WebP y pesar máximo 5 MB.');const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';const path=`incoming/${crypto.randomUUID()}.${ext}`;const {error}=await client.storage.from('review-photos').upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type});if(error)throw error;photoPaths.push(path);}
-    const payload={customer_name:$('review-name').value.trim(),product_name:$('review-product').value.trim(),review_text:$('review-text').value.trim(),rating:Number($('review-rating').value),photo_paths:photoPaths,photo_url:existing?.photo_url||null,is_published:$('review-published').checked,published_at:$('review-published').checked?(existing?.published_at||new Date().toISOString()):null,consent_to_publish:true};const id=$('review-id').value;const q=id?client.from('testimonials').update(payload).eq('id',id):client.from('testimonials').insert(payload);const {error}=await q;if(error)throw error;message('admin-review-message','Opinión guardada.','success');$('admin-review-form').reset();$('review-id').value='';await loadReviews();
+    const payload={customer_name:$('review-name').value.trim(),product_name:$('review-product').value.trim(),review_text:$('review-text').value.trim(),rating:Number($('review-rating').value),photo_paths:photoPaths,photo_url:existing?.photo_url||null,is_published:$('review-published').checked,published_at:$('review-published').checked?(existing?.published_at||new Date().toISOString()):null,consent_to_publish:true};const id=$('review-id').value;const q=id?client.from('testimonials').update(payload).eq('id',id):client.from('testimonials').insert(payload);const {data:saved,error}=await q.select('id,is_published').maybeSingle();if(error)throw error;if(!saved)throw new Error('Supabase no confirmó el guardado. Revisa los permisos de la tabla testimonials.');message('admin-review-message','Opinión guardada.','success');$('admin-review-form').reset();$('review-id').value='';await loadReviews();
   }catch(e){message('admin-review-message',e.message||'No se pudo guardar.','error');}}
   function setupReviewShareLink(){const publicUrl=new URL('index.html',location.href);publicUrl.hash='opiniones';const url=publicUrl.href;const target=$('admin-review-share-url');if(target)target.textContent=url;$('admin-copy-review-link')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(url);message('admin-global-message','Enlace de reseñas copiado.','success');}catch(_){const temp=document.createElement('textarea');temp.value=url;document.body.appendChild(temp);temp.select();document.execCommand('copy');temp.remove();message('admin-global-message','Enlace de reseñas copiado.','success');}});}
   async function loadSettings(){const {data,error}=await client.from('store_settings').select('*').eq('id',1).maybeSingle();if(error){message('admin-settings-message',error.message,'error');return;}if(data){$('setting-delivery').value=data.delivery_info||'';$('setting-payment').value=data.payment_info||'';$('setting-notice').value=data.order_notice||'';}}
