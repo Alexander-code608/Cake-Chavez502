@@ -2817,8 +2817,8 @@ footer {
 }
 .cake-ofertas-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-    gap: 18px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
     max-width: 1100px;
     margin: 0 auto;
 }
@@ -2832,14 +2832,31 @@ footer {
     background: var(--cake-panel);
 }
 .cake-oferta-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr);
+    align-items: stretch;
+    gap: 0;
     overflow: hidden;
     background: var(--cake-panel);
     border: 1px solid var(--cake-borde);
-    border-radius: 16px;
+    border-radius: 18px;
     box-shadow: 0 8px 24px rgba(0,0,0,.18);
 }
-.cake-oferta-card img { width: 100%; height: 200px; display:block; object-fit: cover; }
-.cake-oferta-info { padding: 15px; }
+.cake-oferta-card > img {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    max-height: 390px;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+    padding: 10px;
+    background: var(--cake-panel-oscuro);
+    cursor: zoom-in;
+}
+.cake-oferta-card > img:focus-visible { outline: 3px solid var(--cake-rosa); outline-offset: -4px; }
+.cake-oferta-info { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; min-width: 0; padding: clamp(18px, 2.5vw, 30px); }
+.cake-oferta-info .destacado-boton { min-width: 190px; }
 .cake-oferta-sello {
     display: inline-block; margin-bottom: 8px; padding: 4px 9px;
     border-radius: 999px; background: rgba(240,156,187,.13); color: var(--cake-rosa);
@@ -2943,12 +2960,15 @@ footer {
 .cake-admin-link { display:inline-block; margin-top:10px; color:var(--cake-texto-suave); font-size:.75rem; text-decoration:underline; text-underline-offset:3px; }
 .cake-admin-link:hover { color:var(--cake-rosa); }
 
-@media (max-width: 640px) {
-    .cake-ofertas-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
-    .cake-oferta-card img { height:140px; }
-    .cake-oferta-info { padding:11px; }
-    .cake-oferta-info h3 { font-size:.92rem; }
-    .cake-oferta-info p { font-size:.76rem; }
+@media (max-width: 760px) {
+    .cake-ofertas-grid { grid-template-columns: minmax(0, 1fr); gap: 15px; }
+    .cake-oferta-card { grid-template-columns: minmax(0, 1fr); }
+    .cake-oferta-card > img { height: auto; min-height: 0; max-height: none; aspect-ratio: 16 / 10; padding: 8px; object-fit: contain; }
+    .cake-oferta-info { padding: 17px; }
+    .cake-oferta-info h3 { font-size: 1.05rem; }
+    .cake-oferta-info p { font-size: .88rem; line-height: 1.55; }
+    .cake-oferta-info .destacado-boton { width: 100%; }
+
     .cake-oferta-precio strong { font-size:1rem; }
     .cake-calculadora-form { grid-template-columns:1fr; gap:13px; }
     .cake-seguimiento-panel { grid-template-columns:1fr; gap:12px; padding:18px; }

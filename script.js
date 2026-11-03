@@ -1641,7 +1641,11 @@ function renderizarOfertasCake(productosRemotos) {
     }
     ofertas.forEach(p => {
         const card = document.createElement('article'); card.className = 'cake-oferta-card';
-        const img = document.createElement('img'); img.src = p.image_url || ''; img.alt = p.name || 'Producto en oferta'; img.loading = 'lazy';
+        const img = document.createElement('img'); img.src = p.image_url || ''; img.alt = `${p.name || 'Producto en oferta'}. Toca para ampliar la fotografía`; img.loading = 'lazy';
+        img.tabIndex = 0; img.setAttribute('role', 'button'); img.setAttribute('aria-label', `Ampliar fotografía de ${p.name || 'producto en oferta'}`);
+        const ampliarOferta = () => abrirSoloImagen([img.currentSrc || img.src], p.name || 'Producto Cake Chavez', p.description || '');
+        img.addEventListener('click', ampliarOferta);
+        img.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); ampliarOferta(); } });
         img.onerror = () => { img.style.display = 'none'; };
         const info = document.createElement('div'); info.className = 'cake-oferta-info';
         info.appendChild(crearElementoTextoCake('span', 'cake-oferta-sello', 'Oferta especial'));
