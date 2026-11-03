@@ -513,25 +513,115 @@
     message('admin-add-order-message',`Pedido ${saved} guardado correctamente.`,'success');
     activeOrdersView='nuevos';await loadOrders();
   }
-  async function signedReviewPhotos(review){
-    const paths=Array.isArray(review.photo_paths)?review.photo_paths:[];const bucket=client.storage.from('review-photos');
-    const urls=await Promise.all(paths.map(async path=>{const {data,error}=await bucket.createSignedUrl(path,3600);return error?'':data?.signedUrl||'';}));
-    if(!urls.filter(Boolean).length&&review.photo_url)urls.push(review.photo_url);return urls.filter(Boolean);
-  }
   async function loadReviews() {
-    const {data,error}=await client.from('testimonials').select('*').order('created_at',{ascending:false});const list=$('admin-reviews-list');list.replaceChildren();
-    if(error){list.appendChild(Object.assign(document.createElement('p'),{textContent:`No se pudieron cargar opiniones: ${error.message}`}));return;}reviews=data||[];
-    if(!reviews.length){list.appendChild(Object.assign(document.createElement('p'),{textContent:'Todavía no has recibido opiniones. Comparte el enlace para invitar a tus clientes.'}));return;}
-    for(const r of reviews){
-      const row=document.createElement('article');row.className='admin-review-row admin-review-row-v2';
-      const photos=await signedReviewPhotos(r);const gallery=document.createElement('div');gallery.className='admin-review-gallery';
-      photos.slice(0,10).forEach(url=>{const img=document.createElement('img');img.src=url;img.alt='Foto enviada en una reseña';img.loading='lazy';img.onerror=()=>img.remove();gallery.appendChild(img);});
-      const text=document.createElement('div');text.className='admin-review-copy';const heading=document.createElement('strong');heading.textContent=`${r.customer_name} · ${'★'.repeat(Math.max(1,Math.min(5,Number(r.rating)||5)))}`;
-      const product=document.createElement('small');product.textContent=r.product_name||'Producto no especificado';const p=document.createElement('p');p.textContent=r.review_text||'';const state=document.createElement('small');state.className='admin-review-state';state.textContent=r.is_published?'Publicada':'Pendiente de aprobación';text.append(heading,product,p,state);
-      const actions=document.createElement('div');actions.className='admin-row-actions';const edit=document.createElement('button');edit.className='admin-button admin-button-outline';edit.textContent='Revisar';edit.addEventListener('click',()=>fillReview(r));
-      const publish=document.createElement('button');publish.className='admin-button admin-button-primary';publish.textContent=r.is_published?'Ocultar':'Aprobar y publicar';publish.addEventListener('click',async()=>{const nextPublished=!r.is_published;const {error}=await client.from('testimonials').update({is_published:nextPublished,published_at:nextPublished?(new Date().toISOString()):null}).eq('id',r.id);if(error){globalMessage(error.message,'error');return;}await loadReviews();});
-      const del=document.createElement('button');del.className='admin-button admin-button-danger';del.textContent='Eliminar';del.addEventListener('click',async()=>{if(!confirm('¿Eliminar esta opinión? Esta acción no se puede deshacer.'))return;const {error}=await client.from('testimonials').delete().eq('id',r.id);if(error){globalMessage(error.message,'error');return;}if(Array.isArray(r.photo_paths)&&r.photo_paths.length){const cleanup=await client.storage.from('review-photos').remove(r.photo_paths);if(cleanup.error)console.warn('No se pudieron limpiar todas las fotos de la reseña:',cleanup.error.message);}await loadReviews();});
-      actions.append(edit,publish,del);row.append(gallery,text,actions);list.appendChild(row);
+    const { data, error } = await client.from('testimonials')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(100);
+    const list = $('admin-reviews-list');
+    list.replaceChildren();
+    if (error) {
+      list.appendChild(Object.assign(document.createElement('p'), { textContent: `No se pudieron cargar opiniones: ${error.message}` }));
+      return;
+    }
+    reviews = data || [];
+    if (!reviews.length) {
+      list.appendChild(Object.assign(document.createElement('p'), { textContent: 'Todavía no has recibido opiniones. Comparte el enlace para invitar a tus clientes.' }));
+      return;
+    }
+
+    // Genera los enlaces de todas las fotos en una sola petición, no una por reseña.
+    const allPhotoPaths = [...new Set(reviews.flatMap(review => Array.isArray(review.photo_paths) ? review.photo_paths : []).filter(path => typeof path === 'string' && path && !/^https?:\/\//i.test(path)))];
+    const signedPhotoMap = new Map();
+    if (allPhotoPaths.length) {
+      try {
+        const { data: signedRows, error: signedError } = await client.storage.from('review-photos').createSignedUrls(allPhotoPaths, 3600);
+        if (signedError) throw signedError;
+        (signedRows || []).forEach(item => {
+          if (item.path && item.signedUrl) signedPhotoMap.set(item.path, item.signedUrl);
+        });
+      } catch (signedError) {
+        console.warn('No se pudieron preparar las vistas previas agrupadas; se intentará foto por foto:', signedError.message);
+        const fallback = await Promise.all(allPhotoPaths.map(async path => {
+          const { data: signed, error: oneError } = await client.storage.from('review-photos').createSignedUrl(path, 3600);
+          return !oneError && signed?.signedUrl ? [path, signed.signedUrl] : null;
+        }));
+        fallback.filter(Boolean).forEach(([path, url]) => signedPhotoMap.set(path, url));
+      }
+    }
+
+    for (const r of reviews) {
+      const row = document.createElement('article');
+      row.className = 'admin-review-row admin-review-row-v2';
+      const paths = Array.isArray(r.photo_paths) ? r.photo_paths : [];
+      const photos = paths.map(path => /^https?:\/\//i.test(path) ? path : (signedPhotoMap.get(path) || '')).filter(Boolean);
+      if (!photos.length && r.photo_url) photos.push(r.photo_url);
+      const gallery = document.createElement('div');
+      gallery.className = 'admin-review-gallery';
+      photos.slice(0, 10).forEach(url => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Foto enviada en una reseña';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.onerror = () => img.remove();
+        gallery.appendChild(img);
+      });
+
+      const text = document.createElement('div');
+      text.className = 'admin-review-copy';
+      const heading = document.createElement('strong');
+      heading.textContent = `${r.customer_name} · ${'★'.repeat(Math.max(1, Math.min(5, Number(r.rating) || 5)))}`;
+      const product = document.createElement('small');
+      product.textContent = r.product_name || 'Producto no especificado';
+      const p = document.createElement('p');
+      p.textContent = r.review_text || '';
+      const state = document.createElement('small');
+      state.className = 'admin-review-state';
+      state.textContent = r.is_published ? 'Publicada' : 'Pendiente de aprobación';
+      text.append(heading, product, p, state);
+
+      const actions = document.createElement('div');
+      actions.className = 'admin-row-actions';
+      const edit = document.createElement('button');
+      edit.className = 'admin-button admin-button-outline';
+      edit.textContent = 'Revisar';
+      edit.addEventListener('click', () => fillReview(r));
+
+      const publish = document.createElement('button');
+      publish.className = 'admin-button admin-button-primary';
+      publish.textContent = r.is_published ? 'Ocultar' : 'Aprobar y publicar';
+      publish.addEventListener('click', async () => {
+        publish.disabled = true;
+        const nextPublished = !r.is_published;
+        const { error } = await client.from('testimonials')
+          .update({ is_published: nextPublished, published_at: nextPublished ? new Date().toISOString() : null })
+          .eq('id', r.id);
+        if (error) {
+          publish.disabled = false;
+          globalMessage(error.message, 'error');
+          return;
+        }
+        globalMessage(nextPublished ? 'Reseña publicada. La tienda se actualizará automáticamente.' : 'Reseña ocultada.', 'success');
+        await loadReviews();
+      });
+
+      const del = document.createElement('button');
+      del.className = 'admin-button admin-button-danger';
+      del.textContent = 'Eliminar';
+      del.addEventListener('click', async () => {
+        if (!confirm('¿Eliminar esta opinión? Esta acción no se puede deshacer.')) return;
+        const { error } = await client.from('testimonials').delete().eq('id', r.id);
+        if (error) { globalMessage(error.message, 'error'); return; }
+        if (paths.length) {
+          const cleanup = await client.storage.from('review-photos').remove(paths);
+          if (cleanup.error) console.warn('No se pudieron limpiar todas las fotos de la reseña:', cleanup.error.message);
+        }
+        await loadReviews();
+      });
+      actions.append(edit, publish, del);
+      row.append(gallery, text, actions);
+      list.appendChild(row);
     }
   }
   function fillReview(r){$('review-id').value=r.id;$('review-name').value=r.customer_name||'';$('review-product').value=r.product_name||'';$('review-text').value=r.review_text||'';$('review-rating').value=String(r.rating||5);$('review-published').checked=!!r.is_published;$('admin-review-form')?.scrollIntoView({behavior:'smooth'});}
