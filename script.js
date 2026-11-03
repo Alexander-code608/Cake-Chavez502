@@ -206,24 +206,40 @@ function configurarEnlacesDirectosProductos() {
     });
 }
 
-function buscarTarjetaPorSlug(slug) {
-    const solicitado = crearSlugProducto(slug);
-    // La mayoría de productos vive en el catálogo. La categoría "especiales"
-    // se presenta en un carrusel independiente, así que también se busca allí.
-    return Array.from(document.querySelectorAll(
+function buscarTarjetaPorIdentificador(identificador) {
+    const valor = String(identificador || '').trim();
+    if (!valor) return null;
+
+    // Primero se busca el ID único de Supabase. Así no se confunden dos productos
+    // que tengan el mismo nombre o slug, incluso si pertenecen a categorías distintas.
+    const tarjetas = Array.from(document.querySelectorAll(
         '#productos-container .producto, #cake-special-track .cake-special-slide'
-    )).find(tarjeta => {
+    ));
+    const porId = tarjetas.find(tarjeta => tarjeta.dataset.productId && tarjeta.dataset.productId === valor);
+    if (porId) return porId;
+
+    // Compatibilidad con los enlaces antiguos que utilizan el slug o el nombre.
+    const solicitado = crearSlugProducto(valor);
+    return tarjetas.find(tarjeta => {
         const h3 = tarjeta.querySelector('h3');
         return crearSlugProducto(tarjeta.dataset.productSlug || (h3 && h3.textContent)) === solicitado;
     }) || null;
+}
+
+// Alias para conservar llamadas internas/compatibilidad que ya buscaban por slug.
+function buscarTarjetaPorSlug(slug) {
+    return buscarTarjetaPorIdentificador(slug);
 }
 
 function crearEnlaceDirectoProducto(tarjeta) {
     if (!tarjeta) return URL_SITIO_GITHUB;
     const titulo = tarjeta.querySelector('h3');
     const slug = tarjeta.dataset.productSlug || crearSlugProducto(titulo ? titulo.textContent : '');
+    // Los productos remotos usan su ID estable; las tarjetas antiguas/locales
+    // siguen compartiendo el slug para no romper enlaces ya publicados.
+    const identificador = tarjeta.dataset.productId || slug;
     const url = new URL(`${URL_SITIO_GITHUB.replace(/\/$/, '')}/`);
-    url.searchParams.set('producto', slug);
+    url.searchParams.set('producto', identificador);
     return url.href;
 }
 
@@ -405,7 +421,7 @@ function manejarEnlaceDirectoProducto() {
     }
     if (!slug) return;
 
-    const tarjeta = buscarTarjetaPorSlug(slug);
+    const tarjeta = buscarTarjetaPorIdentificador(slug);
     if (!tarjeta) {
         console.warn(`No se encontró un producto con el enlace: ${slug}`);
         return;
@@ -1736,7 +1752,7 @@ function renderizarOfertasCake(productosRemotos) {
         const card = document.createElement('article'); card.className = 'cake-oferta-card';
         const img = document.createElement('img'); img.src = p.image_url || ''; img.alt = `${p.name || 'Producto en oferta'}. Toca para ampliar la fotografía`; img.loading = 'lazy';
         img.tabIndex = 0; img.setAttribute('role', 'button'); img.setAttribute('aria-label', `Ampliar fotografía de ${p.name || 'producto en oferta'}`);
-        const obtenerTarjetaOferta = () => buscarTarjetaPorSlug(p.slug || p.name);
+        const obtenerTarjetaOferta = () => buscarTarjetaPorIdentificador(p.id || p.slug || p.name);
         const galeriaOferta = tarjetaProducto => {
             if (tarjetaProducto) return abrirGaleriaDesdeTarjetaCake(tarjetaProducto);
             const galeriaFallback = [p.image_url, ...(Array.isArray(p.gallery_urls) ? p.gallery_urls : [])].filter(Boolean);
@@ -1917,6 +1933,7 @@ function construirTarjetaRemotaCake(producto) {
     card.className = `producto ${categoria} todos`;
     card.id = `producto-${slug}`;
     card.dataset.productSlug = slug;
+    if (producto.id !== undefined && producto.id !== null) card.dataset.productId = String(producto.id);
     card.dataset.productDescription = producto.description || '';
     card.dataset.productGallery = JSON.stringify([producto.image_url, ...(Array.isArray(producto.gallery_urls) ? producto.gallery_urls : [])].filter(Boolean));
     card.__cakeProduct = { ...producto, slug, category: categoria };
@@ -1952,7 +1969,7 @@ function construirTarjetaRemotaCake(producto) {
 async function sincronizarCatalogoAdminCake() {
     const client = obtenerClienteSupabaseCake();
     if (!client) return null;
-    const { data, error } = await client.from('products').select('*').eq('is_active', true).is('deleted_at', null).order('display_order', { ascending:true }).order('created_at',{ascending:true});
+    const { data, error } = await client.from('products').select('*').eq('is_active', true).is('deleted_at', null).order('created_at', { ascending:false, nullsFirst:false }).order('display_order', { ascending:true });
     if (error) { console.warn('Se mantiene el catálogo local porque no se pudo consultar la base de datos:', error.message); return null; }
     if (!Array.isArray(data)) return null;
     const contenedor=document.getElementById('productos-container');
@@ -2035,6 +2052,7 @@ function crearTarjetaEspecialidadCake(producto, indice) {
     const name = String(producto.name || 'Especialidad');
     const description = String(producto.description || '').trim();
     card.dataset.productSlug = crearSlugProducto(producto.slug || name);
+    if (producto.id !== undefined && producto.id !== null) card.dataset.productId = String(producto.id);
     card.dataset.productDescription = description;
     card.classList.toggle('is-compact', !description);
     card.dataset.productGallery = JSON.stringify(gallery);

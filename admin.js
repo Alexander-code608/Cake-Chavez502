@@ -72,7 +72,7 @@
   }
   async function loadProducts() {
     globalMessage('Cargando productos…');
-    const {data,error}=await client.from('products').select('*').is('deleted_at',null).order('display_order',{ascending:true}).order('created_at',{ascending:true});
+    const {data,error}=await client.from('products').select('*').is('deleted_at',null).order('created_at',{ascending:false,nullsFirst:false}).order('display_order',{ascending:true});
     if(error){globalMessage(`No se pudieron cargar productos: ${error.message}`,'error');return;}
     products=data||[]; updateStats();
     const list=$('admin-products-list'); list.replaceChildren();
@@ -117,6 +117,7 @@
       };
       if(!payload.slug || !payload.name) throw new Error('Completa el nombre y el enlace corto.');
       if(payload.sale_price!==null && payload.sale_price>0 && payload.sale_price>payload.price) throw new Error('El precio de oferta normalmente debe ser menor o igual al precio base.');
+      // created_at usa el valor automático de Supabase; así se ordena por la hora real de publicación.
       const query=id?client.from('products').update(payload).eq('id',id):client.from('products').insert(payload);
       const {error}=await query;
       if(error) throw error;
