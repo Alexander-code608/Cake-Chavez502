@@ -1629,16 +1629,74 @@ function crearElementoTextoCake(tag, className, texto) {
     el.textContent = texto || '';
     return el;
 }
+function prepararCarruselOfertasCake(grid) {
+    let carrusel = grid.closest('.cake-ofertas-carousel');
+    if (carrusel) return carrusel;
+
+    carrusel = document.createElement('div');
+    carrusel.className = 'cake-ofertas-carousel is-single';
+
+    const anterior = document.createElement('button');
+    anterior.type = 'button';
+    anterior.className = 'cake-ofertas-flecha cake-ofertas-anterior';
+    anterior.setAttribute('aria-label', 'Ver oferta anterior');
+    anterior.title = 'Oferta anterior';
+    anterior.textContent = '‹';
+
+    const viewport = document.createElement('div');
+    viewport.className = 'cake-ofertas-viewport';
+
+    const siguiente = document.createElement('button');
+    siguiente.type = 'button';
+    siguiente.className = 'cake-ofertas-flecha cake-ofertas-siguiente';
+    siguiente.setAttribute('aria-label', 'Ver siguiente oferta');
+    siguiente.title = 'Siguiente oferta';
+    siguiente.textContent = '›';
+
+    grid.parentNode.insertBefore(carrusel, grid);
+    viewport.appendChild(grid);
+    carrusel.append(anterior, viewport, siguiente);
+
+    let indiceActual = 0;
+    const moverA = (nuevoIndice) => {
+        const total = Number(carrusel.dataset.totalOfertas || 0);
+        if (total < 2) return;
+        indiceActual = (nuevoIndice + total) % total;
+        grid.style.transform = `translateX(-${indiceActual * 100}%)`;
+        carrusel.dataset.indiceOferta = String(indiceActual);
+        const nombreActual = grid.children[indiceActual]?.querySelector('h3')?.textContent || `oferta ${indiceActual + 1}`;
+        anterior.setAttribute('aria-label', `Ver oferta anterior. Actual: ${nombreActual}`);
+        siguiente.setAttribute('aria-label', `Ver siguiente oferta. Actual: ${nombreActual}`);
+    };
+
+    anterior.addEventListener('click', () => moverA(indiceActual - 1));
+    siguiente.addEventListener('click', () => moverA(indiceActual + 1));
+    carrusel._cakeMoverAOferta = moverA;
+    carrusel._cakeReiniciar = () => { indiceActual = 0; moverA(0); };
+    return carrusel;
+}
+
 function renderizarOfertasCake(productosRemotos) {
     const grid = document.getElementById('cake-ofertas-grid');
     if (!grid) return;
+    const carrusel = prepararCarruselOfertasCake(grid);
     grid.replaceChildren();
+    grid.style.transform = 'translateX(0)';
+
     const ofertas = (Array.isArray(productosRemotos) ? productosRemotos : []).filter(p => p.is_offer && p.is_active !== false);
+    carrusel.dataset.totalOfertas = String(ofertas.length);
+    carrusel.dataset.indiceOferta = '0';
+    carrusel.classList.toggle('is-single', ofertas.length < 2);
+    const botones = carrusel.querySelectorAll('.cake-ofertas-flecha');
+    // Las flechas permanecen visibles; se activan cuando hay más de una oferta publicada.
+    botones.forEach(boton => { boton.hidden = false; boton.disabled = ofertas.length < 2; });
+
     if (!ofertas.length) {
         const mensaje = crearElementoTextoCake('p', 'cake-estado-vacio', 'No hay ofertas activas publicadas en este momento. Escríbenos para consultar promociones vigentes.');
         grid.appendChild(mensaje);
         return;
     }
+
     ofertas.forEach(p => {
         const card = document.createElement('article'); card.className = 'cake-oferta-card';
         const img = document.createElement('img'); img.src = p.image_url || ''; img.alt = `${p.name || 'Producto en oferta'}. Toca para ampliar la fotografía`; img.loading = 'lazy';
@@ -1664,6 +1722,7 @@ function renderizarOfertasCake(productosRemotos) {
         });
         info.append(price, btn); card.append(img, info); grid.appendChild(card);
     });
+    carrusel._cakeReiniciar?.();
 }
 
 // MEJORA 1: los productos marcados como destacados en administración reemplazan las tarjetas manuales.

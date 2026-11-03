@@ -3183,3 +3183,112 @@ input.cake-fecha-completa { border: 2px solid #c62828 !important; background: #f
         max-height: 270px;
     }
 }
+
+/* Carrusel de ofertas: flechas para recorrer las promociones activas. */
+.cake-ofertas-carousel {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr) 46px;
+    align-items: center;
+    gap: clamp(8px, 1.5vw, 16px);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.cake-ofertas-carousel.is-single {
+    grid-template-columns: minmax(0, 1fr);
+}
+.cake-ofertas-viewport {
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 18px;
+}
+.cake-ofertas-grid {
+    display: flex;
+    width: 100%;
+    max-width: none;
+    gap: 0;
+    margin: 0;
+    transition: transform .42s cubic-bezier(.22,.7,.25,1);
+    will-change: transform;
+}
+.cake-ofertas-grid > .cake-oferta-card {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+}
+.cake-ofertas-flecha {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    padding: 0 0 5px;
+    border: 1px solid var(--cake-rosa);
+    border-radius: 50%;
+    background: var(--cake-panel);
+    color: var(--cake-rosa);
+    font: 500 2.25rem/1 Arial, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 5px 16px rgba(0,0,0,.2);
+    transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.cake-ofertas-flecha:hover {
+    background: var(--cake-rosa);
+    color: #fff;
+    transform: scale(1.06);
+    box-shadow: 0 7px 20px rgba(0,0,0,.28);
+}
+.cake-ofertas-flecha:focus-visible {
+    outline: 3px solid var(--cake-rosa);
+    outline-offset: 4px;
+}
+.cake-ofertas-flecha[hidden] { display: none !important; }
+@media (max-width: 760px) {
+    .cake-ofertas-carousel {
+        grid-template-columns: 34px minmax(0, 1fr) 34px;
+        gap: 6px;
+    }
+    .cake-ofertas-carousel.is-single { grid-template-columns: minmax(0, 1fr); }
+    .cake-ofertas-viewport { border-radius: 15px; }
+    .cake-ofertas-flecha {
+        width: 34px;
+        height: 34px;
+        padding-bottom: 3px;
+        font-size: 1.8rem;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .cake-ofertas-grid, .cake-ofertas-flecha { transition: none !important; }
+}
+
+/* Las flechas se superponen suavemente sobre los bordes de la tarjeta para no quitarle ancho. */
+.cake-ofertas-carousel,
+.cake-ofertas-carousel.is-single {
+    display: block;
+    position: relative;
+    width: 100%;
+}
+.cake-ofertas-flecha {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(36, 29, 31, .92);
+    backdrop-filter: blur(5px);
+}
+.cake-ofertas-anterior { left: 10px; }
+.cake-ofertas-siguiente { right: 10px; }
+.cake-ofertas-flecha:hover { transform: translateY(-50%) scale(1.06); }
+.cake-ofertas-flecha:disabled {
+    opacity: .58;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+.cake-ofertas-flecha:disabled:hover {
+    background: rgba(36, 29, 31, .92);
+    color: var(--cake-rosa);
+    transform: translateY(-50%);
+}
+@media (max-width: 760px) {
+    .cake-ofertas-anterior { left: 7px; }
+    .cake-ofertas-siguiente { right: 7px; }
+}
