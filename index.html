@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cake Chavez - Repostería</title>
     <link rel="stylesheet" href="style.css?v=18">
+    <link rel="stylesheet" href="cake-review-viewer.css?v=1">
     <link rel="stylesheet" href="store-editor.css?v=3">
     <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -471,9 +472,15 @@
         <div class="cake-review-lightbox-backdrop" data-review-lightbox-close></div>
         <section class="cake-review-lightbox-panel" role="dialog" aria-modal="true" aria-label="Fotografías de la reseña">
             <button type="button" class="cake-review-lightbox-close" data-review-lightbox-close aria-label="Cerrar">×</button>
-            <button type="button" class="cake-review-photo-nav prev" id="cake-review-photo-prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
-            <img id="cake-review-lightbox-image" alt="Fotografía compartida en una reseña">
-            <button type="button" class="cake-review-photo-nav next" id="cake-review-photo-next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+            <div class="cake-review-viewer-review">
+                <div class="cake-review-viewer-heading"><strong id="cake-review-viewer-name"></strong><span id="cake-review-viewer-stars" aria-label="Calificación"></span></div>
+                <p id="cake-review-viewer-product"></p>
+                <blockquote id="cake-review-viewer-comment"></blockquote>
+            </div>
+            <div class="cake-review-viewer-stage" id="cake-review-viewer-stage" aria-label="Galería de fotografías; desliza para cambiar de imagen">
+                <img id="cake-review-lightbox-image" alt="Fotografía compartida en una reseña" draggable="false" decoding="async">
+                <span class="cake-review-viewer-hint" id="cake-review-viewer-hint">Desliza para ver más</span>
+            </div>
             <div class="cake-review-lightbox-footer"><span id="cake-review-photo-count"></span><button type="button" id="cake-review-photo-like" class="cake-review-like"><i class="far fa-heart"></i> Me gusta <b id="cake-review-photo-likes">0</b></button></div>
         </section>
     </div>
