@@ -1,21 +1,126 @@
-/* Visor de reseñas: diseño adaptable, gestos y transiciones ligeras. */
-.cake-review-lightbox[hidden]{display:none!important}
-.cake-review-lightbox{position:fixed;inset:0;z-index:10050;display:grid;place-items:center;padding:clamp(10px,3vw,30px);}
-.cake-review-lightbox-backdrop{position:absolute;inset:0;background:rgba(18,7,14,.88);backdrop-filter:blur(9px);}
-.cake-review-lightbox-panel{position:relative;z-index:1;width:min(920px,96vw);max-height:94dvh;overflow:auto;overscroll-behavior:contain;background:linear-gradient(145deg,#2b1722,#160d13);border:1px solid rgba(255,125,177,.65);border-radius:24px;padding:clamp(16px,2.5vw,26px);box-shadow:0 24px 90px rgba(0,0,0,.48),0 0 35px rgba(236,91,151,.14);animation:cakeViewerIn .28s ease-out;}
-@keyframes cakeViewerIn{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
-.cake-review-lightbox-close{position:absolute;right:12px;top:12px;z-index:5;width:40px;height:40px;border:1px solid rgba(255,255,255,.45);border-radius:50%;background:rgba(20,10,16,.72);color:#fff;font-size:28px;line-height:1;cursor:pointer;}
-.cake-review-viewer-review{padding:2px 52px 15px 2px;color:#fff;}
-.cake-review-viewer-heading{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:1.05rem;}
-#cake-review-viewer-name{color:#fff;font-weight:700}#cake-review-viewer-stars{color:#ffc44f;letter-spacing:2px;font-size:1.1rem}
-#cake-review-viewer-product{margin:6px 0 4px;color:#ff9bc4;font-size:.88rem;font-weight:600;}
-#cake-review-viewer-comment{margin:5px 0 0;padding:0;color:#f8eaf0;line-height:1.55;font-size:.96rem;}
-.cake-review-viewer-stage{position:relative;display:grid;place-items:center;width:100%;height:min(62dvh,620px);min-height:220px;overflow:hidden;border-radius:16px;background:rgba(0,0,0,.3);touch-action:pan-y pinch-zoom;user-select:none;}
-#cake-review-lightbox-image{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;opacity:1;transform:translateX(0) scale(1);transition:opacity .2s ease,transform .24s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform;pointer-events:none;}
-#cake-review-lightbox-image.is-changing{opacity:.25;transform:translateX(-8px) scale(.99)}
-.cake-review-viewer-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);padding:7px 13px;border-radius:30px;background:rgba(24,10,17,.72);color:#ffe7f0;font-size:.78rem;white-space:nowrap;pointer-events:none;}
-.cake-review-lightbox-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;color:#f8dce8;}
-.cake-review-lightbox-footer .cake-review-like{border:1px solid rgba(255,135,181,.55);border-radius:24px;padding:9px 15px;background:rgba(255,105,163,.12);color:#ffd5e5;}
-.cake-review-lightbox-footer .cake-review-like.liked{background:rgba(239,75,139,.24);color:#ff8db9}
-@media(max-width:600px){.cake-review-lightbox{padding:8px}.cake-review-lightbox-panel{width:100%;max-height:96dvh;border-radius:19px;padding:14px 12px 12px}.cake-review-lightbox-close{right:9px;top:9px;width:36px;height:36px}.cake-review-viewer-review{padding:2px 42px 12px 2px}.cake-review-viewer-heading{gap:8px;font-size:.96rem}#cake-review-viewer-comment{font-size:.9rem}.cake-review-viewer-stage{height:min(59dvh,600px);min-height:200px;border-radius:13px}.cake-review-lightbox-footer{padding-top:11px;font-size:.84rem}.cake-review-lightbox-footer .cake-review-like{padding:8px 11px;font-size:.82rem}}
-@media(prefers-reduced-motion:reduce){.cake-review-lightbox-panel,#cake-review-lightbox-image{animation:none;transition:none}}
+/* Cake Chávez · visor de reseñas estable y adaptable.
+   Este archivo redefine el layout antiguo del lightbox para evitar conflictos de grid. */
+.cake-review-lightbox[hidden] { display: none !important; }
+.cake-review-lightbox {
+  position: fixed !important; inset: 0 !important; z-index: 12010 !important;
+  display: grid !important; place-items: center !important;
+  padding: clamp(8px, 2.5vw, 22px) !important;
+  background: rgba(8, 4, 7, .88) !important;
+  box-sizing: border-box !important;
+}
+.cake-review-lightbox-backdrop {
+  position: absolute !important; inset: 0 !important;
+  background: rgba(9, 4, 8, .78) !important;
+  backdrop-filter: blur(8px);
+}
+.cake-review-lightbox-panel {
+  position: relative !important; z-index: 1 !important;
+  display: flex !important; flex-direction: column !important; align-items: stretch !important;
+  grid-template-columns: none !important; grid-template-rows: none !important;
+  gap: 12px !important;
+  width: min(1000px, 96vw) !important;
+  height: min(92dvh, 880px) !important; max-height: 94dvh !important;
+  min-width: 0 !important; min-height: 0 !important;
+  padding: clamp(14px, 2vw, 22px) !important;
+  overflow: hidden !important; overscroll-behavior: contain;
+  border: 1px solid rgba(240, 156, 187, .55) !important;
+  border-radius: 22px !important;
+  background: linear-gradient(145deg, #2b1722 0%, #160d13 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 24px 80px rgba(0,0,0,.52), 0 0 32px rgba(236,91,151,.12) !important;
+  box-sizing: border-box !important;
+  animation: cakeViewerIn .24s ease-out both;
+}
+@keyframes cakeViewerIn { from { opacity: 0; transform: translateY(9px) scale(.992); } to { opacity: 1; transform: none; } }
+.cake-review-lightbox-close {
+  position: absolute !important; top: 10px !important; right: 10px !important; z-index: 8 !important;
+  display: grid !important; place-items: center !important;
+  width: 40px !important; height: 40px !important; padding: 0 !important;
+  border: 1px solid rgba(255,255,255,.45) !important; border-radius: 50% !important;
+  background: rgba(20,10,16,.78) !important; color: #fff !important;
+  font-size: 27px !important; line-height: 1 !important; cursor: pointer;
+}
+.cake-review-viewer-review {
+  flex: 0 0 auto !important; min-width: 0 !important; max-height: 29% !important;
+  overflow: auto !important; padding: 2px 54px 2px 3px !important;
+  color: #fff !important; scrollbar-width: thin;
+}
+.cake-review-viewer-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 9px 13px; }
+#cake-review-viewer-name { color: #fff !important; font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 700; }
+#cake-review-viewer-stars { color: #ffc44f !important; letter-spacing: 2px; font-size: 1.12rem; white-space: nowrap; }
+#cake-review-viewer-product { margin: 5px 0 3px !important; color: #ff9bc4 !important; font-size: .88rem; font-weight: 600; }
+#cake-review-viewer-product[hidden] { display: none !important; }
+#cake-review-viewer-comment { margin: 5px 0 0 !important; padding: 0 !important; border: 0 !important; color: #f8eaf0 !important; font-size: .94rem; line-height: 1.5; overflow-wrap: anywhere; }
+.cake-review-viewer-stage {
+  position: relative !important; flex: 1 1 auto !important; min-width: 0 !important; min-height: 170px !important;
+  display: grid !important; grid-template-columns: 48px minmax(0, 1fr) 48px !important;
+  grid-template-rows: minmax(0, 1fr) !important; align-items: center !important; justify-items: center !important;
+  width: 100% !important; height: auto !important; max-height: none !important; overflow: hidden !important;
+  border: 1px solid rgba(255,125,177,.36); border-radius: 16px;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,.08), rgba(0,0,0,.24));
+  touch-action: pan-y pinch-zoom; user-select: none; box-sizing: border-box !important;
+}
+#cake-review-lightbox-image {
+  grid-column: 2 !important; grid-row: 1 !important;
+  display: block !important; width: auto !important; height: auto !important;
+  max-width: 100% !important; max-height: 100% !important;
+  object-fit: contain !important; object-position: center !important;
+  opacity: 1; transform: translateX(0) scale(1);
+  transition: opacity .2s ease, transform .24s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform; pointer-events: none;
+}
+#cake-review-lightbox-image.is-changing-next { opacity: .28; transform: translateX(-9px) scale(.99); }
+#cake-review-lightbox-image.is-changing-prev { opacity: .28; transform: translateX(9px) scale(.99); }
+.cake-review-photo-nav {
+  position: relative !important; z-index: 3 !important; grid-row: 1 !important;
+  display: grid !important; place-items: center !important;
+  width: 38px !important; height: 38px !important; padding: 0 !important;
+  border: 1px solid rgba(255,160,197,.52) !important; border-radius: 50% !important;
+  background: rgba(78,38,57,.92) !important; color: #ffe3ef !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,.25); cursor: pointer;
+  transition: transform .16s ease, background .16s ease, opacity .16s ease;
+}
+.cake-review-photo-nav.prev { grid-column: 1 !important; }
+.cake-review-photo-nav.next { grid-column: 3 !important; }
+.cake-review-photo-nav:hover:not(:disabled) { transform: scale(1.07); background: #a83f70 !important; }
+.cake-review-photo-nav:disabled { opacity: .32 !important; cursor: not-allowed !important; }
+.cake-review-lightbox-footer {
+  flex: 0 0 auto !important; display: flex !important; align-items: center !important;
+  justify-content: space-between !important; gap: 12px !important;
+  min-width: 0 !important; padding: 2px 2px 0 !important;
+  color: #f8dce8 !important; font-size: .86rem;
+}
+.cake-review-lightbox-footer .cake-review-like {
+  display: inline-flex !important; align-items: center !important; gap: 8px !important;
+  flex: 0 0 auto; border: 1px solid rgba(255,135,181,.55) !important;
+  border-radius: 24px !important; padding: 9px 15px !important;
+  background: rgba(255,105,163,.12) !important; color: #ffd5e5 !important;
+}
+.cake-review-lightbox-footer .cake-review-like.liked { background: rgba(239,75,139,.24) !important; color: #ff8db9 !important; }
+@media (max-width: 650px) {
+  .cake-review-lightbox { padding: 7px !important; }
+  .cake-review-lightbox-panel {
+    width: calc(100vw - 14px) !important; height: 94dvh !important; max-height: 94dvh !important;
+    padding: 12px !important; gap: 9px !important; border-radius: 17px !important;
+  }
+  .cake-review-lightbox-close { top: 8px !important; right: 8px !important; width: 35px !important; height: 35px !important; }
+  .cake-review-viewer-review { max-height: 31% !important; padding: 1px 43px 1px 2px !important; }
+  #cake-review-viewer-name { font-size: .97rem; }
+  #cake-review-viewer-stars { font-size: 1rem; }
+  #cake-review-viewer-product { font-size: .82rem; }
+  #cake-review-viewer-comment { font-size: .86rem; line-height: 1.43; }
+  .cake-review-viewer-stage { grid-template-columns: 34px minmax(0,1fr) 34px !important; min-height: 155px !important; border-radius: 12px; }
+  .cake-review-photo-nav { width: 29px !important; height: 29px !important; font-size: .78rem; }
+  .cake-review-lightbox-footer { gap: 7px !important; font-size: .78rem; }
+  .cake-review-lightbox-footer .cake-review-like { gap: 6px !important; padding: 8px 10px !important; font-size: .78rem; }
+}
+@media (max-width: 360px) {
+  .cake-review-lightbox-panel { padding: 9px !important; gap: 7px !important; }
+  .cake-review-viewer-review { max-height: 33% !important; }
+  .cake-review-viewer-stage { grid-template-columns: 30px minmax(0,1fr) 30px !important; }
+  .cake-review-photo-nav { width: 26px !important; height: 26px !important; }
+  .cake-review-lightbox-footer .cake-review-like { padding: 7px 8px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cake-review-lightbox-panel, #cake-review-lightbox-image, .cake-review-photo-nav { animation: none !important; transition: none !important; }
+}
