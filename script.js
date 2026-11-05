@@ -954,9 +954,30 @@ const cakeReviewSignedUrlCache = new Map();
 let cakeReviewLastFingerprint = '';
 let cakeReviewLoadInFlight = null;
 let cakeReviewRefreshTimer = null;
+function cakeReviewSafeUUID(){
+    // Compatibilidad con Safari/iOS y navegadores Android antiguos sin randomUUID().
+    const cryptoObj = window.crypto || window.msCrypto;
+    if (cryptoObj && typeof cryptoObj.randomUUID === 'function') {
+        return cryptoObj.randomUUID();
+    }
+    if (cryptoObj && typeof cryptoObj.getRandomValues === 'function') {
+        const bytes = new Uint8Array(16);
+        cryptoObj.getRandomValues(bytes);
+        bytes[6] = (bytes[6] & 0x0f) | 0x40;
+        bytes[8] = (bytes[8] & 0x3f) | 0x80;
+        const hex = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+        return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
+    }
+    // Último respaldo para entornos muy antiguos sin Web Crypto.
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
+
 function cakeReviewDeviceId(){
     const key='cake-chavez-review-device-v1'; let value='';
-    try { value=localStorage.getItem(key)||''; if(!value){value=crypto.randomUUID();localStorage.setItem(key,value);} } catch(_){value=crypto.randomUUID();}
+    try { value=localStorage.getItem(key)||''; if(!value){value=cakeReviewSafeUUID();localStorage.setItem(key,value);} } catch(_){value=cakeReviewSafeUUID();}
     return value;
 }
 function cakeReviewOpen(){const modal=document.getElementById('cake-review-modal');if(!modal)return;modal.hidden=false;modal.setAttribute('aria-hidden','false');document.body.classList.add('cake-review-open');document.getElementById('cake-review-name')?.focus();}
@@ -1190,7 +1211,7 @@ function configurarResenasPublicasCake(){
                 const batch = preparedFiles.slice(i, i + 3);
                 await Promise.all(batch.map(async file => {
                     const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg';
-                    const path = `incoming/${crypto.randomUUID()}.${ext}`;
+                    const path = `incoming/${cakeReviewSafeUUID()}.${ext}`;
                     const { error } = await client.storage.from(CAKE_REVIEW_BUCKET).upload(path, file, { cacheControl: '3600', upsert: false, contentType: file.type });
                     if (error) throw error;
                     paths.push(path);
@@ -1360,7 +1381,7 @@ async function enviarPedidoPersonalizadoWhatsApp() {
         alert('No se pudo conectar con el sistema de pedidos. No se ha enviado la solicitud. Inténtalo más tarde o contáctanos por WhatsApp.');
         return;
     }
-    const codigoPersonalizado = `CC-${(window.crypto?.randomUUID ? crypto.randomUUID().replace(/-/g, '') : `${Date.now()}${Math.random().toString(16).slice(2)}`).toUpperCase().slice(0, 16)}`;
+    const codigoPersonalizado = `CC-${(window.crypto?.randomUUID ? cakeReviewSafeUUID().replace(/-/g, '') : `${Date.now()}${Math.random().toString(16).slice(2)}`).toUpperCase().slice(0, 16)}`;
     let fotoReferenciaUrl = '';
     if (foto) {
         if (!/^image\/(jpeg|png|webp|gif)$/i.test(foto.type) || foto.size > MAX_FOTO_PERSONALIZADA_MB * 1024 * 1024) {
@@ -2090,7 +2111,7 @@ async function cargarInformacionTiendaCake(client) {
 window.registrarPedidoCake = async function (datosPedido) {
     const client = obtenerClienteSupabaseCake();
     if (!client) return '';
-    const random = (window.crypto?.randomUUID ? crypto.randomUUID().replace(/-/g, '') : `${Date.now()}${Math.random().toString(16).slice(2)}`).toUpperCase();
+    const random = (window.crypto?.randomUUID ? cakeReviewSafeUUID().replace(/-/g, '') : `${Date.now()}${Math.random().toString(16).slice(2)}`).toUpperCase();
     const code = `CC-${random.slice(0, 16)}`;
     const payload = {
         name: String(datosPedido.nombre || '').slice(0, 120),
