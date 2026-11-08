@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1d1216">
+    <title>Comparte la foto de tu fiesta · Cake Chávez</title>
+    <meta name="description" content="Envía a Cake Chávez las fotos de tu celebración con nuestro pastel. ¡Nos encanta verlas!">
+    <meta property="og:title" content="Comparte la foto de tu fiesta · Cake Chávez">
+    <meta property="og:description" content="Envía las fotos de tu celebración con tu pastel de Cake Chávez.">
+    <meta property="og:type" content="website">
+    <script src="cake-compat.js?v=20261109"></script>
+    <link rel="preconnect" href="https://nlsmjrlwbzloehfvdczy.supabase.co" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="fotos.css?v=20261109">
+</head>
+<body>
+    <canvas id="fotos-lienzo" class="fotos-lienzo" aria-hidden="true"></canvas>
+
+    <!-- Animación de bienvenida -->
+    <div class="fotos-bienvenida" id="fotos-bienvenida" aria-hidden="true">
+        <div class="fotos-aro"></div>
+        <img src="img/navidad/logo-base.webp" alt="" class="fotos-bienvenida-logo">
+        <p class="fotos-bienvenida-texto">¡Gracias por celebrar con nosotros!</p>
+    </div>
+
+    <main class="fotos-pagina">
+        <header class="fotos-cabecera">
+            <a href="index.html"><img src="img/navidad/logo-base.webp" alt="Cake Chávez" class="fotos-logo"></a>
+            <span class="fotos-kicker">📸 Clientes felices</span>
+            <h1>Comparte la foto de tu fiesta</h1>
+            <p>¿Celebraste con un pastel de Cake Chávez? Envíanos tus fotos partiendo el pastel, con la familia o en la mesa de fiesta. ¡Las más bonitas aparecerán en nuestra galería!</p>
+            <button type="button" class="fotos-boton-grande" id="fotos-abrir"><i class="fas fa-camera" aria-hidden="true"></i> Subir mis fotos</button>
+        </header>
+
+        <section class="fotos-galeria" id="fotos-galeria" hidden>
+            <h2>Ellos ya compartieron su momento 💗</h2>
+            <div class="fotos-galeria-grid" id="fotos-galeria-grid"></div>
+        </section>
+
+        <footer class="fotos-pie"><a href="index.html">← Ir a la tienda de Cake Chávez</a></footer>
+    </main>
+
+    <!-- Ventanita elegante para subir fotos -->
+    <div class="fotos-modal" id="fotos-modal" hidden aria-hidden="true">
+        <section class="fotos-modal-caja" role="dialog" aria-modal="true" aria-labelledby="fotos-modal-titulo">
+            <button type="button" class="fotos-cerrar" id="fotos-cerrar" aria-label="Cerrar">×</button>
+            <form id="fotos-form" novalidate>
+                <span class="fotos-kicker">Paso rápido</span>
+                <h2 id="fotos-modal-titulo">Tus fotos con Cake Chávez</h2>
+                <label class="fotos-elegir" for="fotos-archivos">
+                    <i class="fas fa-images" aria-hidden="true"></i>
+                    <strong>Toca para elegir fotos</strong>
+                    <small>Hasta 5 fotos · de tu galería o con la cámara</small>
+                </label>
+                <input id="fotos-archivos" type="file" accept="image/*" multiple hidden>
+                <div class="fotos-previas" id="fotos-previas"></div>
+                <label for="fotos-nombre">Tu nombre *</label>
+                <input id="fotos-nombre" maxlength="80" autocomplete="name" placeholder="Ej. Familia López" required>
+                <label for="fotos-mensaje">¿Quieres dejarnos un mensaje? (opcional)</label>
+                <textarea id="fotos-mensaje" rows="3" maxlength="400" placeholder="Ej. ¡El pastel de fresa estuvo delicioso!"></textarea>
+                <label class="fotos-consentimiento"><input type="checkbox" id="fotos-permiso" required> <span>Autorizo a Cake Chávez a revisar mis fotos y, si las aprueba, publicarlas en su página.</span></label>
+                <p class="fotos-estado" id="fotos-estado" role="status" aria-live="polite"></p>
+                <button type="submit" class="fotos-boton-grande" id="fotos-enviar"><i class="fas fa-paper-plane" aria-hidden="true"></i> Enviar fotos</button>
+            </form>
+            <div class="fotos-exito" id="fotos-exito" hidden>
+                <div class="fotos-exito-check" aria-hidden="true">✓</div>
+                <h2>¡Gracias por compartir! 💗</h2>
+                <p>Recibimos tus fotos. Las revisaremos con cariño y, si todo está bien, pronto aparecerán en nuestra galería de clientes felices.</p>
+                <a class="fotos-boton-grande" href="index.html">Ir a la tienda</a>
+                <button type="button" class="fotos-boton-borde" id="fotos-otra">Enviar más fotos</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="vendor/supabase-2.119.0-compat.js?v=1"></script>
+    <script>window.supabase || document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"><\/script>');</script>
+    <script src="supabase-config.js?v=20261109"></script>
+    <script src="cake-animaciones.js?v=20261109"></script>
+    <script src="fotos.js?v=20261109"></script>
+</body>
+</html>

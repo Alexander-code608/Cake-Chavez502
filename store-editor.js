@@ -6,12 +6,27 @@
 (() => {
   'use strict';
 
-  const CATEGORIES = [
+  const CATEGORIAS_BASE = [
   ['pasteles', 'Añadir pastel'],
   ['postres', 'Añadir postre'],
   ['galletas', 'Añadir galletas'],
   ['bocaditos', 'Añadir bocaditos'],
   ['especiales', 'Añadir especial']];
+  // Categorías editables desde el panel (cake_categories). Si no existen, se usan las de siempre.
+  function categoriasEditor() {
+    const lista = Array.isArray(window.CAKE_CATEGORIAS) && window.CAKE_CATEGORIAS.length ? window.CAKE_CATEGORIAS : null;
+    if (!lista) return CATEGORIAS_BASE;
+    const res = lista.map((c) => [c.slug, `Añadir ${String(c.name || c.slug).toLowerCase()}`]);
+    if (!res.some(([slug]) => slug === 'especiales')) res.push(['especiales', 'Añadir especial']);
+    return res;
+  }
+  function nombreCategoria(slug) {
+    const c = (window.CAKE_CATEGORIAS || []).find((x) => x.slug === slug);
+    return c ? c.name : slug;
+  }
+  function esCategoriaPastel(slug) {
+    return window.CakeFunciones ? window.CakeFunciones.esCategoriaPastel(slug) : slug === 'pasteles';
+  }
 
   const $ = (id) => document.getElementById(id);
   const state = { client: null, user: null, isAdmin: false, modalTarget: null, productsObserver: null, contentAvailable: true };
@@ -22,7 +37,9 @@
   '#carrusel-slides-wrapper', '.carrusel-slide', '.cake-editor-ui', '.cake-editor-modal',
   '#cake-info-entrega', '#cake-info-pagos', '#cake-info-anticipacion',
   // Se editan desde el panel (pestañas «Navidad» y «Carrusel»), no con el editor visual.
-  '#navidad-especialidades', '.navidad-fondo-luces', '.navidad-cielo'].
+  '#navidad-especialidades', '.navidad-fondo-luces', '.navidad-cielo',
+  // Funciones nuevas 2026: se editan desde el panel, no con el editor visual.
+  '.cf-excluir-editor'].
   join(',');
 
   function clientFromConfig() {
@@ -172,12 +189,15 @@
           <input id="cake-editor-product-id" type="hidden">
           <div class="cake-editor-form-grid">
             <div><label for="cake-editor-product-name">Nombre</label><input id="cake-editor-product-name" required maxlength="140"></div>
-            <div><label for="cake-editor-product-category">Categoría</label><select id="cake-editor-product-category" required><option value="pasteles">Pasteles</option><option value="postres">Postres</option><option value="galletas">Galletas</option><option value="bocaditos">Bocaditos</option><option value="especiales">Especiales</option></select></div>
+            <div><label for="cake-editor-product-category">Categoría</label><select id="cake-editor-product-category" required>${categoriasEditor().map(([slug]) => `<option value="${slug}">${String(nombreCategoria(slug)).replace(/[<>&"]/g, '')}</option>`).join('')}</select></div>
             <div><label for="cake-editor-product-slug">Enlace corto</label><input id="cake-editor-product-slug" required maxlength="140"></div>
             <div><label for="cake-editor-product-price">Precio base (Q)</label><input id="cake-editor-product-price" type="number" min="0" step="0.01" required></div>
             <div><label for="cake-editor-product-small">Precio pequeño (Q)</label><input id="cake-editor-product-small" type="number" min="0" step="0.01" placeholder="Opcional"></div>
+            <div class="cake-editor-slices"><label for="cake-editor-slices-small">🍰 Rebanadas (pequeño)</label><input id="cake-editor-slices-small" type="number" min="0" max="500" step="1" placeholder="Ej. 20"></div>
             <div><label for="cake-editor-product-medium">Precio mediano (Q)</label><input id="cake-editor-product-medium" type="number" min="0" step="0.01" placeholder="Opcional"></div>
+            <div class="cake-editor-slices"><label for="cake-editor-slices-medium">🍰 Rebanadas (mediano)</label><input id="cake-editor-slices-medium" type="number" min="0" max="500" step="1" placeholder="Ej. 30"></div>
             <div><label for="cake-editor-product-large">Precio grande (Q)</label><input id="cake-editor-product-large" type="number" min="0" step="0.01" placeholder="Opcional"></div>
+            <div class="cake-editor-slices"><label for="cake-editor-slices-large">🍰 Rebanadas (grande)</label><input id="cake-editor-slices-large" type="number" min="0" max="500" step="1" placeholder="Ej. 40"></div>
             <div><label for="cake-editor-product-sale">Precio de oferta (Q)</label><input id="cake-editor-product-sale" type="number" min="0" step="0.01" placeholder="Opcional"></div>
             <div class="cake-editor-full"><label for="cake-editor-product-description">Descripción</label><textarea id="cake-editor-product-description" rows="3" maxlength="1000"></textarea></div>
             <div class="cake-editor-full"><label for="cake-editor-product-image-url">Foto actual o URL de foto</label><input id="cake-editor-product-image-url" type="text" placeholder="https://… o img/pasteles/mi-foto.jpg"></div>
@@ -327,7 +347,11 @@
     $('cake-editor-product-id').value = (product == null ? void 0 : product.id) || '';
     $('cake-editor-product-title').textContent = product ? `Editar: ${product.name}` : `Añadir ${category === 'pasteles' ? 'pastel' : category === 'postres' ? 'postre' : category === 'galletas' ? 'galletas' : category === 'bocaditos' ? 'bocaditos' : 'producto especial'}`;
     $('cake-editor-product-name').value = (product == null ? void 0 : product.name) || '';
-    $('cake-editor-product-category').value = CATEGORIES.some(([value]) => value === ((product == null ? void 0 : product.category) || category)) ? (product == null ? void 0 : product.category) || category : 'pasteles';
+    const selectCategoria = $('cake-editor-product-category');
+    selectCategoria.replaceChildren(...categoriasEditor().map(([slug]) => {const o = document.createElement('option');o.value = slug;o.textContent = nombreCategoria(slug);return o;}));
+    $('cake-editor-product-category').value = categoriasEditor().some(([value]) => value === ((product == null ? void 0 : product.category) || category)) ? (product == null ? void 0 : product.category) || category : 'pasteles';
+    ['small', 'medium', 'large'].forEach((t) => {const v = product == null ? null : product[`slices_${t}`];$(`cake-editor-slices-${t}`).value = v != null ? v : '';});
+    actualizarCamposRebanadas();
     $('cake-editor-product-slug').value = (product == null ? void 0 : product.slug) || '';
     $('cake-editor-product-price').value = (_product$price = product == null ? void 0 : product.price) != null ? _product$price : '0';
     $('cake-editor-product-small').value = (_product$price_small = product == null ? void 0 : product.price_small) != null ? _product$price_small : '';
@@ -349,6 +373,12 @@
     $('cake-editor-product-modal').hidden = false;
     document.body.classList.add('cake-editor-modal-open');
     $('cake-editor-product-name').focus();
+  }
+
+  // Las rebanadas solo se muestran para categorías marcadas como «pasteles».
+  function actualizarCamposRebanadas() {
+    const pastel = esCategoriaPastel($('cake-editor-product-category').value);
+    document.querySelectorAll('#cake-editor-product-form .cake-editor-slices').forEach((campo) => {campo.hidden = !pastel;});
   }
 
   function closeProductModal() {
@@ -407,13 +437,13 @@
     if (!nav || !catalog) return;
 
     const categoryButtons = Array.from(nav.querySelectorAll('.nav-btn'));
-    CATEGORIES.forEach(([category]) => {
-      const categoryButton = categoryButtons.find((button) => button.textContent.trim().toLowerCase().includes(category));
+    categoriasEditor().forEach(([category]) => {
+      const categoryButton = categoryButtons.find((button) => button.dataset.cfCategoria === category) || categoryButtons.find((button) => button.textContent.trim().toLowerCase().includes(category));
       if (categoryButton) categoryButton.dataset.cakeEditorCategory = category;
     });
 
     const tiles = document.createDocumentFragment();
-    CATEGORIES.forEach(([category, label]) => {
+    categoriasEditor().forEach(([category, label]) => {
       if (catalog.querySelector(`[data-cake-add-tile="${category}"]`)) return;
       const add = document.createElement('button');
       add.type = 'button';
@@ -472,6 +502,10 @@
         price_medium: numberOrNull('cake-editor-product-medium'),
         price_large: numberOrNull('cake-editor-product-large'),
         sale_price: numberOrNull('cake-editor-product-sale'),
+        // Rebanadas a la par de cada precio (solo pasteles).
+        slices_small: esCategoriaPastel(category) ? numberOrNull('cake-editor-slices-small') : null,
+        slices_medium: esCategoriaPastel(category) ? numberOrNull('cake-editor-slices-medium') : null,
+        slices_large: esCategoriaPastel(category) ? numberOrNull('cake-editor-slices-large') : null,
         is_active: $('cake-editor-product-active').checked,
         is_featured: $('cake-editor-product-featured').checked,
         is_offer: $('cake-editor-product-offer').checked,
@@ -479,6 +513,9 @@
         display_order: $('cake-editor-product-order').value.trim() === '' ? firstDisplayOrderForCategory(category) : Number($('cake-editor-product-order').value),
         updated_at: new Date().toISOString()
       };
+      // Si no se escribieron rebanadas y el producto no tenía, no se envían (funciona aunque falte el SQL nuevo).
+      const productoActual = id ? (window.CAKE_PRODUCTOS_REMOTOS || []).find((p) => String(p.id) === String(id)) : null;
+      ['slices_small', 'slices_medium', 'slices_large'].forEach((k) => {if (payload[k] == null && !(productoActual && productoActual[k] != null)) delete payload[k];});
       const query = id ? state.client.from('products').update(payload).eq('id', id) : state.client.from('products').insert(payload);
       const { error } = await query;
       if (error) throw error;
@@ -534,6 +571,7 @@
     });
     $('cake-editor-product-slug').addEventListener('input', () => {$('cake-editor-product-slug').dataset.touched = 'true';});
     $('cake-editor-product-order').addEventListener('input', () => {$('cake-editor-product-order').dataset.touched = 'true';});
+    $('cake-editor-product-category').addEventListener('change', actualizarCamposRebanadas);
     $('cake-editor-product-category').addEventListener('change', () => {
       if (!$('cake-editor-product-id').value && !$('cake-editor-product-order').dataset.touched) {
         $('cake-editor-product-order').value = String(firstDisplayOrderForCategory($('cake-editor-product-category').value));

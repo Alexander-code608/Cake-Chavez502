@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Administración segura | Cake Chavez</title>
-  <script src="cake-compat.js?v=20261108"></script>
-  <link rel="stylesheet" href="admin.css?v=20261108">
-  <link rel="stylesheet" href="admin-extra.css?v=20261108">
+  <script src="cake-compat.js?v=20261109"></script>
+  <link rel="stylesheet" href="admin.css?v=20261109">
+  <link rel="stylesheet" href="admin-extra.css?v=20261109">
+  <link rel="stylesheet" href="admin-funciones.css?v=20261109">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -57,6 +58,12 @@
         <button type="button" class="admin-tab" data-admin-tab="settings">Entregas y pagos</button>
         <button type="button" class="admin-tab" data-admin-tab="carousel"><i class="fas fa-images" aria-hidden="true"></i> Carrusel</button>
         <button type="button" class="admin-tab admin-tab-navidad" data-admin-tab="navidad">🎄 Navidad</button>
+        <!-- Funciones nuevas 2026 -->
+        <button type="button" class="admin-tab admin-tab-nueva" data-admin-tab="scheduled">📅 Pedidos programados</button>
+        <button type="button" class="admin-tab admin-tab-nueva" data-admin-tab="categories">🏷️ Categorías y precios</button>
+        <button type="button" class="admin-tab admin-tab-nueva" data-admin-tab="photos">📸 Fotos de clientes</button>
+        <button type="button" class="admin-tab admin-tab-nueva" data-admin-tab="prizes">🎁 Premios</button>
+        <button type="button" class="admin-tab admin-tab-nueva" data-admin-tab="features">✨ Extras y avisos</button>
       </nav>
 
       <!-- MEJORA 17: gestionar productos, precios, fotos, favoritos destacados y ofertas. -->
@@ -69,11 +76,14 @@
             <div class="admin-form-grid">
               <div><label for="product-name">Nombre</label><input id="product-name" required maxlength="140"></div>
               <div><label for="product-slug">Enlace corto (slug)</label><input id="product-slug" required maxlength="140"></div>
-              <div><label for="product-category">Categoría</label><select id="product-category" required><option value="pasteles">Pasteles</option><option value="postres">Postres</option><option value="galletas">Galletas</option><option value="bocaditos">Bocaditos</option><option value="especiales">Especiales</option></select></div>
+              <div><label for="product-category">Categoría</label><select id="product-category" required><option value="pasteles">Pasteles</option><option value="postres">Postres</option><option value="galletas">Galletas</option><option value="bocaditos">Bocaditos</option><option value="especiales">Especiales</option></select><small>Puedes crear o renombrar categorías en «🏷️ Categorías y precios».</small></div>
               <div><label for="product-price">Precio base (Q)</label><input id="product-price" type="number" step="0.01" min="0" required value="0"></div>
               <div><label for="product-price-small">Precio pequeño (Q)</label><input id="product-price-small" type="number" step="0.01" min="0" placeholder="Opcional"></div>
+              <div class="admin-slices-field"><label for="product-slices-small">🍰 Rebanadas (pequeño)</label><input id="product-slices-small" type="number" step="1" min="0" max="500" placeholder="Ej. 20"></div>
               <div><label for="product-price-medium">Precio mediano (Q)</label><input id="product-price-medium" type="number" step="0.01" min="0" placeholder="Opcional"></div>
+              <div class="admin-slices-field"><label for="product-slices-medium">🍰 Rebanadas (mediano)</label><input id="product-slices-medium" type="number" step="1" min="0" max="500" placeholder="Ej. 30"></div>
               <div><label for="product-price-large">Precio grande (Q)</label><input id="product-price-large" type="number" step="0.01" min="0" placeholder="Opcional"></div>
+              <div class="admin-slices-field"><label for="product-slices-large">🍰 Rebanadas (grande)</label><input id="product-slices-large" type="number" step="1" min="0" max="500" placeholder="Ej. 40"></div>
               <div><label for="product-sale-price">Precio de oferta (Q)</label><input id="product-sale-price" type="number" step="0.01" min="0" placeholder="Dejar vacío si no aplica"></div>
               <div class="admin-full"><label for="product-description">Descripción</label><textarea id="product-description" rows="3" maxlength="1000"></textarea></div>
               <div class="admin-full"><label for="product-images">Fotos del producto</label><input id="product-images" type="file" accept="image/*" multiple><small>La primera imagen será la portada. Para Especiales puedes guardar 1 portada y hasta 3 fotos adicionales. Las fotos grandes se achican solas.</small><div id="product-current-gallery" class="admin-current-gallery"></div></div>
@@ -103,6 +113,7 @@
             <div><label for="manual-order-name">Nombre del cliente</label><input id="manual-order-name" maxlength="120" required></div>
             <div><label for="manual-order-phone">Teléfono</label><input id="manual-order-phone" type="tel" maxlength="30" required></div>
             <div><label for="manual-order-date">Fecha de entrega</label><input id="manual-order-date" type="date" required></div>
+            <div><label for="manual-order-time">Hora de entrega</label><input id="manual-order-time" type="time" step="900" required></div>
             <div><label for="manual-order-product">Pastel o producto</label><input id="manual-order-product" maxlength="160" required></div>
             <div><label for="manual-order-size">Tamaño (opcional)</label><input id="manual-order-size" maxlength="80" placeholder="Pequeño, mediano, grande…"></div>
             <div><label for="manual-order-quantity">Cantidad</label><input id="manual-order-quantity" type="number" min="1" max="99" value="1" required></div>
@@ -127,6 +138,136 @@
         </div>
         <p class="admin-order-views-note">Al guardar un estado, el pedido se moverá automáticamente a la sección elegida. La papelera incluye pedidos y productos eliminados.</p>
         <div id="admin-orders-list" class="admin-orders-list"><p>Cargando pedidos…</p></div>
+      </section>
+
+      <!-- ===================== FUNCIONES NUEVAS 2026 ===================== -->
+      <!-- 📅 PEDIDOS PROGRAMADOS: todos los pedidos ordenados por fecha y hora de entrega -->
+      <section class="admin-section" id="admin-panel-scheduled" hidden>
+        <div class="admin-section-head"><div><h2>📅 Pedidos programados</h2><p>Cada pedido que un cliente hace para una fecha se registra aquí automáticamente, ordenado por día y hora de entrega. Toca el teléfono para escribirle por WhatsApp.</p></div><div class="admin-header-actions"><button type="button" id="admin-refresh-scheduled" class="admin-button admin-button-outline">Actualizar</button></div></div>
+        <div class="af-filtros" role="group" aria-label="Filtrar por fecha de entrega">
+          <button type="button" class="af-filtro active" data-sched="hoy">Hoy <span data-sched-count></span></button>
+          <button type="button" class="af-filtro" data-sched="manana">Mañana <span data-sched-count></span></button>
+          <button type="button" class="af-filtro" data-sched="semana">Próximos 7 días <span data-sched-count></span></button>
+          <button type="button" class="af-filtro" data-sched="proximos">Todos los próximos <span data-sched-count></span></button>
+          <button type="button" class="af-filtro" data-sched="pasados">Fechas pasadas sin entregar <span data-sched-count></span></button>
+          <label class="af-filtro-fecha">o elige un día <input type="date" id="admin-sched-date"></label>
+        </div>
+        <div id="admin-scheduled-list" class="admin-orders-list"><p>Cargando pedidos…</p></div>
+      </section>
+
+      <!-- 🏷️ CATEGORÍAS Y PRECIOS -->
+      <section class="admin-section" id="admin-panel-categories" hidden>
+        <div class="admin-section-head"><div><h2>🏷️ Categorías y precios</h2><p>Crea, renombra, ordena u oculta las categorías de la tienda. Abajo puedes cambiar rápidamente los precios (y las rebanadas de los pasteles) sin abrir cada producto.</p></div><button type="button" id="af-cat-refresh" class="admin-button admin-button-outline">Actualizar</button></div>
+        <div class="af-grid-2">
+          <form id="af-cat-form" class="admin-form-card">
+            <h3>Agregar categoría</h3>
+            <div class="admin-form-grid">
+              <div><label for="af-cat-name">Nombre</label><input id="af-cat-name" maxlength="60" required placeholder="Ej. Tortas frías"></div>
+              <div><label for="af-cat-order">Orden</label><input id="af-cat-order" type="number" step="1" value="60"></div>
+              <div class="admin-full admin-checkboxes"><label><input type="checkbox" id="af-cat-cake"> Es de pasteles (muestra rebanadas junto a cada precio)</label><label><input type="checkbox" id="af-cat-active" checked> Visible en la tienda</label></div>
+            </div>
+            <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-plus"></i> Agregar categoría</button></div>
+            <p id="af-cat-message" class="admin-message" role="status"></p>
+          </form>
+          <div class="admin-list-card"><h3>Categorías actuales</h3><div id="af-cat-list" class="af-lista"><p>Cargando…</p></div></div>
+        </div>
+        <div class="admin-list-card af-precios">
+          <div class="admin-list-toolbar"><h3>Precios rápidos</h3><select id="af-precios-cat" aria-label="Elegir categoría"></select></div>
+          <p class="af-ayuda">Escribe el nuevo precio y pulsa «Guardar». En los pasteles, escribe a la par cuántas rebanadas rinde cada tamaño.</p>
+          <div id="af-precios-list" class="af-precios-lista"></div>
+          <p id="af-precios-message" class="admin-message" role="status"></p>
+        </div>
+      </section>
+
+      <!-- 📸 FOTOS DE CLIENTES -->
+      <section class="admin-section" id="admin-panel-photos" hidden>
+        <div class="admin-section-head"><div><h2>📸 Fotos de clientes</h2><p>Aquí llegan las fotos que tus clientes envían. Revisa cada una y pulsa «Confirmar» para mostrarla en la galería «Clientes felices».</p></div><button type="button" id="af-fotos-refresh" class="admin-button admin-button-outline">Actualizar</button></div>
+        <div class="af-grid-2">
+          <div class="admin-form-card af-qr-card">
+            <h3>Código QR para tus clientes</h3>
+            <p class="af-ayuda">Envía o imprime este QR. Al escanearlo, tus clientes ven una bienvenida animada y una ventanita para subir sus fotos.</p>
+            <div id="af-fotos-qr" class="af-qr"></div>
+            <div class="admin-form-actions">
+              <button type="button" id="af-fotos-qr-descargar" class="admin-button admin-button-primary"><i class="fas fa-download"></i> Descargar QR</button>
+              <button type="button" id="af-fotos-qr-compartir" class="admin-button admin-button-outline"><i class="fas fa-share-nodes"></i> Compartir</button>
+              <button type="button" id="af-fotos-qr-copiar" class="admin-button admin-button-outline"><i class="fas fa-link"></i> Copiar enlace</button>
+            </div>
+            <p id="af-fotos-qr-message" class="admin-message" role="status"></p>
+          </div>
+          <form id="af-fotos-form" class="admin-form-card">
+            <h3>Subir fotos tú misma</h3>
+            <p class="af-ayuda">Las fotos que subas aquí se publican directo en la galería.</p>
+            <div class="admin-form-grid">
+              <div><label for="af-fotos-nombre">Nombre del cliente (opcional)</label><input id="af-fotos-nombre" maxlength="80"></div>
+              <div><label for="af-fotos-texto">Mensaje (opcional)</label><input id="af-fotos-texto" maxlength="400"></div>
+              <div class="admin-full"><label for="af-fotos-archivos">Fotos</label><input id="af-fotos-archivos" type="file" accept="image/*" multiple></div>
+            </div>
+            <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-upload"></i> Subir y publicar</button></div>
+            <p id="af-fotos-message" class="admin-message" role="status"></p>
+          </form>
+        </div>
+        <div class="af-filtros" role="group" aria-label="Filtrar fotos">
+          <button type="button" class="af-filtro active" data-foto-estado="pendiente">Por revisar <span data-foto-count="pendiente"></span></button>
+          <button type="button" class="af-filtro" data-foto-estado="aprobada">Publicadas <span data-foto-count="aprobada"></span></button>
+          <button type="button" class="af-filtro" data-foto-estado="rechazada">No publicadas <span data-foto-count="rechazada"></span></button>
+        </div>
+        <div id="af-fotos-list" class="af-fotos-grid"><p>Cargando…</p></div>
+      </section>
+
+      <!-- 🎁 PREMIOS DEL RASPA Y GANA -->
+      <section class="admin-section" id="admin-panel-prizes" hidden>
+        <div class="admin-section-head"><div><h2>🎁 Premios del Raspa y gana</h2><p>Enciende o apaga el juego y edita los premios: nombre, detalles, imagen y qué tan seguido salen.</p></div><button type="button" id="af-premios-refresh" class="admin-button admin-button-outline">Actualizar</button></div>
+        <form id="af-raspa-ajustes" class="admin-form-card af-ajustes-card">
+          <h3>Ajustes del juego</h3>
+          <div class="admin-form-grid">
+            <div class="admin-full"><label class="admin-inline-check"><input type="checkbox" id="af-raspa-activo"> Mostrar «Raspa y gana» en la tienda</label></div>
+            <div><label for="af-raspa-titulo">Título</label><input id="af-raspa-titulo" maxlength="120"></div>
+            <div><label for="af-raspa-sub">Texto debajo del título</label><input id="af-raspa-sub" maxlength="300"></div>
+          </div>
+          <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar ajustes</button></div>
+          <p id="af-raspa-message" class="admin-message" role="status"></p>
+        </form>
+        <div id="af-premios-crud"></div>
+      </section>
+
+      <!-- ✨ EXTRAS Y AVISOS -->
+      <section class="admin-section" id="admin-panel-features" hidden>
+        <div class="admin-section-head"><div><h2>✨ Extras y avisos</h2><p>Barra de cupos, cuenta regresiva, extras del carrito, preguntas frecuentes, guía de porciones, galería y QR de regalo. Todo sin tocar código.</p></div><button type="button" id="af-features-refresh" class="admin-button admin-button-outline">Actualizar</button></div>
+        <form id="af-features-form" class="admin-form-card af-ajustes-card">
+          <h3>📅 Barra de aviso de cupos</h3>
+          <div class="admin-form-grid">
+            <div class="admin-full"><label class="admin-inline-check"><input type="checkbox" id="af-banner-on"> Mostrar la barra arriba de la página</label></div>
+            <div class="admin-full"><label for="af-banner-text">Texto (usa {fecha} para mostrar la fecha límite)</label><input id="af-banner-text" maxlength="300"></div>
+            <div><label for="af-banner-deadline">Fecha límite para apartar</label><input id="af-banner-deadline" type="date"><small>Después de esta fecha la barra se oculta sola.</small></div>
+            <div><label for="af-banner-dates">Fechas para mostrar cupos (una por línea)</label><textarea id="af-banner-dates" rows="2" placeholder="2026-12-24"></textarea></div>
+            <div class="admin-full"><label class="admin-inline-check"><input type="checkbox" id="af-banner-spots"> Mostrar cuántos cupos quedan (usa tu límite diario de «Entregas y pagos»)</label></div>
+          </div>
+          <h3>🎄 Cuenta regresiva</h3>
+          <div class="admin-form-grid">
+            <div class="admin-full"><label class="admin-inline-check"><input type="checkbox" id="af-count-on"> Mostrar el reloj navideño</label></div>
+            <div><label for="af-count-label1">Evento 1</label><input id="af-count-label1" maxlength="60" placeholder="Nochebuena"></div>
+            <div><label for="af-count-date1">Fecha y hora</label><input id="af-count-date1" type="datetime-local"></div>
+            <div><label for="af-count-label2">Evento 2</label><input id="af-count-label2" maxlength="60" placeholder="Año Nuevo"></div>
+            <div><label for="af-count-date2">Fecha y hora</label><input id="af-count-date2" type="datetime-local"></div>
+            <div class="admin-full"><label for="af-count-msgs">Mensajitos que van cambiando (uno por línea)</label><textarea id="af-count-msgs" rows="4"></textarea></div>
+          </div>
+          <h3>🧩 Otras funciones</h3>
+          <div class="admin-form-grid">
+            <div class="admin-full admin-checkboxes">
+              <label><input type="checkbox" id="af-extras-on"> Sugerir extras en el carrito</label>
+              <label><input type="checkbox" id="af-gift-on"> Ofrecer el QR de mensaje secreto al enviar el pedido</label>
+              <label><input type="checkbox" id="af-gallery-on"> Mostrar la galería «Clientes felices»</label>
+            </div>
+            <div><label for="af-gallery-title">Título de la galería</label><input id="af-gallery-title" maxlength="120"></div>
+          </div>
+          <h3>🍰 Guía de porciones</h3>
+          <div id="af-guia-filas" class="af-guia-filas"></div>
+          <button type="button" id="af-guia-agregar" class="admin-button admin-button-outline"><i class="fas fa-plus"></i> Agregar tamaño</button>
+          <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar todo</button></div>
+          <p id="af-features-message" class="admin-message" role="status"></p>
+        </form>
+        <div id="af-extras-crud"></div>
+        <div id="af-faq-crud"></div>
       </section>
 
       <!-- MEJORA 13: publicar solo comentarios auténticos y con permiso. -->
@@ -280,6 +421,7 @@
                   <div><label for="edit-order-phone">Teléfono</label><input id="edit-order-phone" type="tel" maxlength="30"></div>
                   <div><label for="edit-order-type">Tipo de pedido</label><input id="edit-order-type" type="text" readonly></div>
                   <div><label for="edit-order-date">Fecha de entrega</label><input id="edit-order-date" type="date"></div>
+                  <div><label for="edit-order-time">Hora de entrega</label><input id="edit-order-time" type="time" step="900"></div>
                   <div class="admin-order-edit-full"><label for="edit-order-address">Dirección de entrega</label><input id="edit-order-address" type="text" maxlength="500"></div>
                   <div><label for="edit-order-occasion">Ocasión</label><input id="edit-order-occasion" type="text" maxlength="100"></div>
                   <div><label for="edit-order-flavor">Sabor</label><input id="edit-order-flavor" type="text" maxlength="100"></div>
@@ -315,8 +457,13 @@
   </main>
   <script src="vendor/supabase-2.119.0-compat.js?v=1"></script>
   <script>window.supabase || document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"><\/script>');</script>
-  <script src="supabase-config.js?v=20261108"></script>
-  <script src="admin.js?v=20261108"></script>
-  <script src="admin-extra.js?v=20261108"></script>
+  <script src="supabase-config.js?v=20261109"></script>
+  <script src="admin.js?v=20261109"></script>
+  <script src="admin-extra.js?v=20261109"></script>
+  <!-- Funciones nuevas 2026 -->
+  <script src="vendor/qrcode.min.js?v=1"></script>
+  <script src="cake-qr.js?v=20261109"></script>
+  <script src="cake-animaciones.js?v=20261109"></script>
+  <script src="admin-funciones.js?v=20261109"></script>
 </body>
 </html>

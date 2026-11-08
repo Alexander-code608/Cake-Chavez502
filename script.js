@@ -593,7 +593,8 @@ function desplazarseHastaElementoConMenu(elemento) {
 function filtrar(categoria, elemento) {
   // MEJORA 12: al elegir una categoría, salir del filtro exclusivo de favoritos.
   if (typeof cakeSoloFavoritos !== 'undefined' && cakeSoloFavoritos && typeof salirModoFavoritosCake === 'function') salirModoFavoritosCake();
-  const categoriasPermitidas = ['todos', 'pasteles', 'postres', 'galletas', 'bocaditos', 'especiales'];
+  // Categorías editables desde el panel (cake_categories); si no hay conexión, se usan las de siempre.
+  const categoriasPermitidas = ['todos'].concat(window.CakeFunciones ? window.CakeFunciones.categoriasValidas() : ['pasteles', 'postres', 'galletas', 'bocaditos', 'especiales']);
   const categoriaElegida = categoriasPermitidas.includes(categoria) ? categoria : 'todos';
   const inputBusqueda = document.getElementById('input-busqueda');
   if (inputBusqueda) inputBusqueda.value = '';
@@ -662,8 +663,11 @@ function cerrarModalAnimadoCake(modal) {
   cakeModalCloseTimers.set(modal, timer);
 }
 
-function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7, arg8) {
+// arg9 (opcional): { rebanadas: [pequeño, mediano, grande], tamano: 'Mediano' } — solo pasteles.
+function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) {
   reproducirSonidoGotita();
+  const extraPastel = arg9 && typeof arg9 === 'object' ? arg9 : {};
+  const rebanadasTam = Array.isArray(extraPastel.rebanadas) ? extraPastel.rebanadas.map((v) => Math.max(0, Math.round(Number(v) || 0))) : [0, 0, 0];
 
   const modalTitulo = document.getElementById('modal-titulo');
   const modalCantidad = document.getElementById('modal-cantidad');
@@ -684,23 +688,26 @@ function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7, arg8) {
     const mediano = Number(arg3) || 0;
     const grande = Number(arg4) || 0;
     const opciones = [
-    { nombre: 'Pequeño', precio: pequeno },
-    { nombre: 'Mediano', precio: mediano },
-    { nombre: 'Grande', precio: grande }].
+    { nombre: 'Pequeño', precio: pequeno, rebanadas: rebanadasTam[0] || 0 },
+    { nombre: 'Mediano', precio: mediano, rebanadas: rebanadasTam[1] || 0 },
+    { nombre: 'Grande', precio: grande, rebanadas: rebanadasTam[2] || 0 }].
     filter((opcion) => Number.isFinite(opcion.precio) && opcion.precio > 0);
 
     imagen = arg6 || '';
     descripcion = arg7 || '';
     if (opciones.length) {
-      productoTemporal = { nombre, pequeno, mediano, grande, tipo: 'pastel', galeria: Array.isArray(arg8) ? arg8.filter(Boolean) : [imagen].filter(Boolean) };
+      productoTemporal = { nombre, pequeno, mediano, grande, tipo: 'pastel', opciones, galeria: Array.isArray(arg8) ? arg8.filter(Boolean) : [imagen].filter(Boolean) };
       if (divTamano) divTamano.style.display = 'block';
       if (selectTamano) {
+        const indicePedido = extraPastel.tamano ? opciones.findIndex((opcion) => opcion.nombre === extraPastel.tamano) : -1;
         const indiceMediano = opciones.findIndex((opcion) => opcion.nombre === 'Mediano');
-        const indiceSeleccionado = indiceMediano >= 0 ? indiceMediano : 0;
+        const indiceSeleccionado = indicePedido >= 0 ? indicePedido : indiceMediano >= 0 ? indiceMediano : 0;
+        // Cada precio muestra a la par cuántas rebanadas rinde (se edita en el panel).
         selectTamano.innerHTML = opciones.map((opcion, indice) => {
           const precio = opcion.precio.toFixed(2);
           const seleccionado = indice === indiceSeleccionado ? ' selected' : '';
-          return `<option value="${opcion.nombre}" data-precio="${precio}"${seleccionado}>${opcion.nombre} - Q${precio}</option>`;
+          const reb = opcion.rebanadas > 0 ? ` — ${opcion.rebanadas} rebanadas` : '';
+          return `<option value="${opcion.nombre}" data-precio="${precio}" data-rebanadas="${opcion.rebanadas}"${seleccionado}>${opcion.nombre} · Q${precio}${reb}</option>`;
         }).join('');
       }
     } else {var _tarjetaLocal$querySe, _textoPrecio$match;
@@ -811,7 +818,9 @@ function agregarDesdeVentanita() {
       }
     }
 
-    nombreFinal = `${productoTemporal.nombre} (${tamanoNombre})`;
+    let rebanadasElegidas = 0;
+    if (selectTamano && selectTamano.selectedIndex >= 0 && selectTamano.options[selectTamano.selectedIndex]) rebanadasElegidas = Number(selectTamano.options[selectTamano.selectedIndex].dataset.rebanadas) || 0;
+    nombreFinal = rebanadasElegidas > 0 ? `${productoTemporal.nombre} (${tamanoNombre} · ${rebanadasElegidas} rebanadas)` : `${productoTemporal.nombre} (${tamanoNombre})`;
   } else {
     precioFinal = productoTemporal.precioBase || 0;
   }
@@ -1495,6 +1504,19 @@ async function enviarPedidoPersonalizadoWhatsAppInterno(bloquear) {var _ref;
   const colores = obtenerValorPersonalizacion('colores-personalizar');
   const fecha = window.cakeNormalizarFecha ? window.cakeNormalizarFecha(obtenerValorPersonalizacion('fecha-personalizar')) : obtenerValorPersonalizacion('fecha-personalizar');
   const detalles = obtenerValorPersonalizacion('detalles-personalizar');
+  const telefonoP = String((document.getElementById('telefono-personalizar') || {}).value || '').trim();
+  const direccionP = String((document.getElementById('direccion-personalizar') || {}).value || '').trim();
+  const horaP = window.CakeFunciones ? window.CakeFunciones.normalizarHora((document.getElementById('hora-personalizar') || {}).value) : String((document.getElementById('hora-personalizar') || {}).value || '');
+
+  // DATOS OBLIGATORIOS: nombre, teléfono, dirección, fecha y hora (no se envía si falta alguno).
+  const faltaPersonalizado = (id, mensaje) => {
+    alert(mensaje);
+    const campo = document.getElementById(id);
+    if (campo) {try {campo.focus();} catch (_) {}}
+  };
+  if (!nombre || nombre === 'No indicado') {faltaPersonalizado('nombre-personalizar', 'Escribe tu nombre para continuar.');return;}
+  if (telefonoP.replace(/\D/g, '').length < 8) {faltaPersonalizado('telefono-personalizar', 'Escribe tu número de teléfono / WhatsApp (8 dígitos).');return;}
+  if (direccionP.length < 4) {faltaPersonalizado('direccion-personalizar', 'Escribe la dirección de entrega.');return;}
 
   // La fecha de entrega es obligatoria también para pasteles personalizados.
   if (!fecha || fecha === 'No indicado') {
@@ -1508,15 +1530,19 @@ async function enviarPedidoPersonalizadoWhatsAppInterno(bloquear) {var _ref;
     (_document$getElementB14 = document.getElementById('fecha-personalizar')) == null || _document$getElementB14.focus();
     return;
   }
+  if (!horaP) {faltaPersonalizado('hora-personalizar', 'Elige la hora de entrega.');return;}
   bloquear('Enviando…');
 
   let texto = 'Hola, Cake Chavez. Quisiera cotizar un pastel personalizado.\n\n';
   texto += `Nombre: ${nombre}\n`;
+  texto += `Teléfono: ${telefonoP}\n`;
   texto += `Ocasión: ${ocasion}\n`;
   texto += `Sabor: ${sabor}\n`;
   texto += `Tamaño: ${tamano}\n`;
   texto += `Colores o temática: ${colores}\n`;
   texto += `Fecha de entrega: ${fecha}\n`;
+  texto += `Hora de entrega: ${horaP}\n`;
+  texto += `Dirección de entrega: ${direccionP}\n`;
   texto += `Detalles: ${detalles}\n`;
 
   // Registrar la solicitud personalizada antes de abrir WhatsApp.
@@ -1564,8 +1590,10 @@ async function enviarPedidoPersonalizadoWhatsAppInterno(bloquear) {var _ref;
   const payloadPersonalizado = {
     order_type: 'pastel_personalizado',
     name: String(nombre === 'No indicado' ? '' : nombre).slice(0, 120),
+    phone: telefonoP.slice(0, 30),
     delivery_date: String(fecha).slice(0, 10),
-    address: '', total: 0, items: [],
+    delivery_time: horaP,
+    address: direccionP.slice(0, 500), total: 0, items: [],
     occasion: String(ocasion).slice(0, 100),
     flavor: String(sabor).slice(0, 100),
     size: String(tamano).slice(0, 100),
@@ -1576,13 +1604,11 @@ async function enviarPedidoPersonalizadoWhatsAppInterno(bloquear) {var _ref;
     photo_reference_url: fotoReferenciaUrl,
     theme: String(colores).slice(0, 500)
   };
-  const { data: registroPersonalizado, error: errorRegistroPersonalizado } = await clienteSupabase.rpc(
-    'cake_register_order_with_capacity',
-    { p_order_code: codigoPersonalizado, p_payload: payloadPersonalizado }
-  );
+  const { data: registroPersonalizado, error: errorRegistroPersonalizado } = await cakeRegistrarPedidoSeguro(clienteSupabase, codigoPersonalizado, payloadPersonalizado, null);
   if (errorRegistroPersonalizado) {
     console.error('No se pudo registrar la solicitud personalizada:', errorRegistroPersonalizado.message);
-    alert('No se pudo guardar tu solicitud en el sistema, por lo que no abriremos WhatsApp todavía. Inténtalo de nuevo o contáctanos por WhatsApp.');
+    const motivo = String(errorRegistroPersonalizado.message || '');
+    alert(/FECHA_COMPLETA|DATOS_PEDIDO/.test(motivo) ? motivo.replace('FECHA_COMPLETA: ', '').replace('DATOS_PEDIDO: ', '') : 'No se pudo guardar tu solicitud en el sistema, por lo que no abriremos WhatsApp todavía. Inténtalo de nuevo o contáctanos por WhatsApp.');
     return;
   }
   const codigoGuardado = ((_ref = Array.isArray(registroPersonalizado) ? registroPersonalizado[0] : registroPersonalizado) == null ? void 0 : _ref.order_code) || codigoPersonalizado;
@@ -1681,12 +1707,20 @@ const CAKE_CARRITO_KEY = 'cake-chavez-orden-v1';
 function guardarCarritoCake() {
   try {localStorage.setItem(CAKE_CARRITO_KEY, JSON.stringify(orden));} catch (_) {}
 }
+// FUNCIÓN 6: agrega un extra (velitas, letreros…) desde el carrito con un solo toque.
+window.cakeAgregarAlCarrito = function (item) {
+  if (!item || !item.nombre) return;
+  const existente = orden.find((i) => i.nombre === item.nombre);
+  if (existente) existente.cantidad = Math.min(99, existente.cantidad + (Number(item.cantidad) || 1));else
+  orden.push({ nombre: String(item.nombre), precio: Number(item.precio) || 0, cantidad: Math.max(1, Number(item.cantidad) || 1), imagen: String(item.imagen || ''), tipo: item.tipo });
+  actualizarCarrito();
+};
 function restaurarCarritoGuardadoCake() {
   try {
     const datos = JSON.parse(localStorage.getItem(CAKE_CARRITO_KEY) || '[]');
     if (Array.isArray(datos) && datos.length) {
       orden = datos.filter((item) => item && item.nombre && Number(item.cantidad) > 0).
-      map((item) => ({ nombre: String(item.nombre), precio: Number(item.precio) || 0, cantidad: Math.max(1, Math.min(99, Number(item.cantidad) || 1)), imagen: String(item.imagen || '') }));
+      map((item) => ({ nombre: String(item.nombre), precio: Number(item.precio) || 0, cantidad: Math.max(1, Math.min(99, Number(item.cantidad) || 1)), imagen: String(item.imagen || ''), tipo: item.tipo === 'extra' ? 'extra' : undefined }));
     }
   } catch (_) {}
   actualizarCarrito();
@@ -1756,73 +1790,72 @@ function actualizarCarrito() {
     if (contadorBurbuja) contadorBurbuja.innerText = cantidadTotalArticulos;
   }
   guardarCarritoCake();
+  if (window.CakeFunciones && typeof window.CakeFunciones.alActualizarCarrito === 'function') window.CakeFunciones.alActualizarCarrito();
 }
 
 // =========================================================
 // CONFIRMAR PEDIDO: enviar productos y datos de entrega por WhatsApp
+// =========================================================
+// =========================================================
+// CONFIRMAR PEDIDO
+// 1) Revisa los datos obligatorios (nombre, teléfono, fecha, hora y dirección).
+// 2) Pregunta si quiere un código QR con mensaje secreto (SÍ / NO).
+// 3) Registra el pedido en Supabase, abre WhatsApp y muestra el ticket digital.
 // =========================================================
 let cakeEnviandoOrden = false;
 async function confirmarOrden() {
   if (cakeEnviandoOrden) return; // Evita pedidos repetidos por doble toque en celulares lentos.
   reproducirSonidoGotita();
 
-  const nombre = document.getElementById('cliente-nombre').value.trim();
-  const campoFechaCliente = document.getElementById('cliente-fecha');
-  const fecha = window.cakeNormalizarFecha ? window.cakeNormalizarFecha(campoFechaCliente.value) : campoFechaCliente.value;
-  const direccion = document.getElementById('cliente-direccion').value.trim();
-
-  if (nombre === "" || fecha === "" || direccion === "") {
-    alert("Por favor llena tu nombre, la fecha de entrega y tu dirección para enviar la orden.");
-    return;
-  }
-
   if (orden.length === 0) {
     alert("Tu orden está vacía.");
     return;
   }
+  const datos = window.CakeFunciones ? window.CakeFunciones.validarDatosCliente() : null;
+  if (!datos) return;
 
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
-    alert('Escribe la fecha de entrega así: DD/MM/AAAA (por ejemplo 24/12/2026).');
-    campoFechaCliente.focus();
-    return;
-  }
+  const continuar = (regalo) => enviarPedidoConfirmadoCake(datos, regalo);
+  if (window.CakeFunciones && window.CakeFunciones.preguntarRegalo) window.CakeFunciones.preguntarRegalo(datos, continuar);else
+  continuar(null);
+}
 
+// Se ejecuta en el toque del cliente (SÍ/NO o «Crear QR»), así WhatsApp no se bloquea.
+async function enviarPedidoConfirmadoCake(datos, regalo) {
+  if (cakeEnviandoOrden) return;
   const botonConfirmar = document.querySelector('#datos-cliente .btn-confirmar');
   const textoBoton = botonConfirmar ? botonConfirmar.innerHTML : '';
   cakeEnviandoOrden = true;
   if (botonConfirmar) {botonConfirmar.disabled = true;botonConfirmar.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Enviando pedido…';}
   try {
-    await confirmarOrdenInterno(nombre, fecha, direccion);
+    await confirmarOrdenInterno(datos, regalo);
   } finally {
     cakeEnviandoOrden = false;
     if (botonConfirmar) {botonConfirmar.disabled = false;botonConfirmar.innerHTML = textoBoton;}
   }
 }
 
-async function confirmarOrdenInterno(nombre, fecha, direccion) {
+async function confirmarOrdenInterno(datos, regalo) {
+  const { nombre, telefono, fecha, hora, direccion } = datos;
   // MEJORA 11: abrir la pestaña en el clic del usuario para evitar bloqueos de ventanas emergentes.
   // En los navegadores internos de Facebook/Instagram no se abre: ahí WhatsApp se abre en la misma pestaña.
   const ventanaWhatsapp = window.cakePrepararVentana ? window.cakePrepararVentana() : window.open('about:blank', '_blank');
-  let codigoSeguimiento = '';
-  if (typeof window.registrarPedidoCake === 'function') {
-    try {
-      codigoSeguimiento = (await window.registrarPedidoCake({
-        nombre,
-        fecha,
-        direccion,
-        total,
-        items: orden.map((item) => ({ nombre: item.nombre, precio: item.precio, cantidad: item.cantidad, imagen: item.imagen || '' }))
-      })) || '';
-    } catch (error) {
-      console.error('No se pudo registrar el pedido:', error);
-    }
-    // Si Supabase no pudo confirmar el cupo, no se debe enviar el pedido a WhatsApp
-    // como si hubiera sido aceptado. El RPC ya muestra el motivo al cliente.
-    if (!codigoSeguimiento) {
-      try {if (ventanaWhatsapp && !ventanaWhatsapp.closed) ventanaWhatsapp.close();} catch (_) {}
-      return;
-    }
+  const premio = window.CakeFunciones ? window.CakeFunciones.premioParaPedido() : null;
+  const itemsPedido = orden.map((item) => ({ nombre: item.nombre, precio: item.precio, cantidad: item.cantidad, imagen: item.imagen || '', tipo: item.tipo }));
+  let registro = null;
+  try {
+    registro = await window.registrarPedidoCake({ nombre, telefono, fecha, hora, direccion, total, items: itemsPedido, premio }, regalo);
+  } catch (error) {
+    console.error('No se pudo registrar el pedido:', error);
   }
+  // Si Supabase no registró el pedido (faltan datos, no hay cupo o no hay conexión),
+  // NO se abre WhatsApp como si el pedido hubiera sido aceptado.
+  if (!registro || !registro.codigo) {
+    try {if (ventanaWhatsapp && !ventanaWhatsapp.closed) ventanaWhatsapp.close();} catch (_) {}
+    return;
+  }
+  const codigoSeguimiento = registro.codigo;
+  const urlRegalo = registro.tokenRegalo && window.CakeQR ? window.CakeQR.urlRegalo(registro.tokenRegalo) : '';
+  const CF = window.CakeFunciones;
 
   let texto = `🎂 *NUEVO PEDIDO DE CAKE CHAVEZ* 🎂\n`;
   texto += `──────────────────────────────\n\n`;
@@ -1833,7 +1866,7 @@ async function confirmarOrdenInterno(nombre, fecha, direccion) {
   orden.forEach((item) => {
     texto += `• ${item.cantidad}x ${item.nombre} — Q${(item.precio * item.cantidad).toFixed(2)}\n`;
 
-    if (item.imagen && item.imagen.trim() !== '') {
+    if (item.imagen && item.imagen.trim() !== '' && item.tipo !== 'extra') {
       const rutaAbsolutaImg = item.imagen.startsWith('http') ?
       item.imagen :
       `${URL_SITIO_GITHUB}/${item.imagen}`;
@@ -1843,11 +1876,21 @@ async function confirmarOrdenInterno(nombre, fecha, direccion) {
   });
 
   texto += `\n💰 *TOTAL A PAGAR: Q${total.toFixed(2)}*\n\n`;
+  if (premio) texto += `🎁 *Premio Raspa y Gana:* ${premio.name}\n\n`;
   texto += `──────────────────────────────\n\n`;
   texto += `📦 *DATOS DE ENTREGA:*\n`;
   texto += `👤 *Cliente:* ${nombre}\n`;
-  texto += `📅 *Fecha de entrega:* ${fecha}\n`;
+  texto += `📱 *Teléfono:* ${telefono}\n`;
+  texto += `📅 *Fecha de entrega:* ${CF ? CF.fechaBonita(fecha, true) : fecha}\n`;
+  texto += `⏰ *Hora de entrega:* ${CF ? CF.horaBonita(hora) : hora}\n`;
   texto += `📍 *Dirección:* ${direccion}\n\n`;
+
+  if (regalo && urlRegalo) {
+    texto += `💌 *MENSAJE SECRETO CON QR (regalo):*\n`;
+    texto += `Para: ${regalo.recipient_name}\n`;
+    texto += `Animación: ${regalo.animation_name}\n`;
+    texto += `Ver sorpresa: ${urlRegalo}\n\n`;
+  }
 
   if (fotosLista.length > 0) {
     texto += `🖼️ *FOTOS DE REFERENCIA DE LOS PRODUCTOS:*\n`;
@@ -1855,37 +1898,33 @@ async function confirmarOrdenInterno(nombre, fecha, direccion) {
   }
 
   texto += `──────────────────────────────\n`;
-  if (codigoSeguimiento) {
-    texto += `🔎 *Código de seguimiento:* ${codigoSeguimiento}\n`;
-    texto += `Consulta el estado en: ${URL_SITIO_GITHUB}/#seguimiento-pedidos\n`;
-  }
+  texto += `🔎 *Código de seguimiento:* ${codigoSeguimiento}\n`;
+  texto += `Consulta el estado en: ${URL_SITIO_GITHUB}/#seguimiento-pedidos\n`;
   texto += `_Mensaje generado automáticamente desde ${URL_SITIO_GITHUB}_`;
 
   const url = `https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(texto)}`;
 
+  // Ticket digital (se guarda en el teléfono para verlo después).
+  const ticket = {
+    codigo: codigoSeguimiento, creado: new Date().toISOString(), nombre, telefono, fecha, hora, direccion,
+    total, items: itemsPedido, premio,
+    regalo: regalo && registro.tokenRegalo ? { token: registro.tokenRegalo, recipient_name: regalo.recipient_name, animation_name: regalo.animation_name } : null
+  };
+  if (premio && CF) CF.marcarPremioUsado(codigoSeguimiento);
+
   orden = [];
   total = 0;
   guardarCarritoCake();
+  if (CF) CF.limpiarDatosCliente();
+  actualizarCarrito();
+  const panelLateral = document.getElementById('carrito-lateral');
+  if (panelLateral && panelLateral.classList.contains('abierto')) toggleCarrito();
+  if (CF) CF.mostrarTicket(ticket);
+
   if (window.cakeAbrirEnlaceExterno) window.cakeAbrirEnlaceExterno(url, ventanaWhatsapp);else
   if (ventanaWhatsapp && !ventanaWhatsapp.closed) {ventanaWhatsapp.opener = null;ventanaWhatsapp.location.href = url;} else
   window.location.href = url;
-
-  if (document.getElementById('cliente-nombre')) {
-    document.getElementById('cliente-nombre').value = '';
-  }
-
-  if (document.getElementById('cliente-fecha')) {
-    document.getElementById('cliente-fecha').value = '';
-  }
-
-  if (document.getElementById('cliente-direccion')) {
-    document.getElementById('cliente-direccion').value = '';
-  }
-
-  actualizarCarrito();
-  toggleCarrito();
 }
-
 
 
 // =========================================================
@@ -2348,31 +2387,54 @@ async function cargarInformacionTiendaCake(client) {
   if (anticipo && data.order_notice) anticipo.textContent = data.order_notice;
 }
 
-// MEJORA 11: REGISTRO MÍNIMO DEL PEDIDO PARA SEGUIMIENTO; no guarda datos en el navegador público.
-window.registrarPedidoCake = async function (datosPedido) {var _ref2;
+// REGISTRO DEL PEDIDO: exige dirección, fecha, hora y teléfono (también lo valida Supabase)
+// y crea el mensaje secreto con QR si el cliente lo pidió. Devuelve { codigo, tokenRegalo }.
+window.registrarPedidoCake = async function (datosPedido, regalo) {
   const client = obtenerClienteSupabaseCake();
-  if (!client) return '';
+  if (!client) {
+    alert('No se pudo conectar con el sistema de pedidos. Revisa tu internet e inténtalo de nuevo.');
+    return null;
+  }
   const random = cakeReviewSafeUUID().replace(/-/g, '').toUpperCase();
   const code = `CC-${random.slice(0, 16)}`;
   const payload = {
+    order_type: 'catalogo',
     name: String(datosPedido.nombre || '').slice(0, 120),
+    phone: String(datosPedido.telefono || '').slice(0, 30),
     delivery_date: String(datosPedido.fecha || '').slice(0, 20),
+    delivery_time: String(datosPedido.hora || '').slice(0, 5),
     address: String(datosPedido.direccion || '').slice(0, 500),
     total: Number(datosPedido.total) || 0,
-    items: Array.isArray(datosPedido.items) ? datosPedido.items.slice(0, 80).map((i) => ({ name: String(i.nombre || '').slice(0, 160), price: Number(i.precio) || 0, quantity: Math.max(1, Math.min(99, Number(i.cantidad) || 1)), image: String(i.imagen || '').slice(0, 600) })) : []
+    items: Array.isArray(datosPedido.items) ? datosPedido.items.slice(0, 80).map((i) => ({ name: String(i.nombre || '').slice(0, 160), price: Number(i.precio) || 0, quantity: Math.max(1, Math.min(99, Number(i.cantidad) || 1)), image: String(i.imagen || '').slice(0, 600), is_extra: i.tipo === 'extra' })) : []
   };
-  const { data, error } = await client.rpc('cake_register_order_with_capacity', { p_order_code: code, p_payload: payload });
+  if (datosPedido.premio) payload.prize = { id: String(datosPedido.premio.id || ''), name: String(datosPedido.premio.name || '').slice(0, 120), detail: String(datosPedido.premio.detail || '').slice(0, 300) };
+  const { data, error } = await cakeRegistrarPedidoSeguro(client, code, payload, regalo);
   if (error) {
     console.warn('No se pudo registrar el pedido:', error.message);
-    if (/FECHA_COMPLETA|límite de pedidos|fecha de entrega/i.test(error.message || '')) {
-      alert(error.message.replace('FECHA_COMPLETA: ', ''));
+    const texto = String(error.message || '');
+    if (/FECHA_COMPLETA|DATOS_PEDIDO|límite de pedidos|fecha de entrega/i.test(texto)) {
+      alert(texto.replace('FECHA_COMPLETA: ', '').replace('DATOS_PEDIDO: ', ''));
+    } else if (/cake_register_order_full|schema cache|PGRST202/i.test(texto)) {
+      alert('El sistema de pedidos se está actualizando. Por favor, inténtalo en unos minutos o escríbenos por WhatsApp.');
     } else {
       alert('No pudimos confirmar el espacio de esa fecha. No se registró el pedido en el sistema; por favor, consulta por WhatsApp antes de continuar.');
     }
-    return '';
+    return null;
   }
-  return ((_ref2 = Array.isArray(data) ? data[0] : data) == null ? void 0 : _ref2.order_code) || code;
+  const fila = Array.isArray(data) ? data[0] : data;
+  return { codigo: fila && fila.order_code || code, tokenRegalo: fila && fila.gift_token || '' };
 };
+// Registra el pedido con la función nueva (datos obligatorios + QR de regalo).
+// Si todavía no se ejecutó el SQL nuevo en Supabase, usa la función de siempre
+// para que los pedidos nunca dejen de guardarse (en ese caso sin QR de regalo).
+async function cakeRegistrarPedidoSeguro(cliente, codigo, payload, regalo) {
+  const r = await cliente.rpc('cake_register_order_full', { p_order_code: codigo, p_payload: payload, p_gift: regalo || null });
+  if (r.error && /cake_register_order_full|PGRST202|Could not find the function|schema cache/i.test(String(r.error.message || '') + ' ' + String(r.error.code || ''))) {
+    console.warn('Función nueva de pedidos no instalada todavía; se usa la anterior.');
+    return cliente.rpc('cake_register_order_with_capacity', { p_order_code: codigo, p_payload: payload });
+  }
+  return r;
+}
 async function consultarEstadoPedidoCake(event) {
   if (event) event.preventDefault();
   const input = document.getElementById('cake-codigo-seguimiento');
@@ -2416,7 +2478,7 @@ function configurarAsistenteCake() {
 // MEJORA 17: SINCRONIZACIÓN DEL CATÁLOGO CON LA BASE DE DATOS ADMINISTRABLE.
 // Si no hay URL/clave o no existe conexión, el catálogo original continúa funcionando.
 function construirTarjetaRemotaCake(producto) {
-  const categoriasValidas = ['pasteles', 'postres', 'galletas', 'bocaditos', 'especiales'];
+  const categoriasValidas = window.CakeFunciones ? window.CakeFunciones.categoriasValidas() : ['pasteles', 'postres', 'galletas', 'bocaditos', 'especiales'];
   const categoria = categoriasValidas.includes(producto.category) ? producto.category : 'especiales';
   const slug = crearSlugProducto(producto.slug || producto.name);
   const card = document.createElement('article');
@@ -2445,16 +2507,38 @@ function construirTarjetaRemotaCake(producto) {
   basePrice > 0 ? `Q${basePrice.toFixed(2)}` : '';
   const price = crearElementoTextoCake('span', 'precio', catalogPriceText);
   price.hidden = !(basePrice > 0 || sizePrices.length > 0);
+  const listaRebanadas = crearListaPreciosRebanadasCake(producto, categoria);
   const orderButton = document.createElement('button');orderButton.type = 'button';orderButton.dataset.orderButton = 'true';orderButton.textContent = 'Añadir a la orden';
   if (!(unitPrice > 0)) {orderButton.disabled = true;orderButton.textContent = 'Precio por definir';}
   orderButton.addEventListener('click', () => {
     const small = Number(producto.price_small) || 0,medium = Number(producto.price_medium) || 0,large = Number(producto.price_large) || 0;
     const gallery = [producto.image_url, ...(Array.isArray(producto.gallery_urls) ? producto.gallery_urls : [])].filter(Boolean).slice(0, 20);
-    if (sizePrices.length) abrirVentanita(producto.name, small, medium, large, 'pastel', producto.image_url, producto.description || '', gallery);else
+    if (sizePrices.length) abrirVentanita(producto.name, small, medium, large, 'pastel', producto.image_url, producto.description || '', gallery, { rebanadas: [producto.slices_small, producto.slices_medium, producto.slices_large] });else
     abrirVentanita(producto.name, salePrice > 0 && salePrice < unitPrice ? salePrice : unitPrice, 0, 0, 'unidad', producto.image_url, producto.description || '', gallery);
   });
-  card.append(img, h3, desc, price, orderButton);
+  card.append(img, h3, desc, price);
+  if (listaRebanadas) card.appendChild(listaRebanadas);
+  card.appendChild(orderButton);
   return card;
+}
+// PASTELES: muestra cada precio con sus rebanadas, por ejemplo «Q140 — 20 rebanadas».
+function crearListaPreciosRebanadasCake(producto, categoria) {
+  const esPastel = window.CakeFunciones ? window.CakeFunciones.esCategoriaPastel(categoria) : categoria === 'pasteles';
+  const filas = [['Pequeño', producto.price_small, producto.slices_small], ['Mediano', producto.price_medium, producto.slices_medium], ['Grande', producto.price_large, producto.slices_large]].
+  filter((f) => Number(f[1]) > 0 && Number(f[2]) > 0);
+  if (!esPastel && !(categoria === 'navidad' && filas.length)) return null;
+  if (!filas.length) return null;
+  const ul = document.createElement('ul');
+  ul.className = 'cf-precios-rebanadas';
+  filas.forEach((f) => {
+    const li = document.createElement('li');
+    const precio = Number(f[1]);
+    li.appendChild(crearElementoTextoCake('strong', '', `Q${precio % 1 === 0 ? precio.toFixed(0) : precio.toFixed(2)}`));
+    li.appendChild(crearElementoTextoCake('span', '', `— ${Math.round(Number(f[2]))} rebanadas`));
+    li.title = f[0];
+    ul.appendChild(li);
+  });
+  return ul;
 }
 async function sincronizarCatalogoAdminCake() {
   const client = obtenerClienteSupabaseCake();
@@ -2859,6 +2943,8 @@ document.addEventListener('DOMContentLoaded', async () => {var _document$getElem
   cakeReviewStartRefresh(client);
   // Las especialidades navideñas se cargan en paralelo con el catálogo.
   const navidadInicial = cargarNavidadCake(client);
+  // Categorías editables: se cargan antes del catálogo para armar el menú.
+  if (window.CakeFunciones) await window.CakeFunciones.cargarCategorias(client);
   const productosRemotos = await sincronizarCatalogoAdminCake();
   renderizarEspecialidadesCake(productosRemotos);
   // Después de la posible sincronización, regeneramos elementos derivados del catálogo.
@@ -2871,6 +2957,8 @@ document.addEventListener('DOMContentLoaded', async () => {var _document$getElem
   renderizarOfertasCake(productosRemotos || []);
   renderizarDestacadosDesdeAdminCake(productosRemotos);
   await Promise.all([opinionesIniciales, cargarInformacionTiendaCake(client), navidadInicial]);
+  // Funciones nuevas 2026 (cupos, reloj, FAQ, extras, raspa y gana, galería…).
+  if (window.CakeFunciones) await window.CakeFunciones.cargarTodo(client).catch((e) => console.warn('Funciones nuevas:', e));
   activarAnimacionesAlDesplazarse();
   manejarEnlaceDirectoProducto();
 });
@@ -2923,6 +3011,7 @@ function renderizarNavidadCake(ajustes, items) {
     if (nota) {nota.textContent = String(ajustes.footer_note || '').trim();nota.hidden = !nota.textContent;}
   }
 
+  window.CAKE_NAVIDAD_ITEMS = items;
   grid.replaceChildren();
   const fragmento = document.createDocumentFragment();
   items.forEach((item, indice) => fragmento.appendChild(crearTarjetaNavidadCake(item, indice)));
@@ -2966,6 +3055,8 @@ function crearTarjetaNavidadCake(item, indice) {
   info.appendChild(crearElementoTextoCake('h3', '', nombre));
   if (descripcion) info.appendChild(crearElementoTextoCake('p', 'navidad-esp-descripcion', descripcion));
   if (precio.texto) info.appendChild(crearElementoTextoCake('strong', 'navidad-esp-precio', precio.texto));
+  const rebanadasNavidad = crearListaPreciosRebanadasCake(item, 'navidad');
+  if (rebanadasNavidad) info.appendChild(rebanadasNavidad);
 
   const boton = document.createElement('button');
   boton.type = 'button';
@@ -2974,7 +3065,7 @@ function crearTarjetaNavidadCake(item, indice) {
   if (precio.conTamanos.length || precio.base > 0) {
     boton.innerHTML = '<i class="fas fa-gift" aria-hidden="true"></i> Añadir a la orden';
     boton.addEventListener('click', () => {
-      if (precio.conTamanos.length) abrirVentanita(nombre, precio.tamanos[0], precio.tamanos[1], precio.tamanos[2], 'pastel', imagen, descripcion, galeria);else
+      if (precio.conTamanos.length) abrirVentanita(nombre, precio.tamanos[0], precio.tamanos[1], precio.tamanos[2], 'pastel', imagen, descripcion, galeria, { rebanadas: [item.slices_small, item.slices_medium, item.slices_large] });else
       abrirVentanita(nombre, precio.base, 0, 0, 'unidad', imagen, descripcion, galeria);
     });
   } else {
@@ -2999,9 +3090,10 @@ function irANavidadCake() {
 // Funciona en todos los celulares (no depende de :has()).
 // =========================================================
 (function vigilarVentanasAbiertasCake() {
-  const ids = ['modal-producto', 'modal-solo-imagen', 'modal-personalizar', 'modal-otro-producto', 'carrito-lateral', 'cake-review-modal', 'cake-review-lightbox'];
+  const ids = ['modal-producto', 'modal-solo-imagen', 'modal-personalizar', 'modal-otro-producto', 'carrito-lateral', 'cake-review-modal', 'cake-review-lightbox', 'cf-modal-guia', 'cf-modal-regalo', 'cf-modal-ticket', 'cf-modal-foto'];
   function estaAbierta(el) {
     if (!el || el.hidden) return false;
+    if (el.id.indexOf('cf-modal') === 0) return true;
     if (el.id === 'carrito-lateral') return el.classList.contains('abierto');
     if (el.id === 'cake-review-modal' || el.id === 'cake-review-lightbox') return el.getAttribute('aria-hidden') !== 'true';
     const display = el.style.display;

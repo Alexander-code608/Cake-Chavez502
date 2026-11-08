@@ -1,0 +1,55 @@
+=====================================================================
+ CAKE CHÁVEZ — FUNCIONES NUEVAS 2026
+=====================================================================
+
+PASO 1 — Ejecuta el SQL (una sola vez)
+---------------------------------------
+1. Entra a Supabase > tu proyecto > SQL Editor > New query.
+2. Abre el archivo  supabase/funciones_nuevas_2026.sql , copia TODO y pégalo.
+3. Pulsa "Run". Al final verás una lista de filas que dicen "ok".
+   - No borra productos, pedidos, reseñas ni fotos.
+   - Si lo ejecutas dos veces no pasa nada.
+
+PASO 2 — Sube los archivos a GitHub
+-----------------------------------
+Reemplaza en tu repositorio todos los archivos por los de este ZIP
+(incluye archivos nuevos: fotos.html, regalo.html, cake-funciones.js,
+cake-qr.js, cake-animaciones.js, admin-funciones.js y sus .css,
+y la carpeta img/extras).
+
+Nota: si subes la página antes de ejecutar el SQL, los pedidos se
+siguen guardando como siempre; las funciones nuevas se encienden
+solas cuando ejecutes el SQL.
+
+QUÉ HAY DE NUEVO EN LA TIENDA
+-----------------------------
+- Teléfono, dirección, fecha y hora de entrega obligatorios en TODOS
+  los pedidos (catálogo y pastel personalizado).
+- Barra de "cupos limitados" arriba (con cupos restantes por fecha).
+- Cuenta regresiva para Nochebuena / Año Nuevo.
+- Calculadora "¿Cuánto pastel necesito?" + guía de porciones.
+- Cada precio de pastel muestra cuántas rebanadas rinde.
+- Extras en el carrito (velitas, letreros, globos, empaque…).
+- Raspa y gana con premios editables.
+- Galería "Clientes felices" (solo fotos que tú confirmes).
+- Mensaje secreto con QR (opcional): al enviar el pedido el cliente
+  puede crear un mensaje con 1 de 10 animaciones.
+- Ticket digital del pedido para guardar como imagen.
+- Preguntas frecuentes editables.
+
+QUÉ HAY DE NUEVO EN EL PANEL (admin.html)
+-----------------------------------------
+📅 Pedidos programados  → agenda por día y hora; teléfono con WhatsApp.
+🏷️ Categorías y precios → crear/renombrar/ocultar categorías y
+                          cambiar precios + rebanadas rápidamente.
+📸 Fotos de clientes    → QR para compartir; confirmar o no publicar.
+🎁 Premios              → nombre, detalle, imagen y frecuencia.
+✨ Extras y avisos      → barra de cupos, cuenta regresiva, extras,
+                          preguntas frecuentes, guía de porciones…
+En "Pedidos", cada pedido con regalo muestra la animación, el
+mensaje y el QR (descargar, compartir o enviar al cliente).
+
+Páginas nuevas:
+- fotos.html  → donde tus clientes suben fotos (el QR del panel lleva aquí).
+- regalo.html → donde se ve el mensaje secreto al escanear el QR.
+=====================================================================

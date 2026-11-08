@@ -7,17 +7,19 @@
     <meta name="description" content="Cake Chavez: pasteles, postres, galletas y especialidades navideñas hechas con amor. Haz tu pedido en línea.">
     <title>Cake Chavez - Repostería</title>
     <!-- Compatibilidad con celulares antiguos y modo ligero (debe ir primero) -->
-    <script src="cake-compat.js?v=20261108"></script>
+    <script src="cake-compat.js?v=20261109"></script>
     <link rel="preconnect" href="https://nlsmjrlwbzloehfvdczy.supabase.co" crossorigin>
-    <link rel="stylesheet" href="style.css?v=20261108">
-    <link rel="stylesheet" href="store-editor.css?v=20261108">
+    <link rel="stylesheet" href="style.css?v=20261109">
+    <link rel="stylesheet" href="store-editor.css?v=20261109">
     <!-- Tema navideño -->
-    <link rel="stylesheet" href="navidad.css?v=20261108">
+    <link rel="stylesheet" href="navidad.css?v=20261109">
     <!-- Nuevas secciones: especialidades navideñas, ventanita "¿otro producto?", carrito con fotos -->
-    <link rel="stylesheet" href="mejoras-navidad.css?v=20261108">
+    <link rel="stylesheet" href="mejoras-navidad.css?v=20261109">
     <!-- Intro navideña (estrella, explosión, gorra que salta y música) -->
-    <link rel="stylesheet" href="navidad-intro.css?v=20261108">
-    <script src="navidad-intro.js?v=20261108"></script>
+    <link rel="stylesheet" href="navidad-intro.css?v=20261109">
+    <!-- Funciones nuevas 2026: cupos, cuenta regresiva, raspa y gana, QR de regalo, ticket… -->
+    <link rel="stylesheet" href="cake-funciones.css?v=20261109">
+    <script src="navidad-intro.js?v=20261109"></script>
     <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <!-- Íconos de FontAwesome -->
@@ -40,6 +42,15 @@
 
     <!-- Fondo oscuro cuando se abre el carrito -->
     <div class="overlay" id="overlay" onclick="toggleCarrito()"></div>
+
+    <!-- FUNCIÓN 1: BARRA DE AVISO DE CUPOS NAVIDEÑOS (se edita en el panel > Extras y avisos) -->
+    <div class="cf-barra-cupos cf-excluir-editor" id="cf-barra-cupos" hidden role="status">
+        <div class="cf-barra-contenido">
+            <span class="cf-barra-texto"></span>
+            <span class="cf-barra-cupos-lista"></span>
+        </div>
+        <button type="button" class="cf-barra-cerrar" aria-label="Cerrar aviso">×</button>
+    </div>
 
     <!-- Zona superior con el diseño señalado -->
     <div class="zona-portada">
@@ -104,6 +115,19 @@
         <button class="nav-btn" type="button" onclick="document.getElementById('cake-especialidades')?.scrollIntoView({behavior:'smooth',block:'center'})">Especialidades</button>
         <button class="nav-btn nav-btn-navidad" type="button" id="nav-btn-navidad" hidden onclick="irANavidadCake()">🎄 Navidad</button>
     </nav>
+
+    <!-- FUNCIÓN 19: CUENTA REGRESIVA PARA NOCHEBUENA Y AÑO NUEVO (fecha editable en el panel) -->
+    <section class="cf-cuenta-regresiva cf-excluir-editor" id="cf-cuenta-regresiva" hidden aria-live="off">
+        <span class="cf-cuenta-copo" aria-hidden="true">❄</span>
+        <p class="cf-cuenta-titulo">Faltan para Nochebuena</p>
+        <div class="cf-cuenta-numeros">
+            <div><strong data-cf-d>0</strong><span>días</span></div>
+            <div><strong data-cf-h>00</strong><span>horas</span></div>
+            <div><strong data-cf-m>00</strong><span>min</span></div>
+            <div><strong data-cf-s>00</strong><span>seg</span></div>
+        </div>
+        <p class="cf-cuenta-mensaje"></p>
+    </section>
 
     <!-- Bienvenida al catálogo -->
     <section class="catalogo-intro animar-entrada-top">
@@ -302,6 +326,36 @@
     </section>
 
     <!-- =====================================================
+         FUNCIÓN 16: CALCULADORA «¿CUÁNTO PASTEL NECESITO?» + FUNCIÓN 5: GUÍA DE PORCIONES
+         ===================================================== -->
+    <section class="cf-calc-section seccion-extra cf-excluir-editor" id="cuanto-pastel" aria-labelledby="cf-calc-titulo">
+        <div class="cf-calc-panel">
+            <div class="cf-calc-intro">
+                <span class="seccion-etiqueta"><i class="fas fa-children" aria-hidden="true"></i> Planea tu fiesta</span>
+                <h2 id="cf-calc-titulo">¿Cuánto pastel necesito?</h2>
+                <p>Dinos cuántas personas vienen y te decimos cuántas rebanadas necesitas y qué pasteles te alcanzan.</p>
+                <button type="button" class="cf-btn cf-btn-borde" data-cf-guia><i class="fas fa-chart-pie" aria-hidden="true"></i> Ver guía de porciones</button>
+            </div>
+            <form class="cf-calc-form" id="cf-calc-form" novalidate>
+                <div class="cf-calc-contador">
+                    <label for="cf-calc-adultos">👩 Adultos</label>
+                    <div class="cf-stepper"><button type="button" data-cf-mas="cf-calc-adultos" data-paso="-1" aria-label="Menos adultos">−</button><input id="cf-calc-adultos" type="number" min="0" max="500" value="10" inputmode="numeric"><button type="button" data-cf-mas="cf-calc-adultos" data-paso="1" aria-label="Más adultos">+</button></div>
+                </div>
+                <div class="cf-calc-contador">
+                    <label for="cf-calc-ninos">🧒 Niños</label>
+                    <div class="cf-stepper"><button type="button" data-cf-mas="cf-calc-ninos" data-paso="-1" aria-label="Menos niños">−</button><input id="cf-calc-ninos" type="number" min="0" max="500" value="5" inputmode="numeric"><button type="button" data-cf-mas="cf-calc-ninos" data-paso="1" aria-label="Más niños">+</button></div>
+                </div>
+                <div class="cf-calc-postres">
+                    <span>¿Habrá otros postres?</span>
+                    <div><button type="button" class="cf-chip" data-cf-postres="si" aria-pressed="false">Sí</button><button type="button" class="cf-chip activo" data-cf-postres="no" aria-pressed="true">No</button></div>
+                </div>
+                <button type="submit" class="boton-principal-rosa cf-calc-boton"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i> Calcular</button>
+            </form>
+        </div>
+        <div class="cf-calc-resultado" id="cf-calc-resultado" hidden aria-live="polite"></div>
+    </section>
+
+    <!-- =====================================================
          MEJORA 12: ACCESO A FAVORITOS
          Los favoritos se guardan solamente en el navegador del visitante.
          ===================================================== -->
@@ -453,6 +507,21 @@
         </div>
     </main>
 
+    <!-- FUNCIÓN 15: RASPA Y GANA NAVIDEÑO (premios editables en el panel > Premios) -->
+    <section class="cf-raspa-section seccion-extra cf-excluir-editor" id="cf-raspa" hidden aria-labelledby="cf-raspa-titulo">
+        <div class="seccion-cabecera">
+            <span class="seccion-etiqueta"><i class="fas fa-gift" aria-hidden="true"></i> Boleto sorpresa</span>
+            <h2 class="cf-raspa-titulo" id="cf-raspa-titulo">Raspa y gana navideño</h2>
+            <p class="cf-raspa-sub">Raspa la tarjeta dorada con tu dedo y descubre tu regalito.</p>
+        </div>
+        <div class="cf-raspa-marco">
+            <div class="cf-raspa-tarjeta">
+                <div class="cf-raspa-premio"></div>
+            </div>
+        </div>
+        <p class="cf-raspa-estado" aria-live="polite"></p>
+    </section>
+
     <!-- OPINIONES REALES: reseñas enviadas por clientes y publicadas solo tras aprobación. -->
     <section class="opiniones-section opiniones-v2" id="opiniones" aria-labelledby="titulo-opiniones">
         <div class="opiniones-hero">
@@ -540,6 +609,20 @@
          MEJORA 6: GALERÍA DE INSPIRACIÓN
          Las imágenes se toman del catálogo existente; no se presentan como encargos de clientes.
          ===================================================== -->
+    <!-- FUNCIÓN 7: GALERÍA «CLIENTES FELICES» (fotos que tú apruebas en el panel > Fotos de clientes) -->
+    <section class="cf-galeria-section seccion-extra cf-excluir-editor" id="cf-clientes-felices" hidden aria-labelledby="cf-galeria-titulo">
+        <div class="seccion-cabecera">
+            <span class="seccion-etiqueta"><i class="fas fa-camera-retro" aria-hidden="true"></i> Fiestas reales, sonrisas reales</span>
+            <h2 class="cf-galeria-titulo" id="cf-galeria-titulo">Clientes felices</h2>
+            <p>Familias que celebraron con un pastel de Cake Chávez.</p>
+        </div>
+        <div class="cf-galeria-grid"></div>
+        <div class="cf-galeria-acciones">
+            <button type="button" class="cf-btn cf-btn-borde cf-galeria-mas" hidden>Ver más fotos</button>
+            <a class="boton-principal-rosa" id="cf-galeria-subir" href="fotos.html"><i class="fas fa-camera" aria-hidden="true"></i> Comparte la foto de tu fiesta</a>
+        </div>
+    </section>
+
     <section class="galeria-inspiracion-section seccion-extra" id="galeria-inspiracion" aria-labelledby="titulo-galeria-inspiracion">
         <div class="seccion-cabecera">
             <span class="seccion-etiqueta"><i class="fas fa-images" aria-hidden="true"></i> Inspírate con nuestro catálogo</span>
@@ -594,6 +677,7 @@
                     <button type="submit" class="boton-principal-rosa"><i class="fas fa-magnifying-glass" aria-hidden="true"></i> Consultar estado</button>
                 </form>
                 <div id="cake-seguimiento-resultado" class="cake-seguimiento-resultado" aria-live="polite" role="status">Los pedidos hechos solo por WhatsApp antes de activar el seguimiento deberán confirmarse directamente con Cake Chavez.</div>
+                <button type="button" class="cf-btn cf-btn-borde cf-ver-ticket" id="cf-ver-ultimo-ticket" hidden><i class="fas fa-receipt" aria-hidden="true"></i> Ver mi último ticket</button>
             </div>
         </div>
     </section>
@@ -711,12 +795,38 @@
         </div>
 
         <div id="datos-cliente" style="display: none;">
+            <!-- FUNCIÓN 15: premio ganado en el Raspa y gana -->
+            <div class="cf-premio-carrito" id="cf-premio-carrito" hidden>🎁 Premio incluido: <strong></strong></div>
+            <!-- FUNCIÓN 6: EXTRAS Y COMPLEMENTOS (se editan en el panel > Extras y avisos) -->
+            <div class="cf-extras-carrito" id="cf-extras-carrito" hidden>
+                <p class="cf-extras-titulo">✨ ¿Te falta algo para la fiesta?</p>
+                <div class="cf-extras-lista"></div>
+            </div>
             <hr style="margin: 15px 0; border: 1px solid #5a4b40;">
             <h3>Tus Datos para el Envío</h3>
-            <input type="text" id="cliente-nombre" placeholder="Tu nombre completo" class="input-datos">
-            <div style="margin-bottom: 5px; text-align: left; font-size: 0.85rem; font-weight: 600; color: #ffffff;">Fecha de entrega deseada:</div>
-            <input type="date" id="cliente-fecha" class="input-datos">
-            <textarea id="cliente-direccion" placeholder="Tu dirección de entrega" class="input-datos"></textarea>
+            <p class="cf-obligatorios">Todos los datos son obligatorios <span aria-hidden="true">*</span></p>
+            <div class="cf-campo">
+                <label for="cliente-nombre">Nombre completo *</label>
+                <input type="text" id="cliente-nombre" placeholder="Tu nombre completo" class="input-datos" autocomplete="name" maxlength="120" required>
+            </div>
+            <div class="cf-campo">
+                <label for="cliente-telefono">Teléfono / WhatsApp *</label>
+                <input type="tel" id="cliente-telefono" placeholder="Ej. 5555 1234" class="input-datos" autocomplete="tel" inputmode="tel" maxlength="20" required>
+            </div>
+            <div class="cf-campo-fila">
+                <div class="cf-campo">
+                    <label for="cliente-fecha">Fecha de entrega *</label>
+                    <input type="date" id="cliente-fecha" class="input-datos" required>
+                </div>
+                <div class="cf-campo">
+                    <label for="cliente-hora">Hora de entrega *</label>
+                    <input type="time" id="cliente-hora" class="input-datos" step="900" placeholder="HH:MM" required>
+                </div>
+            </div>
+            <div class="cf-campo">
+                <label for="cliente-direccion">Dirección de entrega *</label>
+                <textarea id="cliente-direccion" placeholder="Zona, colonia, calle, número de casa y referencias" class="input-datos" maxlength="500" required></textarea>
+            </div>
 
             <button class="btn-confirmar" onclick="confirmarOrden()">
                 <i class="fab fa-whatsapp"></i> Enviar pedido
@@ -745,6 +855,7 @@
                         <label class="modal-label">Elige el tamaño:</label>
                         <select id="modal-select-tamano" class="input-datos-modal" onchange="calcularSubtotalModal()">
                         </select>
+                        <button type="button" class="cf-link-guia" data-cf-guia><i class="fas fa-chart-pie" aria-hidden="true"></i> ¿Cuántas rebanadas necesito?</button>
                     </div>
 
                     <div style="margin-bottom: 15px; text-align: left;">
@@ -790,7 +901,7 @@
 
             <div class="personalizar-form-grid">
                 <div class="campo-personalizar">
-                    <label for="nombre-personalizar">Tu nombre (opcional)</label>
+                    <label for="nombre-personalizar">Tu nombre (obligatorio)</label>
                     <input id="nombre-personalizar" type="text" class="input-personalizar" placeholder="¿Cómo te llamas?" autocomplete="name">
                 </div>
                 <div class="campo-personalizar">
@@ -825,6 +936,18 @@
                 <div class="campo-personalizar">
                     <label for="fecha-personalizar">Fecha de entrega (obligatoria)</label>
                     <input id="fecha-personalizar" type="date" class="input-personalizar" required aria-required="true">
+                </div>
+                <div class="campo-personalizar">
+                    <label for="hora-personalizar">Hora de entrega (obligatoria)</label>
+                    <input id="hora-personalizar" type="time" step="900" class="input-personalizar" placeholder="HH:MM" required aria-required="true">
+                </div>
+                <div class="campo-personalizar">
+                    <label for="telefono-personalizar">Teléfono / WhatsApp (obligatorio)</label>
+                    <input id="telefono-personalizar" type="tel" inputmode="tel" maxlength="20" class="input-personalizar" placeholder="Ej. 5555 1234" autocomplete="tel" required aria-required="true">
+                </div>
+                <div class="campo-personalizar campo-personalizar-ancho">
+                    <label for="direccion-personalizar">Dirección de entrega (obligatoria)</label>
+                    <input id="direccion-personalizar" type="text" maxlength="500" class="input-personalizar" placeholder="Zona, colonia, calle, número de casa y referencias" required aria-required="true">
                 </div>
                 <div class="campo-personalizar campo-personalizar-ancho">
                     <label for="detalles-personalizar">Cuéntanos más detalles</label>
@@ -878,6 +1001,110 @@
     </div>
 
 
+    <!-- ================= VENTANITAS DE LAS FUNCIONES NUEVAS ================= -->
+    <!-- FUNCIÓN 5: GUÍA VISUAL DE PORCIONES -->
+    <div class="cf-modal cf-excluir-editor" id="cf-modal-guia" hidden aria-hidden="true">
+        <section class="cf-modal-caja cf-guia-caja" role="dialog" aria-modal="true" aria-labelledby="cf-guia-titulo">
+            <button type="button" class="cf-cerrar" data-cf-cerrar aria-label="Cerrar">×</button>
+            <span class="cf-kicker">🍰 Guía de porciones</span>
+            <h2 id="cf-guia-titulo">¿De qué tamaño lo pido?</h2>
+            <p class="cf-modal-sub">Cada rayita es una rebanada. Así sabes al instante cuántas personas alcanzan.</p>
+            <div class="cf-guia-lista" id="cf-guia-lista"></div>
+            <p class="cf-guia-nota">Rebanadas de tamaño estándar para fiesta. Si tienes dudas, escríbenos y te recomendamos el tamaño ideal.</p>
+        </section>
+    </div>
+
+    <!-- FUNCIÓN 18: MENSAJE SECRETO CON QR PARA REGALOS -->
+    <div class="cf-modal cf-excluir-editor" id="cf-modal-regalo" hidden aria-hidden="true" data-cf-fijo>
+        <section class="cf-modal-caja cf-regalo-caja" role="dialog" aria-modal="true" aria-labelledby="cf-regalo-titulo">
+            <button type="button" class="cf-cerrar" data-cf-accion="cancelar" aria-label="Cerrar">×</button>
+            <div data-cf-paso="pregunta">
+                <div class="cf-regalo-icono" aria-hidden="true">💌</div>
+                <h2 id="cf-regalo-titulo">¿Quieres crear un código QR exclusivo?</h2>
+                <p class="cf-modal-sub">Si tu pedido es un regalo, escribe una dedicatoria secreta. Generamos un QR para pegar en la caja: al escanearlo, la persona verá una animación mágica con música suave y tu mensaje. 🎶</p>
+                <div class="cf-regalo-opciones">
+                    <button type="button" class="cf-opcion cf-opcion-si" data-cf-accion="si"><span>✨ SÍ</span><small>Quiero crear mi QR de regalo</small></button>
+                    <button type="button" class="cf-opcion cf-opcion-no" data-cf-accion="no"><span><i class="fab fa-whatsapp" aria-hidden="true"></i> NO</span><small>Solo enviar mi pedido por WhatsApp</small></button>
+                </div>
+            </div>
+            <div data-cf-paso="animacion" hidden>
+                <span class="cf-kicker">Paso 1 de 2</span>
+                <h2>Elige una animación</h2>
+                <p class="cf-modal-sub">Así se verá cuando escaneen el QR: <strong id="cf-regalo-anim-elegida"></strong></p>
+                <div class="cf-regalo-preview-marco"><canvas id="cf-regalo-preview" class="cf-regalo-preview"></canvas><span class="cf-regalo-preview-texto">Vista previa</span></div>
+                <div class="cf-regalo-animaciones" id="cf-regalo-animaciones" role="group" aria-label="Animaciones disponibles"></div>
+                <div class="cf-regalo-acciones">
+                    <button type="button" class="cf-btn cf-btn-borde" data-cf-accion="a-pregunta">Atrás</button>
+                    <button type="button" class="cf-btn cf-btn-rosa" data-cf-accion="a-mensaje">Siguiente <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <div data-cf-paso="mensaje" hidden>
+                <span class="cf-kicker">Paso 2 de 2</span>
+                <h2>Escribe tu dedicatoria</h2>
+                <div class="cf-campo"><label for="cf-regalo-para">¿Para quién es? *</label><input id="cf-regalo-para" class="input-datos" maxlength="80" placeholder="Ej. Mamá, Sofía, mi amor…"></div>
+                <div class="cf-campo"><label for="cf-regalo-mensaje">Mensaje o dedicatoria *</label><textarea id="cf-regalo-mensaje" class="input-datos" rows="5" maxlength="600" placeholder="Escribe aquí tu mensaje especial…"></textarea><small class="cf-contador" id="cf-regalo-contador">0 / 600</small></div>
+                <div class="cf-campo"><label for="cf-regalo-de">¿De parte de quién?</label><input id="cf-regalo-de" class="input-datos" maxlength="80" placeholder="Tu nombre (opcional)"></div>
+                <div class="cf-regalo-acciones">
+                    <button type="button" class="cf-btn cf-btn-borde" data-cf-accion="a-animacion">Atrás</button>
+                    <button type="button" class="cf-btn cf-btn-rosa" data-cf-accion="crear"><i class="fas fa-qrcode" aria-hidden="true"></i> Crear QR y enviar pedido</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FUNCIÓN 13: TICKET DIGITAL DE PEDIDO -->
+    <div class="cf-modal cf-excluir-editor" id="cf-modal-ticket" hidden aria-hidden="true">
+        <section class="cf-modal-caja cf-ticket-caja" role="dialog" aria-modal="true" aria-labelledby="cf-ticket-titulo">
+            <button type="button" class="cf-cerrar" data-cf-cerrar aria-label="Cerrar">×</button>
+            <div class="cf-ticket">
+                <img class="cf-ticket-logo" src="img/navidad/logo-base.webp" alt="Cake Chávez">
+                <p class="cf-ticket-check" aria-hidden="true">✓</p>
+                <h2 id="cf-ticket-titulo">¡Pedido registrado!</h2>
+                <p class="cf-ticket-codigo-etq">Código de pedido</p>
+                <p class="cf-ticket-codigo" id="cf-ticket-codigo"></p>
+                <p class="cf-ticket-creado" id="cf-ticket-creado"></p>
+                <dl class="cf-ticket-datos">
+                    <div><dt>Cliente</dt><dd id="cf-ticket-cliente"></dd></div>
+                    <div><dt>Teléfono</dt><dd id="cf-ticket-telefono"></dd></div>
+                    <div><dt>Entrega</dt><dd id="cf-ticket-entrega"></dd></div>
+                    <div><dt>Dirección</dt><dd id="cf-ticket-direccion"></dd></div>
+                </dl>
+                <ul class="cf-ticket-items" id="cf-ticket-items"></ul>
+                <div class="cf-ticket-total"><span>Total</span><strong id="cf-ticket-total"></strong></div>
+                <p class="cf-ticket-premio" id="cf-ticket-premio" hidden>🎁 Premio incluido: <strong></strong></p>
+                <div class="cf-ticket-regalo" id="cf-ticket-regalo" hidden>
+                    <p class="cf-kicker">💌 Mensaje secreto</p>
+                    <p class="cf-ticket-regalo-para" id="cf-ticket-regalo-para"></p>
+                    <div class="cf-ticket-qr" id="cf-ticket-qr"></div>
+                    <div class="cf-ticket-qr-acciones">
+                        <button type="button" class="cf-btn cf-btn-rosa" id="cf-ticket-qr-descargar"><i class="fas fa-download" aria-hidden="true"></i> Descargar tarjeta QR</button>
+                        <a class="cf-btn cf-btn-borde" id="cf-ticket-qr-abrir" target="_blank" rel="noopener">Ver sorpresa</a>
+                    </div>
+                </div>
+                <p class="cf-ticket-nota">Guárdalo como comprobante para el día de tu entrega. Confirmaremos los detalles por WhatsApp.</p>
+            </div>
+            <div class="cf-ticket-acciones">
+                <button type="button" class="cf-btn cf-btn-rosa" id="cf-ticket-guardar"><i class="fas fa-image" aria-hidden="true"></i> Guardar ticket</button>
+                <button type="button" class="cf-btn cf-btn-borde" data-cf-cerrar>Cerrar</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- FUNCIÓN 7: FOTO EN GRANDE DE CLIENTES FELICES -->
+    <div class="cf-modal cf-excluir-editor" id="cf-modal-foto" hidden aria-hidden="true">
+        <section class="cf-modal-caja cf-foto-caja" role="dialog" aria-modal="true" aria-label="Foto de cliente feliz">
+            <button type="button" class="cf-cerrar" data-cf-cerrar aria-label="Cerrar">×</button>
+            <div class="cf-foto-visor">
+                <button type="button" class="cf-foto-nav prev" id="cf-foto-prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+                <img alt="">
+                <button type="button" class="cf-foto-nav next" id="cf-foto-next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <p class="cf-foto-nombre"></p>
+            <p class="cf-foto-mensaje"></p>
+            <small class="cf-foto-contador"></small>
+        </section>
+    </div>
+
     <!-- REDES SOCIALES Y ENLACES DE CONTACTO -->
     <div class="redes-sociales">
         <a href="https://www.facebook.com/share/19Ucao196X/" target="_blank" rel="noopener noreferrer" title="Facebook Cake Chavez">
@@ -896,11 +1123,16 @@
     <script src="vendor/supabase-2.119.0-compat.js?v=1"></script>
     <script>window.supabase || document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"><\/script>');</script>
     <!-- CONFIGURACIÓN: completar supabase-config.js cuando se cree el proyecto Supabase. -->
-    <script src="supabase-config.js?v=20261108"></script>
+    <script src="supabase-config.js?v=20261109"></script>
     <!-- SCRIPT PRINCIPAL: carrito, catálogo, galería y navegación existente. -->
-    <script src="script.js?v=20261108"></script>
-    <script src="store-editor.js?v=20261108"></script>
+    <!-- Funciones nuevas 2026 (QR, animaciones y secciones nuevas) -->
+    <script src="vendor/qrcode.min.js?v=1"></script>
+    <script src="cake-qr.js?v=20261109"></script>
+    <script src="cake-animaciones.js?v=20261109"></script>
+    <script src="cake-funciones.js?v=20261109"></script>
+    <script src="script.js?v=20261109"></script>
+    <script src="store-editor.js?v=20261109"></script>
     <!-- Nieve y luces navideñas -->
-    <script src="navidad.js?v=20261108"></script>
+    <script src="navidad.js?v=20261109"></script>
 </body>
 </html>

@@ -1,0 +1,112 @@
+/* Estilos de los botones nuevos del panel (2026). Mismo tema oscuro y rosa. */
+.admin-tab-nueva { border: 1px dashed rgba(240, 156, 187, .35) !important; }
+.admin-tab-nueva.active { border-style: solid !important; }
+.af-grid-2 { display: grid; grid-template-columns: minmax(300px, .9fr) minmax(320px, 1.1fr); gap: 17px; align-items: start; margin-bottom: 17px; }
+.af-ayuda { margin: -6px 0 12px; color: var(--muted); font-size: .8rem; line-height: 1.55; }
+.af-vacio { padding: 18px; border: 1px dashed var(--border); border-radius: 14px; color: var(--muted); text-align: center; }
+.af-error { color: #ffb1bd; font-size: .85rem; line-height: 1.55; }
+.af-lista { display: flex; flex-direction: column; gap: 10px; }
+.af-fila { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 10px; border: 1px solid var(--border); border-radius: 14px; background: var(--panel2); }
+.af-fila img { width: 54px; height: 54px; border-radius: 10px; object-fit: cover; }
+.af-fila:not(:has(img)) { grid-template-columns: 1fr auto; }
+.af-fila-meta { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.af-fila-meta span { color: var(--muted); font-size: .78rem; overflow-wrap: anywhere; }
+.af-fila-oculta { opacity: .55; }
+.af-crud-preview { width: 90px; height: 90px; margin-bottom: 6px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border); }
+.af-crud { margin-top: 17px; }
+
+/* Filtros tipo pastilla */
+.af-filtros { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 4px 0 16px; }
+.af-filtro { padding: 9px 14px; border: 1px solid var(--border); border-radius: 999px; background: var(--panel2); color: var(--text); font-size: .82rem; font-weight: 600; }
+.af-filtro span { display: inline-block; min-width: 22px; margin-left: 4px; padding: 0 6px; border-radius: 999px; background: rgba(240, 156, 187, .15); color: var(--pink); }
+.af-filtro.active { border-color: var(--pink2); background: var(--pink2); color: #fff; }
+.af-filtro.active span { background: rgba(255, 255, 255, .2); color: #fff; }
+.af-filtro-fecha { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); font-size: .8rem; }
+.af-filtro-fecha input { padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--panel2); color: var(--text); }
+
+/* Agenda de pedidos programados */
+.af-dia { margin: 18px 0 8px; padding: 8px 14px; border-left: 4px solid var(--pink2); border-radius: 8px; background: rgba(168, 59, 101, .14); color: var(--pink); font-family: 'Playfair Display', serif; font-size: 1.05rem; }
+.af-dia::first-letter { text-transform: uppercase; }
+#admin-scheduled-list { display: block !important; }
+.af-agenda { display: grid; grid-template-columns: 96px 1fr auto; gap: 14px; align-items: center; padding: 12px 14px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); margin-bottom: 8px; }
+.af-agenda-entregado { opacity: .7; }
+.af-agenda-hora { padding: 10px 6px; border-radius: 12px; background: var(--panel2); color: #fff; font-size: 1rem; font-weight: 700; text-align: center; }
+.af-agenda-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.af-agenda-items { color: var(--muted); font-size: .82rem; }
+.af-agenda-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .84rem; }
+.af-agenda-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.af-tag { padding: 2px 10px; border-radius: 999px; background: var(--panel2); border: 1px solid var(--border); font-size: .74rem; }
+.af-tag-oro { border-color: rgba(233, 196, 106, .55); color: #f6d77a; }
+.af-agenda-acciones { display: flex; flex-direction: column; gap: 6px; }
+.af-agenda-completo { margin: -2px 0 12px 20px; }
+.af-wa-link { display: inline-flex; align-items: center; gap: 6px; color: #7ee3a5 !important; font-weight: 700; text-decoration: none; }
+.af-wa-link:hover { text-decoration: underline; }
+.af-wa-link i { color: #25d366; }
+.af-map-link { color: var(--pink) !important; text-decoration: none; }
+.af-map-link:hover { text-decoration: underline; }
+.af-wa-button { background: #25d366; color: #fff; text-decoration: none; }
+
+/* Mensaje secreto con QR dentro de cada pedido */
+.af-gift { margin-top: 14px; padding: 16px; border: 1px solid rgba(233, 196, 106, .45); border-radius: 18px; background: linear-gradient(135deg, rgba(168, 59, 101, .16), rgba(233, 196, 106, .08)); }
+.af-gift h4 { margin: 0 0 12px; color: #f6d77a; font-family: 'Playfair Display', serif; font-size: 1.05rem; }
+.af-gift-body { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-start; }
+.af-gift-info { flex: 1 1 240px; }
+.af-gift-info { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.af-gift-anim { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; color: #fff; }
+.af-gift-emoji { font-size: 1.8rem; }
+.af-gift-anim small { color: rgba(255, 255, 255, .7); font-size: .72rem; }
+.af-gift-message { margin: 0; padding: 12px 14px; border-left: 3px solid var(--pink); border-radius: 10px; background: rgba(0, 0, 0, .2); color: #fff; font-style: italic; line-height: 1.6; white-space: pre-line; overflow-wrap: anywhere; }
+.af-gift-qr { display: flex; flex: 1 1 220px; flex-direction: column; align-items: center; gap: 10px; max-width: 100%; }
+.af-gift-qr-img canvas { width: 200px; height: 200px; border-radius: 14px; background: #fff; box-shadow: 0 6px 18px rgba(0, 0, 0, .3); }
+.af-gift-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.af-gift-actions .admin-button { min-height: 36px; padding: 7px 10px; font-size: .74rem; }
+
+/* Categorías y precios */
+.af-cat-fila { display: flex; flex-direction: column; gap: 8px; padding: 12px; border: 1px solid var(--border); border-radius: 14px; background: var(--panel2); }
+.af-cat-campos { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.af-cat-campos input:not([type=checkbox]) { flex: 1 1 160px; min-width: 0; padding: 9px 11px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel); color: var(--text); }
+.af-cat-campos .af-num { flex: 0 0 84px; width: 84px !important; }
+.af-cat-info { color: var(--muted); font-size: .74rem; }
+.af-precios { margin-top: 4px; }
+.af-precios select { max-width: 260px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel2); color: var(--text); }
+.af-precios-lista { display: flex; flex-direction: column; gap: 10px; }
+.af-precio-fila { display: grid; grid-template-columns: 54px minmax(120px, 180px) 1fr auto; gap: 12px; align-items: center; padding: 10px; border: 1px solid var(--border); border-radius: 14px; background: var(--panel2); transition: border-color .3s ease; }
+.af-precio-fila.af-guardado { border-color: var(--green); }
+.af-precio-fila img { width: 54px; height: 54px; border-radius: 10px; object-fit: cover; }
+.af-precio-campos { display: flex; flex-wrap: wrap; gap: 8px; }
+.af-precio-campo { display: flex; flex-direction: column; gap: 3px; font-size: .7rem; color: var(--muted); }
+.af-precio-campo input { width: 92px; padding: 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); color: var(--text); }
+.af-precio-campo.af-reb input { width: 70px; border-color: rgba(240, 156, 187, .45); }
+
+/* Fotos de clientes */
+.af-qr { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 6px; }
+.af-qr canvas { width: 200px; height: 200px; border-radius: 14px; background: #fff; }
+.af-qr-url { color: var(--muted); font-size: .72rem; overflow-wrap: anywhere; text-align: center; }
+.af-fotos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.af-foto { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); }
+.af-foto img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+.af-foto-meta { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; }
+.af-foto-meta p { margin: 0; color: var(--text); font-size: .82rem; font-style: italic; }
+.af-foto-meta small { color: var(--muted); font-size: .72rem; }
+.af-foto-acciones { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 12px; }
+.af-foto-acciones .admin-button { flex: 1 1 auto; min-height: 36px; padding: 7px 10px; font-size: .76rem; }
+
+/* Ajustes */
+.af-ajustes-card h3 { margin-top: 18px; }
+.af-ajustes-card h3:first-child { margin-top: 0; }
+.af-guia-filas { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.af-guia-fila { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; padding: 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel2); }
+.af-guia-campo { display: flex; flex-direction: column; gap: 3px; min-width: 90px; font-size: .72rem !important; color: var(--muted) !important; font-weight: 400 !important; }
+.af-guia-campo input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); color: var(--text); }
+.af-guia-quitar { min-height: 36px !important; padding: 6px 12px !important; }
+[hidden] { display: none !important; }
+
+@media (max-width: 900px) {
+  .af-grid-2 { grid-template-columns: 1fr; }
+  .af-agenda { grid-template-columns: 1fr; }
+  .af-agenda-hora { justify-self: start; padding: 6px 12px; }
+  .af-agenda-acciones { flex-direction: row; flex-wrap: wrap; }
+  .af-agenda-completo { margin-left: 0; }
+  .af-precio-fila { grid-template-columns: 54px 1fr; }
+  .af-precio-fila .af-precio-campos, .af-precio-fila > .admin-button { grid-column: 1 / -1; }
+}

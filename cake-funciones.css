@@ -1,0 +1,302 @@
+/* =========================================================
+   CAKE-FUNCIONES.CSS — estilos de las funciones nuevas 2026.
+   Respeta los colores, letras y estilo navideño de Cake Chávez.
+   Animaciones suaves; en celulares sencillos (.cake-ligero) se apagan.
+   ========================================================= */
+:root {
+  --cf-oro: #e9c46a;
+  --cf-oro-claro: #fff1b8;
+  --cf-rosa: #ff7fb3;
+  --cf-rosa-fuerte: #a83b65;
+  --cf-panel: #2e1f24;
+  --cf-panel-2: #23171b;
+  --cf-texto: #f4dde5;
+  --cf-suave: #b7a3ac;
+  --cf-borde: rgba(255, 127, 179, .28);
+  --cf-sombra: 0 18px 50px rgba(0, 0, 0, .45);
+}
+
+/* ---------- Botones y piezas comunes ---------- */
+.cf-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 42px; padding: 10px 16px; border-radius: 999px;
+  font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600;
+  cursor: pointer; text-decoration: none; transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.cf-btn:active { transform: scale(.97); }
+.cf-btn-rosa { border: 1px solid var(--cf-rosa-fuerte); background: linear-gradient(135deg, #c44c79, var(--cf-rosa-fuerte)); color: #fff; box-shadow: 0 6px 18px rgba(168, 59, 101, .35); }
+.cf-btn-rosa:hover { background: linear-gradient(135deg, #d65a8a, #b8456f); }
+.cf-btn-borde { border: 1px solid var(--cf-borde); background: rgba(255, 255, 255, .04); color: var(--cf-texto); }
+.cf-btn-borde:hover { border-color: var(--cf-rosa); }
+.cf-btn:disabled { opacity: .6; cursor: wait; }
+.cf-kicker { display: inline-block; margin-bottom: 6px; color: var(--cf-rosa); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.cf-chip { padding: 8px 18px; border: 1px solid var(--cf-borde); border-radius: 999px; background: transparent; color: var(--cf-texto); font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer; }
+.cf-chip.activo { border-color: var(--cf-rosa); background: var(--cf-rosa-fuerte); color: #fff; }
+
+/* ---------- 1. Barra de cupos ---------- */
+.cf-barra-cupos {
+  position: relative; z-index: 60; display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 9px 44px 9px 14px;
+  background: linear-gradient(90deg, #5c1a2e, #8a2346 30%, #b8862b 50%, #8a2346 70%, #5c1a2e);
+  background-size: 200% 100%;
+  color: #fff7e6; font-family: 'Poppins', sans-serif; font-size: .84rem; text-align: center;
+  border-bottom: 1px solid rgba(233, 196, 106, .55);
+  animation: cf-brillo-barra 9s linear infinite;
+}
+.cf-barra-cupos[hidden] { display: none; }
+.cf-barra-contenido { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 12px; }
+.cf-barra-texto { font-weight: 600; }
+.cf-barra-cupos-lista { display: inline-flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.cf-cupo-chip { padding: 2px 10px; border-radius: 999px; background: rgba(0, 0, 0, .28); border: 1px solid rgba(233, 196, 106, .6); font-size: .76rem; font-weight: 600; }
+.cf-cupo-chip.pocos { background: rgba(255, 209, 102, .25); }
+.cf-cupo-chip.agotado { background: rgba(217, 77, 119, .5); text-decoration: line-through; text-decoration-thickness: 1px; }
+.cf-barra-cerrar { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border: 0; border-radius: 50%; background: rgba(0, 0, 0, .25); color: #fff; font-size: 1.2rem; line-height: 1; cursor: pointer; }
+@keyframes cf-brillo-barra { from { background-position: 0 0; } to { background-position: 200% 0; } }
+
+/* ---------- 19. Cuenta regresiva ---------- */
+.cf-cuenta-regresiva {
+  position: relative; width: min(760px, calc(100% - 32px)); margin: 18px auto 6px; padding: 16px 18px 14px;
+  border: 1px solid rgba(233, 196, 106, .45); border-radius: 22px; overflow: hidden;
+  background: radial-gradient(circle at 15% 10%, rgba(255, 255, 255, .08), transparent 40%), linear-gradient(135deg, #1b2a4a, #2e1f3d 55%, #3d1a2c);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .35), inset 0 0 0 1px rgba(255, 255, 255, .04);
+  color: #fff; text-align: center; font-family: 'Poppins', sans-serif;
+}
+.cf-cuenta-regresiva[hidden] { display: none; }
+.cf-cuenta-copo { position: absolute; right: 16px; top: 8px; font-size: 1.6rem; opacity: .5; animation: cf-girar 12s linear infinite; }
+.cf-cuenta-titulo { margin: 0 0 10px; color: var(--cf-oro); font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.1rem, 3vw, 1.45rem); font-style: italic; }
+.cf-cuenta-numeros { display: flex; justify-content: center; gap: clamp(8px, 2.5vw, 16px); }
+.cf-cuenta-numeros div { min-width: clamp(62px, 17vw, 92px); padding: 10px 6px 8px; border-radius: 14px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .12); }
+.cf-cuenta-numeros strong { display: block; font-size: clamp(1.5rem, 6vw, 2.3rem); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; text-shadow: 0 0 14px rgba(255, 127, 179, .55); }
+.cf-cuenta-numeros span { display: block; margin-top: 4px; color: #d9c9d6; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
+.cf-cuenta-mensaje { min-height: 1.4em; margin: 12px 0 0; color: #ffe6f0; font-size: .86rem; transition: opacity .35s ease; }
+.cf-cuenta-mensaje.cf-cambiando { opacity: 0; }
+@keyframes cf-girar { to { transform: rotate(360deg); } }
+
+/* ---------- Ventanitas (modales) ---------- */
+.cf-modal {
+  position: fixed; inset: 0; z-index: 3000; display: flex; align-items: center; justify-content: center;
+  padding: 16px; background: rgba(12, 6, 9, .72); opacity: 0; transition: opacity .22s ease;
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+}
+.cf-modal[hidden] { display: none; }
+.cf-modal.cf-visible { opacity: 1; }
+.cf-modal-caja {
+  position: relative; width: min(560px, 100%); max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 26px 22px 22px; border: 1px solid var(--cf-borde); border-radius: 24px;
+  background: linear-gradient(180deg, #33222a, #23171b); color: var(--cf-texto); box-shadow: var(--cf-sombra);
+  font-family: 'Poppins', sans-serif; transform: translateY(16px) scale(.98); transition: transform .25s ease;
+}
+.cf-modal.cf-visible .cf-modal-caja { transform: none; }
+.cf-modal-caja h2 { margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.35rem, 4.5vw, 1.8rem); line-height: 1.2; color: #fff; }
+.cf-modal-sub { margin: 0 0 16px; color: var(--cf-suave); font-size: .88rem; line-height: 1.6; }
+.cf-cerrar { position: absolute; top: 10px; right: 10px; z-index: 2; width: 36px; height: 36px; border: 1px solid var(--cf-borde); border-radius: 50%; background: rgba(0, 0, 0, .3); color: #fff; font-size: 1.35rem; line-height: 1; cursor: pointer; }
+
+/* ---------- 5. Guía de porciones ---------- */
+.cf-guia-caja { width: min(760px, 100%); text-align: center; }
+.cf-guia-lista { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.cf-guia-card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 14px 10px; border: 1px solid var(--cf-borde); border-radius: 18px; background: rgba(255, 255, 255, .03); animation: cf-aparecer .4s ease both; animation-delay: calc(var(--i, 0) * 70ms); }
+.cf-guia-card svg { width: 110px; height: 110px; }
+.cf-guia-molde { color: #fff; font-size: .95rem; }
+.cf-guia-rebanadas { color: var(--cf-rosa); font-weight: 700; font-size: .9rem; }
+.cf-guia-card small { color: var(--cf-suave); font-size: .75rem; }
+.cf-guia-nota { margin: 14px 0 0; color: var(--cf-suave); font-size: .76rem; }
+.cf-link-guia { margin-top: 8px; padding: 0; border: 0; background: none; color: var(--cf-rosa); font-family: 'Poppins', sans-serif; font-size: .82rem; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+@keyframes cf-aparecer { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Precios con rebanadas en las tarjetas ---------- */
+.cf-precios-rebanadas { display: flex; flex-direction: column; gap: 3px; margin: 2px 14px 10px; padding: 8px 10px; list-style: none; border: 1px dashed rgba(255, 127, 179, .35); border-radius: 12px; background: rgba(255, 127, 179, .06); font-family: 'Poppins', sans-serif; font-size: .8rem; text-align: left; }
+.cf-precios-rebanadas li { display: flex; gap: 6px; align-items: baseline; color: var(--cf-texto); }
+.cf-precios-rebanadas strong { min-width: 48px; color: #fff; }
+.cf-precios-rebanadas span { color: var(--cf-suave); }
+.navidad-esp-info .cf-precios-rebanadas { margin: 6px 0 10px; }
+
+/* ---------- 16. Calculadora de fiesta ---------- */
+.cf-calc-section { width: min(1100px, calc(100% - 32px)); margin: 0 auto; padding: 30px 0; color: var(--cf-texto); }
+.cf-calc-panel { display: grid; grid-template-columns: 1fr 1.1fr; gap: 22px; align-items: center; padding: 24px; border: 1px solid var(--cf-borde); border-radius: 24px; background: linear-gradient(135deg, rgba(46, 31, 36, .95), rgba(35, 23, 27, .95)); box-shadow: 0 14px 34px rgba(0, 0, 0, .3); }
+.cf-calc-intro h2 { margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 2.1rem); color: #fff; }
+.cf-calc-intro p { margin: 0 0 14px; color: var(--cf-suave); font-size: .9rem; line-height: 1.6; }
+.cf-calc-form { display: grid; gap: 12px; }
+.cf-calc-contador, .cf-calc-postres { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-radius: 16px; background: rgba(0, 0, 0, .22); border: 1px solid rgba(255, 255, 255, .06); }
+.cf-calc-contador label, .cf-calc-postres span { font-weight: 600; font-size: .92rem; }
+.cf-calc-postres div { display: flex; gap: 6px; }
+.cf-stepper { display: flex; align-items: center; gap: 6px; }
+.cf-stepper button { width: 38px; height: 38px; border: 1px solid var(--cf-borde); border-radius: 50%; background: rgba(255, 255, 255, .05); color: #fff; font-size: 1.2rem; cursor: pointer; }
+.cf-stepper input { width: 64px; height: 38px; border: 1px solid var(--cf-borde); border-radius: 10px; background: var(--cf-panel-2); color: #fff; font-family: 'Poppins', sans-serif; font-size: 1rem; text-align: center; -moz-appearance: textfield; }
+.cf-stepper input::-webkit-outer-spin-button, .cf-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.cf-calc-boton { width: 100%; min-height: 48px; font-size: .95rem; }
+.cf-calc-resultado { margin-top: 16px; padding: 20px; border: 1px solid rgba(233, 196, 106, .4); border-radius: 22px; background: rgba(46, 31, 36, .9); animation: cf-aparecer .35s ease both; }
+.cf-calc-resultado[hidden] { display: none; }
+.cf-calc-total { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-bottom: 14px; text-align: center; }
+.cf-calc-total span { color: var(--cf-suave); font-size: .85rem; }
+.cf-calc-total strong { color: var(--cf-oro); font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 6vw, 2.6rem); }
+.cf-calc-total small { color: var(--cf-suave); font-size: .78rem; }
+.cf-calc-sub, .cf-calc-aviso { margin: 0 0 12px; text-align: center; color: var(--cf-texto); font-size: .9rem; }
+.cf-calc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.cf-calc-card { display: flex; gap: 10px; padding: 10px; border: 1px solid var(--cf-borde); border-radius: 16px; background: rgba(0, 0, 0, .2); }
+.cf-calc-card img { width: 78px; height: 78px; flex: 0 0 auto; border-radius: 12px; object-fit: cover; }
+.cf-calc-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cf-calc-info strong { color: #fff; font-size: .9rem; line-height: 1.25; }
+.cf-calc-tam { color: var(--cf-suave); font-size: .76rem; }
+.cf-calc-precio { color: var(--cf-rosa); font-weight: 700; }
+.cf-calc-info .cf-btn { min-height: 34px; margin-top: 4px; padding: 6px 12px; font-size: .76rem; align-self: flex-start; }
+
+/* ---------- 6. Extras del carrito ---------- */
+.cf-extras-carrito { margin: 6px 0 4px; }
+.cf-extras-carrito[hidden] { display: none; }
+.cf-extras-titulo { margin: 0 0 8px; color: var(--cf-oro); font-weight: 600; font-size: .88rem; }
+.cf-extras-lista { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 8px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.cf-extra { position: relative; flex: 0 0 104px; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 6px 10px; border: 1px solid var(--cf-borde); border-radius: 16px; background: rgba(255, 255, 255, .04); color: var(--cf-texto); font-family: 'Poppins', sans-serif; cursor: pointer; scroll-snap-align: start; transition: transform .2s ease, border-color .2s ease; }
+.cf-extra img { width: 64px; height: 64px; border-radius: 12px; object-fit: cover; }
+.cf-extra-nombre { font-size: .7rem; line-height: 1.2; text-align: center; }
+.cf-extra-precio { color: var(--cf-rosa); font-weight: 700; font-size: .74rem; }
+.cf-extra-mas { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 50%; background: var(--cf-rosa-fuerte); color: #fff; font-size: .85rem; line-height: 22px; text-align: center; }
+.cf-extra.cf-ya { border-color: var(--cf-oro); }
+.cf-extra.cf-ya .cf-extra-mas { background: #2e9e5b; }
+.cf-extra.cf-agregado { transform: scale(1.06); }
+.cf-premio-carrito { margin: 4px 0 10px; padding: 10px 12px; border: 1px solid rgba(233, 196, 106, .6); border-radius: 14px; background: linear-gradient(135deg, rgba(184, 134, 43, .25), rgba(233, 196, 106, .12)); color: #fff4d6; font-size: .84rem; }
+.cf-premio-carrito[hidden] { display: none; }
+
+/* ---------- Datos obligatorios del carrito ---------- */
+.cf-obligatorios { margin: -4px 0 10px; color: var(--cf-suave); font-size: .74rem; }
+.cf-campo { display: flex; flex-direction: column; text-align: left; }
+.cf-campo label { margin-bottom: 4px; color: #fff; font-size: .8rem; font-weight: 600; }
+.cf-campo .input-datos { margin-bottom: 4px; }
+.cf-campo-fila { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cf-error { min-height: 0; margin: 0 0 8px; color: #ff9cb8; font-size: .74rem; font-weight: 600; }
+.cf-error:empty { margin: 0 0 6px; }
+.input-datos.cf-campo-error, .input-personalizar.cf-campo-error { border-color: #ff6f91 !important; box-shadow: 0 0 0 2px rgba(255, 111, 145, .18); }
+.cf-contador { align-self: flex-end; margin-top: -2px; color: var(--cf-suave); font-size: .72rem; }
+
+/* ---------- 15. Raspa y gana ---------- */
+.cf-raspa-section { width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 30px 0; color: var(--cf-texto); text-align: center; }
+.cf-raspa-section[hidden] { display: none; }
+.cf-raspa-marco { padding: 12px; border-radius: 26px; background: linear-gradient(135deg, #b8862b, #fff1b8 45%, #b8862b); box-shadow: 0 16px 40px rgba(184, 134, 43, .25); }
+.cf-raspa-tarjeta { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; position: relative; overflow: hidden; height: clamp(180px, 42vw, 240px); border-radius: 18px; background: radial-gradient(circle at 50% 40%, #fff9ec, #f7e2b8); }
+.cf-raspa-premio { display: flex; align-items: center; justify-content: center; gap: 16px; height: 100%; padding: 16px; color: #3a1526; }
+.cf-raspa-premio img { width: clamp(90px, 26vw, 150px); height: clamp(90px, 26vw, 150px); border-radius: 16px; object-fit: cover; box-shadow: 0 8px 22px rgba(58, 21, 38, .25); }
+.cf-raspa-premio-texto { display: flex; flex-direction: column; gap: 4px; text-align: left; font-family: 'Poppins', sans-serif; }
+.cf-raspa-gano { color: #a83b65; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.cf-raspa-premio-texto strong { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.2rem, 4.5vw, 1.7rem); line-height: 1.2; }
+.cf-raspa-premio-texto small { color: #6b4552; font-size: .82rem; }
+.cf-raspa-capa { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; transition: opacity .6s ease; }
+.cf-raspa-capa.cf-desvanecer { opacity: 0; }
+.cf-raspa-tarjeta.cf-revelada .cf-raspa-premio { animation: cf-latido 1.2s ease 1; }
+.cf-raspa-estado { margin: 14px 0 0; color: var(--cf-texto); font-size: .9rem; }
+@keyframes cf-latido { 0% { transform: scale(.94); } 50% { transform: scale(1.04); } 100% { transform: scale(1); } }
+
+/* Confeti */
+.cf-confeti { position: absolute; inset: 0; z-index: 5; overflow: hidden; pointer-events: none; }
+.cf-raspa-section, .cf-modal-caja { position: relative; }
+.cf-confeti i { position: absolute; top: -12px; width: 8px; height: 12px; border-radius: 2px; opacity: .95; animation: cf-caer 2s ease-in forwards; }
+@keyframes cf-caer { to { transform: translateY(520px) rotate(540deg); opacity: 0; } }
+
+/* ---------- 7. Clientes felices ---------- */
+.cf-galeria-section { width: min(1100px, calc(100% - 32px)); margin: 0 auto; padding: 30px 0; color: var(--cf-texto); }
+.cf-galeria-section[hidden] { display: none; }
+.cf-galeria-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); grid-auto-rows: 190px; grid-auto-flow: dense; gap: 10px; }
+.cf-galeria-item { position: relative; overflow: hidden; padding: 0; border: 1px solid var(--cf-borde); border-radius: 18px; background: var(--cf-panel); cursor: zoom-in; }
+/* Mosaico: con 6 fotos o más, cada 7.ª foto se ve grande. */
+.cf-galeria-grid:has(.cf-galeria-item:nth-child(6)) .cf-galeria-item:nth-child(7n + 1) { grid-row: span 2; grid-column: span 2; }
+.cf-galeria-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.cf-galeria-item:hover img { transform: scale(1.05); }
+.cf-galeria-nombre { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 16px); padding: 3px 10px; border-radius: 999px; background: rgba(0, 0, 0, .55); color: #fff; font-family: 'Poppins', sans-serif; font-size: .72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cf-galeria-vacia { grid-column: 1 / -1; padding: 26px; border: 1px dashed var(--cf-borde); border-radius: 18px; text-align: center; color: var(--cf-suave); }
+.cf-galeria-acciones { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 16px; }
+.cf-foto-caja { width: min(720px, 100%); text-align: center; }
+.cf-foto-visor { position: relative; }
+.cf-foto-visor img { width: 100%; max-height: 65vh; border-radius: 16px; object-fit: contain; background: #000; }
+.cf-foto-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(0, 0, 0, .5); color: #fff; cursor: pointer; }
+.cf-foto-nav.prev { left: 8px; } .cf-foto-nav.next { right: 8px; }
+.cf-foto-nombre { margin: 12px 0 2px; color: #fff; font-weight: 600; }
+.cf-foto-mensaje { margin: 0; color: var(--cf-suave); font-size: .88rem; }
+.cf-foto-contador { color: var(--cf-suave); font-size: .72rem; }
+
+/* ---------- 18. Asistente del QR de regalo ---------- */
+.cf-regalo-caja { width: min(620px, 100%); }
+.cf-regalo-icono { font-size: 3rem; text-align: center; animation: cf-flotar 3s ease-in-out infinite; }
+.cf-regalo-caja [data-cf-paso="pregunta"] { text-align: center; }
+.cf-regalo-opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 6px; }
+.cf-opcion { display: flex; flex-direction: column; gap: 4px; align-items: center; padding: 16px 10px; border-radius: 18px; font-family: 'Poppins', sans-serif; cursor: pointer; transition: transform .2s ease; }
+.cf-opcion span { font-size: 1.15rem; font-weight: 700; }
+.cf-opcion small { font-size: .76rem; line-height: 1.35; }
+.cf-opcion:active { transform: scale(.97); }
+.cf-opcion-si { border: 1px solid var(--cf-oro); background: linear-gradient(135deg, #b8862b, #e9c46a); color: #3a1526; box-shadow: 0 8px 22px rgba(233, 196, 106, .3); }
+.cf-opcion-no { border: 1px solid rgba(37, 211, 102, .6); background: rgba(37, 211, 102, .12); color: #d8ffe6; }
+.cf-regalo-preview-marco { position: relative; height: 170px; margin-bottom: 12px; overflow: hidden; border-radius: 18px; border: 1px solid var(--cf-borde); background: #120a0e; }
+.cf-regalo-preview { display: block; width: 100%; height: 100%; }
+.cf-regalo-preview-texto { position: absolute; left: 10px; top: 10px; padding: 2px 10px; border-radius: 999px; background: rgba(0, 0, 0, .45); color: #fff; font-size: .7rem; }
+.cf-regalo-animaciones { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.cf-anim { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 92px; padding: 8px 4px; border: 2px solid transparent; border-radius: 16px; color: #fff; font-family: 'Poppins', sans-serif; cursor: pointer; transition: transform .2s ease, border-color .2s ease; }
+.cf-anim.activo { border-color: var(--cf-oro); box-shadow: 0 0 0 3px rgba(233, 196, 106, .25); transform: translateY(-2px); }
+.cf-anim-emoji { font-size: 1.6rem; }
+.cf-anim.activo .cf-anim-emoji { animation: cf-flotar 1.6s ease-in-out infinite; }
+.cf-anim-nombre { font-size: .66rem; line-height: 1.2; text-align: center; }
+.cf-anim-num { position: absolute; top: 4px; left: 6px; font-size: .62rem; opacity: .7; }
+.cf-regalo-acciones { display: flex; justify-content: space-between; gap: 10px; margin-top: 16px; }
+.cf-regalo-acciones .cf-btn-rosa { flex: 1; }
+@keyframes cf-flotar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+/* ---------- 13. Ticket ---------- */
+.cf-ticket-caja { width: min(480px, 100%); padding: 18px; background: linear-gradient(180deg, #2b1a21, #1d1216); }
+.cf-ticket { position: relative; padding: 22px 20px 18px; border-radius: 20px; background: #fffafc; color: #2a1119; text-align: center; }
+.cf-ticket::before, .cf-ticket::after { content: ''; position: absolute; left: 0; right: 0; height: 12px; background: radial-gradient(circle at 8px 0, transparent 7px, #fffafc 7.5px) repeat-x; background-size: 16px 12px; }
+.cf-ticket::before { top: -11px; transform: rotate(180deg); }
+.cf-ticket::after { bottom: -11px; }
+.cf-ticket-entrada { animation: cf-ticket-sale .6s cubic-bezier(.2, .9, .3, 1.2) both; }
+@keyframes cf-ticket-sale { from { opacity: 0; transform: translateY(-30px) scale(.96); } to { opacity: 1; transform: none; } }
+.cf-ticket-logo { width: 140px; height: auto; margin: 0 auto 6px; }
+.cf-ticket-check { width: 46px; height: 46px; margin: 0 auto 6px; border-radius: 50%; background: #2e9e5b; color: #fff; font-size: 1.6rem; line-height: 46px; }
+.cf-ticket h2 { margin: 0 0 6px; color: #2a1119; font-family: 'Playfair Display', Georgia, serif; }
+.cf-ticket-codigo-etq { margin: 0; color: #a83b65; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.cf-ticket-codigo { margin: 2px 0; font-size: 1.15rem; font-weight: 700; letter-spacing: .04em; word-break: break-all; }
+.cf-ticket-creado { margin: 0 0 12px; color: #8a6f7a; font-size: .76rem; }
+.cf-ticket-datos { display: grid; gap: 8px; margin: 0; padding: 12px 0; border-top: 2px dashed #e8c5d3; border-bottom: 2px dashed #e8c5d3; text-align: left; }
+.cf-ticket-datos div { display: grid; grid-template-columns: 82px 1fr; gap: 8px; }
+.cf-ticket-datos dt { color: #a83b65; font-size: .72rem; font-weight: 700; text-transform: uppercase; }
+.cf-ticket-datos dd { margin: 0; font-size: .86rem; word-break: break-word; }
+.cf-ticket-items { margin: 0; padding: 10px 0; list-style: none; border-bottom: 2px dashed #e8c5d3; }
+.cf-ticket-items li { display: flex; align-items: center; gap: 10px; padding: 6px 0; text-align: left; font-size: .84rem; }
+.cf-ticket-items img { width: 42px; height: 42px; flex: 0 0 auto; border-radius: 50%; object-fit: cover; }
+.cf-ticket-item-nombre { flex: 1; min-width: 0; }
+.cf-ticket-total { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0 4px; font-weight: 700; }
+.cf-ticket-total strong { color: #a83b65; font-size: 1.35rem; }
+.cf-ticket-premio { margin: 6px 0; padding: 8px; border-radius: 12px; background: #fff3d6; color: #6b4a10; font-size: .82rem; }
+.cf-ticket-premio[hidden], .cf-ticket-regalo[hidden] { display: none; }
+.cf-ticket-regalo { margin-top: 10px; padding: 14px 10px; border-radius: 16px; background: linear-gradient(135deg, #fdeef4, #fff6e5); }
+.cf-ticket-regalo-para { margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-style: italic; }
+.cf-ticket-qr { display: flex; justify-content: center; }
+.cf-ticket-qr-img { width: 190px; height: 190px; border-radius: 12px; box-shadow: 0 6px 18px rgba(58, 21, 38, .15); }
+.cf-ticket-qr-acciones { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
+.cf-ticket-qr-acciones .cf-btn-borde { color: #a83b65; border-color: #e8c5d3; background: #fff; }
+.cf-ticket-nota { margin: 12px 0 0; color: #8a6f7a; font-size: .74rem; }
+.cf-ticket-acciones { display: flex; gap: 10px; margin-top: 22px; }
+.cf-ticket-acciones .cf-btn { flex: 1; }
+.cf-ver-ticket { margin-top: 12px; }
+.cf-ver-ticket[hidden] { display: none; }
+
+/* ---------- Celulares ---------- */
+@media (max-width: 760px) {
+  .cf-calc-panel { grid-template-columns: 1fr; padding: 18px; }
+  .cf-regalo-animaciones { grid-template-columns: repeat(2, 1fr); }
+  .cf-anim { min-height: 70px; flex-direction: row; justify-content: flex-start; padding: 8px 10px; }
+  .cf-anim-nombre { font-size: .74rem; text-align: left; }
+  .cf-anim-num { display: none; }
+  .cf-regalo-preview-marco { height: 130px; }
+  .cf-galeria-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 140px; }
+  .cf-barra-cupos { font-size: .76rem; }
+  .cf-modal { padding: 10px; align-items: flex-end; }
+  .cf-modal-caja { max-height: calc(100vh - 20px); max-height: calc(100dvh - 20px); border-radius: 22px 22px 18px 18px; padding: 24px 16px 18px; }
+  .cf-raspa-premio { gap: 10px; }
+}
+@media (max-width: 380px) {
+  .cf-campo-fila { grid-template-columns: 1fr; gap: 0; }
+  .cf-regalo-opciones { grid-template-columns: 1fr; }
+}
+
+/* ---------- Modo ligero / movimiento reducido ---------- */
+html.cake-ligero .cf-barra-cupos, html.cake-ligero .cf-cuenta-copo, html.cake-ligero .cf-regalo-icono,
+html.cake-ligero .cf-anim.activo .cf-anim-emoji, html.cake-ligero .cf-guia-card { animation: none !important; }
+html.cake-ligero .cf-modal { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(12, 6, 9, .85); }
+@media (prefers-reduced-motion: reduce) {
+  .cf-barra-cupos, .cf-cuenta-copo, .cf-regalo-icono, .cf-guia-card, .cf-ticket-entrada, .cf-anim-emoji { animation: none !important; }
+}

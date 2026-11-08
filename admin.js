@@ -23,7 +23,39 @@
   let manualOrderFiles = [];
   let lightboxImages = [];
   let lightboxIndex = 0;
-  const CATEGORIES = ['pasteles', 'postres', 'galletas', 'bocaditos', 'especiales'];
+  const CATEGORIES_BASE = ['pasteles', 'postres', 'galletas', 'bocaditos', 'especiales'];
+  // Categorías editables (tabla cake_categories). Si todavía no existe, se usan las de siempre.
+  let categoriesList = null;
+  function categorySlugs() {return categoriesList ? categoriesList.map((c) => c.slug) : CATEGORIES_BASE;}
+  function isCakeCategory(slug) {if (!categoriesList) return slug === 'pasteles';const c = categoriesList.find((x) => x.slug === slug);return c ? !!c.is_cake : false;}
+  function categoryName(slug) {const c = (categoriesList || []).find((x) => x.slug === slug);return c ? c.name : slug;}
+  async function loadCategoriesForForm() {
+    const { data, error } = await client.from('cake_categories').select('*').order('display_order', { ascending: true });
+    if (!error && Array.isArray(data) && data.length) categoriesList = data;
+    const select = $('product-category');if (!select) return;
+    const current = select.value;
+    select.replaceChildren(...categorySlugs().map((slug) => {const o = document.createElement('option');o.value = slug;o.textContent = categoryName(slug) + (categoriesList && categoriesList.find((c) => c.slug === slug && c.is_active === false) ? ' (oculta)' : '');return o;}));
+    if (current && categorySlugs().includes(current)) select.value = current;
+    toggleSliceFields();
+  }
+  function toggleSliceFields() {
+    const cake = isCakeCategory(($('product-category') || {}).value);
+    document.querySelectorAll('#admin-product-form .admin-slices-field').forEach((f) => {f.hidden = !cake;});
+  }
+  // WhatsApp del cliente: 8 dígitos de Guatemala -> 502XXXXXXXX
+  function waNumber(phone) {let d = String(phone || '').replace(/\D/g, '');if (d.length === 8) d = '502' + d;return d;}
+  function waLink(phone, text) {const d = waNumber(phone);return d.length >= 8 ? `https://wa.me/${d}${text ? `?text=${encodeURIComponent(text)}` : ''}` : '';}
+  function phoneNode(phone, text) {
+    const url = waLink(phone, text);
+    if (!url) return String(phone || '');
+    const a = document.createElement('a');a.href = url;a.target = '_blank';a.rel = 'noopener';a.className = 'af-wa-link';
+    a.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i> ';a.appendChild(document.createTextNode(String(phone)));
+    a.title = 'Escribir por WhatsApp';return a;
+  }
+  const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  const DIAS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  function prettyDate(iso) {const m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})/);if (!m) return iso || '';const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));return `${DIAS[d.getDay()]} ${Number(m[3])} de ${MESES[Number(m[2]) - 1]} de ${m[1]}`;}
+  function prettyTime(hhmm) {const m = String(hhmm || '').match(/^(\d{2}):(\d{2})/);if (!m) return hhmm || '';const h = Number(m[1]);return `${h % 12 === 0 ? 12 : h % 12}:${m[2]} ${h >= 12 ? 'p. m.' : 'a. m.'}`;}
   const STATUS = [['recibido', 'Pedidos nuevos'], ['entregado', 'Pedidos entregados'], ['cancelado', 'Pedidos cancelados']];
   function message(id, text, type = '') {const el = $(id);if (!el) return;el.textContent = text;el.className = `admin-message ${type}`.trim();}
   function globalMessage(text, type = '') {message('admin-global-message', text, type);}
@@ -64,7 +96,7 @@
   function setTab(tab) {
     document.querySelectorAll('[data-admin-tab]').forEach((b) => b.classList.toggle('active', b.dataset.adminTab === tab));
     document.querySelectorAll('.admin-section').forEach((s) => {const active = s.id === `admin-panel-${tab}`;s.classList.toggle('active', active);s.hidden = !active;});
-    if (tab === 'orders') loadOrders();if (tab === 'reviews') loadReviews();if (tab === 'settings') {loadSettings();loadCapacitySettings();}
+    if (tab === 'orders') loadOrders();if (tab === 'scheduled') loadScheduled();if (tab === 'reviews') loadReviews();if (tab === 'settings') {loadSettings();loadCapacitySettings();}
   }
   function updateStats() {
     $('stat-products').textContent = products.length;
@@ -76,7 +108,9 @@
     const img = document.createElement('img');img.src = p.image_url || '';img.alt = p.name || 'Producto';img.onerror = () => {img.style.visibility = 'hidden';};
     const meta = document.createElement('div');meta.className = 'admin-product-meta';
     const name = document.createElement('strong');name.textContent = p.name || '';
-    const price = document.createElement('span');price.textContent = `${fmtQ(p.price)}${p.sale_price > 0 ? ` · Oferta ${fmtQ(p.sale_price)}` : ''}`;
+    const price = document.createElement('span');
+    const sizesText = [['P', p.price_small, p.slices_small], ['M', p.price_medium, p.slices_medium], ['G', p.price_large, p.slices_large]].filter((x) => Number(x[1]) > 0).map((x) => `${x[0]} ${fmtQ(x[1])}${Number(x[2]) > 0 ? ` (${x[2]} reb.)` : ''}`).join(' · ');
+    price.textContent = sizesText ? sizesText : `${fmtQ(p.price)}${p.sale_price > 0 ? ` · Oferta ${fmtQ(p.sale_price)}` : ''}`;
     const flags = document.createElement('small');flags.textContent = [p.is_active ? 'Publicado' : 'Oculto', p.is_featured ? 'Destacado' : '', p.is_offer ? 'Oferta' : ''].filter(Boolean).join(' · ');
     meta.append(name, price, flags);
     const actions = document.createElement('div');actions.className = 'admin-row-actions';
@@ -100,10 +134,10 @@
     $('admin-products-list').querySelectorAll('.admin-product-row').forEach((row, idx) => {const p = products[idx];row.hidden = !!q && !`${(p == null ? void 0 : p.name) || ''} ${(p == null ? void 0 : p.category) || ''} ${(p == null ? void 0 : p.slug) || ''}`.toLowerCase().includes(q);});
   }
   function resetProductForm() {
-    $('admin-product-form').reset();$('product-id').value = '';delete $('product-slug').dataset.touched;$('product-form-title').textContent = 'Agregar producto';$('product-active').checked = true;$('product-order').value = String(products.length * 10 + 10);$('product-images').value = '';$('product-gallery-urls').value = '';$('product-current-gallery').replaceChildren();currentGallery = [];message('admin-product-message', '');
+    $('admin-product-form').reset();setTimeout(toggleSliceFields, 0);$('product-id').value = '';delete $('product-slug').dataset.touched;$('product-form-title').textContent = 'Agregar producto';$('product-active').checked = true;$('product-order').value = String(products.length * 10 + 10);$('product-images').value = '';$('product-gallery-urls').value = '';$('product-current-gallery').replaceChildren();currentGallery = [];message('admin-product-message', '');
   }
   function fillProduct(p) {var _p$price, _p$price_small, _p$price_medium, _p$price_large, _p$sale_price, _p$display_order;
-    $('product-id').value = p.id;$('product-slug').dataset.touched = 'true';$('product-form-title').textContent = `Editar: ${p.name}`;$('product-name').value = p.name || '';$('product-slug').value = p.slug || '';$('product-category').value = CATEGORIES.includes(p.category) ? p.category : 'especiales';$('product-price').value = (_p$price = p.price) != null ? _p$price : 0;$('product-price-small').value = (_p$price_small = p.price_small) != null ? _p$price_small : '';$('product-price-medium').value = (_p$price_medium = p.price_medium) != null ? _p$price_medium : '';$('product-price-large').value = (_p$price_large = p.price_large) != null ? _p$price_large : '';$('product-sale-price').value = (_p$sale_price = p.sale_price) != null ? _p$sale_price : '';$('product-description').value = p.description || '';$('product-gallery-urls').value = Array.isArray(p.gallery_urls) ? p.gallery_urls.join('\n') : '';$('product-occasion').value = p.occasion || '';$('product-order').value = (_p$display_order = p.display_order) != null ? _p$display_order : 100;$('product-has-sizes').checked = !!p.has_sizes;$('product-active').checked = p.is_active !== false;$('product-featured').checked = !!p.is_featured;$('product-is-offer').checked = !!p.is_offer;currentGallery = [p.image_url, ...(Array.isArray(p.gallery_urls) ? p.gallery_urls : [])].filter(Boolean);$('product-current-gallery').replaceChildren();currentGallery.forEach((url) => {const img = document.createElement('img');img.src = url;img.alt = 'Foto guardada';img.onerror = () => img.remove();$('product-current-gallery').appendChild(img);});window.scrollTo({ top: $('admin-panel-products').getBoundingClientRect().top + window.scrollY - 15, behavior: 'smooth' });
+    $('product-id').value = p.id;$('product-slug').dataset.touched = 'true';$('product-form-title').textContent = `Editar: ${p.name}`;$('product-name').value = p.name || '';$('product-slug').value = p.slug || '';if (p.category && !categorySlugs().includes(p.category)) {const o = document.createElement('option');o.value = p.category;o.textContent = p.category;$('product-category').appendChild(o);}$('product-category').value = p.category || 'especiales';['small', 'medium', 'large'].forEach((t) => {$(`product-slices-${t}`).value = p[`slices_${t}`] != null ? p[`slices_${t}`] : '';});toggleSliceFields();$('product-price').value = (_p$price = p.price) != null ? _p$price : 0;$('product-price-small').value = (_p$price_small = p.price_small) != null ? _p$price_small : '';$('product-price-medium').value = (_p$price_medium = p.price_medium) != null ? _p$price_medium : '';$('product-price-large').value = (_p$price_large = p.price_large) != null ? _p$price_large : '';$('product-sale-price').value = (_p$sale_price = p.sale_price) != null ? _p$sale_price : '';$('product-description').value = p.description || '';$('product-gallery-urls').value = Array.isArray(p.gallery_urls) ? p.gallery_urls.join('\n') : '';$('product-occasion').value = p.occasion || '';$('product-order').value = (_p$display_order = p.display_order) != null ? _p$display_order : 100;$('product-has-sizes').checked = !!p.has_sizes;$('product-active').checked = p.is_active !== false;$('product-featured').checked = !!p.is_featured;$('product-is-offer').checked = !!p.is_offer;currentGallery = [p.image_url, ...(Array.isArray(p.gallery_urls) ? p.gallery_urls : [])].filter(Boolean);$('product-current-gallery').replaceChildren();currentGallery.forEach((url) => {const img = document.createElement('img');img.src = url;img.alt = 'Foto guardada';img.onerror = () => img.remove();$('product-current-gallery').appendChild(img);});window.scrollTo({ top: $('admin-panel-products').getBoundingClientRect().top + window.scrollY - 15, behavior: 'smooth' });
   }
   $('product-name').addEventListener('input', () => {if (!$('product-id').value || !$('product-slug').dataset.touched) $('product-slug').value = slugify($('product-name').value);});
   $('product-slug').addEventListener('input', () => {$('product-slug').dataset.touched = 'true';});
@@ -129,6 +163,12 @@
         is_active: $('product-active').checked, is_featured: $('product-featured').checked, is_offer: $('product-is-offer').checked,
         occasion: $('product-occasion').value.trim(), display_order: Number($('product-order').value) || 100
       };
+      // Rebanadas a la par de cada precio (solo categorías de pasteles).
+      ['small', 'medium', 'large'].forEach((t) => {
+        const raw = $(`product-slices-${t}`).value.trim();
+        const value = isCakeCategory(payload.category) && raw !== '' ? Math.max(0, Math.round(Number(raw) || 0)) : null;
+        if (value !== null || existing && existing[`slices_${t}`] != null) payload[`slices_${t}`] = value;
+      });
       if (!payload.slug || !payload.name) throw new Error('Completa el nombre y el enlace corto.');
       if (payload.sale_price !== null && payload.sale_price > 0 && payload.sale_price > payload.price) throw new Error('El precio de oferta normalmente debe ser menor o igual al precio base.');
       // created_at usa el valor automático de Supabase; así se ordena por la hora real de publicación.
@@ -191,7 +231,9 @@
   function addInfoField(parent, label, value) {
     const item = document.createElement('div');item.className = 'admin-order-info-item';
     const caption = document.createElement('span');caption.textContent = label;
-    const content = document.createElement('strong');content.textContent = value === null || value === undefined || String(value).trim() === '' ? 'No indicado' : String(value);
+    const content = document.createElement('strong');
+    if (value && typeof value === 'object' && value.nodeType) content.appendChild(value);else
+    content.textContent = value === null || value === undefined || String(value).trim() === '' ? 'No indicado' : String(value);
     item.append(caption, content);parent.appendChild(item);
   }
   function addInfoGroup(parent, title, fields) {
@@ -247,6 +289,41 @@
     items.forEach((item) => add((item == null ? void 0 : item.image) || (item == null ? void 0 : item.imagen), (item == null ? void 0 : item.name) || (item == null ? void 0 : item.nombre) || 'Producto'));
     return list;
   }
+  function createGiftBlock(order, payload) {
+    const gift = payload.gift || {};
+    const box = document.createElement('section');box.className = 'af-gift';
+    const head = document.createElement('h4');head.textContent = '💌 Mensaje secreto con código QR';box.appendChild(head);
+    const body = document.createElement('div');body.className = 'af-gift-body';
+    const info = window.CakeAnimaciones ? window.CakeAnimaciones.buscar(gift.animation) : { emoji: '✨', nombre: gift.animation_name || gift.animation, fondo: ['#2a1119', '#5c1a2e'] };
+    const left = document.createElement('div');left.className = 'af-gift-info';
+    const tile = document.createElement('div');tile.className = 'af-gift-anim';tile.style.background = `linear-gradient(160deg, ${info.fondo[0]}, ${info.fondo[1]})`;
+    tile.appendChild(Object.assign(document.createElement('span'), { className: 'af-gift-emoji', textContent: info.emoji }));
+    tile.appendChild(Object.assign(document.createElement('strong'), { textContent: gift.animation_name || info.nombre }));
+    tile.appendChild(Object.assign(document.createElement('small'), { textContent: 'Animación elegida' }));
+    left.appendChild(tile);
+    const grid = document.createElement('div');grid.className = 'admin-order-info-grid';
+    addInfoField(grid, 'Para', gift.recipient_name);
+    addInfoField(grid, 'De parte de', gift.sender_name);
+    left.appendChild(grid);
+    const msg = document.createElement('blockquote');msg.className = 'af-gift-message';msg.textContent = gift.message || '';left.appendChild(msg);
+    const right = document.createElement('div');right.className = 'af-gift-qr';
+    const url = window.CakeQR ? window.CakeQR.urlRegalo(gift.token) : '';
+    const qrBox = document.createElement('div');qrBox.className = 'af-gift-qr-img';right.appendChild(qrBox);
+    if (window.CakeQR) window.CakeQR.dibujar(url, 300).then((canvas) => qrBox.appendChild(canvas)).catch(() => {qrBox.textContent = url;});
+    const actions = document.createElement('div');actions.className = 'af-gift-actions';
+    const mk = (html, cls, fn) => {const b = document.createElement('button');b.type = 'button';b.className = `admin-button ${cls}`;b.innerHTML = html;b.addEventListener('click', fn);actions.appendChild(b);return b;};
+    const fileName = `qr-regalo-${order.order_code || 'pedido'}.png`;
+    mk('<i class="fas fa-download"></i> Descargar tarjeta QR', 'admin-button-primary', () => window.CakeQR.tarjetaRegalo({ url, para: gift.recipient_name }).then((c) => window.CakeQR.descargar(c, fileName)));
+    mk('<i class="fas fa-qrcode"></i> Solo el QR', 'admin-button-outline', () => window.CakeQR.dibujar(url, 900).then((c) => window.CakeQR.descargar(c, fileName.replace('.png', '-solo.png'))));
+    mk('<i class="fas fa-share-nodes"></i> Compartir', 'admin-button-outline', () => window.CakeQR.tarjetaRegalo({ url, para: gift.recipient_name }).then((c) => window.CakeQR.compartir(c, fileName, `Mensaje secreto para ${gift.recipient_name}: ${url}`)));
+    mk('<i class="fas fa-link"></i> Copiar enlace', 'admin-button-outline', () => window.CakeQR.copiar(url).then(() => globalMessage('Enlace del mensaje secreto copiado.', 'success')));
+    const wa = waLink(payload.phone, `Hola ${payload.name || ''} 💗 Aquí está el código QR exclusivo de tu pedido ${order.order_code}: ${url}`);
+    if (wa) {const a = document.createElement('a');a.className = 'admin-button af-wa-button';a.href = wa;a.target = '_blank';a.rel = 'noopener';a.innerHTML = '<i class="fab fa-whatsapp"></i> Enviar al cliente';actions.appendChild(a);}
+    const open = document.createElement('a');open.className = 'admin-button admin-button-outline';open.href = url;open.target = '_blank';open.rel = 'noopener';open.innerHTML = '<i class="fas fa-eye"></i> Ver sorpresa';actions.appendChild(open);
+    right.appendChild(actions);
+    body.append(left, right);box.appendChild(body);
+    return box;
+  }
   function createOrderRow(order, { trash = false } = {}) {
     const card = document.createElement('article');card.className = 'admin-order-row' + (trash ? ' admin-order-row-trash' : '');
     const payload = order.payload || {};
@@ -273,9 +350,10 @@
     }
     const info = document.createElement('div');info.className = 'admin-order-info';
     const type = payload.order_type === 'pastel_personalizado' ? 'Pastel personalizado' : payload.order_type === 'pedido_administrador' ? 'Pedido añadido por administración' : 'Pedido de catálogo';
-    addInfoGroup(info, 'Cliente', [['Nombre', payload.name], ['Teléfono', payload.phone], ['Tipo de pedido', type]]);
+    addInfoGroup(info, 'Cliente', [['Nombre', payload.name], ['Teléfono / WhatsApp', payload.phone ? phoneNode(payload.phone, `Hola ${payload.name || ''}, te escribimos de Cake Chávez sobre tu pedido ${order.order_code || ''}.`) : ''], ['Tipo de pedido', type]]);
     addInfoGroup(info, 'Pastel y personalización', [['Ocasión', payload.occasion], ['Sabor', payload.flavor], ['Tamaño', payload.size], ['Colores o temática', payload.colors_theme || payload.theme]]);
-    addInfoGroup(info, 'Entrega', [['Fecha deseada', payload.delivery_date], ['Dirección', payload.address]]);
+    const addressNode = payload.address ? (() => {const a = document.createElement('a');a.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(payload.address)}`;a.target = '_blank';a.rel = 'noopener';a.className = 'af-map-link';a.textContent = payload.address;a.title = 'Abrir en el mapa';return a;})() : '';
+    addInfoGroup(info, 'Entrega', [['Fecha de entrega', payload.delivery_date ? prettyDate(payload.delivery_date) : ''], ['Hora de entrega', payload.delivery_time ? prettyTime(payload.delivery_time) : ''], ['Dirección', addressNode]]);
     const itemsGroup = document.createElement('section');itemsGroup.className = 'admin-order-info-group admin-order-items-group';
     const itemsHeading = document.createElement('h4');itemsHeading.textContent = 'Artículos y total';itemsGroup.appendChild(itemsHeading);
     if (items.length) {
@@ -290,7 +368,10 @@
     const totalValue = document.createElement('strong');totalValue.textContent = fmtQ(payload.total);
     total.append(totalLabel, totalValue);itemsGroup.appendChild(total);info.appendChild(itemsGroup);
     addInfoGroup(info, 'Detalles adicionales', [['Personalización / dedicatoria', payload.customization || payload.personalization], ['Fotos', allImages.length ? `${allImages.length} foto(s)` : payload.photo_reference_name || (referenceImage ? 'Imagen adjunta' : 'No adjunta')]]);
+    if (payload.prize && payload.prize.name) addInfoGroup(info, '🎁 Premio Raspa y gana', [['Premio', payload.prize.name], ['Detalle', payload.prize.detail]]);
     card.append(top, info);
+    // 💌 Mensaje secreto con QR (debajo de los datos del pedido)
+    if (payload.gift && payload.gift.token) card.appendChild(createGiftBlock(order, payload));
 
     if (trash) {
       const trashActions = document.createElement('div');trashActions.className = 'admin-row-actions admin-trash-actions';trashActions.style.justifyContent = 'flex-start';
@@ -471,6 +552,7 @@
     $('edit-order-phone').value = payload.phone || '';
     $('edit-order-type').value = payload.order_type === 'pastel_personalizado' ? 'Pastel personalizado' : payload.order_type === 'pedido_administrador' ? 'Pedido añadido por administración' : 'Pedido de catálogo';
     $('edit-order-date').value = String(payload.delivery_date || '').slice(0, 10);
+    $('edit-order-time').value = String(payload.delivery_time || '').slice(0, 5);
     $('edit-order-address').value = payload.address || '';
     $('edit-order-occasion').value = payload.occasion || '';
     $('edit-order-flavor').value = payload.flavor || '';
@@ -505,6 +587,8 @@
       payload.name = $('edit-order-name').value.trim();
       payload.phone = $('edit-order-phone').value.trim();
       payload.delivery_date = $('edit-order-date').value;
+      payload.delivery_time = $('edit-order-time').value;
+      if (!payload.phone || !payload.delivery_date || !payload.delivery_time || !payload.address) throw new Error('Teléfono, fecha, hora y dirección de entrega son obligatorios.');
       payload.address = $('edit-order-address').value.trim();
       payload.occasion = $('edit-order-occasion').value.trim();
       payload.flavor = $('edit-order-flavor').value.trim();
@@ -576,13 +660,14 @@
     const name = $('manual-order-name').value.trim();
     const phone = $('manual-order-phone').value.trim();
     const deliveryDate = $('manual-order-date').value;
+    const deliveryTime = $('manual-order-time').value;
     const productName = $('manual-order-product').value.trim();
     const size = $('manual-order-size').value.trim();
     const quantity = Math.max(1, Math.min(99, Number($('manual-order-quantity').value) || 1));
     const unitPrice = Number($('manual-order-price').value);
     const address = $('manual-order-address').value.trim();
     const notes = $('manual-order-notes').value.trim();
-    if (!name || !phone || !deliveryDate || !productName || !address || !Number.isFinite(unitPrice) || unitPrice < 0) {message('admin-add-order-message', 'Completa los datos obligatorios y revisa el precio.', 'error');return;}
+    if (!name || !phone || !deliveryDate || !deliveryTime || !productName || !address || !Number.isFinite(unitPrice) || unitPrice < 0) {message('admin-add-order-message', 'Completa los datos obligatorios (teléfono, fecha, hora y dirección) y revisa el precio.', 'error');return;}
     const random = newUUID().replace(/-/g, '').toUpperCase();
     const orderCode = `CC-${random.slice(0, 16)}`;
     const itemName = `${productName}${size ? ` (${size})` : ''}`;
@@ -596,11 +681,12 @@
         uploaded.push(await uploadPhoto(manualOrderFiles[i].file, 'custom-orders'));
       }
       message('admin-add-order-message', 'Guardando pedido…');
-      const payload = { order_type: 'pedido_administrador', name, phone, delivery_date: deliveryDate, address, total: Number((unitPrice * quantity).toFixed(2)), items: [{ name: itemName, price: unitPrice, quantity, image: uploaded[0] || '' }], customization: notes, source: 'panel_administrador' };
+      const payload = { order_type: 'pedido_administrador', name, phone, delivery_date: deliveryDate, delivery_time: deliveryTime, address, total: Number((unitPrice * quantity).toFixed(2)), items: [{ name: itemName, price: unitPrice, quantity, image: uploaded[0] || '' }], customization: notes, source: 'panel_administrador' };
       if (uploaded.length) {payload.photo_reference_url = uploaded[0];payload.photos = uploaded;payload.photo_reference_name = `${uploaded.length} foto(s) del pedido`;}
       // 2) Registra el pedido validando el cupo del día.
-      const { data, error } = await client.rpc('cake_register_order_with_capacity', { p_order_code: orderCode, p_payload: payload });
-      if (error) throw new Error(`No se pudo registrar el pedido: ${error.message}`);
+      let { data, error } = await client.rpc('cake_register_order_full', { p_order_code: orderCode, p_payload: payload, p_gift: null });
+      if (error && /cake_register_order_full|PGRST202|Could not find the function|schema cache/i.test(`${error.message || ''} ${error.code || ''}`)) ({ data, error } = await client.rpc('cake_register_order_with_capacity', { p_order_code: orderCode, p_payload: payload }));
+      if (error) throw new Error(`No se pudo registrar el pedido: ${String(error.message || '').replace('DATOS_PEDIDO: ', '').replace('FECHA_COMPLETA: ', '')}`);
       const saved = ((_ref4 = Array.isArray(data) ? data[0] : data) == null ? void 0 : _ref4.order_code) || orderCode;
       // 3) Asegura que las fotos queden guardadas en el pedido (por si la función de cupo no copia campos nuevos).
       if (uploaded.length) {
@@ -793,7 +879,91 @@
     if (error) {message('cake-capacity-override-message', 'No se guardó: ' + error.message, 'error');return;}
     message('cake-capacity-override-message', 'Fecha especial guardada.', 'success');$('cake-capacity-override-form').reset();$('cake-capacity-override-limit').value = '0';await loadCapacityOverrides();
   }
-  async function boot(user) {if (!(await requireAdmin(user))) return;showApp(user);await loadProducts();await loadSettings();await loadCapacitySettings();}
+  /* ===== 📅 PEDIDOS PROGRAMADOS: agenda por fecha y hora de entrega ===== */
+  let scheduledOrders = [];
+  let scheduledView = 'hoy';
+  let scheduledTouched = false;
+  function isoLocal(d) {return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;}
+  function scheduledFilter(order, view) {
+    const date = String((order.payload || {}).delivery_date || '').slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+    const status = normalizeOrderStatus(order.status);
+    if (status === 'cancelado') return false;
+    const today = new Date();const t0 = isoLocal(today);
+    const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    const week = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+    if (view === 'hoy') return date === t0;
+    if (view === 'manana') return date === isoLocal(tomorrow);
+    if (view === 'semana') return date >= t0 && date <= isoLocal(week);
+    if (view === 'proximos') return date >= t0;
+    if (view === 'pasados') return date < t0 && status !== 'entregado';
+    if (/^\d{4}-\d{2}-\d{2}$/.test(view)) return date === view;
+    return false;
+  }
+  async function loadScheduled() {
+    const list = $('admin-scheduled-list');if (!list) return;
+    list.replaceChildren(Object.assign(document.createElement('p'), { textContent: 'Cargando pedidos programados…' }));
+    const { data, error } = await client.from('orders').select('order_code,status,payload,created_at,deleted_at,deleted_previous_status').is('deleted_at', null).order('created_at', { ascending: false }).limit(1000);
+    if (error) {list.replaceChildren(Object.assign(document.createElement('p'), { textContent: `No se pudieron cargar los pedidos: ${error.message}` }));return;}
+    scheduledOrders = data || [];
+    // La primera vez: si hoy no hay entregas, se muestran todos los próximos para no ver la lista vacía.
+    if (!scheduledTouched && scheduledView === 'hoy' && !scheduledOrders.some((o) => scheduledFilter(o, 'hoy'))) scheduledView = 'proximos';
+    renderScheduled();
+  }
+  function renderScheduled() {
+    const list = $('admin-scheduled-list');if (!list) return;
+    document.querySelectorAll('[data-sched]').forEach((b) => {
+      b.classList.toggle('active', b.dataset.sched === scheduledView);
+      const c = b.querySelector('[data-sched-count]');if (c) c.textContent = String(scheduledOrders.filter((o) => scheduledFilter(o, b.dataset.sched)).length);
+    });
+    const filtered = scheduledOrders.filter((o) => scheduledFilter(o, scheduledView)).sort((a, b) => {
+      const pa = a.payload || {}, pb = b.payload || {};
+      return `${pa.delivery_date || ''} ${pa.delivery_time || '99:99'}`.localeCompare(`${pb.delivery_date || ''} ${pb.delivery_time || '99:99'}`);
+    });
+    list.replaceChildren();
+    if (!filtered.length) {list.appendChild(Object.assign(document.createElement('p'), { className: 'af-vacio', textContent: 'No hay pedidos programados para esta selección. 🎉' }));return;}
+    let currentDate = '';
+    filtered.forEach((order) => {
+      const p = order.payload || {};
+      if (p.delivery_date !== currentDate) {
+        currentDate = p.delivery_date;
+        const sameDay = filtered.filter((o) => (o.payload || {}).delivery_date === currentDate);
+        const h = document.createElement('h3');h.className = 'af-dia';
+        h.textContent = `${prettyDate(currentDate)} · ${sameDay.length} pedido${sameDay.length === 1 ? '' : 's'} · ${fmtQ(sameDay.reduce((s, o) => s + (Number((o.payload || {}).total) || 0), 0))}`;
+        list.appendChild(h);
+      }
+      const item = document.createElement('article');item.className = 'af-agenda' + (normalizeOrderStatus(order.status) === 'entregado' ? ' af-agenda-entregado' : '');
+      const hour = document.createElement('div');hour.className = 'af-agenda-hora';hour.textContent = p.delivery_time ? prettyTime(p.delivery_time) : 'Sin hora';
+      const main = document.createElement('div');main.className = 'af-agenda-info';
+      const title = document.createElement('strong');title.textContent = `${p.name || 'Cliente'} · ${order.order_code}`;main.appendChild(title);
+      const items = (Array.isArray(p.items) ? p.items : []).map((i) => `${Number(i.quantity) || 1}× ${i.name || i.nombre || 'Producto'}`).join(', ') || (p.order_type === 'pastel_personalizado' ? 'Pastel personalizado (cotización)' : 'Sin artículos');
+      main.appendChild(Object.assign(document.createElement('span'), { className: 'af-agenda-items', textContent: items }));
+      const meta = document.createElement('div');meta.className = 'af-agenda-meta';
+      if (p.phone) meta.appendChild(phoneNode(p.phone, `Hola ${p.name || ''}, te escribimos de Cake Chávez sobre tu pedido ${order.order_code} para el ${prettyDate(p.delivery_date)}${p.delivery_time ? ` a las ${prettyTime(p.delivery_time)}` : ''}.`));
+      if (p.address) {const a = document.createElement('a');a.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.address)}`;a.target = '_blank';a.rel = 'noopener';a.className = 'af-map-link';a.innerHTML = '<i class="fas fa-location-dot"></i> ';a.appendChild(document.createTextNode(p.address));meta.appendChild(a);}
+      main.appendChild(meta);
+      const tags = document.createElement('div');tags.className = 'af-agenda-tags';
+      tags.appendChild(Object.assign(document.createElement('span'), { className: 'af-tag', textContent: normalizeOrderStatus(order.status) === 'entregado' ? '✅ Entregado' : '🕒 Por entregar' }));
+      if (p.gift && p.gift.token) tags.appendChild(Object.assign(document.createElement('span'), { className: 'af-tag af-tag-oro', textContent: '💌 QR de regalo' }));
+      if (p.prize && p.prize.name) tags.appendChild(Object.assign(document.createElement('span'), { className: 'af-tag af-tag-oro', textContent: `🎁 ${p.prize.name}` }));
+      tags.appendChild(Object.assign(document.createElement('span'), { className: 'af-tag', textContent: fmtQ(p.total) }));
+      main.appendChild(tags);
+      const actions = document.createElement('div');actions.className = 'af-agenda-acciones';
+      const details = document.createElement('button');details.type = 'button';details.className = 'admin-button admin-button-outline';details.textContent = 'Ver pedido completo';
+      const full = document.createElement('div');full.className = 'af-agenda-completo';full.hidden = true;
+      details.addEventListener('click', () => {if (!full.childNodes.length) full.appendChild(createOrderRow(order));full.hidden = !full.hidden;details.textContent = full.hidden ? 'Ver pedido completo' : 'Ocultar detalles';});
+      actions.appendChild(details);
+      if (normalizeOrderStatus(order.status) !== 'entregado') {
+        const done = document.createElement('button');done.type = 'button';done.className = 'admin-button admin-button-primary';done.innerHTML = '<i class="fas fa-check"></i> Marcar entregado';
+        done.addEventListener('click', async () => {done.disabled = true;const { error } = await client.from('orders').update({ status: 'entregado' }).eq('order_code', order.order_code);if (error) {globalMessage(`No se pudo actualizar: ${error.message}`, 'error');done.disabled = false;return;}globalMessage(`Pedido ${order.order_code} marcado como entregado.`, 'success');await loadScheduled();});
+        actions.appendChild(done);
+      }
+      item.append(hour, main, actions);
+      list.append(item, full);
+    });
+  }
+  window.CakeAdmin = { getClient: () => client, globalMessage, reloadCategories: () => loadCategoriesForForm().then(loadProducts), loadProducts, getProducts: () => products, uploadPhoto, imageStoragePath, isImage };
+  async function boot(user) {if (!(await requireAdmin(user))) return;showApp(user);await loadCategoriesForForm();await loadProducts();await loadSettings();await loadCapacitySettings();document.dispatchEvent(new CustomEvent('cake-admin-listo'));}
   document.addEventListener('DOMContentLoaded', async () => {var _$5, _$6, _$7, _$8, _$9, _$0, _$1, _$10, _$11, _$12, _$13, _$14, _$18;
     client = configuredClient();
     if (!client) {$('admin-config-notice').hidden = false;$('admin-login-view').hidden = true;return;}
@@ -809,6 +979,10 @@
     $('admin-logout').addEventListener('click', async () => {await client.auth.signOut();showAuth();message('admin-login-message', 'Sesión cerrada.', 'success');});
     document.querySelectorAll('[data-admin-tab]').forEach((b) => b.addEventListener('click', () => setTab(b.dataset.adminTab)));
     document.querySelectorAll('[data-order-view]').forEach((b) => b.addEventListener('click', () => setOrdersView(b.dataset.orderView)));
+    document.querySelectorAll('[data-sched]').forEach((b) => b.addEventListener('click', () => {scheduledTouched = true;scheduledView = b.dataset.sched;const d = $('admin-sched-date');if (d) d.value = '';renderScheduled();}));
+    if ($('admin-sched-date')) $('admin-sched-date').addEventListener('change', (e) => {if (e.target.value) {scheduledTouched = true;scheduledView = e.target.value;renderScheduled();}});
+    if ($('admin-refresh-scheduled')) $('admin-refresh-scheduled').addEventListener('click', loadScheduled);
+    if ($('product-category')) $('product-category').addEventListener('change', toggleSliceFields);
     (_$5 = $('admin-image-lightbox-close')) == null || _$5.addEventListener('click', closeOrderImage);
     (_$6 = $('admin-order-edit-close')) == null || _$6.addEventListener('click', closeOrderEdit);
     (_$7 = $('admin-order-edit-cancel')) == null || _$7.addEventListener('click', closeOrderEdit);

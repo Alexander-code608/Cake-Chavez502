@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1d1216">
+    <meta name="robots" content="noindex">
+    <title>Tienes un mensaje secreto 💌 · Cake Chávez</title>
+    <meta name="description" content="Un mensaje sorpresa preparado con cariño junto a un pastel de Cake Chávez.">
+    <script src="cake-compat.js?v=20261109"></script>
+    <link rel="preconnect" href="https://nlsmjrlwbzloehfvdczy.supabase.co" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="regalo.css?v=20261109">
+</head>
+<body>
+    <canvas id="regalo-lienzo" class="regalo-lienzo" aria-hidden="true"></canvas>
+
+    <main class="regalo-escena">
+        <!-- 1. Pantalla de espera: el toque es necesario para que suene la música -->
+        <section class="regalo-sobre" id="regalo-sobre">
+            <img class="regalo-logo" src="img/navidad/logo-base.webp" alt="Cake Chávez">
+            <button type="button" class="regalo-sobre-boton" id="regalo-abrir" disabled>
+                <span class="regalo-sobre-icono" aria-hidden="true">💌</span>
+                <span class="regalo-sobre-texto" id="regalo-sobre-texto">Cargando tu sorpresa…</span>
+            </button>
+            <p class="regalo-sobre-pista">Sube el volumen 🎶</p>
+        </section>
+
+        <!-- 2. El mensaje -->
+        <section class="regalo-carta" id="regalo-carta" hidden aria-live="polite">
+            <p class="regalo-kicker">Un mensaje secreto para</p>
+            <h1 class="regalo-para" id="regalo-para"></h1>
+            <div class="regalo-separador" aria-hidden="true"><span>♡</span></div>
+            <p class="regalo-mensaje" id="regalo-mensaje"></p>
+            <p class="regalo-de" id="regalo-de" hidden></p>
+            <a class="regalo-marca" href="index.html">
+                <img src="img/navidad/logo-base.webp" alt="">
+                <span>Con amor, desde Cake Chávez</span>
+            </a>
+        </section>
+
+        <!-- 3. Error -->
+        <section class="regalo-error" id="regalo-error" hidden>
+            <img class="regalo-logo" src="img/navidad/logo-base.webp" alt="Cake Chávez">
+            <h1>Este mensaje no se encontró</h1>
+            <p>Revisa que el código QR se haya escaneado completo o pide a quien te lo regaló que te comparta el enlace otra vez.</p>
+            <a class="regalo-boton" href="index.html">Visitar Cake Chávez</a>
+        </section>
+    </main>
+
+    <button type="button" class="regalo-musica" id="regalo-musica" hidden aria-pressed="true">🔔 <span>Música</span></button>
+    <audio id="regalo-audio" src="musica/happy-christmas-faces-suave.mp3" loop preload="auto"></audio>
+
+    <script src="vendor/supabase-2.119.0-compat.js?v=1"></script>
+    <script>window.supabase || document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"><\/script>');</script>
+    <script src="supabase-config.js?v=20261109"></script>
+    <script src="cake-animaciones.js?v=20261109"></script>
+    <script src="regalo.js?v=20261109"></script>
+</body>
+</html>
