@@ -1,0 +1,51 @@
+TEMA NAVIDEÑO - CAKE CHAVEZ
+
+Archivos nuevos:
+  navidad.css         -> colores, brillo neón, gorritos, luces, esquinas
+  navidad.js          -> nieve y destellos
+  img/navidad/        -> logo con gorro, esquinas con moño, árboles, Santa, regalos, acebo, gorrito
+
+Cambios en index.html (busca la palabra "navidad"):
+  - <link> a navidad.css y <script> a navidad.js
+  - <body class="navidad">
+  - logo cambiado a img/navidad/logo-navidad.webp
+  - luces, esquinas, corazón y moño debajo del eslogan
+
+Para quitar la Navidad en enero: quita class="navidad" del <body>, borra las líneas de
+navidad.css y navidad.js, y vuelve a poner img/logo.png como logo.
+
+----------------------------------------------------------------
+INTRO NAVIDEÑA (nuevo)
+  navidad-intro.css  -> estilos de la intro, logo con gorra separada, botón de música
+  navidad-intro.js   -> estrella, explosión, sonidos y la música
+  img/navidad/logo-base.webp -> logo sin gorra
+  img/navidad/gorro-logo.webp -> la gorra sola (salta y gira)
+
+Cómo funciona:
+  1. Al abrir la página todo está oscuro y sale "Toca para abrir la magia navideña".
+     (El toque es necesario: los navegadores no dejan sonar nada sin que la persona toque.)
+  2. Una estrella da vueltas con sonido brillante y luego se acerca al centro.
+  3. Explota con un "¡pum!" y campanitas, y salen muchísimas estrellas.
+  4. El logo aparece en grande, la gorra salta y gira, y el logo vuelve a su lugar.
+  5. Aparece lo demás de la página y empieza la música navideña de fondo.
+  - Botón "Saltar intro" abajo a la derecha.
+  - Botón "Música" (campanita) abajo a la izquierda para apagar o encender la música.
+  - La gorra del logo salta y gira cada 2 segundos.
+  - Cada gorrito de las fichas tiene un baile distinto (brinco con giro, columpio,
+    rebote, voltereta y cascabel).
+  - Si alguien entra con un enlace de producto (?producto=...), no se muestra la intro.
+
+Para quitar la intro: borra las líneas de navidad-intro.css y navidad-intro.js en index.html.
+
+----------------------------------------------------------------
+CAMBIOS DE ESTA VERSIÓN (v2)
+  - ARREGLO: la barra de categorías (Todos, Pasteles, Postres...) vuelve a quedarse
+    fija arriba cuando bajas. El problema venía del tema navideño (navidad.css), que
+    le quitaba la posición fija. Mientras una ventana está abierta, la barra se oculta
+    para no taparla.
+  - MÚSICA: "Happy Christmas Faces (2 min edit)" de kaazoom (Pixabay),
+    archivo musica/happy-christmas-faces-suave.mp3, suavizada y con volumen parejo.
+    La licencia de Pixabay no exige crédito; la línea pequeña del pie es opcional.
+  - VENTANAS DE LOS PASTELES: al tocar "Añadir a la orden" o la foto, la ventana tiene
+    franja de bastón de caramelo, luces de colores, nieve que cae, gorrito, acebo,
+    foto con marco dorado, el total como etiqueta de regalo y botones navideños.

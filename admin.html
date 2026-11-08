@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Administración segura | Cake Chavez</title>
-  <link rel="stylesheet" href="admin.css?v=6">
+  <script src="cake-compat.js?v=20261108"></script>
+  <link rel="stylesheet" href="admin.css?v=20261108">
+  <link rel="stylesheet" href="admin-extra.css?v=20261108">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -53,6 +55,8 @@
         <button type="button" class="admin-tab" data-admin-tab="orders">Pedidos</button>
         <button type="button" class="admin-tab" data-admin-tab="reviews">Opiniones reales</button>
         <button type="button" class="admin-tab" data-admin-tab="settings">Entregas y pagos</button>
+        <button type="button" class="admin-tab" data-admin-tab="carousel"><i class="fas fa-images" aria-hidden="true"></i> Carrusel</button>
+        <button type="button" class="admin-tab admin-tab-navidad" data-admin-tab="navidad">🎄 Navidad</button>
       </nav>
 
       <!-- MEJORA 17: gestionar productos, precios, fotos, favoritos destacados y ofertas. -->
@@ -72,7 +76,7 @@
               <div><label for="product-price-large">Precio grande (Q)</label><input id="product-price-large" type="number" step="0.01" min="0" placeholder="Opcional"></div>
               <div><label for="product-sale-price">Precio de oferta (Q)</label><input id="product-sale-price" type="number" step="0.01" min="0" placeholder="Dejar vacío si no aplica"></div>
               <div class="admin-full"><label for="product-description">Descripción</label><textarea id="product-description" rows="3" maxlength="1000"></textarea></div>
-              <div class="admin-full"><label for="product-images">Fotos del producto</label><input id="product-images" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple><small>La primera imagen será la portada. Para Especiales puedes guardar 1 portada y hasta 3 fotos adicionales. Máximo 5 MB por imagen.</small><div id="product-current-gallery" class="admin-current-gallery"></div></div>
+              <div class="admin-full"><label for="product-images">Fotos del producto</label><input id="product-images" type="file" accept="image/*" multiple><small>La primera imagen será la portada. Para Especiales puedes guardar 1 portada y hasta 3 fotos adicionales. Las fotos grandes se achican solas.</small><div id="product-current-gallery" class="admin-current-gallery"></div></div>
               <div class="admin-full"><label for="product-gallery-urls">O agrega URLs adicionales de imágenes (una por línea)</label><textarea id="product-gallery-urls" rows="2" placeholder="https://..."></textarea></div>
               <div><label for="product-occasion">Temática u ocasión</label><input id="product-occasion" placeholder="Cumpleaños, boda, flores…"></div>
               <div><label for="product-order">Orden de aparición</label><input id="product-order" type="number" step="1" value="100"></div>
@@ -105,6 +109,12 @@
             <div><label for="manual-order-price">Precio unitario (Q)</label><input id="manual-order-price" type="number" min="0" step="0.01" required></div>
             <div class="admin-full"><label for="manual-order-address">Dirección de entrega</label><input id="manual-order-address" maxlength="500" required></div>
             <div class="admin-full"><label for="manual-order-notes">Detalles del pedido (opcional)</label><textarea id="manual-order-notes" rows="3" maxlength="1500"></textarea></div>
+            <div class="admin-full">
+              <label for="manual-order-photos"><i class="fas fa-camera" aria-hidden="true"></i> Fotografías del pedido (opcional, hasta 8)</label>
+              <input id="manual-order-photos" type="file" accept="image/*" multiple>
+              <small>Puedes elegir fotos de la galería o tomarlas con la cámara. Las fotos grandes se achican solas para que suban rápido.</small>
+              <div id="manual-order-photos-preview" class="admin-photo-grid"></div>
+            </div>
           </div>
           <p id="admin-add-order-message" class="admin-message" role="status"></p>
           <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar pedido</button></div>
@@ -131,7 +141,7 @@
             <div><label for="review-product">Producto probado</label><input id="review-product" maxlength="140" placeholder="Pastel de fresas"></div>
             <div><label for="review-rating">Calificación</label><select id="review-rating"><option value="5">5 estrellas</option><option value="4">4 estrellas</option><option value="3">3 estrellas</option><option value="2">2 estrellas</option><option value="1">1 estrella</option></select></div>
             <div class="admin-full"><label for="review-text">Opinión real</label><textarea id="review-text" rows="3" maxlength="1200" required></textarea></div>
-            <div class="admin-full"><label for="review-photo">Agregar fotografías (máximo 10)</label><input id="review-photo" type="file" accept="image/jpeg,image/png,image/webp" multiple><small>Las fotografías de reseñas se guardan en el almacenamiento privado de Supabase.</small></div>
+            <div class="admin-full"><label for="review-photo">Agregar fotografías (máximo 10)</label><input id="review-photo" type="file" accept="image/*" multiple><small>Las fotografías de reseñas se guardan en el almacenamiento privado de Supabase.</small></div>
             <div class="admin-full"><label class="admin-inline-check"><input type="checkbox" id="review-published"> Aprobar y publicar esta opinión</label></div>
           </div>
           <div class="admin-form-actions"><button class="admin-button admin-button-primary" type="submit">Guardar opinión</button><button class="admin-button admin-button-outline" type="button" id="admin-cancel-review">Limpiar</button></div>
@@ -172,6 +182,74 @@
           <div id="cake-capacity-overrides-list" class="admin-orders-list"><p>Cargando fechas especiales…</p></div>
         </div>
       </section>
+      <!-- CARRUSEL DEBAJO DEL LOGO: imágenes propias (si no hay ninguna, se usan las fotos del catálogo). -->
+      <section class="admin-section" id="admin-panel-carousel" hidden>
+        <div class="admin-section-head"><div><h2>Carrusel de imágenes</h2><p>Son las fotos grandes que pasan solas debajo del logo. Si no agregas ninguna, la tienda muestra automáticamente las fotos de tus productos.</p></div><button type="button" id="carousel-refresh" class="admin-button admin-button-outline"><i class="fas fa-rotate"></i> Actualizar</button></div>
+        <div class="admin-product-layout">
+          <form id="carousel-form" class="admin-form-card">
+            <input type="hidden" id="carousel-id">
+            <h3 id="carousel-form-title">Agregar imagen al carrusel</h3>
+            <div class="admin-form-grid">
+              <div class="admin-full">
+                <label for="carousel-image">Fotografía</label>
+                <input id="carousel-image" type="file" accept="image/*" multiple>
+                <small>Recomendado: foto horizontal. Puedes elegir varias fotos a la vez para agregarlas juntas.</small>
+                <div id="carousel-image-preview" class="admin-photo-grid"></div>
+              </div>
+              <div><label for="carousel-title">Título (opcional)</label><input id="carousel-title" maxlength="120" placeholder="Ej. Pasteles navideños"></div>
+              <div><label for="carousel-subtitle">Texto pequeño (opcional)</label><input id="carousel-subtitle" maxlength="220" placeholder="Ej. Pide con 48 horas de anticipación"></div>
+              <div><label for="carousel-order">Orden de aparición</label><input id="carousel-order" type="number" step="1" value="10"></div>
+              <div class="admin-checkboxes"><label><input id="carousel-active" type="checkbox" checked> Mostrar en la tienda</label></div>
+            </div>
+            <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar</button><button type="button" id="carousel-cancel" class="admin-button admin-button-outline">Cancelar</button></div>
+            <p id="carousel-message" class="admin-message" role="status"></p>
+          </form>
+          <div class="admin-list-card"><div class="admin-list-toolbar"><h3>Imágenes del carrusel</h3></div><div id="carousel-list" class="admin-carousel-list"><p>Abre esta pestaña para cargar las imágenes…</p></div></div>
+        </div>
+      </section>
+
+      <!-- ESPECIALIDADES NAVIDEÑAS: textos de la sección y productos de temporada. -->
+      <section class="admin-section" id="admin-panel-navidad" hidden>
+        <div class="admin-section-head"><div><h2>🎄 Especialidades de Navidad</h2><p>Cambia los textos de la ventanita navideña y agrega, edita o quita sus productos. Los clientes pueden pedirlos y se suman al carrito como cualquier otro producto.</p></div><button type="button" id="xmas-refresh" class="admin-button admin-button-outline"><i class="fas fa-rotate"></i> Actualizar</button></div>
+        <form id="xmas-settings-form" class="admin-form-card">
+          <h3>Textos de la sección</h3>
+          <div class="admin-form-grid">
+            <div class="admin-checkboxes admin-full"><label><input id="xmas-enabled" type="checkbox" checked> Mostrar la sección navideña en la tienda</label></div>
+            <div><label for="xmas-eyebrow">Etiqueta pequeña</label><input id="xmas-eyebrow" maxlength="80" placeholder="Temporada navideña"></div>
+            <div><label for="xmas-title">Título</label><input id="xmas-title" maxlength="120" placeholder="Especialidades de Navidad"></div>
+            <div class="admin-full"><label for="xmas-subtitle">Descripción</label><textarea id="xmas-subtitle" rows="2" maxlength="400"></textarea></div>
+            <div class="admin-full"><label for="xmas-note">Nota al final (opcional)</label><input id="xmas-note" maxlength="240" placeholder="Ej. Pedidos navideños hasta el 22 de diciembre"></div>
+          </div>
+          <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar textos</button></div>
+          <p id="xmas-settings-message" class="admin-message" role="status"></p>
+        </form>
+        <div class="admin-product-layout">
+          <form id="xmas-item-form" class="admin-form-card">
+            <input type="hidden" id="xmas-item-id">
+            <h3 id="xmas-item-title">Agregar producto navideño</h3>
+            <div class="admin-form-grid">
+              <div><label for="xmas-item-name">Nombre</label><input id="xmas-item-name" required maxlength="140" placeholder="Ej. Pastel de frutas navideño"></div>
+              <div><label for="xmas-item-badge">Etiqueta (opcional)</label><input id="xmas-item-badge" maxlength="40" placeholder="Ej. Nuevo, Edición limitada"></div>
+              <div class="admin-full"><label for="xmas-item-description">Descripción</label><textarea id="xmas-item-description" rows="3" maxlength="1000"></textarea></div>
+              <div><label for="xmas-item-price">Precio (Q)</label><input id="xmas-item-price" type="number" step="0.01" min="0" value="0"></div>
+              <div><label for="xmas-item-order">Orden de aparición</label><input id="xmas-item-order" type="number" step="1" value="10"></div>
+              <div><label for="xmas-item-price-small">Precio pequeño (Q)</label><input id="xmas-item-price-small" type="number" step="0.01" min="0" placeholder="Opcional"></div>
+              <div><label for="xmas-item-price-medium">Precio mediano (Q)</label><input id="xmas-item-price-medium" type="number" step="0.01" min="0" placeholder="Opcional"></div>
+              <div><label for="xmas-item-price-large">Precio grande (Q)</label><input id="xmas-item-price-large" type="number" step="0.01" min="0" placeholder="Opcional"></div>
+              <div class="admin-full">
+                <label for="xmas-item-images">Fotos del producto (la primera es la portada, hasta 6)</label>
+                <input id="xmas-item-images" type="file" accept="image/*" multiple>
+                <small>Si llenas precios por tamaño, el cliente podrá elegir pequeño, mediano o grande. Si no, se usa el precio normal.</small>
+                <div id="xmas-item-gallery" class="admin-photo-grid admin-photo-grid-edit"></div>
+              </div>
+              <div class="admin-checkboxes admin-full"><label><input id="xmas-item-active" type="checkbox" checked> Publicado en la tienda</label></div>
+            </div>
+            <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar producto</button><button type="button" id="xmas-item-cancel" class="admin-button admin-button-outline">Cancelar</button></div>
+            <p id="xmas-item-message" class="admin-message" role="status"></p>
+          </form>
+          <div class="admin-list-card"><div class="admin-list-toolbar"><h3>Productos navideños</h3></div><div id="xmas-items-list" class="admin-products-list"><p>Abre esta pestaña para cargar los productos…</p></div></div>
+        </div>
+      </section>
       <p id="admin-global-message" class="admin-message admin-global-message" role="status"></p>
       <div id="admin-order-edit-modal" class="admin-order-edit-modal" hidden role="dialog" aria-modal="true" aria-labelledby="admin-order-edit-title">
         <section class="admin-order-edit-panel">
@@ -187,13 +265,14 @@
             <div class="admin-order-edit-layout">
               <aside class="admin-order-edit-photo">
                 <div class="admin-order-edit-preview-wrap">
-                  <img id="edit-order-image-preview" alt="Fotografía actual del pedido" hidden>
+                  <img id="edit-order-image-preview" alt="Fotografía principal del pedido" hidden>
                   <div id="edit-order-image-empty" class="admin-order-edit-empty"><i class="fas fa-camera"></i><span>Este pedido no tiene fotografía</span></div>
                 </div>
-                <label for="edit-order-image-file" class="admin-button admin-button-outline"><i class="fas fa-image"></i> Cambiar imagen</label>
-                <input id="edit-order-image-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
-                <button type="button" id="edit-order-remove-image" class="admin-button admin-button-danger">Quitar imagen</button>
-                <small>JPG, PNG, WebP o GIF · Máximo 5 MB</small>
+                <div id="edit-order-photos-grid" class="admin-photo-grid admin-photo-grid-edit" aria-label="Fotografías del pedido"></div>
+                <label for="edit-order-image-file" class="admin-button admin-button-outline"><i class="fas fa-images"></i> Agregar fotos</label>
+                <input id="edit-order-image-file" type="file" accept="image/*" multiple hidden>
+                <button type="button" id="edit-order-remove-image" class="admin-button admin-button-danger">Quitar todas las fotos</button>
+                <small>Toca la × de una foto para quitarla. Las fotos grandes se achican solas.</small>
               </aside>
               <div class="admin-order-edit-fields">
                 <div class="admin-order-edit-grid">
@@ -226,13 +305,18 @@
       </div>
       <div id="admin-image-lightbox" class="admin-image-lightbox" hidden role="dialog" aria-modal="true" aria-label="Fotografía ampliada">
         <button id="admin-image-lightbox-close" type="button" class="admin-image-lightbox-close" aria-label="Cerrar fotografía">×</button>
+        <button id="admin-image-lightbox-prev" type="button" class="admin-image-lightbox-nav prev" aria-label="Foto anterior" hidden><i class="fas fa-chevron-left"></i></button>
         <img id="admin-image-lightbox-image" alt="Fotografía ampliada">
+        <button id="admin-image-lightbox-next" type="button" class="admin-image-lightbox-nav next" aria-label="Foto siguiente" hidden><i class="fas fa-chevron-right"></i></button>
+        <span id="admin-image-lightbox-count" class="admin-image-lightbox-count" hidden></span>
       </div>
     </section>
     <footer class="admin-footer">Cake Chavez · Panel protegido con autenticación y políticas de base de datos.</footer>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=1"></script>
-  <script src="admin.js?v=9"></script>
+  <script src="vendor/supabase-2.119.0-compat.js?v=1"></script>
+  <script>window.supabase || document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"><\/script>');</script>
+  <script src="supabase-config.js?v=20261108"></script>
+  <script src="admin.js?v=20261108"></script>
+  <script src="admin-extra.js?v=20261108"></script>
 </body>
 </html>

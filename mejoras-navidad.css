@@ -1,0 +1,366 @@
+/* =========================================================
+   CAKE CHAVEZ — MEJORAS NAVIDEÑAS
+   1. Sección «Especialidades de Navidad» (editable desde el panel).
+   2. Ventanita «¿Deseas agregar otro producto?».
+   3. Carrito con foto de cada producto.
+   4. Ajustes para celulares y para que las ventanas siempre queden encima.
+   ========================================================= */
+
+/* ---------- 1. ESPECIALIDADES NAVIDEÑAS ---------- */
+#navidad-especialidades[hidden] { display: none !important; }
+
+.navidad-esp-section {
+    position: relative;
+    width: min(1180px, calc(100% - 24px));
+    margin: 34px auto 10px;
+    padding: 34px 22px 30px;
+    border: 1.5px solid rgba(255, 214, 140, .38);
+    border-top: 0;
+    border-radius: 22px;
+    background:
+        repeating-linear-gradient(135deg, #c8203f 0 13px, #fff4f8 13px 26px) top / 100% 10px no-repeat,
+        radial-gradient(ellipse 70% 45% at 50% 0, rgba(255, 110, 150, .22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 10% 100%, rgba(46, 140, 90, .22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(46, 140, 90, .18), transparent 70%),
+        radial-gradient(circle, rgba(255, 255, 255, .07) 0 1.4px, transparent 2.2px) 0 0 / 30px 30px,
+        linear-gradient(180deg, #3a1a26 0%, #2a1520 60%, #20111a 100%);
+    box-shadow: 0 0 0 1px rgba(255, 214, 140, .1), 0 0 36px rgba(255, 90, 140, .22), 0 20px 44px rgba(0, 0, 0, .45);
+    color: var(--cake-texto, #f4dde5);
+}
+
+.navidad-esp-adorno {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 16px;
+    border: 1.5px solid rgba(255, 214, 140, .55);
+    border-radius: 999px;
+    background: linear-gradient(135deg, #1f6b3a, #2f9256);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+    font-size: 1.15rem;
+    line-height: 1;
+    transform: translateX(-50%);
+}
+.navidad-esp-adorno span:nth-child(odd) { color: #dff4ff; font-size: .85em; }
+
+.navidad-esp-cabecera { margin-bottom: 24px; }
+.navidad-esp-etiqueta {
+    padding: 5px 13px;
+    border: 1px dashed rgba(255, 214, 140, .65);
+    border-radius: 999px;
+    background: rgba(200, 32, 63, .25);
+    color: #ffe29a !important;
+}
+.navidad-esp-cabecera h2 {
+    color: #fff0f5 !important;
+    text-shadow: 0 0 16px rgba(255, 130, 180, .45), 0 0 2px rgba(255, 214, 140, .6);
+}
+.navidad-esp-cabecera p { color: #f1d2de !important; }
+
+.navidad-esp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
+    justify-content: center;
+    gap: 20px;
+}
+
+.navidad-esp-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 214, 140, .35);
+    border-radius: 18px;
+    background: linear-gradient(180deg, #3d1f2c 0%, #2a1620 100%);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .38);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.navidad-esp-card:hover {
+    border-color: rgba(255, 214, 140, .75);
+    box-shadow: 0 0 26px rgba(255, 120, 170, .35), 0 16px 30px rgba(0, 0, 0, .45);
+    transform: translateY(-3px);
+}
+
+.navidad-esp-img-wrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #1a1114;
+}
+/* Navegadores antiguos sin aspect-ratio */
+@supports not (aspect-ratio: 4 / 3) {
+    .navidad-esp-img-wrap { height: 0; padding-top: 75%; }
+}
+.navidad-esp-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: zoom-in;
+    transition: transform .5s ease;
+}
+.navidad-esp-card:hover .navidad-esp-img { transform: scale(1.04); }
+
+.navidad-esp-sello {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    max-width: calc(100% - 24px);
+    padding: 5px 11px;
+    border: 1px solid rgba(255, 214, 140, .7);
+    border-radius: 999px;
+    background: linear-gradient(90deg, #c8203f, #e2477a);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .35);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+.navidad-esp-fotos {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(20, 12, 16, .78);
+    color: #fff;
+    font-size: .72rem;
+    pointer-events: none;
+}
+
+.navidad-esp-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 16px 18px;
+    text-align: center;
+}
+.navidad-esp-info h3 {
+    color: #fff3f7;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1.3;
+}
+.navidad-esp-descripcion {
+    color: #e6c6d3;
+    font-size: .84rem;
+    line-height: 1.55;
+}
+.navidad-esp-precio {
+    display: inline-flex;
+    align-items: center;
+    gap: .4em;
+    margin-top: 2px;
+    padding: .32em .95em;
+    border: 1.5px dashed rgba(255, 214, 140, .7);
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(200, 32, 63, .28), rgba(46, 110, 70, .28));
+    color: #ffe29a;
+    font-size: .95rem;
+}
+.navidad-esp-precio::before { content: "🎁"; font-size: .95em; }
+.navidad-esp-boton {
+    width: 100%;
+    margin-top: auto;
+    padding: 11px 14px;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(120deg, #c81f5c 0%, #ff5f9e 45%, #e2316d 55%, #c81f5c 100%);
+    background-size: 220% 100%;
+    box-shadow: inset 0 3px 0 rgba(255, 255, 255, .8), 0 5px 14px rgba(226, 49, 109, .4);
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-position .6s ease, transform .2s ease;
+}
+.navidad-esp-boton:hover { background-position: 100% 0; transform: translateY(-1px); }
+.navidad-esp-boton i { margin-right: 4px; }
+
+.navidad-esp-nota {
+    margin-top: 18px;
+    color: #f1d2de;
+    font-size: .82rem;
+    text-align: center;
+}
+
+.zona-portada .nav-btn.nav-btn-navidad {
+    border-color: rgba(255, 214, 140, .55);
+    background: linear-gradient(135deg, #1f6b3a, #2f9256);
+    color: #fff;
+}
+.zona-portada .nav-btn.nav-btn-navidad[hidden] { display: none !important; }
+
+/* Celular: tarjetas en fila que se deslizan con el dedo */
+@media (max-width: 700px) {
+    .navidad-esp-section {
+        width: calc(100% - 16px);
+        margin-top: 30px;
+        padding: 30px 0 22px;
+        border-radius: 18px;
+    }
+    .navidad-esp-cabecera { padding: 0 16px; }
+    .navidad-esp-grid {
+        display: flex;
+        gap: 14px;
+        overflow-x: auto;
+        padding: 4px 16px 12px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .navidad-esp-grid::-webkit-scrollbar { display: none; }
+    .navidad-esp-card {
+        flex: 0 0 78%;
+        max-width: 300px;
+        scroll-snap-align: center;
+    }
+    .navidad-esp-card:only-child { flex-basis: 100%; max-width: none; }
+    .navidad-esp-card:hover { transform: none; }
+}
+
+/* ---------- 2. VENTANITA «¿OTRO PRODUCTO?» ---------- */
+#modal-otro-producto { z-index: 1002; }
+.caja-modal.caja-otro-producto {
+    width: min(420px, 100%);
+    max-width: 420px;
+    padding: 2.4rem 1.4rem 1.5rem;
+    text-align: center;
+}
+.otro-producto-icono {
+    display: inline-grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 8px;
+    border: 2px solid rgba(255, 214, 140, .7);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 127, 179, .35), rgba(46, 110, 70, .35));
+    font-size: 2rem;
+    animation: otroProductoSalto .9s cubic-bezier(.3, 1.6, .5, 1) both;
+}
+@keyframes otroProductoSalto {
+    0% { opacity: 0; transform: scale(.4) rotate(-20deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+.caja-otro-producto h2 {
+    margin-bottom: 10px;
+    color: #ffe3ef;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.35rem;
+}
+.otro-producto-img {
+    display: block;
+    width: 96px;
+    height: 96px;
+    margin: 4px auto 10px;
+    border: 3px solid rgba(255, 214, 140, .8);
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 4px rgba(226, 49, 109, .35);
+}
+.otro-producto-img[hidden] { display: none; }
+.otro-producto-texto {
+    margin-bottom: 6px;
+    color: #f3dbe5;
+    font-size: .92rem;
+    line-height: 1.5;
+}
+.otro-producto-pregunta {
+    margin: 12px 0 16px;
+    color: #ffe29a;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+.otro-producto-acciones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.otro-producto-btn {
+    min-height: 48px;
+    padding: 12px 10px;
+    border: 0;
+    border-radius: 12px;
+    color: #fff;
+    cursor: pointer;
+    font-size: .92rem;
+    font-weight: 600;
+    line-height: 1.25;
+    transition: transform .2s ease, filter .2s ease;
+}
+.otro-producto-btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.otro-producto-btn i { margin-right: 4px; }
+.otro-producto-btn-si {
+    background: linear-gradient(120deg, #c81f5c 0%, #ff5f9e 50%, #e2316d 100%);
+    box-shadow: inset 0 3px 0 rgba(255, 255, 255, .75), 0 5px 14px rgba(226, 49, 109, .4);
+}
+.otro-producto-btn-no {
+    border: 1px solid rgba(255, 214, 140, .4);
+    background: linear-gradient(135deg, #24513a, #1b3d2c);
+}
+@media (max-width: 420px) {
+    .otro-producto-acciones { grid-template-columns: 1fr; }
+}
+
+/* ---------- 3. CARRITO CON FOTOS ---------- */
+#lista-orden li.carrito-item { justify-content: flex-start; }
+.carrito-item-img {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    border: 2px solid rgba(255, 214, 140, .6);
+    border-radius: 10px;
+    object-fit: cover;
+}
+.carrito-item-nombre { flex: 1; min-width: 0; padding-right: 6px; overflow-wrap: anywhere; }
+.carrito-item-precio { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+
+/* Botones mientras se envía (evita pedidos dobles) */
+.btn-confirmar:disabled,
+.btn-confirmar-whatsapp:disabled { opacity: .75; cursor: progress; }
+
+/* ---------- 4. VENTANAS SIEMPRE ENCIMA DE LA BARRA DE CATEGORÍAS ---------- */
+.overlay-modal { z-index: 1001; }
+html.cake-ventana-abierta .zona-portada nav.barra-categorias-fija { visibility: hidden !important; pointer-events: none !important; }
+/* Mientras hay una ventana abierta, el fondo no se desplaza (más cómodo en celular) */
+html.cake-ventana-abierta body { overflow: hidden; }
+
+/* Ventanas de pedido cómodas en celulares pequeños */
+@media (max-width: 600px) {
+    .overlay-modal { align-items: flex-start; padding: 12px 8px; -webkit-overflow-scrolling: touch; }
+    .overlay-modal > .caja-modal,
+    .overlay-modal > section.caja-modal { margin: auto 0; }
+}
+
+/* Modo ligero: sin animaciones en estas piezas */
+html.cake-ligero .otro-producto-icono { animation: none; }
+html.cake-ligero .navidad-esp-card,
+html.cake-ligero .navidad-esp-img { transition: none; }
+
+/* ---------- 5. LA PÁGINA NUNCA SE SALE DEL ANCHO DEL CELULAR ----------
+   Antes, el carrito escondido a la derecha y algunos adornos hacían la página
+   un poquito más ancha que la pantalla; el celular se "alejaba" y las ventanas
+   se veían cortadas. Ahora el carrito se esconde con transform (también es más fluido). */
+.carrito-lateral {
+    right: 0 !important;
+    visibility: hidden;
+    transform: translate3d(105%, 0, 0);
+    transition: transform .35s ease, visibility 0s linear .35s !important;
+}
+.carrito-lateral.abierto {
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+    transition: transform .35s ease, visibility 0s !important;
+}
+@supports (overflow-x: clip) {
+    html { overflow-x: clip; }
+}
+body { overflow-x: hidden; }
+.navidad-cielo, .navidad-fondo-luces { contain: strict; }

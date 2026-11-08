@@ -1,0 +1,464 @@
+/* =========================================================
+   CAKE CHAVEZ — TEMA NAVIDEÑO ROSA
+   Para quitar la Navidad: borra la línea de navidad.css y navidad.js
+   en index.html y vuelve a poner img/logo.png como logo.
+   ========================================================= */
+:root{
+  --cake-fondo:#22161a;
+  --cake-panel:#2e1f24;
+  --cake-panel-oscuro:#1a1114;
+  --navidad-neon:#ff7fb3;
+  --navidad-neon-suave:rgba(255,127,179,.45);
+}
+
+/* Fondo con brillos rosados.
+   Antes usaba "background-attachment: fixed", que obliga al celular a repintar todo
+   al bajar (provocaba tirones). Ahora el brillo vive en una capa fija aparte
+   (.navidad-fondo-luces) que el teléfono mueve sin esfuerzo. */
+html{background:#1d1216}
+body{background:#1d1216}
+body.navidad{background:transparent}
+
+/* =========================================================
+   LUCES BONITAS EN EL FONDO (efecto bokeh navideño)
+   Círculos de luz suaves que respiran despacio detrás del contenido.
+   Solo se anima opacidad y posición (muy ligero para el celular).
+   ========================================================= */
+.navidad-fondo-luces{position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;pointer-events:none;overflow:hidden;
+  background:
+    radial-gradient(ellipse 900px 520px at 50% 160px,rgba(255,95,160,.16),transparent 70%),
+    radial-gradient(ellipse 600px 600px at 0% 60%,rgba(255,95,160,.08),transparent 70%),
+    radial-gradient(ellipse 600px 600px at 100% 40%,rgba(255,95,160,.08),transparent 70%),
+    radial-gradient(ellipse 700px 420px at 50% 105%,rgba(255,200,110,.07),transparent 70%),
+    #1d1216}
+.navidad-fondo-luces i{position:absolute;display:block;border-radius:50%;opacity:0;
+  background:radial-gradient(circle at 50% 50%,var(--luz,rgba(255,127,179,.55)) 0%,var(--luz,rgba(255,127,179,.55)) 18%,transparent 70%);
+  animation:navidadBokeh var(--dur,14s) ease-in-out var(--delay,0s) infinite alternate;will-change:opacity,transform}
+@keyframes navidadBokeh{
+  0%{opacity:var(--min,.18);transform:translate3d(0,0,0) scale(.92)}
+  50%{opacity:var(--max,.6)}
+  100%{opacity:var(--min,.22);transform:translate3d(var(--dx,20px),var(--dy,-30px),0) scale(1.06)}
+}
+/* Pequeñas lucecitas que titilan como foquitos lejanos */
+.navidad-fondo-luces b{position:absolute;display:block;width:4px;height:4px;border-radius:50%;background:var(--luz,#ffd9a0);
+  box-shadow:0 0 6px 2px var(--luz,#ffd9a0);opacity:.2;animation:navidadFoquito var(--dur,3s) ease-in-out var(--delay,0s) infinite alternate}
+@keyframes navidadFoquito{to{opacity:.95}}
+body.navidad .zona-portada,
+body.navidad .zona-portada header,
+body.navidad .zona-portada .carrusel-seccion,
+body.navidad .main-container{background:transparent!important}
+body.navidad .zona-portada header{border-bottom:0!important}
+
+/* Capa de nieve y destellos */
+.navidad-cielo{position:fixed;inset:0;pointer-events:none;z-index:40;overflow:hidden}
+.navidad-copo{position:absolute;top:-30px;color:#fff;opacity:.8;text-shadow:0 0 6px rgba(255,255,255,.8);
+  animation:navidadCaer linear infinite;will-change:transform}
+@keyframes navidadCaer{to{transform:translate3d(var(--viento,30px),110vh,0) rotate(360deg)}}
+.navidad-destello{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffd1e4;
+  box-shadow:0 0 8px 2px rgba(255,150,200,.8);animation:navidadTitilar 2.6s ease-in-out infinite alternate}
+@keyframes navidadTitilar{from{opacity:.15;transform:scale(.6)}to{opacity:1;transform:scale(1.3)}}
+
+/* Aviso superior */
+body.navidad .zona-portada .aviso-pedido{
+  position:relative;z-index:6;
+  background:linear-gradient(90deg,#b8336e,#e05592 50%,#b8336e)!important;
+  box-shadow:0 2px 18px rgba(255,90,160,.45)!important;
+}
+
+/* Guirnalda de luces */
+.navidad-luces{position:relative;z-index:5;display:flex;justify-content:space-around;
+  margin:-28px -20px 6px;height:44px;padding:0 120px;
+  background:radial-gradient(circle at 50% -34px,transparent 50px,#1f3a26 51px,#1f3a26 53px,transparent 54px) 0 0/90px 44px repeat-x}
+.navidad-luces i{position:relative;display:block;width:10px;height:15px;margin-top:20px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;
+  background:currentColor;box-shadow:0 0 10px 3px currentColor;animation:navidadLuz 1.4s ease-in-out infinite alternate}
+.navidad-luces i::before{content:"";position:absolute;top:-5px;left:2px;width:6px;height:6px;border-radius:2px;background:#3a3a3a}
+.navidad-luces i:nth-child(5n+1){color:#ff4fa0}
+.navidad-luces i:nth-child(5n+2){color:#ffd45c;animation-delay:.3s}
+.navidad-luces i:nth-child(5n+3){color:#3ff0c8;animation-delay:.6s}
+.navidad-luces i:nth-child(5n+4){color:#ff6b6b;animation-delay:.9s}
+.navidad-luces i:nth-child(5n+5){color:#7fd6ff;animation-delay:1.2s}
+/* Solo cambia la opacidad: animar la sombra hacía trabajar mucho al celular */
+@keyframes navidadLuz{to{opacity:.4}}
+
+/* Esquinas con moños y esferas */
+.navidad-esquina{position:absolute;top:30px;width:min(230px,22vw);z-index:7;pointer-events:none;
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.45));animation:navidadMecer 5s ease-in-out infinite alternate;transform-origin:top center}
+.navidad-esquina.izq{left:0}
+.navidad-esquina.der{right:0;transform:scaleX(-1);animation-name:navidadMecerDer}
+@keyframes navidadMecer{from{rotate:-2deg}to{rotate:2deg}}
+@keyframes navidadMecerDer{from{rotate:2deg}to{rotate:-2deg}}
+
+/* Logo con brillo neón */
+body.navidad .zona-portada .logo{
+  width:430px;
+  filter:drop-shadow(0 0 14px var(--navidad-neon-suave)) drop-shadow(0 0 34px rgba(255,90,160,.25));
+}
+/* El brillo que late solo se usa en computadoras (en celulares el brillo queda fijo, igual de bonito) */
+html:not(.cake-ligero):not(.cake-movil) body.navidad .zona-portada .logo{animation:navidadNeon 3s ease-in-out infinite alternate}
+@keyframes navidadNeon{to{filter:drop-shadow(0 0 22px rgba(255,127,179,.7)) drop-shadow(0 0 46px rgba(255,90,160,.35))}}
+body.navidad .zona-portada .logo-container{position:relative;margin-bottom:6px}
+.navidad-estrella{position:absolute;color:var(--navidad-neon);font-size:2rem;text-shadow:0 0 10px var(--navidad-neon),0 0 24px var(--navidad-neon);
+  animation:navidadTitilar 1.8s ease-in-out infinite alternate}
+
+/* Eslogan con corazón y moño */
+body.navidad .zona-portada .slogan{color:var(--navidad-neon)!important;text-shadow:0 0 14px rgba(255,127,179,.45)}
+.navidad-corazon{display:inline-block;margin-left:10px;font-size:.9em;color:var(--navidad-neon);text-shadow:0 0 12px var(--navidad-neon);
+  animation:navidadLatir 1.6s ease-in-out infinite}
+@keyframes navidadLatir{50%{transform:scale(1.15)}}
+.navidad-separador{display:flex;align-items:center;justify-content:center;gap:12px;margin:10px auto 0;max-width:420px}
+.navidad-separador::before,.navidad-separador::after{content:"";flex:1;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--navidad-neon));box-shadow:0 0 8px var(--navidad-neon)}
+.navidad-separador::after{background:linear-gradient(90deg,var(--navidad-neon),transparent)}
+.navidad-separador span{font-size:1.9rem;filter:drop-shadow(0 0 8px var(--navidad-neon))}
+
+/* Carrusel con borde neón */
+body.navidad .carrusel-container{
+  border:2px solid var(--navidad-neon)!important;
+  box-shadow:0 0 0 4px rgba(255,127,179,.12),0 0 28px rgba(255,90,160,.4),0 18px 40px rgba(0,0,0,.45)!important;
+}
+
+/* Buscador y menú */
+body.navidad .caja-busqueda{border-color:var(--navidad-neon-suave)!important;box-shadow:0 0 16px rgba(255,90,160,.22)}
+body.navidad .zona-portada nav{position:relative;border-color:var(--navidad-neon-suave)!important;box-shadow:0 0 18px rgba(255,90,160,.25)}
+/* La barra de categorías (Todos, Pasteles, Postres...) se queda fija arriba al bajar, como antes */
+body.navidad .zona-portada nav.barra-categorias-fija{position:fixed;top:0;left:0;right:0;z-index:950;
+  border-color:transparent!important;border-bottom:1px solid var(--navidad-neon-suave)!important;
+  box-shadow:0 5px 18px rgba(0,0,0,.4),0 0 18px rgba(255,90,160,.22)!important}
+/* Mientras una ventana está abierta (pedido, galería, carrito, reseñas, personalizar...),
+   la barra fija queda SIEMPRE detrás y además se oculta. La clase la pone script.js,
+   así funciona también en celulares antiguos. */
+html.cake-ventana-abierta .zona-portada nav.barra-categorias-fija{visibility:hidden!important;pointer-events:none!important}
+body.navidad .zona-portada .nav-btn.active{background:linear-gradient(135deg,#e0558f,#ff7fb3)!important;color:#fff!important;box-shadow:0 0 14px rgba(255,110,170,.6)}
+body.navidad .zona-portada nav:not(.barra-categorias-fija)::before,
+body.navidad .zona-portada nav:not(.barra-categorias-fija)::after{
+  content:"";position:absolute;top:50%;width:64px;height:60px;background:url(img/navidad/acebo.webp) center/contain no-repeat;
+  transform:translateY(-50%);pointer-events:none;filter:drop-shadow(0 4px 6px rgba(0,0,0,.4))}
+body.navidad .zona-portada nav:not(.barra-categorias-fija)::before{left:-80px;transform:translateY(-50%) rotate(-12deg)}
+body.navidad .zona-portada nav:not(.barra-categorias-fija)::after{right:-80px;transform:translateY(-50%) scaleX(-1) rotate(-12deg)}
+
+/* =========================================================
+   FICHAS DE PASTELES — DECORACIÓN NAVIDEÑA
+   Franja de bastón de caramelo, nieve, luces de colores,
+   foto con marco dorado, precio tipo etiqueta de regalo
+   y gorritos que se mueven (cada uno con un baile distinto).
+   ========================================================= */
+body.navidad .producto,
+body.navidad .destacado-card{position:relative;overflow:visible!important;
+  border:1.5px solid rgba(255,190,215,.32)!important;border-top:0!important;
+  box-shadow:0 0 0 1px rgba(255,214,140,.08),0 0 20px rgba(255,90,160,.18),0 12px 28px rgba(0,0,0,.4)!important}
+
+body.navidad .producto{
+  padding:1.6rem 1.15rem 2.1rem!important;
+  background:
+    repeating-linear-gradient(135deg,#e2316d 0 11px,#fff4f8 11px 22px) top/100% 9px no-repeat,
+    radial-gradient(circle at 50% 100%,rgba(255,110,170,.16),transparent 60%),
+    radial-gradient(circle,rgba(255,255,255,.09) 0 1.6px,transparent 2.4px) 0 0/34px 34px,
+    radial-gradient(circle,rgba(255,255,255,.06) 0 1.2px,transparent 2px) 17px 17px/34px 34px,
+    linear-gradient(180deg,#3b1e2a 0%,#2c1720 55%,#23121a 100%)!important}
+
+/* Luces de colores al pie de la ficha */
+body.navidad .producto .navidad-tarjeta-luces,
+body.navidad .destacado-card .navidad-tarjeta-luces{position:absolute;left:12px;right:12px;bottom:6px;height:16px;pointer-events:none;
+  background:radial-gradient(ellipse 60% 70% at 50% 0,transparent 66%,#2e5a3a 68%,#2e5a3a 74%,transparent 76%) 0 0/26px 12px repeat-x}
+.navidad-tarjeta-luces i{position:absolute;top:5px;width:7px;height:10px;border-radius:50%/40% 40% 60% 60%;background:currentColor;
+  box-shadow:0 0 8px 2px currentColor;animation:navidadLuz 1.3s ease-in-out infinite alternate}
+.navidad-tarjeta-luces i::before{content:"";position:absolute;top:-3px;left:1.5px;width:4px;height:4px;border-radius:1px;background:#3a3a3a}
+.navidad-tarjeta-luces i:nth-child(5n+1){color:#ff4fa0}
+.navidad-tarjeta-luces i:nth-child(5n+2){color:#ffd45c}
+.navidad-tarjeta-luces i:nth-child(5n+3){color:#3ff0c8}
+.navidad-tarjeta-luces i:nth-child(5n+4){color:#ff6b6b}
+.navidad-tarjeta-luces i:nth-child(5n+5){color:#7fd6ff}
+
+body.navidad .producto:hover,
+body.navidad .destacado-card:hover{border-color:rgba(255,214,140,.65)!important;
+  box-shadow:0 0 0 1px rgba(255,214,140,.4),0 0 32px rgba(255,120,180,.45),0 18px 36px rgba(0,0,0,.45)!important}
+
+/* Foto con marco dorado */
+body.navidad .producto .img-producto{border:3px solid rgba(255,214,140,.75);border-radius:12px;
+  box-shadow:0 0 0 4px rgba(226,49,109,.35),0 8px 18px rgba(0,0,0,.45)}
+
+/* Nombre con copitos de nieve */
+body.navidad .producto h3{color:#fff3f7;text-shadow:0 0 12px rgba(255,130,190,.35)}
+body.navidad .producto h3::before,
+body.navidad .producto h3::after{content:"❄";display:inline-block;margin:0 .4em;color:#bfe8ff;font-size:.72em;vertical-align:.12em;
+  text-shadow:0 0 8px rgba(190,232,255,.9);animation:navidadCopito 4s linear infinite}
+body.navidad .producto h3::after{animation-direction:reverse}
+@keyframes navidadCopito{to{rotate:360deg}}
+
+/* Precio tipo etiqueta de regalo */
+body.navidad .producto .precio{display:inline-flex;align-items:center;gap:.45em;margin:0 auto 1.1rem;padding:.38em 1em;
+  border:1.5px dashed rgba(255,214,140,.7);border-radius:999px;background:linear-gradient(135deg,rgba(226,49,109,.28),rgba(46,110,70,.28));
+  color:#ffe29a!important;text-shadow:0 0 10px rgba(255,214,140,.4)}
+body.navidad .producto .precio::before{content:"🎁";font-size:.95em}
+
+/* Etiqueta "Destacado" como listón verde */
+body.navidad .producto-etiqueta{background:linear-gradient(90deg,#1f6b3a,#2f9256)!important;border-color:rgba(255,214,140,.5)!important;color:#fff!important}
+body.navidad .producto-etiqueta::before{content:"⭐";margin-right:5px}
+
+/* Botón de bastón de caramelo con nieve arriba */
+body.navidad .producto > button:not(.producto-favorito-btn),
+body.navidad .destacado-boton{position:relative;
+  background:linear-gradient(120deg,#c81f5c 0%,#ff5f9e 45%,#e2316d 55%,#c81f5c 100%)!important;background-size:220% 100%!important;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.85),0 5px 16px rgba(226,49,109,.4)!important;color:#fff!important;
+  transition:background-position .6s ease,transform .2s!important}
+body.navidad .producto > button:not(.producto-favorito-btn)::before{content:"🎄";margin-right:.45em}
+body.navidad .producto > button:not(.producto-favorito-btn):hover,
+body.navidad .destacado-boton:hover{background-position:100% 0!important}
+
+/* Destacados */
+body.navidad .destacado-card{background:linear-gradient(180deg,#3b1e2a,#25131b)!important}
+body.navidad .destacado-imagen-wrap{border-radius:13px 13px 0 0}
+body.navidad .destacado-info{position:relative;padding-bottom:28px!important;
+  background:repeating-linear-gradient(135deg,#e2316d 0 11px,#fff4f8 11px 22px) top/100% 7px no-repeat,
+    radial-gradient(circle,rgba(255,255,255,.08) 0 1.5px,transparent 2.3px) 0 0/30px 30px}
+body.navidad .destacado-sello{background:linear-gradient(90deg,#c81f5c,#ff5f9e)!important;border-color:rgba(255,214,140,.6)!important}
+body.navidad .destacado-sello::before{content:"🎀 "}
+
+/* Gorritos y acebo sobre las fichas */
+body.navidad .producto::before,
+body.navidad .destacado-card::before{
+  content:"";position:absolute;z-index:4;top:-30px;right:-22px;width:86px;height:70px;
+  background:url(img/navidad/gorrito.webp) center/contain no-repeat;transform:scaleX(-1) rotate(-14deg);pointer-events:none;
+  transform-origin:50% 85%;filter:drop-shadow(0 5px 6px rgba(0,0,0,.4))}
+body.navidad .producto::after{
+  content:"";position:absolute;z-index:4;top:-16px;left:-12px;width:52px;height:50px;
+  background:url(img/navidad/acebo.webp) center/contain no-repeat;transform:rotate(-18deg);pointer-events:none;
+  animation:navidadAceboMecer 3.4s ease-in-out infinite alternate}
+@keyframes navidadAceboMecer{from{rotate:-6deg}to{rotate:6deg}}
+
+/* Cada gorrito tiene su propio baile */
+body.navidad .producto:nth-child(5n+1)::before,body.navidad .destacado-card:nth-child(3n+1)::before{animation:gorritoBrincoGiro 2.4s cubic-bezier(.35,.7,.3,1) infinite}
+body.navidad .producto:nth-child(5n+2)::before,body.navidad .destacado-card:nth-child(3n+2)::before{animation:gorritoColumpio 2s ease-in-out infinite}
+body.navidad .producto:nth-child(5n+3)::before,body.navidad .destacado-card:nth-child(3n+3)::before{animation:gorritoRebote 1.8s ease-in-out infinite}
+body.navidad .producto:nth-child(5n+4)::before{animation:gorritoVoltereta 2.6s ease-in-out infinite}
+body.navidad .producto:nth-child(5n+5)::before{animation:gorritoCascabel 1.6s ease-in-out infinite}
+body.navidad .producto:nth-child(2n)::before{animation-delay:-.7s}
+body.navidad .producto:nth-child(3n)::before{animation-delay:-1.3s}
+
+/* 1) Brinca y da una vuelta completa */
+@keyframes gorritoBrincoGiro{
+  0%{translate:0 0;rotate:0deg;scale:1}
+  10%{translate:0 3px;rotate:0deg;scale:1.08 .86}
+  26%{translate:-4px -30px;rotate:-180deg;scale:1}
+  42%{translate:0 0;rotate:-360deg;scale:1}
+  50%{translate:0 2px;rotate:-360deg;scale:1.06 .9}
+  58%,100%{translate:0 0;rotate:-360deg;scale:1}
+}
+/* 2) Se columpia de lado a lado */
+@keyframes gorritoColumpio{
+  0%,100%{rotate:-16deg;translate:0 0}
+  25%{translate:0 -6px}
+  50%{rotate:16deg;translate:0 0}
+  75%{translate:0 -6px}
+}
+/* 3) Rebota como pelotita */
+@keyframes gorritoRebote{
+  0%,100%{translate:0 0;scale:1.1 .85}
+  15%{scale:1}
+  45%{translate:0 -22px;scale:.95 1.08}
+  70%{translate:0 0;scale:1.12 .84}
+  82%{translate:0 -6px;scale:1}
+}
+/* 4) Hace una voltereta de frente */
+@keyframes gorritoVoltereta{
+  0%,30%{rotate:y 0deg;translate:0 0}
+  45%{translate:0 -18px}
+  65%{rotate:y 360deg;translate:0 0}
+  100%{rotate:y 360deg;translate:0 0}
+}
+/* 5) Tiembla como cascabel */
+@keyframes gorritoCascabel{
+  0%,40%,100%{rotate:0deg;scale:1}
+  48%{rotate:-14deg;scale:1.08}
+  56%{rotate:12deg}
+  64%{rotate:-9deg}
+  72%{rotate:6deg;scale:1.04}
+  80%{rotate:0deg;scale:1}
+}
+
+/* =========================================================
+   VENTANAS DE LOS PASTELES (al tocar "Añadir a la orden" o la foto)
+   Franja de bastón de caramelo, luces, nieve que cae, gorrito,
+   acebo, foto con marco dorado y total como etiqueta de regalo.
+   ========================================================= */
+body.navidad .caja-modal,
+body.navidad .caja-solo-imagen{position:relative;isolation:isolate;
+  border:1.5px solid rgba(255,214,140,.42)!important;border-top:0!important;
+  background:
+    repeating-linear-gradient(135deg,#e2316d 0 12px,#fff4f8 12px 24px) top/100% 10px no-repeat,
+    radial-gradient(ellipse 80% 45% at 50% 0,rgba(255,110,170,.24),transparent 70%),
+    radial-gradient(ellipse 70% 40% at 50% 100%,rgba(63,160,100,.16),transparent 70%),
+    radial-gradient(circle,rgba(255,255,255,.08) 0 1.6px,transparent 2.4px) 0 0/36px 36px,
+    radial-gradient(circle,rgba(255,255,255,.05) 0 1.2px,transparent 2px) 18px 18px/36px 36px,
+    linear-gradient(180deg,#3d1f2c 0%,#2b1620 58%,#21111a 100%)!important;
+  box-shadow:0 0 0 1px rgba(255,214,140,.12),0 0 46px rgba(255,90,160,.38),0 26px 54px rgba(0,0,0,.6)!important}
+body.navidad .caja-modal{padding-top:3.3rem}
+body.navidad .caja-solo-imagen{padding-top:3.1rem}
+
+/* Guirnalda de luces arriba */
+.navidad-ventana-luces{position:absolute;top:10px;left:16px;right:16px;height:22px;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse 60% 70% at 50% 0,transparent 66%,#2e5a3a 68%,#2e5a3a 76%,transparent 78%) 0 0/34px 15px repeat-x}
+.navidad-ventana-luces i{position:absolute;top:7px;width:9px;height:13px;border-radius:50%/40% 40% 60% 60%;background:currentColor;
+  box-shadow:0 0 10px 3px currentColor;animation:navidadLuz 1.3s ease-in-out infinite alternate}
+.navidad-ventana-luces i::before{content:"";position:absolute;top:-4px;left:2px;width:5px;height:5px;border-radius:1px;background:#3a3a3a}
+.navidad-ventana-luces i:nth-child(5n+1){color:#ff4fa0}
+.navidad-ventana-luces i:nth-child(5n+2){color:#ffd45c}
+.navidad-ventana-luces i:nth-child(5n+3){color:#3ff0c8}
+.navidad-ventana-luces i:nth-child(5n+4){color:#ff6b6b}
+.navidad-ventana-luces i:nth-child(5n+5){color:#7fd6ff}
+
+/* Nieve que cae detrás del contenido */
+.navidad-ventana-nieve{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;border-radius:inherit}
+.navidad-ventana-nieve i{position:absolute;top:-24px;color:#fff;font-style:normal;opacity:.55;
+  text-shadow:0 0 6px rgba(255,255,255,.8);animation:navidadVentanaNieve linear infinite}
+@keyframes navidadVentanaNieve{to{transform:translate3d(var(--viento,20px),110vh,0) rotate(300deg)}}
+
+/* Gorrito y acebo en las esquinas */
+.navidad-ventana-gorro{position:absolute;z-index:3;top:16px;right:14px;width:74px;height:auto;pointer-events:none;
+  transform:scaleX(-1) rotate(-12deg);transform-origin:50% 85%;filter:drop-shadow(0 5px 6px rgba(0,0,0,.45));
+  animation:gorritoColumpio 2.4s ease-in-out infinite}
+.navidad-ventana-acebo{position:absolute;z-index:3;top:20px;left:12px;width:56px;height:auto;pointer-events:none;
+  transform:rotate(-16deg);animation:navidadAceboMecer 3.4s ease-in-out infinite alternate}
+#modal-solo-imagen .navidad-ventana-gorro{right:auto;left:12px;transform:rotate(-12deg)}
+#modal-solo-imagen .navidad-ventana-acebo{display:none}
+
+/* Título con copitos y línea dorada */
+body.navidad #modal-titulo,
+body.navidad .solo-img-titulo{color:#ffe3ef!important;text-shadow:0 0 14px rgba(255,130,190,.55),0 0 2px rgba(255,214,140,.6);
+  padding-bottom:.55rem;background:linear-gradient(90deg,transparent,rgba(255,214,140,.75),transparent) bottom/62% 1.5px no-repeat}
+body.navidad #modal-titulo{padding-left:44px;padding-right:44px}
+body.navidad #modal-titulo::before,body.navidad #modal-titulo::after,
+body.navidad .solo-img-titulo::before,body.navidad .solo-img-titulo::after{content:"❄";display:inline-block;margin:0 .45em;color:#bfe8ff;
+  font-size:.6em;vertical-align:.2em;text-shadow:0 0 8px rgba(190,232,255,.9);animation:navidadCopito 4s linear infinite}
+body.navidad #modal-titulo::after,body.navidad .solo-img-titulo::after{animation-direction:reverse}
+
+/* Foto con marco dorado */
+body.navidad .modal-img-wrapper,
+body.navidad .galeria-container-imgs{border:3px solid rgba(255,214,140,.8)!important;border-radius:14px;
+  box-shadow:0 0 0 4px rgba(226,49,109,.4),0 0 22px rgba(255,214,140,.25),0 10px 22px rgba(0,0,0,.45)}
+body.navidad .galeria-container-imgs{background:#1a1114}
+body.navidad .galeria-container-imgs .solo-img-grande{border-radius:10px}
+body.navidad .zoom-indicador{background:linear-gradient(90deg,#1f6b3a,#2f9256)!important;border:1px solid rgba(255,214,140,.5)}
+
+/* Descripción como tarjetita de nieve */
+body.navidad .modal-descripcion-bajo-img{border:1.5px dashed rgba(255,214,140,.55)!important;
+  background:radial-gradient(circle,rgba(255,255,255,.07) 0 1.4px,transparent 2.2px) 0 0/24px 24px,rgba(26,17,20,.8)!important;color:#f3dbe5!important}
+body.navidad .modal-descripcion-bajo-img::before{content:"🎄 ";font-style:normal}
+
+/* Precio y total como etiqueta de regalo */
+body.navidad .modal-precio-destacado{color:#ffe29a!important;text-shadow:0 0 10px rgba(255,214,140,.35)}
+body.navidad .modal-precio-destacado::before{content:"⭐ "}
+body.navidad .modal-total-box{display:flex;align-items:center;flex-wrap:wrap;gap:.4em;padding:.6em 1em;border:1.5px dashed rgba(255,214,140,.7);
+  border-radius:14px;background:linear-gradient(135deg,rgba(226,49,109,.3),rgba(46,110,70,.3))}
+body.navidad .modal-total-box::before{content:"🎁";font-size:1.15em}
+body.navidad .modal-total-box span{color:#ffe29a!important;text-shadow:0 0 10px rgba(255,214,140,.45)}
+
+/* Campos con brillo dorado */
+body.navidad .caja-modal .input-datos-modal{border-color:rgba(255,190,215,.35)!important;background:rgba(26,17,20,.85)!important}
+body.navidad .caja-modal .input-datos-modal:focus{border-color:rgba(255,214,140,.85)!important;box-shadow:0 0 0 3px rgba(255,214,140,.18)}
+
+/* Botones: bastón de caramelo y verde pino */
+body.navidad .btn-agregar-modal,
+body.navidad .galeria-pedir-btn{position:relative;
+  background:linear-gradient(120deg,#c81f5c 0%,#ff5f9e 45%,#e2316d 55%,#c81f5c 100%)!important;background-size:220% 100%!important;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.85),0 5px 16px rgba(226,49,109,.45)!important;color:#fff!important;
+  transition:background-position .6s ease,transform .2s!important}
+body.navidad .btn-agregar-modal::before{content:"🎄";margin-right:.45em}
+body.navidad .btn-agregar-modal:hover,
+body.navidad .galeria-pedir-btn:hover{background-position:100% 0!important;transform:translateY(-1px)}
+body.navidad .btn-cancelar{background:linear-gradient(135deg,#24513a,#1b3d2c)!important;border:1px solid rgba(255,214,140,.35)!important}
+body.navidad .btn-cancelar:hover{background:linear-gradient(135deg,#2e6a4a,#22513a)!important}
+body.navidad .galeria-compartir-btn{border-color:rgba(255,214,140,.45)!important}
+
+/* Flechas, puntitos y botón de cerrar del visor */
+body.navidad .galeria-arrow{border:1.5px solid rgba(255,214,140,.6)!important;background:rgba(40,20,28,.92)!important}
+body.navidad .galeria-arrow:hover{background:#e2316d!important}
+body.navidad .dot-galeria.active{background:#ffd45c!important;box-shadow:0 0 8px #ffd45c}
+body.navidad .btn-cerrar-imagen{top:16px!important;border:1.5px solid rgba(255,214,140,.7)!important;
+  background:linear-gradient(135deg,#c81f5c,#ff5f9e)!important;box-shadow:0 0 12px rgba(255,110,170,.55)}
+
+/* Pequeño crédito de la música en el pie de página */
+.credito-musica{margin-top:.5rem;font-size:.72rem;opacity:.6}
+.credito-musica a{color:inherit;text-decoration:underline}
+
+@media (max-width:600px){
+  body.navidad .caja-modal{padding-top:3rem}
+  body.navidad #modal-titulo{padding-left:34px;padding-right:34px}
+  .navidad-ventana-gorro{width:58px;top:14px;right:8px}
+  .navidad-ventana-acebo{width:44px;top:18px;left:6px}
+  .navidad-ventana-luces{left:10px;right:10px}
+}
+
+/* Árboles, Santa y regalos a los lados (solo pantallas grandes) */
+.navidad-lado{position:fixed;bottom:0;z-index:30;pointer-events:none;display:none;filter:drop-shadow(0 10px 18px rgba(0,0,0,.5))}
+.navidad-arbol{width:150px}
+.navidad-arbol.izq{left:-28px}
+.navidad-arbol.der{right:-28px}
+.navidad-santa{left:30px;width:160px;bottom:6px;animation:navidadSaludar 3.5s ease-in-out infinite}
+@keyframes navidadSaludar{50%{transform:translateY(-6px) rotate(-2deg)}}
+.navidad-regalos{width:120px}
+.navidad-regalos.izq{left:150px}
+.navidad-regalos.der{right:150px;width:110px}
+@media (min-width:1350px){.navidad-lado{display:block}}
+@media (min-width:1350px) and (max-height:700px){.navidad-santa{width:120px}.navidad-arbol{width:115px}}
+
+/* Celular */
+@media (max-width:700px){
+  .navidad-luces{padding:0 8px;margin:-28px -20px 4px;background-size:60px 44px}
+  .navidad-luces i:nth-child(n+11){display:none}
+  .navidad-esquina{top:58px;width:92px}
+  body.navidad .zona-portada .logo{width:300px}
+  .navidad-estrella{display:none}
+  body.navidad .zona-portada nav::before,body.navidad .zona-portada nav::after{display:none}
+  body.navidad .producto::before,body.navidad .destacado-card::before{width:64px;height:52px;top:-22px;right:-14px}
+  body.navidad .producto::after{width:38px;height:36px;top:-12px;left:-8px}
+}
+@media (prefers-reduced-motion:reduce){
+  .navidad-copo,.navidad-destello,.navidad-luces i,.navidad-esquina,.navidad-santa,body.navidad .zona-portada .logo,.navidad-corazon,
+  body.navidad .producto::before,body.navidad .producto::after,body.navidad .destacado-card::before,
+  body.navidad .producto h3::before,body.navidad .producto h3::after,.navidad-tarjeta-luces i,
+  .navidad-ventana-gorro,.navidad-ventana-acebo,.navidad-ventana-nieve i,.navidad-ventana-luces i,
+  body.navidad #modal-titulo::before,body.navidad #modal-titulo::after,body.navidad .solo-img-titulo::before,body.navidad .solo-img-titulo::after{animation:none}
+}
+
+
+/* =========================================================
+   RENDIMIENTO
+   - .cake-pausa: la tarjeta no está en pantalla, sus adornos se detienen.
+   - html.cake-ligero: teléfono sencillo o antiguo -> adornos quietos y menos efectos.
+   ========================================================= */
+.cake-pausa::before,.cake-pausa::after,.cake-pausa *,.cake-pausa *::before,.cake-pausa *::after{animation-play-state:paused!important}
+
+html.cake-ligero .navidad-fondo-luces i,
+html.cake-ligero .navidad-fondo-luces b{animation:none!important;opacity:.35}
+html.cake-ligero .navidad-copo{text-shadow:none}
+html.cake-ligero .navidad-destello{box-shadow:none;animation-duration:4s}
+html.cake-ligero .navidad-esquina,
+html.cake-ligero .navidad-santa,
+html.cake-ligero .navidad-corazon,
+html.cake-ligero body.navidad .producto::after,
+html.cake-ligero body.navidad .destacado-card::before,
+html.cake-ligero body.navidad .producto::before,
+html.cake-ligero body.navidad .producto h3::before,
+html.cake-ligero body.navidad .producto h3::after,
+html.cake-ligero .navidad-tarjeta-luces i,
+html.cake-ligero .navidad-ventana-gorro,
+html.cake-ligero .navidad-ventana-acebo,
+html.cake-ligero .navidad-ventana-luces i,
+html.cake-ligero body.navidad #modal-titulo::before,
+html.cake-ligero body.navidad #modal-titulo::after,
+html.cake-ligero body.navidad .solo-img-titulo::before,
+html.cake-ligero body.navidad .solo-img-titulo::after{animation:none!important}
+html.cake-ligero .navidad-ventana-nieve{display:none}
+html.cake-ligero body.navidad .producto,
+html.cake-ligero body.navidad .destacado-card{box-shadow:0 10px 22px rgba(0,0,0,.35)!important}
+html.cake-ligero *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+
+/* En celular las tarjetas no necesitan sombras de neón tan grandes */
+@media (max-width:700px){
+  .navidad-tarjeta-luces i,.navidad-ventana-luces i,.navidad-luces i{box-shadow:0 0 6px 1px currentColor}
+  body.navidad .producto,body.navidad .destacado-card{box-shadow:0 0 14px rgba(255,90,160,.14),0 10px 22px rgba(0,0,0,.38)!important}
+}
+@media (prefers-reduced-motion:reduce){
+  .navidad-fondo-luces i,.navidad-fondo-luces b{animation:none;opacity:.35}
+}

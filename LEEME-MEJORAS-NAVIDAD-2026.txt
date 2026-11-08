@@ -1,0 +1,74 @@
+CAKE CHAVEZ — MEJORAS NAVIDAD 2026
+==================================
+
+PASO 1 (UNA SOLA VEZ): EJECUTAR EL SQL EN SUPABASE
+--------------------------------------------------
+1. Entra a Supabase > tu proyecto > SQL Editor > New query.
+2. Abre el archivo  supabase/navidad_carrusel_fotos.sql , copia TODO y pégalo.
+3. Presiona Run. Al final debe mostrar 3 filas con "ok".
+   - Es seguro ejecutarlo más de una vez.
+   - No borra ni cambia tus productos, pedidos, reseñas ni ajustes.
+   - Las fotos de los pedidos se guardan dentro del mismo pedido, por eso
+     la tabla de pedidos no necesita cambios.
+
+PASO 2: SUBIR LOS ARCHIVOS A TU PÁGINA
+--------------------------------------
+Sube todo el contenido de esta carpeta, igual que antes (por ejemplo a GitHub Pages),
+reemplazando los archivos anteriores.
+
+QUÉ HAY DE NUEVO
+----------------
+1. Música: nueva canción "Happy Christmas Faces (2 min edit)" de kaazoom
+   (musica/happy-christmas-faces-suave.mp3), suavizada, con volumen bajo y
+   parejo, entrada y final suaves, y repetición continua. Pesa 1.6 MB.
+   La gorra del logo brinca y da una vuelta completa, igual que los gorritos
+   de los pasteles.
+
+2. Especialidades de Navidad: nueva sección en la tienda y botón "Navidad"
+   en la barra. Se edita en  Administración > Panel avanzado > pestaña Navidad:
+   - Textos de la sección (etiqueta, título, descripción y nota final).
+   - Mostrar u ocultar la sección completa.
+   - Agregar, editar, ocultar o borrar productos, con precio normal o por tamaño
+     (pequeño, mediano, grande) y hasta 6 fotos cada uno.
+
+3. Carrusel debajo del logo: pestaña "Carrusel" del panel avanzado.
+   Puedes subir varias fotos a la vez, cambiar el título, el orden, ocultarlas
+   o borrarlas. Si no hay ninguna, la tienda muestra las fotos de tus productos
+   como antes.
+
+4. Fotos en pedidos: en "Pedidos > Añadir pedido" ya puedes subir hasta 8 fotos.
+   Al editar un pedido puedes agregar o quitar fotos.
+   Si un cliente pide 2 o más productos, el panel muestra la foto de CADA producto.
+   Toca una foto para verla grande y pasar a la siguiente.
+
+5. Celulares y computadoras:
+   - La página ya no se sale del ancho del celular (antes el celular se "alejaba"
+     y las ventanas se veían cortadas por la orilla).
+   - Código adaptado para celulares antiguos: antes, en celulares viejos la
+     tienda podía no cargar los botones de pedido.
+   - Las fotos grandes se achican solas antes de subirse (pedidos, reseñas y panel),
+     incluso si el celular no indica el tipo de archivo.
+   - Modo ligero automático en celulares sencillos o con ahorro de datos:
+     menos nieve y menos efectos para que no se trabe.
+
+6. Barra de categorías: ahora SIEMPRE queda detrás de las ventanas
+   (productos, personalizar pastel, galería, reseñas y carrito).
+
+7. Luces de fondo: luces suaves estilo navideño que se mueven lento;
+   en celulares sencillos se muestran menos.
+
+8. Revisión general:
+   - Al tocar "Añadir a la orden" aparece: "¿Deseas agregar otro producto?".
+     "Sí" regresa a los productos; "No" abre el carrito.
+   - El carrito muestra la foto de cada producto y se guarda aunque se recargue la página.
+   - Los mensajes de WhatsApp ya no pierden los emojis (🎂).
+   - Reseñas: se corrigió un error que mostraba "No se pudo enviar" y borraba
+     las fotos aunque la reseña sí se había guardado.
+   - Se corrigió una galería que apuntaba a fotos que no existían.
+   - Los botones de enviar no se pueden presionar dos veces por accidente.
+
+IMPORTANTE
+----------
+- Haz una copia de tu página actual antes de reemplazarla.
+- Nunca pongas la clave "service_role" en los archivos de la página.
+- Después de subir, haz un pedido de prueba con una fecha futura y bórralo desde el panel.

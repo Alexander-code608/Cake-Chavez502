@@ -3,15 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1d1216">
+    <meta name="description" content="Cake Chavez: pasteles, postres, galletas y especialidades navideñas hechas con amor. Haz tu pedido en línea.">
     <title>Cake Chavez - Repostería</title>
-    <link rel="stylesheet" href="style.css?v=18">
-    <link rel="stylesheet" href="store-editor.css?v=3">
+    <!-- Compatibilidad con celulares antiguos y modo ligero (debe ir primero) -->
+    <script src="cake-compat.js?v=20261108"></script>
+    <link rel="preconnect" href="https://nlsmjrlwbzloehfvdczy.supabase.co" crossorigin>
+    <link rel="stylesheet" href="style.css?v=20261108">
+    <link rel="stylesheet" href="store-editor.css?v=20261108">
+    <!-- Tema navideño -->
+    <link rel="stylesheet" href="navidad.css?v=20261108">
+    <!-- Nuevas secciones: especialidades navideñas, ventanita "¿otro producto?", carrito con fotos -->
+    <link rel="stylesheet" href="mejoras-navidad.css?v=20261108">
+    <!-- Intro navideña (estrella, explosión, gorra que salta y música) -->
+    <link rel="stylesheet" href="navidad-intro.css?v=20261108">
+    <script src="navidad-intro.js?v=20261108"></script>
     <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <!-- Íconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
-<body>
+<body class="navidad">
+
+    <!-- Decoraciones navideñas (solo adorno, no afectan los botones) -->
+    <img src="img/navidad/arbol.webp" alt="" aria-hidden="true" class="navidad-lado navidad-arbol izq">
+    <img src="img/navidad/arbol.webp" alt="" aria-hidden="true" class="navidad-lado navidad-arbol der">
+    <img src="img/navidad/regalos.webp" alt="" aria-hidden="true" class="navidad-lado navidad-regalos izq">
+    <img src="img/navidad/santa.webp" alt="" aria-hidden="true" class="navidad-lado navidad-santa">
+    <img src="img/navidad/regalos.webp" alt="" aria-hidden="true" class="navidad-lado navidad-regalos der">
 
     <!-- Botón de Carrito Flotante -->
     <div class="carrito-flotante" onclick="toggleCarrito(); reproducirSonidoGotita();">
@@ -32,10 +51,21 @@
             ✨ Realiza tu pedido con 24 a 48 horas de anticipación. No trabajamos pedidos para el mismo día!
         </div>
 
+        <!-- Luces y esquinas navideñas -->
+        <div class="navidad-luces" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <img src="img/navidad/esquina.webp" alt="" aria-hidden="true" class="navidad-esquina izq">
+        <img src="img/navidad/esquina.webp" alt="" aria-hidden="true" class="navidad-esquina der">
+
         <div class="logo-container">
-            <img src="img/logo.png" alt="Logo Repostería" class="logo">
+            <div class="logo-navidad-compuesto" id="logo-navidad">
+                <img src="img/navidad/logo-base.webp" alt="Logo Chavez Cake" class="logo">
+                <img src="img/navidad/gorro-logo.webp" alt="" aria-hidden="true" class="logo-gorro">
+            </div>
+            <span class="navidad-estrella" aria-hidden="true" style="right:calc(50% - 260px);top:38%">✦</span>
+            <span class="navidad-estrella" aria-hidden="true" style="left:calc(50% - 250px);top:70%;font-size:1.2rem;animation-delay:.8s">✦</span>
         </div>
-        <h1 class="slogan">Dulces momentos, horneados con amor.</h1>
+        <h1 class="slogan">Dulces momentos, horneados con amor.<i class="far fa-heart navidad-corazon" aria-hidden="true"></i></h1>
+        <div class="navidad-separador" aria-hidden="true"><span>🎀</span></div>
     </header>
 
     <!-- CARRUSEL AUTOMÁTICO DE TODAS LAS FOTOS PUBLICADAS -->
@@ -72,6 +102,7 @@
         <button class="nav-btn" onclick="filtrar('galletas', this)">Galletas</button>
         <button class="nav-btn" onclick="filtrar('bocaditos', this)">Bocaditos</button>
         <button class="nav-btn" type="button" onclick="document.getElementById('cake-especialidades')?.scrollIntoView({behavior:'smooth',block:'center'})">Especialidades</button>
+        <button class="nav-btn nav-btn-navidad" type="button" id="nav-btn-navidad" hidden onclick="irANavidadCake()">🎄 Navidad</button>
     </nav>
 
     <!-- Bienvenida al catálogo -->
@@ -191,6 +222,22 @@
         <div class="cake-special-dots" id="cake-special-dots" aria-label="Elegir especialidad"></div>
     </section>
 
+    <!-- =====================================================
+         ESPECIALIDADES NAVIDEÑAS
+         Textos, fotos y productos se editan desde el panel: pestaña «Navidad».
+         La sección se muestra sola cuando hay productos navideños publicados.
+         ===================================================== -->
+    <section class="navidad-esp-section seccion-extra" id="navidad-especialidades" aria-labelledby="navidad-esp-titulo" hidden>
+        <div class="navidad-esp-adorno" aria-hidden="true"><span>❄</span><span>🎄</span><span>❄</span></div>
+        <div class="seccion-cabecera navidad-esp-cabecera">
+            <span class="seccion-etiqueta navidad-esp-etiqueta" id="navidad-esp-etiqueta">Temporada navideña</span>
+            <h2 id="navidad-esp-titulo">Especialidades de Navidad</h2>
+            <p id="navidad-esp-subtitulo">Sabores de temporada hechos con amor para compartir en familia. ¡Haz tu pedido con anticipación!</p>
+        </div>
+        <div class="navidad-esp-grid" id="navidad-esp-grid" aria-live="polite"></div>
+        <p class="navidad-esp-nota" id="navidad-esp-nota" hidden></p>
+    </section>
+
 
     </div><!-- /.zona-portada -->
 
@@ -303,7 +350,7 @@
                 <button onclick="abrirVentanita('Pastel de snoppy', 90, 130, 180, 'pastel', 'img/pasteles/pastel-de-snoppy.jpeg', 'Clásico pastel de snoppy !pruebalo¡ .')">Añadir a la orden</button>
             </div>
 
-            <div class="producto pasteles todos" id="producto-pastel-de-unicornio" data-product-slug="pastel-de-unicornio" data-product-gallery="[&quot;img/pasteles/pastel-de-unicornio.jpeg&quot;, &quot;img/pasteles/imagen-2.jpg&quot;, &quot;img/pasteles/imagen-3.jpg&quot;]" data-product-description="Mágico diseño temático de unicornio elaborado con finos detalles artesanales.">
+            <div class="producto pasteles todos" id="producto-pastel-de-unicornio" data-product-slug="pastel-de-unicornio" data-product-gallery="[&quot;img/pasteles/pastel-de-unicornio.jpeg&quot;]" data-product-description="Mágico diseño temático de unicornio elaborado con finos detalles artesanales.">
                 <img src="img/pasteles/pastel-de-unicornio.jpeg" alt="Pastel de unicornio" class="img-producto" onclick="abrirSoloImagenDesdeTarjeta(this)" title="Toca para ver las fotos en grande">
                 <h3>Pastel de Unicornio</h3>
                 <p>Delicioso pastel con diseño de unicornio.</p>
@@ -450,8 +497,8 @@
                     <label for="cake-review-text">Tu reseña (cuéntanos tu experiencia)</label>
                     <textarea id="cake-review-text" rows="4" maxlength="1200" placeholder="Escribe aquí tu comentario…" required></textarea>
                     <label for="cake-review-photos">Agrega tus fotos <span>(hasta 10)</span></label>
-                    <input id="cake-review-photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-                    <small class="cake-review-help">JPG, PNG o WebP · máximo 5 MB por foto. Evita incluir rostros, direcciones u otros datos personales.</small>
+                    <input id="cake-review-photos" type="file" accept="image/*" multiple>
+                    <small class="cake-review-help">Puedes elegir fotos de tu galería; las grandes se achican solas. Evita incluir rostros, direcciones u otros datos personales.</small>
                     <div class="cake-review-previews" id="cake-review-previews"></div>
                     <label for="cake-review-name">Tu nombre</label>
                     <input id="cake-review-name" maxlength="80" autocomplete="name" placeholder="Escribe tu nombre" required>
@@ -718,6 +765,21 @@
         </div>
     </div>
 
+    <!-- Ventanita que aparece después de "Confirmar y añadir": ¿desea otro producto? -->
+    <div class="overlay-modal" id="modal-otro-producto" aria-hidden="true" onclick="if (event.target === this) responderOtroProductoCake(true)">
+        <section class="caja-modal caja-otro-producto" role="dialog" aria-modal="true" aria-labelledby="otro-producto-titulo">
+            <div class="otro-producto-icono" aria-hidden="true">🎁</div>
+            <h2 id="otro-producto-titulo">¡Listo, ya está en tu orden!</h2>
+            <img id="otro-producto-img" class="otro-producto-img" alt="" hidden>
+            <p id="otro-producto-texto" class="otro-producto-texto"></p>
+            <p class="otro-producto-pregunta">¿Deseas agregar otro producto?</p>
+            <div class="otro-producto-acciones">
+                <button type="button" id="otro-producto-si" class="otro-producto-btn otro-producto-btn-si" onclick="responderOtroProductoCake(true)"><i class="fas fa-plus" aria-hidden="true"></i> Sí, quiero escoger otro</button>
+                <button type="button" class="otro-producto-btn otro-producto-btn-no" onclick="responderOtroProductoCake(false)"><i class="fas fa-shopping-cart" aria-hidden="true"></i> No, ir al carrito</button>
+            </div>
+        </section>
+    </div>
+
     <!-- MEJORA 2: PERSONALIZADOR DE PASTELES Y FOTO DE REFERENCIA -->
     <div class="overlay-modal" id="modal-personalizar" onclick="cerrarModalPersonalizar()" aria-hidden="true">
         <section class="caja-modal caja-modal-personalizar modal-personalizar-visual" role="dialog" aria-modal="true" aria-labelledby="titulo-personalizar" onclick="event.stopPropagation()">
@@ -829,12 +891,16 @@
         <a class="cake-admin-link" href="admin.html">Administración</a>
     </footer>
 
-    <!-- SUPABASE JS: cliente público, protegido por reglas RLS del servidor. -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- SUPABASE JS: copia local compatible con celulares antiguos (protegida por reglas RLS del servidor).
+         Si no se pudiera cargar, se usa la versión oficial del CDN. -->
+    <script src="vendor/supabase-2.119.0-compat.js?v=1"></script>
+    <script>window.supabase || document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"><\/script>');</script>
     <!-- CONFIGURACIÓN: completar supabase-config.js cuando se cree el proyecto Supabase. -->
-    <script src="supabase-config.js?v=1"></script>
+    <script src="supabase-config.js?v=20261108"></script>
     <!-- SCRIPT PRINCIPAL: carrito, catálogo, galería y navegación existente. -->
-    <script src="script.js?v=11"></script>
-    <script src="store-editor.js?v=5"></script>
+    <script src="script.js?v=20261108"></script>
+    <script src="store-editor.js?v=20261108"></script>
+    <!-- Nieve y luces navideñas -->
+    <script src="navidad.js?v=20261108"></script>
 </body>
 </html>

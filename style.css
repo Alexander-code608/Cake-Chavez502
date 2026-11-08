@@ -406,7 +406,7 @@ header,
     top: 0;
     right: 0;
     left: 0;
-    z-index: 1100;
+    z-index: 950; /* Siempre DEBAJO de ventanas (1001), carrito (1000) y fondo oscuro (999) */
     width: 100%;
     max-width: none;
     margin: 0;

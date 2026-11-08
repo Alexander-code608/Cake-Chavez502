@@ -1,0 +1,98 @@
+/* =========================================================
+   ADMIN-EXTRA.CSS — fotos múltiples de pedidos, carrusel y Navidad.
+   ========================================================= */
+
+/* Galería de fotos de un pedido: la primera grande y las demás en miniatura */
+.admin-order-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  margin: 0 0 13px;
+}
+.admin-order-gallery > .admin-order-image-button { margin: 0; position: relative; }
+.admin-order-gallery > .admin-order-image-button:first-child { grid-column: 1 / -1; }
+.admin-order-gallery > .admin-order-thumb-button .admin-order-image { height: 74px !important; border-radius: 9px; }
+.admin-order-photo-count {
+  position: absolute; right: 9px; bottom: 9px;
+  padding: 4px 10px; border-radius: 999px;
+  background: rgba(20, 14, 17, .82); color: #fff;
+  font-size: .72rem; font-weight: 700;
+}
+.admin-order-item-label { display: inline-flex; align-items: center; gap: 8px; }
+.admin-order-item-thumb {
+  flex: 0 0 auto; width: 38px; height: 38px;
+  border: 1px solid var(--border); border-radius: 8px;
+  object-fit: cover; cursor: zoom-in;
+}
+
+/* Visor con flechas */
+.admin-image-lightbox-nav {
+  position: absolute; top: 50%; z-index: 2;
+  display: grid; place-items: center;
+  width: 46px; height: 46px; margin-top: -23px;
+  border: 1px solid rgba(255, 255, 255, .35); border-radius: 50%;
+  background: rgba(168, 59, 101, .9); color: #fff; cursor: pointer;
+}
+.admin-image-lightbox-nav.prev { left: 12px; }
+.admin-image-lightbox-nav.next { right: 12px; }
+.admin-image-lightbox-nav[hidden], .admin-image-lightbox-count[hidden] { display: none !important; }
+.admin-image-lightbox-count {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+  max-width: 90vw; padding: 6px 13px; border-radius: 999px;
+  background: rgba(30, 25, 27, .85); color: #fff; font-size: .78rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Cuadrícula de fotos (añadir pedido, editar pedido, carrusel, Navidad) */
+.admin-photo-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
+.admin-photo-grid:empty { display: none; }
+.admin-photo-tile {
+  position: relative; width: 78px; height: 78px;
+  overflow: hidden; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--panel2);
+}
+.admin-photo-tile.is-new { border-color: var(--pink); }
+.admin-photo-tile img { display: block; width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
+.admin-photo-name { display: grid; place-items: center; height: 100%; padding: 4px; color: var(--muted); font-size: .62rem; text-align: center; overflow-wrap: anywhere; }
+.admin-photo-remove {
+  position: absolute; top: 3px; right: 3px;
+  display: grid; place-items: center;
+  width: 24px; height: 24px; padding: 0;
+  border: 0; border-radius: 50%;
+  background: rgba(20, 14, 17, .85); color: #fff;
+  font-size: 1rem; line-height: 1; cursor: pointer;
+}
+.admin-photo-tag {
+  position: absolute; left: 3px; bottom: 3px;
+  padding: 1px 6px; border-radius: 6px;
+  background: var(--pink2); color: #fff; font-size: .6rem; font-weight: 700;
+}
+.admin-photo-grid-edit { grid-column: 1 / -1; }
+
+/* Foto de cada artículo dentro de "Editar pedido" */
+.admin-order-edit-item-photo { position: relative; flex: 0 0 auto; width: 58px; height: 58px; align-self: center; }
+.admin-order-edit-item-photo img { width: 100%; height: 100%; object-fit: cover; border: 1px solid var(--border); border-radius: 9px; }
+.admin-order-edit-item-photo .admin-photo-remove { top: -6px; right: -6px; width: 22px; height: 22px; }
+
+/* Carrusel */
+.admin-carousel-list { display: grid; gap: 10px; }
+.admin-carousel-row {
+  display: grid; grid-template-columns: 120px minmax(0, 1fr) auto;
+  gap: 12px; align-items: center;
+  padding: 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel2);
+}
+.admin-carousel-row.is-hidden { opacity: .6; }
+.admin-carousel-row img { width: 120px; height: 72px; object-fit: cover; border-radius: 9px; background: var(--panel); }
+.admin-carousel-row .admin-row-actions button { min-height: 34px; }
+.admin-order-hint { margin: 0 0 10px; color: var(--muted); font-size: .8rem; line-height: 1.55; }
+
+.admin-tab-navidad { background: rgba(47, 146, 86, .18); color: #c9f3d8; }
+.admin-tab-navidad.active { background: linear-gradient(135deg, #1f6b3a, #2f9256); color: #fff; }
+
+@media (max-width: 620px) {
+  .admin-carousel-row { grid-template-columns: 92px minmax(0, 1fr); }
+  .admin-carousel-row img { width: 92px; height: 60px; }
+  .admin-carousel-row .admin-row-actions { grid-column: 1 / -1; justify-content: flex-start; }
+  .admin-order-edit-photo .admin-photo-grid-edit { grid-column: 1 / -1; }
+  .admin-order-edit-item { flex-wrap: wrap; }
+}
