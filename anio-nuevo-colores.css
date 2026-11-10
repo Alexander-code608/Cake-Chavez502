@@ -1,0 +1,540 @@
+/* =========================================================
+   CAKE CHÁVEZ — TEMA AÑO NUEVO: COLORES (archivo generado)
+   Convierte los rosas/vino del diseño a verde pastel, verde
+   pálido, café suave y crema SOLO cuando el tema activo es
+   Año Nuevo (html.tema-anio-nuevo). No modifica el tema de Navidad.
+   ========================================================= */
+/* ---- generado desde style.css ---- */
+html.tema-anio-nuevo{--cake-fondo:#544234;--cake-panel:#5b4738;--cake-panel-oscuro:#4c3b2e;--cake-rosa:#afdeb6;--cake-rosa-claro:#f6efdf;--cake-rosa-fuerte:#4c8d64;--cake-rosa-hover:#5ea879;--cake-texto:#f6efdf;--cake-texto-suave:#bfb19b;--cake-borde:#635548;--cake-blanco:#fefdfb;--cake-rojo-alerta:#6cb085;--cake-whatsapp:#25d366;--blanco-hueso:var(--cake-texto-claro, #f6efdf);--cafe-oscuro:var(--cake-fondo);--cafe-claro:var(--cake-rosa-fuerte);--verde-salvia:var(--cake-rosa-fuerte);--verde-oscuro:var(--cake-rosa-hover);--crema:var(--cake-panel);--rojo-alerta:var(--cake-rojo-alerta)}
+html.tema-anio-nuevo{background:var(--cake-fondo)}
+html.tema-anio-nuevo body{background:var(--cake-fondo);color:var(--cake-texto)}
+html.tema-anio-nuevo .zona-portada{background:var(--cake-fondo);color:var(--cake-texto)}
+html.tema-anio-nuevo header,html.tema-anio-nuevo .zona-portada header{color:var(--cake-texto);background:var(--cake-fondo);border-bottom:1px solid var(--cake-borde)}
+html.tema-anio-nuevo .zona-portada .aviso-pedido{border:0;background:var(--cake-rosa-fuerte);color:#fff;box-shadow:none}
+html.tema-anio-nuevo .zona-portada .slogan{color:var(--cake-rosa)}
+html.tema-anio-nuevo .zona-portada .carrusel-seccion{background:var(--cake-fondo)}
+html.tema-anio-nuevo .carrusel-container{border:3px solid #726152;background:var(--cake-panel);box-shadow:0 8px 25px rgba(0, 0, 0, .25)}
+html.tema-anio-nuevo .carrusel-slide::before{background-image:inherit;filter:blur(14px) brightness(.52)}
+html.tema-anio-nuevo .carrusel-slide::after{background-image:inherit}
+html.tema-anio-nuevo .carrusel-texto{border-left:4px solid var(--cake-rosa);background:rgba(84,66,52,0.84);color:var(--cake-texto);box-shadow:0 4px 10px rgba(0, 0, 0, .3)}
+html.tema-anio-nuevo .carrusel-texto h2{color:#fff}
+html.tema-anio-nuevo .carrusel-texto p{color:#f6f0e1}
+html.tema-anio-nuevo .carrusel-btn{border:0;background:rgba(76,59,46,0.92);color:#fff}
+html.tema-anio-nuevo .carrusel-btn:hover{background:var(--cake-rosa-fuerte)}
+html.tema-anio-nuevo .punto{background:rgba(255, 255, 255, .5)}
+html.tema-anio-nuevo .punto.active{background:var(--cake-rosa)}
+html.tema-anio-nuevo .zona-portada .buscador-container{background:var(--cake-fondo)}
+html.tema-anio-nuevo .icono-busqueda{color:var(--cake-rosa)}
+html.tema-anio-nuevo .zona-portada #input-busqueda{border:1px solid var(--cake-borde);outline:none;background:var(--cake-panel-oscuro);color:var(--cake-texto)}
+html.tema-anio-nuevo .zona-portada #input-busqueda::placeholder{color:#9e8a74}
+html.tema-anio-nuevo .zona-portada #input-busqueda:focus{border-color:var(--cake-rosa);box-shadow:0 0 0 3px rgba(175,222,182,0.13)}
+html.tema-anio-nuevo .zona-portada nav{border:1px solid var(--cake-borde);background:var(--cake-panel-oscuro)}
+html.tema-anio-nuevo .zona-portada .nav-btn{border:1px solid transparent;background:transparent;color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .zona-portada .nav-btn:hover,html.tema-anio-nuevo .zona-portada .nav-btn.active{border-color:var(--cake-rosa-fuerte);background:var(--cake-rosa-fuerte);color:#fff}
+html.tema-anio-nuevo .zona-portada .nav-btn.btn-personalizar{border-color:#755742;background:#614734;color:var(--cake-texto);box-shadow:0 2px 6px rgba(0, 0, 0, .12)}
+html.tema-anio-nuevo .zona-portada .nav-btn.btn-personalizar:hover{border-color:var(--cake-rosa-fuerte);background:var(--cake-rosa-fuerte)}
+html.tema-anio-nuevo .zona-portada nav.barra-categorias-fija{border:0;border-bottom:1px solid var(--cake-borde);background:var(--cake-panel-oscuro);box-shadow:0 5px 16px rgba(0, 0, 0, .3)}
+html.tema-anio-nuevo .zona-portada .catalogo-intro{background:var(--cake-fondo);color:var(--cake-texto)}
+html.tema-anio-nuevo .zona-portada .catalogo-etiqueta{color:var(--cake-rosa)}
+html.tema-anio-nuevo .zona-portada .catalogo-etiqueta i{color:#e3b05e}
+html.tema-anio-nuevo .zona-portada .catalogo-intro h2{color:var(--cake-texto)}
+html.tema-anio-nuevo .zona-portada .catalogo-intro p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .zona-portada .catalogo-beneficios{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .zona-portada .catalogo-beneficios i{color:var(--cake-rosa)}
+html.tema-anio-nuevo .main-container{background:var(--cake-fondo)}
+html.tema-anio-nuevo .producto{border-top:4px solid var(--cake-rosa-fuerte);background:var(--cake-panel);color:var(--cake-texto);box-shadow:0 6px 18px rgba(0, 0, 0, .2)}
+html.tema-anio-nuevo .producto:hover{border-top-color:var(--cake-rosa);box-shadow:0 12px 25px rgba(0, 0, 0, .28)}
+html.tema-anio-nuevo .producto h3{color:var(--cake-texto)}
+html.tema-anio-nuevo .producto p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .precio{color:var(--cake-rosa)}
+html.tema-anio-nuevo .producto button{border:0;background:var(--cake-rosa-fuerte);color:#fff}
+html.tema-anio-nuevo .producto button:hover{background:var(--cake-rosa-hover)}
+html.tema-anio-nuevo .carrito-flotante{background:var(--cake-rosa-fuerte);color:#fff;box-shadow:0 5px 18px rgba(0, 0, 0, .35)}
+html.tema-anio-nuevo .carrito-flotante:hover{background:var(--cake-rosa-hover)}
+html.tema-anio-nuevo #contador-carrito{border:2px solid var(--cake-fondo);background:var(--cake-rojo-alerta);color:#fff}
+html.tema-anio-nuevo .overlay{background:rgba(0, 0, 0, .68)}
+html.tema-anio-nuevo .carrito-lateral{background:var(--cake-panel);color:var(--cake-texto);box-shadow:-5px 0 20px rgba(0, 0, 0, .4)}
+html.tema-anio-nuevo .carrito-header{border-bottom:1px solid var(--cake-borde)}
+html.tema-anio-nuevo .carrito-header h2{color:var(--cake-rosa)}
+html.tema-anio-nuevo .btn-cerrar{border:0;background:transparent;color:var(--cake-texto)}
+html.tema-anio-nuevo #lista-orden li{border-bottom:1px dashed var(--cake-borde);color:var(--cake-texto)}
+html.tema-anio-nuevo #lista-orden li.empty-msg{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .btn-eliminar-item{border:0;background:transparent;color:#a9dcaf}
+html.tema-anio-nuevo .total-container{color:var(--cake-texto)}
+html.tema-anio-nuevo .input-datos{border:1px solid var(--cake-borde);outline:none;background:var(--cake-panel-oscuro);color:var(--cake-texto)}
+html.tema-anio-nuevo .input-datos:focus,html.tema-anio-nuevo .input-datos-modal:focus{border-color:var(--cake-rosa);box-shadow:0 0 0 2px rgba(175,222,182,0.12)}
+html.tema-anio-nuevo .input-datos::placeholder{color:#a89783}
+html.tema-anio-nuevo .btn-confirmar{border:0;background:var(--cake-whatsapp);color:#fff}
+html.tema-anio-nuevo .overlay-modal{background:rgba(0, 0, 0, .78)}
+html.tema-anio-nuevo .caja-modal{border:1px solid var(--cake-borde);border-top:5px solid var(--cake-rosa-fuerte);background:var(--cake-panel);color:var(--cake-texto);box-shadow:0 15px 35px rgba(0, 0, 0, .4)}
+html.tema-anio-nuevo .caja-modal h2{color:var(--cake-rosa)}
+html.tema-anio-nuevo .modal-img-wrapper{border:1px solid var(--cake-borde);background:var(--cake-panel-oscuro)}
+html.tema-anio-nuevo .zoom-indicador{background:rgba(76,59,46,0.9);color:#fff}
+html.tema-anio-nuevo .modal-descripcion-bajo-img{border:1px dashed var(--cake-borde);background:var(--cake-panel-oscuro);color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .modal-precio-destacado{color:var(--cake-rosa)}
+html.tema-anio-nuevo .modal-label{color:var(--cake-texto)}
+html.tema-anio-nuevo .input-datos-modal{border:1px solid var(--cake-borde);outline:none;background:var(--cake-panel-oscuro);color:var(--cake-texto)}
+html.tema-anio-nuevo .modal-total-box{color:var(--cake-texto)}
+html.tema-anio-nuevo .modal-total-box span{color:var(--cake-rosa)}
+html.tema-anio-nuevo .btn-cancelar,html.tema-anio-nuevo .btn-agregar-modal{border:0;color:#fff}
+html.tema-anio-nuevo .btn-cancelar{background:#8d7866}
+html.tema-anio-nuevo .btn-cancelar:hover{background:#99846c}
+html.tema-anio-nuevo .btn-agregar-modal{background:var(--cake-rosa-fuerte)}
+html.tema-anio-nuevo .btn-agregar-modal:hover{background:var(--cake-rosa-hover)}
+html.tema-anio-nuevo .caja-solo-imagen{border:1px solid var(--cake-borde);background:var(--cake-panel);color:var(--cake-texto);box-shadow:0 10px 30px rgba(0, 0, 0, .5)}
+html.tema-anio-nuevo .galeria-arrow{border:0;background:rgba(76,59,46,0.92);color:#fff}
+html.tema-anio-nuevo .galeria-arrow:hover{background:var(--cake-rosa-fuerte)}
+html.tema-anio-nuevo .dot-galeria{background:#8b7665}
+html.tema-anio-nuevo .dot-galeria.active{background:var(--cake-rosa)}
+html.tema-anio-nuevo .solo-img-titulo{color:var(--cake-rosa)}
+html.tema-anio-nuevo .solo-img-descripcion{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .btn-cerrar-imagen{border:1px solid var(--cake-borde);background:var(--cake-rosa-fuerte);color:#fff;box-shadow:0 2px 8px rgba(0, 0, 0, .3)}
+html.tema-anio-nuevo .btn-cerrar-imagen:hover{background:var(--cake-rosa-hover)}
+html.tema-anio-nuevo .subtitulo-modal{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .input-file-custom{border:2px dashed var(--cake-borde);background:var(--cake-panel-oscuro);color:var(--cake-texto)}
+html.tema-anio-nuevo .img-preview-custom{border:1px solid var(--cake-borde)}
+html.tema-anio-nuevo .modal-personalizar-visual{border:1px solid var(--cake-borde);background:var(--cake-panel);color:#fff}
+html.tema-anio-nuevo .modal-personalizar-visual .modal-personalizar-etiqueta{color:var(--cake-rosa)}
+html.tema-anio-nuevo .modal-personalizar-visual h2{color:var(--cake-rosa)}
+html.tema-anio-nuevo .modal-personalizar-visual .modal-personalizar-texto{color:var(--cake-texto)}
+html.tema-anio-nuevo .btn-confirmar-whatsapp{border:0;background:var(--cake-whatsapp);color:#fff}
+html.tema-anio-nuevo .btn-confirmar-whatsapp:hover{background:#1eb954}
+html.tema-anio-nuevo .cerrar-personalizar{border:1px solid rgba(255, 255, 255, .35);background:transparent;color:#fff}
+html.tema-anio-nuevo .redes-sociales a{color:var(--cake-rosa)}
+html.tema-anio-nuevo .redes-sociales a:hover{color:#fff}
+html.tema-anio-nuevo footer{border-top:1px solid var(--cake-borde);background:var(--cake-panel-oscuro);color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .destacados-section{color:var(--cake-texto)}
+html.tema-anio-nuevo .destacados-etiqueta{color:var(--cake-rosa)}
+html.tema-anio-nuevo .destacados-cabecera h2{color:var(--cake-texto)}
+html.tema-anio-nuevo .destacados-cabecera p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .destacado-card{border:1px solid var(--cake-borde);background:var(--cake-panel);box-shadow:0 8px 22px rgba(0, 0, 0, .18)}
+html.tema-anio-nuevo .destacado-card:hover{border-color:var(--cake-rosa-fuerte);box-shadow:0 12px 28px rgba(0, 0, 0, .28)}
+html.tema-anio-nuevo .destacado-imagen-wrap{background:var(--cake-panel-oscuro)}
+html.tema-anio-nuevo .destacado-sello{border:1px solid rgba(255,255,255,.15);background:var(--cake-rosa-fuerte);color:#fff}
+html.tema-anio-nuevo .destacado-info h3{color:var(--cake-texto)}
+html.tema-anio-nuevo .destacado-info p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .destacado-boton{border:1px solid var(--cake-rosa-fuerte);background:var(--cake-rosa-fuerte);color:#fff}
+html.tema-anio-nuevo .destacado-boton:hover{background:var(--cake-rosa-hover)}
+html.tema-anio-nuevo .campo-personalizar label{color:var(--cake-texto)}
+html.tema-anio-nuevo .input-personalizar,html.tema-anio-nuevo .input-foto-personalizar{border:1px solid var(--cake-borde);outline:none;background:var(--cake-panel-oscuro);color:var(--cake-texto)}
+html.tema-anio-nuevo .input-personalizar:focus,html.tema-anio-nuevo .input-foto-personalizar:focus{border-color:var(--cake-rosa);box-shadow:0 0 0 3px rgba(175,222,182,0.12)}
+html.tema-anio-nuevo .input-personalizar::placeholder{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .input-personalizar option{background:var(--cake-panel-oscuro);color:var(--cake-texto)}
+html.tema-anio-nuevo .input-foto-personalizar::file-selector-button{border:0;background:var(--cake-rosa-fuerte);color:#fff}
+html.tema-anio-nuevo .ayuda-foto-personalizar,html.tema-anio-nuevo .nota-privacidad-foto{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .vista-foto-personalizada{border:1px solid var(--cake-borde);background:var(--cake-panel-oscuro)}
+html.tema-anio-nuevo .vista-foto-personalizada img{background:var(--cake-panel)}
+html.tema-anio-nuevo .nombre-foto-personalizada{color:var(--cake-texto)}
+html.tema-anio-nuevo .quitar-foto-personalizada{border:1px solid var(--cake-borde);background:transparent;color:var(--cake-rosa)}
+html.tema-anio-nuevo .modal-personalizar-visual .btn-confirmar-whatsapp{background:var(--cake-rosa-fuerte);color:#fff}
+html.tema-anio-nuevo .modal-personalizar-visual .btn-confirmar-whatsapp:hover{background:var(--cake-rosa-hover)}
+html.tema-anio-nuevo .producto-destacado-enfasis{outline:2px solid var(--cake-rosa);box-shadow:0 0 0 6px rgba(175,222,182,0.12), 0 12px 28px rgba(0, 0, 0, .28)}
+html.tema-anio-nuevo .opiniones-section,html.tema-anio-nuevo .galeria-inspiracion-section,html.tema-anio-nuevo .calendario-pedidos-section,html.tema-anio-nuevo .preguntas-section{color:var(--cake-texto)}
+html.tema-anio-nuevo .seccion-etiqueta{color:var(--cake-rosa)}
+html.tema-anio-nuevo .seccion-cabecera h2,html.tema-anio-nuevo .calendario-pedidos-contenido h2{color:var(--cake-texto)}
+html.tema-anio-nuevo .seccion-cabecera p,html.tema-anio-nuevo .calendario-pedidos-contenido > p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .opinion-invitacion-card{border:1px solid var(--cake-borde);background:var(--cake-panel);box-shadow:0 8px 22px rgba(0,0,0,.16)}
+html.tema-anio-nuevo .opinion-icono{border:1px solid rgba(175,222,182,0.28);background:rgba(175,222,182,0.1);color:var(--cake-rosa)}
+html.tema-anio-nuevo .opinion-invitacion-card h3{color:var(--cake-texto)}
+html.tema-anio-nuevo .opinion-invitacion-card p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .boton-secundario-rosa,html.tema-anio-nuevo .boton-principal-rosa{border:1px solid var(--cake-rosa-fuerte);background:var(--cake-rosa-fuerte);color:#fff;text-decoration:none}
+html.tema-anio-nuevo .boton-secundario-rosa:hover,html.tema-anio-nuevo .boton-principal-rosa:hover{border-color:var(--cake-rosa-hover);background:var(--cake-rosa-hover)}
+html.tema-anio-nuevo .nota-opiniones{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .ocasiones-section{color:var(--cake-texto)}
+html.tema-anio-nuevo .ocasion-card{border:1px solid var(--cake-borde);background:var(--cake-panel)}
+html.tema-anio-nuevo .ocasion-card:hover{border-color:var(--cake-rosa-fuerte)}
+html.tema-anio-nuevo .ocasion-icono{background:rgba(175,222,182,0.11);color:var(--cake-rosa)}
+html.tema-anio-nuevo .ocasion-card h3{color:var(--cake-texto)}
+html.tema-anio-nuevo .ocasion-card p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .ocasion-card button{border:1px solid var(--cake-borde);background:transparent;color:var(--cake-rosa)}
+html.tema-anio-nuevo .ocasion-card button:hover{border-color:var(--cake-rosa-fuerte);background:var(--cake-rosa-fuerte);color:#fff}
+html.tema-anio-nuevo .producto-etiqueta{border:1px solid rgba(175,222,182,0.25);background:rgba(175,222,182,0.09);color:var(--cake-rosa)}
+html.tema-anio-nuevo .producto button:focus-visible,html.tema-anio-nuevo .destacado-boton:focus-visible,html.tema-anio-nuevo .ocasion-card button:focus-visible,html.tema-anio-nuevo .boton-principal-rosa:focus-visible,html.tema-anio-nuevo .boton-secundario-rosa:focus-visible,html.tema-anio-nuevo .galeria-inspiracion-item:focus-visible,html.tema-anio-nuevo .pregunta-item summary:focus-visible{outline:2px solid var(--cake-rosa)}
+html.tema-anio-nuevo .galeria-inspiracion-item{border:1px solid var(--cake-borde);background:var(--cake-panel-oscuro)}
+html.tema-anio-nuevo .galeria-inspiracion-pie{background:linear-gradient(transparent, rgba(76,59,46,0.92));color:#fff}
+html.tema-anio-nuevo .galeria-inspiracion-ampliar{border:1px solid rgba(255,255,255,.3);background:rgba(76,59,46,0.72);color:#fff}
+html.tema-anio-nuevo .calendario-pedidos-panel{border:1px solid var(--cake-borde);background:linear-gradient(135deg, var(--cake-panel), var(--cake-panel-oscuro));box-shadow:0 10px 28px rgba(0,0,0,.18)}
+html.tema-anio-nuevo .calendario-pedidos-icono{border:1px solid rgba(175,222,182,0.25);background:rgba(175,222,182,0.1);color:var(--cake-rosa)}
+html.tema-anio-nuevo .calendario-pedidos-controles label{color:var(--cake-texto)}
+html.tema-anio-nuevo .nota-disponibilidad-fecha{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .nota-disponibilidad-fecha i{color:var(--cake-rosa)}
+html.tema-anio-nuevo .pregunta-item{border:1px solid var(--cake-borde);background:var(--cake-panel)}
+html.tema-anio-nuevo .pregunta-item summary{color:var(--cake-texto)}
+html.tema-anio-nuevo .pregunta-item summary::after{color:var(--cake-rosa)}
+html.tema-anio-nuevo .pregunta-item p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .preguntas-contacto p{color:var(--cake-texto-suave)}
+@media (prefers-reduced-motion: reduce){
+html.tema-anio-nuevo .zona-portada .logo,html.tema-anio-nuevo .zona-portada .aviso-pedido,html.tema-anio-nuevo .zona-portada .slogan{filter:none !important}
+}
+html.tema-anio-nuevo .galeria-pedir-btn,html.tema-anio-nuevo .galeria-compartir-btn{border:1px solid transparent}
+html.tema-anio-nuevo .galeria-pedir-btn{background:var(--cake-rosa-fuerte);color:#fff;box-shadow:0 5px 15px rgba(76,141,100,0.22)}
+html.tema-anio-nuevo .galeria-pedir-btn:hover{background:var(--cake-rosa-hover);box-shadow:0 7px 18px rgba(76,141,100,0.28)}
+html.tema-anio-nuevo .galeria-compartir-btn{border-color:var(--cake-borde);background:var(--cake-panel-oscuro);color:var(--cake-texto)}
+html.tema-anio-nuevo .galeria-compartir-btn:hover{border-color:var(--cake-rosa);color:var(--cake-rosa)}
+html.tema-anio-nuevo .galeria-pedir-btn:focus-visible,html.tema-anio-nuevo .galeria-compartir-btn:focus-visible{outline:3px solid var(--cake-rosa)}
+@media (prefers-reduced-motion: reduce){
+html.tema-anio-nuevo .zona-portada .logo,html.tema-anio-nuevo .zona-portada .aviso-pedido,html.tema-anio-nuevo .zona-portada .slogan{filter:none !important}
+}
+html.tema-anio-nuevo .cake-ofertas-section,html.tema-anio-nuevo .cake-calculadora-section,html.tema-anio-nuevo .cake-seguimiento-section,html.tema-anio-nuevo .cake-entregas-section{background:var(--cake-fondo);color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-estado-vacio{border:1px dashed var(--cake-borde);color:var(--cake-texto-suave);background:var(--cake-panel)}
+html.tema-anio-nuevo .cake-oferta-card{background:var(--cake-panel);border:1px solid var(--cake-borde);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+html.tema-anio-nuevo .cake-oferta-card > img{background:var(--cake-panel-oscuro)}
+html.tema-anio-nuevo .cake-oferta-card > img:focus-visible{outline:3px solid var(--cake-rosa)}
+html.tema-anio-nuevo .cake-oferta-sello{background:rgba(175,222,182,0.13);color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-oferta-info h3{color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-oferta-info p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-oferta-precio strong{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-oferta-precio del{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-calculadora-panel,html.tema-anio-nuevo .cake-seguimiento-panel{background:var(--cake-panel);border:1px solid var(--cake-borde);box-shadow:0 10px 28px rgba(0,0,0,.2)}
+html.tema-anio-nuevo .cake-calculadora-intro h2,html.tema-anio-nuevo .cake-seguimiento-contenido h2{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-calculadora-intro p,html.tema-anio-nuevo .cake-seguimiento-contenido > p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-campo label,html.tema-anio-nuevo .cake-seguimiento-form label{color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-calculo-total{background:var(--cake-panel-oscuro);border:1px solid var(--cake-borde)}
+html.tema-anio-nuevo .cake-calculo-total span{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-calculo-total strong{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-calculo-total small{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-favoritos-toggle{border:1px solid var(--cake-borde);background:var(--cake-panel);color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-favoritos-toggle[aria-pressed="true"]{background:var(--cake-rosa-fuerte);color:#fff}
+html.tema-anio-nuevo #cake-favoritos-contador{background:rgba(175,222,182,0.18)}
+html.tema-anio-nuevo #cake-favoritos-aviso{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .producto-favorito-btn{border:1px solid var(--cake-borde);background:var(--cake-panel-oscuro);color:var(--cake-rosa)}
+html.tema-anio-nuevo .producto-favorito-btn[aria-pressed="true"]{background:rgba(76,141,100,0.25);border-color:var(--cake-rosa-fuerte)}
+html.tema-anio-nuevo .producto-favorito-btn:focus-visible,html.tema-anio-nuevo .cake-favoritos-toggle:focus-visible{outline:3px solid var(--cake-rosa)}
+html.tema-anio-nuevo .cake-opinion-card{border:1px solid var(--cake-borde);background:var(--cake-panel)}
+html.tema-anio-nuevo .cake-opinion-estrellas{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-opinion-card blockquote{color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-opinion-card strong{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-asistente-boton{border:1px solid rgba(255,255,255,.2);background:var(--cake-rosa-fuerte);color:white;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+html.tema-anio-nuevo .cake-asistente-panel{border:1px solid var(--cake-borde);background:var(--cake-panel);box-shadow:0 14px 38px rgba(0,0,0,.38)}
+html.tema-anio-nuevo .cake-asistente-header{border-bottom:1px solid var(--cake-borde)}
+html.tema-anio-nuevo .cake-asistente-header strong{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-asistente-header span{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-asistente-header button{border:1px solid var(--cake-borde);background:transparent;color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-asistente-saludo{color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-asistente-opciones button{border:1px solid var(--cake-borde);background:var(--cake-panel-oscuro);color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-asistente-opciones button i{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-asistente-opciones button:hover{border-color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-seguimiento-icono{background:rgba(175,222,182,0.12);color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-seguimiento-resultado{border:1px dashed var(--cake-borde);color:var(--cake-texto-suave);background:var(--cake-panel-oscuro)}
+html.tema-anio-nuevo .cake-seguimiento-resultado strong{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-seguimiento-status{background:rgba(175,222,182,0.12);color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-entrega-card{border:1px solid var(--cake-borde);background:var(--cake-panel)}
+html.tema-anio-nuevo .cake-entrega-icono{color:var(--cake-rosa);background:rgba(175,222,182,0.12)}
+html.tema-anio-nuevo .cake-entrega-card h3{color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-entrega-card p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-admin-link{color:var(--cake-texto-suave);text-decoration:underline}
+html.tema-anio-nuevo .cake-admin-link:hover{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-tematicas-section{background:var(--cake-fondo)}
+html.tema-anio-nuevo .cake-tematica-card{border:1px solid var(--cake-borde);background:var(--cake-panel);color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-tematica-card:hover{border-color:var(--cake-rosa);background:#5c4432}
+html.tema-anio-nuevo .cake-tematica-card span{background:rgba(175,222,182,0.12);color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-tematica-card small{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo input.cake-fecha-completa{border:2px solid #509469 !important;background:#fcf9f3 !important;color:#407754 !important;outline-color:#509469}
+html.tema-anio-nuevo .cake-capacity-card hr{border:0;border-top:1px solid var(--border, #ddd)}
+html.tema-anio-nuevo .cake-especialidades-section{border:1px solid rgba(175,222,182,0.2);background:radial-gradient(circle at 12% 8%,rgba(175,222,182,0.12),transparent 34%),linear-gradient(135deg,#5b4738,#4e3d30);box-shadow:0 18px 48px rgba(0,0,0,.24);color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-especialidades-heading h2{color:var(--cake-rosa-claro)}
+html.tema-anio-nuevo .cake-special-empty{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-special-slide{border:1px solid rgba(175,222,182,0.24);background:linear-gradient(115deg,#5b4331,#524032);box-shadow:0 16px 40px rgba(0,0,0,.28)}
+html.tema-anio-nuevo .cake-special-image-frame{background:#4a3a2d}
+html.tema-anio-nuevo .cake-special-image-arrow{border:1px solid rgba(255,255,255,.28);background:rgba(68,50,37,0.76);color:#fff}
+html.tema-anio-nuevo .cake-special-image-arrow:hover{background:var(--cake-rosa-fuerte)}
+html.tema-anio-nuevo .cake-special-image-dots button,html.tema-anio-nuevo .cake-special-dots button{border:0;background:rgba(255,255,255,.46)}
+html.tema-anio-nuevo .cake-special-image-dots button.active,html.tema-anio-nuevo .cake-special-dots button.active{background:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-special-kicker{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-special-info h3{color:#fcfaf6}
+html.tema-anio-nuevo .cake-special-info p{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-special-price{color:var(--cake-rosa-claro)}
+html.tema-anio-nuevo .cake-special-request{border:0;background:linear-gradient(135deg,#5ea879,#4c8d64);color:#fff;box-shadow:0 8px 22px rgba(76,141,100,0.28)}
+html.tema-anio-nuevo .cake-special-request:hover{box-shadow:0 12px 26px rgba(76,141,100,0.38);filter:brightness(1.08)}
+html.tema-anio-nuevo .cake-special-arrow{border:1px solid rgba(175,222,182,0.38);background:#5c4332;color:var(--cake-rosa-claro);box-shadow:0 7px 18px rgba(0,0,0,.2)}
+html.tema-anio-nuevo .cake-special-arrow:hover{background:var(--cake-rosa-fuerte)}
+html.tema-anio-nuevo .cake-special-arrow:focus-visible,html.tema-anio-nuevo .cake-special-image-arrow:focus-visible,html.tema-anio-nuevo .cake-special-dots button:focus-visible,html.tema-anio-nuevo .cake-special-image-dots button:focus-visible{outline:2px solid var(--cake-rosa-claro)}
+@media (max-width: 760px){
+html.tema-anio-nuevo .cake-oferta-card > img{background:transparent}
+}
+html.tema-anio-nuevo .cake-oferta-card > img{background:transparent}
+@media (max-width: 760px){
+html.tema-anio-nuevo .cake-oferta-card > img{background:transparent}
+}
+html.tema-anio-nuevo .cake-ofertas-flecha{border:1px solid var(--cake-rosa);background:var(--cake-panel);color:var(--cake-rosa);box-shadow:0 5px 16px rgba(0,0,0,.2)}
+html.tema-anio-nuevo .cake-ofertas-flecha:hover{background:var(--cake-rosa);color:#fff;box-shadow:0 7px 20px rgba(0,0,0,.28)}
+html.tema-anio-nuevo .cake-ofertas-flecha:focus-visible{outline:3px solid var(--cake-rosa)}
+html.tema-anio-nuevo .cake-ofertas-flecha{background:rgba(79,58,43,0.92)}
+html.tema-anio-nuevo .cake-ofertas-flecha:disabled{box-shadow:none}
+html.tema-anio-nuevo .cake-ofertas-flecha:disabled:hover{background:rgba(79,58,43,0.92);color:var(--cake-rosa)}
+html.tema-anio-nuevo .opiniones-hero{border:1px solid rgba(175,222,182,0.28);background:radial-gradient(circle at 15% 40%,rgba(76,140,99,0.36),transparent 48%),linear-gradient(110deg,#543e2d,#4d3829 70%);box-shadow:0 16px 38px rgba(0,0,0,.24)}
+html.tema-anio-nuevo .opiniones-hero-art img{filter:saturate(1.06)}
+html.tema-anio-nuevo .opiniones-pill{border:1px solid rgba(175,222,182,0.45);background:rgba(80,149,105,0.45);color:#f9f4ea}
+html.tema-anio-nuevo .opiniones-hero-copy h2{color:#afdeb6}
+html.tema-anio-nuevo .opiniones-hero-copy h2 span{color:#afdeb6}
+html.tema-anio-nuevo .opiniones-hero-copy p{color:#f6efdf}
+html.tema-anio-nuevo .opiniones-cta{border:1px solid rgba(255,255,255,.2);background:linear-gradient(135deg,#6baf84,#47845e);color:#fff;box-shadow:0 8px 20px rgba(102,75,57,0.28)}
+html.tema-anio-nuevo .opiniones-publicadas-head{color:#afdeb6}
+html.tema-anio-nuevo .opiniones-publicadas-head span{background:#57a273}
+html.tema-anio-nuevo .cake-opinion-card{border:1px solid rgba(175,222,182,0.25);background:linear-gradient(145deg,#5d4432,#533d2d);box-shadow:0 8px 20px rgba(0,0,0,.18)}
+html.tema-anio-nuevo .cake-opinion-avatar{border:1px solid rgba(255,255,255,.2);background:linear-gradient(135deg,#afdeb6,#988261);color:#fff}
+html.tema-anio-nuevo .cake-opinion-meta strong{color:#f6efdf}
+html.tema-anio-nuevo .cake-opinion-estrellas{color:#f4b62f}
+html.tema-anio-nuevo .cake-opinion-product{color:#afdeb6}
+html.tema-anio-nuevo .cake-opinion-quote{color:#f6efdf}
+html.tema-anio-nuevo .cake-opinion-photo-preview{border:1px solid rgba(255,255,255,.13);background:#483527}
+html.tema-anio-nuevo .cake-opinion-photo-count{background:rgba(63,46,34,0.8);color:#fff}
+html.tema-anio-nuevo .opiniones-nav{border:1px solid rgba(175,222,182,0.4);background:#654a36;color:#f9f4e9}
+html.tema-anio-nuevo .nota-opiniones{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-review-backdrop,html.tema-anio-nuevo .cake-review-lightbox-backdrop{background:rgba(57,42,31,0.78)}
+html.tema-anio-nuevo .cake-review-dialog{border:1px solid rgba(167,219,174,0.4);background:linear-gradient(145deg,#f9f4e9,#f6efdf);color:#634835;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+html.tema-anio-nuevo .cake-review-dialog-head{background:linear-gradient(110deg,#549c6e,#81cb8b);color:#fff}
+html.tema-anio-nuevo .cake-review-close{border:0;background:rgba(255,255,255,.18);color:#fff}
+html.tema-anio-nuevo .cake-review-intro{color:#407755}
+html.tema-anio-nuevo #cake-public-review-form>label,html.tema-anio-nuevo .cake-review-stars legend{color:#6c503d}
+html.tema-anio-nuevo #cake-public-review-form>label span{color:#988362}
+html.tema-anio-nuevo #cake-public-review-form input:not([type=file]):not([type=checkbox]),html.tema-anio-nuevo #cake-public-review-form textarea{border:1px solid #afdeb6;background:rgba(255,255,255,.66);color:#604634;outline:none}
+html.tema-anio-nuevo .cake-review-stars{border:0}
+html.tema-anio-nuevo .cake-star-picker button{border:0;background:transparent;color:#c4b7a3}
+html.tema-anio-nuevo .cake-star-picker button.active{color:#efa92c;text-shadow:0 2px 4px rgba(147,81,12,.18)}
+html.tema-anio-nuevo #cake-review-photos{border:1px dashed #89cf92;background:rgba(255,255,255,.35);color:#684d3a}
+html.tema-anio-nuevo .cake-review-help{color:#897557}
+html.tema-anio-nuevo .cake-review-previews img{border:1px solid #afdeb6}
+html.tema-anio-nuevo .cake-review-consent{color:#775743}
+html.tema-anio-nuevo .cake-review-consent input{accent-color:#52996c}
+html.tema-anio-nuevo .cake-review-status{color:#407754}
+html.tema-anio-nuevo .cake-review-submit,html.tema-anio-nuevo .cake-review-cancel{border:0}
+html.tema-anio-nuevo .cake-review-submit{background:#56a072;color:#fff}
+html.tema-anio-nuevo .cake-review-cancel{background:#5e4635;color:#fff}
+html.tema-anio-nuevo .cake-review-success-icon{border:4px solid #7fcb8a;background:#f6efdf;color:#fff}
+html.tema-anio-nuevo .cake-review-success h3{color:#6a4e3c}
+html.tema-anio-nuevo .cake-review-success p{color:#7f5e47}
+html.tema-anio-nuevo .cake-review-lightbox{background:rgba(55,40,30,0.96)}
+html.tema-anio-nuevo .cake-review-lightbox-panel{border:1px solid rgba(175,222,182,0.25);background:#4b3728;box-shadow:0 20px 80px #000}
+html.tema-anio-nuevo .cake-review-lightbox-close{border:0;background:#52996c;color:#fff}
+html.tema-anio-nuevo .cake-review-photo-nav{border:1px solid #7a5a45;background:#5f4533;color:#fff}
+html.tema-anio-nuevo .cake-review-lightbox-footer{color:#f6efdf}
+html.tema-anio-nuevo .cake-review-like{border:1px solid #407754;background:#594130;color:#f6efdf}
+html.tema-anio-nuevo .cake-review-like.liked{background:#48865f;color:#fff}
+html.tema-anio-nuevo .opiniones-hero-art{background:#4d3829}
+html.tema-anio-nuevo .opiniones-hero-art img{filter:none}
+@media (max-width: 820px){
+html.tema-anio-nuevo .opiniones-v2 .opiniones-hero-art{background:#4d3829}
+}
+html.tema-anio-nuevo .cake-review-lightbox{background:rgba(57,42,31,0.72)}
+html.tema-anio-nuevo .cake-review-lightbox-backdrop{background:rgba(61,44,33,0.82)}
+html.tema-anio-nuevo .cake-review-lightbox-panel{border:1px solid rgba(175,222,182,0.72);background:linear-gradient(145deg,#5c4332 0%,#4e392a 58%,#4d3c2f 100%);box-shadow:0 28px 90px rgba(0,0,0,.58),0 0 0 5px rgba(175,222,182,0.08)}
+html.tema-anio-nuevo .cake-review-lightbox-close{background:var(--cake-rosa-fuerte);box-shadow:0 5px 18px rgba(0,0,0,.25)}
+html.tema-anio-nuevo .cake-review-viewer-photo{background:radial-gradient(ellipse at center,rgba(175,222,182,0.12),transparent 68%)}
+html.tema-anio-nuevo .cake-review-viewer-photo>img{filter:drop-shadow(0 12px 22px rgba(0,0,0,.3))}
+html.tema-anio-nuevo .cake-review-photo-nav{border:1px solid rgba(255,255,255,.55);background:var(--cake-rosa-fuerte);color:#fff;box-shadow:0 5px 18px rgba(0,0,0,.3)}
+html.tema-anio-nuevo .cake-review-photo-nav:hover{background:var(--cake-rosa-hover)}
+html.tema-anio-nuevo .cake-review-photo-count{border:1px solid rgba(175,222,182,0.35);background:rgba(69,50,37,0.82);color:#fff}
+html.tema-anio-nuevo .cake-review-viewer-details{color:var(--cake-texto)}
+html.tema-anio-nuevo .cake-review-viewer-brand{border-bottom:1px solid rgba(175,222,182,0.25);color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-review-brand-icon{border:2px solid var(--cake-rosa)}
+html.tema-anio-nuevo .cake-review-viewer-avatar{border:3px solid var(--cake-rosa);background:linear-gradient(145deg,#f6efdf,#60a97b);color:#694d39;box-shadow:0 5px 16px rgba(0,0,0,.25)}
+html.tema-anio-nuevo .cake-review-viewer-person h3{color:var(--cake-blanco)}
+html.tema-anio-nuevo .cake-review-viewer-stars{color:#f5b83d}
+html.tema-anio-nuevo .cake-review-viewer-comment{color:#fcfaf4}
+html.tema-anio-nuevo .cake-review-viewer-product{border:1px solid rgba(175,222,182,0.35);background:rgba(175,222,182,0.14);color:#f7f1e4}
+html.tema-anio-nuevo .cake-review-viewer-thumb{border:2px solid rgba(175,222,182,0.3);background:#4c3729}
+html.tema-anio-nuevo .cake-review-viewer-thumb.active{border-color:var(--cake-rosa);box-shadow:0 0 0 2px rgba(175,222,182,0.2)}
+html.tema-anio-nuevo .cake-review-viewer-date{border-top:1px solid rgba(175,222,182,0.2);color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-review-viewer-date i{color:var(--cake-rosa)}
+html.tema-anio-nuevo .cake-review-lightbox-footer{color:var(--cake-texto-suave)}
+html.tema-anio-nuevo .cake-review-like{border-color:rgba(175,222,182,0.4);background:rgba(175,222,182,0.12);color:#f9f5eb}
+html.tema-anio-nuevo .cake-review-like.liked{background:var(--cake-rosa-fuerte);color:#fff}
+
+/* ---- generado desde store-editor.css ---- */
+html.tema-anio-nuevo .cake-editor-toolbar{border:1px solid rgba(175,222,182,0.55);background:rgba(84,66,52,0.97);color:#f9f5ec;box-shadow:0 15px 44px rgba(0,0,0,.27)}
+html.tema-anio-nuevo .cake-editor-mark{color:#544234;background:#afdeb6}
+html.tema-anio-nuevo .cake-editor-brand strong{color:#afdeb6}
+html.tema-anio-nuevo .cake-editor-brand small{color:#d4cabc}
+html.tema-anio-nuevo .cake-editor-toolbar button,html.tema-anio-nuevo .cake-editor-toolbar a,html.tema-anio-nuevo .cake-editor-add-category,html.tema-anio-nuevo .cake-editor-action,html.tema-anio-nuevo .cake-editor-image-action,html.tema-anio-nuevo .cake-editor-product-actions button{border:1px solid transparent;text-decoration:none}
+html.tema-anio-nuevo .cake-editor-primary{background:#4c8d64;border-color:#59a675 !important;color:#fff}
+html.tema-anio-nuevo .cake-editor-secondary{background:transparent;border-color:#776556 !important;color:#f8f3e6}
+html.tema-anio-nuevo .cake-editor-logout{background:rgba(152,213,160,0.12);border-color:rgba(152,213,160,0.35) !important;color:#f6efdf}
+html.tema-anio-nuevo .cake-editor-target{outline:1px dashed rgba(76,141,100,0.43)}
+html.tema-anio-nuevo .cake-editor-action{border:1px solid #afdeb6;background:#417855;color:white;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+html.tema-anio-nuevo .cake-editor-image-action{border-color:#afdeb6;background:#417855;color:white;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+html.tema-anio-nuevo .cake-editor-add-category{border-color:rgba(76,141,100,0.45);background:#fcfaf4;color:#407754}
+html.tema-anio-nuevo .cake-editor-product-actions button{background:#417855;border:1px solid #afdeb6;color:white;box-shadow:0 3px 10px rgba(0,0,0,.22)}
+html.tema-anio-nuevo .cake-editor-product-actions button:last-child{background:#6a4e39;border-color:#9e8868}
+html.tema-anio-nuevo .cake-editor-toast{border:1px solid #a8dbaf;background:#584130;color:#fcfaf6;box-shadow:0 12px 38px rgba(0,0,0,.25)}
+html.tema-anio-nuevo .cake-editor-toast[data-kind="success"]{border-color:#7dba92}
+html.tema-anio-nuevo .cake-editor-toast[data-kind="error"]{border-color:#90d299}
+html.tema-anio-nuevo .cake-editor-modal{background:rgba(65,47,35,0.76)}
+html.tema-anio-nuevo .cake-editor-dialog{border:1px solid #7f5e47;border-top:5px solid #4c8d64;background:#5b4738;color:#f6efdf;box-shadow:0 24px 80px rgba(0,0,0,.42)}
+html.tema-anio-nuevo .cake-editor-dialog h2{color:#afdeb6}
+html.tema-anio-nuevo .cake-editor-kicker{color:#afdeb6}
+html.tema-anio-nuevo .cake-editor-close{border:1px solid #407754;background:#4b3728;color:#faf6ec}
+html.tema-anio-nuevo .cake-editor-dialog label{color:#f6efe0}
+html.tema-anio-nuevo .cake-editor-dialog input:not([type="checkbox"]):not([type="file"]),html.tema-anio-nuevo .cake-editor-dialog textarea,html.tema-anio-nuevo .cake-editor-dialog select{border:1px solid #6a4e3c;outline:none;background:#4b3b2e;color:#fcf9f3}
+html.tema-anio-nuevo .cake-editor-dialog input[type="file"]{color:#d4cabc}
+html.tema-anio-nuevo .cake-editor-dialog input:focus,html.tema-anio-nuevo .cake-editor-dialog textarea:focus,html.tema-anio-nuevo .cake-editor-dialog select:focus{border-color:#afdeb6;box-shadow:0 0 0 3px rgba(175,222,182,0.12)}
+html.tema-anio-nuevo .cake-editor-dialog small{color:#c3b5a1}
+html.tema-anio-nuevo .cake-editor-checks input{accent-color:#4c8d64}
+html.tema-anio-nuevo .cake-editor-message{color:#d2c8b9}
+html.tema-anio-nuevo #productos-container .cake-editor-add-tile{border:2px dashed #9ed7a6;background:linear-gradient(155deg, #fdfcf9 0%, #f9f4ea 100%);color:#694d39;box-shadow:0 5px 17px rgba(106,78,60,0.08)}
+html.tema-anio-nuevo #productos-container .cake-editor-add-tile:hover,html.tema-anio-nuevo #productos-container .cake-editor-add-tile:focus-visible{border-color:#4c8d64;box-shadow:0 10px 24px rgba(106,78,60,0.16);outline:3px solid rgba(76,141,100,0.14)}
+html.tema-anio-nuevo .cake-editor-add-tile-badge{background:#4c8d64;color:#fff}
+html.tema-anio-nuevo .cake-editor-add-tile-plus{border:1px solid #afdeb6;background:#fff;color:#4c8d64}
+html.tema-anio-nuevo #productos-container .cake-editor-add-tile strong{color:#725440}
+html.tema-anio-nuevo #productos-container .cake-editor-add-tile small{color:#897557}
+
+/* ---- generado desde navidad.css ---- */
+html.tema-anio-nuevo{--cake-fondo:#4b3728;--cake-panel:#553e2e;--cake-panel-oscuro:#453325;--navidad-neon:#afdeb6;--navidad-neon-suave:rgba(175,222,182,0.45)}
+html.tema-anio-nuevo{background:#473426}
+html.tema-anio-nuevo body{background:#473426}
+html.tema-anio-nuevo .credito-musica a{color:inherit;text-decoration:underline}
+
+/* ---- generado desde mejoras-navidad.css ---- */
+html.tema-anio-nuevo .navidad-esp-section{border:1.5px solid rgba(255, 214, 140, .38);border-top:0;background:repeating-linear-gradient(135deg, #4e9066 0 13px, #fdfbf6 13px 26px) top / 100% 10px no-repeat,
+        radial-gradient(ellipse 70% 45% at 50% 0, rgba(167,219,174,0.22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 10% 100%, rgba(46, 140, 90, .22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(46, 140, 90, .18), transparent 70%),
+        radial-gradient(circle, rgba(255, 255, 255, .07) 0 1.4px, transparent 2.2px) 0 0 / 30px 30px,
+        linear-gradient(180deg, #58402f 0%, #4e392a 60%, #483527 100%);box-shadow:0 0 0 1px rgba(255, 214, 140, .1), 0 0 36px rgba(152,213,160,0.22), 0 20px 44px rgba(0, 0, 0, .45);color:var(--cake-texto, #f6efdf)}
+html.tema-anio-nuevo .navidad-esp-adorno{border:1.5px solid rgba(255, 214, 140, .55);background:linear-gradient(135deg, #1f6b3a, #2f9256);box-shadow:0 6px 18px rgba(0, 0, 0, .35)}
+html.tema-anio-nuevo .navidad-esp-adorno span:nth-child(odd){color:#dff4ff}
+html.tema-anio-nuevo .navidad-esp-etiqueta{border:1px dashed rgba(255, 214, 140, .65);background:rgba(78,144,102,0.25);color:#ffe29a !important}
+html.tema-anio-nuevo .navidad-esp-cabecera h2{color:#fcf9f3 !important;text-shadow:0 0 16px rgba(175,222,182,0.45), 0 0 2px rgba(255, 214, 140, .6)}
+html.tema-anio-nuevo .navidad-esp-cabecera p{color:#f6efdf !important}
+html.tema-anio-nuevo .navidad-esp-card{border:1.5px solid rgba(255, 214, 140, .35);background:linear-gradient(180deg, #5c4331 0%, #4f3a2a 100%);box-shadow:0 10px 24px rgba(0, 0, 0, .38)}
+html.tema-anio-nuevo .navidad-esp-card:hover{border-color:rgba(255, 214, 140, .75);box-shadow:0 0 26px rgba(174,222,180,0.35), 0 16px 30px rgba(0, 0, 0, .45)}
+html.tema-anio-nuevo .navidad-esp-img-wrap{background:#453325}
+html.tema-anio-nuevo .navidad-esp-sello{border:1px solid rgba(255, 214, 140, .7);background:linear-gradient(90deg, #4e9066, #76c781);box-shadow:0 4px 12px rgba(0, 0, 0, .35);color:#fff}
+html.tema-anio-nuevo .navidad-esp-fotos{background:rgba(64,47,35,0.78);color:#fff}
+html.tema-anio-nuevo .navidad-esp-info h3{color:#fcfaf6}
+html.tema-anio-nuevo .navidad-esp-descripcion{color:#dff0db}
+html.tema-anio-nuevo .navidad-esp-precio{border:1.5px dashed rgba(255, 214, 140, .7);background:linear-gradient(135deg, rgba(78,144,102,0.28), rgba(46, 110, 70, .28));color:#ffe29a}
+html.tema-anio-nuevo .navidad-esp-boton{border:0;background:linear-gradient(120deg, #4d9066 0%, #9cd7a4 45%, #60a97b 55%, #4d9066 100%);box-shadow:inset 0 3px 0 rgba(255, 255, 255, .8), 0 5px 14px rgba(96,169,123,0.4);color:#fff}
+html.tema-anio-nuevo .navidad-esp-nota{color:#f6efdf}
+html.tema-anio-nuevo .zona-portada .nav-btn.nav-btn-navidad{border-color:rgba(255, 214, 140, .55);background:linear-gradient(135deg, #1f6b3a, #2f9256);color:#fff}
+html.tema-anio-nuevo .otro-producto-icono{border:2px solid rgba(255, 214, 140, .7);background:radial-gradient(circle, rgba(175,222,182,0.35), rgba(46, 110, 70, .35))}
+html.tema-anio-nuevo .caja-otro-producto h2{color:#f9f4e9}
+html.tema-anio-nuevo .otro-producto-img{border:3px solid rgba(255, 214, 140, .8);box-shadow:0 0 0 4px rgba(96,169,123,0.35)}
+html.tema-anio-nuevo .otro-producto-texto{color:#f6efdf}
+html.tema-anio-nuevo .otro-producto-pregunta{color:#ffe29a}
+html.tema-anio-nuevo .otro-producto-btn{border:0;color:#fff}
+html.tema-anio-nuevo .otro-producto-btn:hover{filter:brightness(1.08)}
+html.tema-anio-nuevo .otro-producto-btn-si{background:linear-gradient(120deg, #4d9066 0%, #9cd7a4 50%, #60a97b 100%);box-shadow:inset 0 3px 0 rgba(255, 255, 255, .75), 0 5px 14px rgba(96,169,123,0.4)}
+html.tema-anio-nuevo .otro-producto-btn-no{border:1px solid rgba(255, 214, 140, .4);background:linear-gradient(135deg, #24513a, #1b3d2c)}
+html.tema-anio-nuevo .carrito-item-img{border:2px solid rgba(255, 214, 140, .6)}
+
+/* ---- generado desde cake-funciones.css ---- */
+html.tema-anio-nuevo{--cf-oro:#e9c46a;--cf-oro-claro:#fff1b8;--cf-rosa:#afdeb6;--cf-rosa-fuerte:#4c8d64;--cf-panel:#553e2e;--cf-panel-2:#4c3829;--cf-texto:#f6efdf;--cf-suave:#bfb19b;--cf-borde:rgba(175,222,182,0.28);--cf-sombra:0 18px 50px rgba(0, 0, 0, .45)}
+html.tema-anio-nuevo .cf-btn{text-decoration:none}
+html.tema-anio-nuevo .cf-btn-rosa{border:1px solid var(--cf-rosa-fuerte);background:linear-gradient(135deg, #5ea879, var(--cf-rosa-fuerte));color:#fff;box-shadow:0 6px 18px rgba(76,141,100,0.35)}
+html.tema-anio-nuevo .cf-btn-rosa:hover{background:linear-gradient(135deg, #7bc986, #559e70)}
+html.tema-anio-nuevo .cf-btn-borde{border:1px solid var(--cf-borde);background:rgba(255, 255, 255, .04);color:var(--cf-texto)}
+html.tema-anio-nuevo .cf-btn-borde:hover{border-color:var(--cf-rosa)}
+html.tema-anio-nuevo .cf-kicker{color:var(--cf-rosa)}
+html.tema-anio-nuevo .cf-chip{border:1px solid var(--cf-borde);background:transparent;color:var(--cf-texto)}
+html.tema-anio-nuevo .cf-chip.activo{border-color:var(--cf-rosa);background:var(--cf-rosa-fuerte);color:#fff}
+html.tema-anio-nuevo .cf-barra-cupos{background:linear-gradient(90deg, #674c38, #795944 30%, #b8862b 50%, #795944 70%, #674c38);color:#fff7e6;border-bottom:1px solid rgba(233, 196, 106, .55)}
+html.tema-anio-nuevo .cf-cupo-chip{background:rgba(0, 0, 0, .28);border:1px solid rgba(233, 196, 106, .6)}
+html.tema-anio-nuevo .cf-cupo-chip.pocos{background:rgba(255, 209, 102, .25)}
+html.tema-anio-nuevo .cf-cupo-chip.agotado{background:rgba(108,176,133,0.5);text-decoration:line-through}
+html.tema-anio-nuevo .cf-barra-cerrar{border:0;background:rgba(0, 0, 0, .25);color:#fff}
+html.tema-anio-nuevo .cf-cuenta-regresiva{border:1px solid rgba(233, 196, 106, .45);background:radial-gradient(circle at 15% 10%, rgba(255, 255, 255, .08), transparent 40%), linear-gradient(135deg, #1b2a4a, #614b3b 55%, #594130);box-shadow:0 12px 34px rgba(0, 0, 0, .35), inset 0 0 0 1px rgba(255, 255, 255, .04);color:#fff}
+html.tema-anio-nuevo .cf-cuenta-titulo{color:var(--cf-oro)}
+html.tema-anio-nuevo .cf-cuenta-numeros div{background:rgba(255, 255, 255, .07);border:1px solid rgba(255, 255, 255, .12)}
+html.tema-anio-nuevo .cf-cuenta-numeros strong{text-shadow:0 0 14px rgba(175,222,182,0.55)}
+html.tema-anio-nuevo .cf-cuenta-numeros span{color:#dbd3c7}
+html.tema-anio-nuevo .cf-cuenta-mensaje{color:#f9f5ec}
+html.tema-anio-nuevo .cf-modal{background:rgba(58,42,31,0.72)}
+html.tema-anio-nuevo .cf-modal-caja{border:1px solid var(--cf-borde);background:linear-gradient(180deg, #584130, #4c3829);color:var(--cf-texto);box-shadow:var(--cf-sombra)}
+html.tema-anio-nuevo .cf-modal-caja h2{color:#fff}
+html.tema-anio-nuevo .cf-modal-sub{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-cerrar{border:1px solid var(--cf-borde);background:rgba(0, 0, 0, .3);color:#fff}
+html.tema-anio-nuevo .cf-guia-card{border:1px solid var(--cf-borde);background:rgba(255, 255, 255, .03)}
+html.tema-anio-nuevo .cf-guia-molde{color:#fff}
+html.tema-anio-nuevo .cf-guia-rebanadas{color:var(--cf-rosa)}
+html.tema-anio-nuevo .cf-guia-card small{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-guia-nota{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-link-guia{border:0;background:none;color:var(--cf-rosa);text-decoration:underline}
+html.tema-anio-nuevo .cf-precios-rebanadas{border:1px dashed rgba(175,222,182,0.35);background:rgba(175,222,182,0.06)}
+html.tema-anio-nuevo .cf-precios-rebanadas li{color:var(--cf-texto)}
+html.tema-anio-nuevo .cf-precios-rebanadas strong{color:#fff}
+html.tema-anio-nuevo .cf-precios-rebanadas span{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-calc-section{color:var(--cf-texto)}
+html.tema-anio-nuevo .cf-calc-panel{border:1px solid var(--cf-borde);background:linear-gradient(135deg, rgba(85,62,46,0.95), rgba(76,56,41,0.95));box-shadow:0 14px 34px rgba(0, 0, 0, .3)}
+html.tema-anio-nuevo .cf-calc-intro h2{color:#fff}
+html.tema-anio-nuevo .cf-calc-intro p{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-calc-contador,html.tema-anio-nuevo .cf-calc-postres{background:rgba(0, 0, 0, .22);border:1px solid rgba(255, 255, 255, .06)}
+html.tema-anio-nuevo .cf-stepper button{border:1px solid var(--cf-borde);background:rgba(255, 255, 255, .05);color:#fff}
+html.tema-anio-nuevo .cf-stepper input{border:1px solid var(--cf-borde);background:var(--cf-panel-2);color:#fff}
+html.tema-anio-nuevo .cf-calc-resultado{border:1px solid rgba(233, 196, 106, .4);background:rgba(85,62,46,0.9)}
+html.tema-anio-nuevo .cf-calc-total span{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-calc-total strong{color:var(--cf-oro)}
+html.tema-anio-nuevo .cf-calc-total small{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-calc-sub,html.tema-anio-nuevo .cf-calc-aviso{color:var(--cf-texto)}
+html.tema-anio-nuevo .cf-calc-card{border:1px solid var(--cf-borde);background:rgba(0, 0, 0, .2)}
+html.tema-anio-nuevo .cf-calc-info strong{color:#fff}
+html.tema-anio-nuevo .cf-calc-tam{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-calc-precio{color:var(--cf-rosa)}
+html.tema-anio-nuevo .cf-extras-titulo{color:var(--cf-oro)}
+html.tema-anio-nuevo .cf-extra{border:1px solid var(--cf-borde);background:rgba(255, 255, 255, .04);color:var(--cf-texto)}
+html.tema-anio-nuevo .cf-extra-precio{color:var(--cf-rosa)}
+html.tema-anio-nuevo .cf-extra-mas{background:var(--cf-rosa-fuerte);color:#fff}
+html.tema-anio-nuevo .cf-extra.cf-ya{border-color:var(--cf-oro)}
+html.tema-anio-nuevo .cf-extra.cf-ya .cf-extra-mas{background:#2e9e5b}
+html.tema-anio-nuevo .cf-premio-carrito{border:1px solid rgba(233, 196, 106, .6);background:linear-gradient(135deg, rgba(184, 134, 43, .25), rgba(233, 196, 106, .12));color:#fff4d6}
+html.tema-anio-nuevo .cf-obligatorios{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-campo label{color:#fff}
+html.tema-anio-nuevo .cf-error{color:#afdeb6}
+html.tema-anio-nuevo .input-datos.cf-campo-error,html.tema-anio-nuevo .input-personalizar.cf-campo-error{border-color:#a7dbae !important;box-shadow:0 0 0 2px rgba(167,219,174,0.18)}
+html.tema-anio-nuevo .cf-contador{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-raspa-section{color:var(--cf-texto)}
+html.tema-anio-nuevo .cf-raspa-marco{background:linear-gradient(135deg, #b8862b, #fff1b8 45%, #b8862b);box-shadow:0 16px 40px rgba(184, 134, 43, .25)}
+html.tema-anio-nuevo .cf-raspa-tarjeta{background:radial-gradient(circle at 50% 40%, #fff9ec, #f7e2b8)}
+html.tema-anio-nuevo .cf-raspa-premio{color:#563f2e}
+html.tema-anio-nuevo .cf-raspa-premio img{box-shadow:0 8px 22px rgba(86,63,46,0.25)}
+html.tema-anio-nuevo .cf-raspa-gano{color:#4c8d64}
+html.tema-anio-nuevo .cf-raspa-premio-texto small{color:#7a5a45}
+html.tema-anio-nuevo .cf-raspa-estado{color:var(--cf-texto)}
+html.tema-anio-nuevo .cf-galeria-section{color:var(--cf-texto)}
+html.tema-anio-nuevo .cf-galeria-item{border:1px solid var(--cf-borde);background:var(--cf-panel)}
+html.tema-anio-nuevo .cf-galeria-nombre{background:rgba(0, 0, 0, .55);color:#fff}
+html.tema-anio-nuevo .cf-galeria-vacia{border:1px dashed var(--cf-borde);color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-foto-visor img{background:#000}
+html.tema-anio-nuevo .cf-foto-nav{border:0;background:rgba(0, 0, 0, .5);color:#fff}
+html.tema-anio-nuevo .cf-foto-nombre{color:#fff}
+html.tema-anio-nuevo .cf-foto-mensaje{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-foto-contador{color:var(--cf-suave)}
+html.tema-anio-nuevo .cf-opcion-si{border:1px solid var(--cf-oro);background:linear-gradient(135deg, #b8862b, #e9c46a);color:#563f2e;box-shadow:0 8px 22px rgba(233, 196, 106, .3)}
+html.tema-anio-nuevo .cf-opcion-no{border:1px solid rgba(37, 211, 102, .6);background:rgba(37, 211, 102, .12);color:#d8ffe6}
+html.tema-anio-nuevo .cf-regalo-preview-marco{border:1px solid var(--cf-borde);background:#3e2e22}
+html.tema-anio-nuevo .cf-regalo-preview-texto{background:rgba(0, 0, 0, .45);color:#fff}
+html.tema-anio-nuevo .cf-anim{border:2px solid transparent;color:#fff}
+html.tema-anio-nuevo .cf-anim.activo{border-color:var(--cf-oro);box-shadow:0 0 0 3px rgba(233, 196, 106, .25)}
+html.tema-anio-nuevo .cf-ticket-caja{background:linear-gradient(180deg, #513b2c, #473426)}
+html.tema-anio-nuevo .cf-ticket{background:#fefdfb;color:#4d3829}
+html.tema-anio-nuevo .cf-ticket::before,html.tema-anio-nuevo .cf-ticket::after{background:radial-gradient(circle at 8px 0, transparent 7px, #fefdfb 7.5px) repeat-x}
+html.tema-anio-nuevo .cf-ticket-check{background:#2e9e5b;color:#fff}
+html.tema-anio-nuevo .cf-ticket h2{color:#4d3829}
+html.tema-anio-nuevo .cf-ticket-codigo-etq{color:#4c8d64}
+html.tema-anio-nuevo .cf-ticket-creado{color:#988261}
+html.tema-anio-nuevo .cf-ticket-datos{border-top:2px dashed #f6efdf;border-bottom:2px dashed #f6efdf}
+html.tema-anio-nuevo .cf-ticket-datos dt{color:#4c8d64}
+html.tema-anio-nuevo .cf-ticket-items{border-bottom:2px dashed #f6efdf}
+html.tema-anio-nuevo .cf-ticket-total strong{color:#4c8d64}
+html.tema-anio-nuevo .cf-ticket-premio{background:#fff3d6;color:#6b4a10}
+html.tema-anio-nuevo .cf-ticket-regalo{background:linear-gradient(135deg, #fbf8f0, #fff6e5)}
+html.tema-anio-nuevo .cf-ticket-qr-img{box-shadow:0 6px 18px rgba(86,63,46,0.15)}
+html.tema-anio-nuevo .cf-ticket-qr-acciones .cf-btn-borde{color:#4c8d64;border-color:#f6efdf;background:#fff}
+html.tema-anio-nuevo .cf-ticket-nota{color:#988261}
+html.tema-anio-nuevo.cake-ligero .cf-modal{background:rgba(58,42,31,0.85)}
+
+/* ---- Ajustes finos de la paleta de Año Nuevo (escritos a mano) ---- */
+html.tema-anio-nuevo{
+  --cake-fondo:#463629; --cake-panel:#54423a; --cake-panel-oscuro:#3a2c24;
+  --cake-rosa:#b9dfc0; --cake-rosa-claro:#e4f2e1; --cake-rosa-fuerte:#5f9270; --cake-rosa-hover:#4f7d5c;
+  --cake-texto:#f7eedd; --cake-texto-suave:#cdbda8; --cake-borde:#6d5a4b; --cake-blanco:#fffbf2;
+  --cake-rojo-alerta:#c96f5a; --navidad-neon:#b9dfc0; --navidad-neon-suave:rgba(185,223,192,.45);
+  background:#463629;
+}
+html.tema-anio-nuevo body{color:#f7eedd}
+html.tema-anio-nuevo .zona-portada .slogan{color:#f7eedd;text-shadow:0 0 18px rgba(231,201,139,.35)}
+html.tema-anio-nuevo .zona-portada .nav-btn.active{background:linear-gradient(135deg,#7fae8a,#5f9270);color:#fff;border-color:#e7c98b}
+html.tema-anio-nuevo .producto,html.tema-anio-nuevo .destacado-card{border-color:rgba(231,201,139,.28);
+  box-shadow:0 10px 26px rgba(20,12,8,.28),inset 0 1px 0 rgba(255,246,220,.06)}
+html.tema-anio-nuevo .producto .precio,html.tema-anio-nuevo .destacado-precio{color:#e7c98b}
+html.tema-anio-nuevo ::selection{background:#b9dfc0;color:#3a2c24}

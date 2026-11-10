@@ -12,6 +12,8 @@
   'use strict';
 
   var html = document.documentElement;
+  // Tema de Año Nuevo activo (ya conocido): no hay intro navideña, ni gorra, ni música navideña.
+  if (window.CakeTema && !window.CakeTema.pendiente && window.CakeTema.actual !== 'navidad') return;
   var params = null;
   try { params = new URLSearchParams(window.location.search); } catch (e) { params = null; }
   var enlaceDirecto = Boolean(params && params.get('producto'));
@@ -809,11 +811,14 @@
       var visible = fijo || r.top < vh * 1.05;
       var retraso = 150 + orden * 140;
       if (visible) orden++;
+      // Rendimiento: solo se animan los bloques que se ven en pantalla. Animar también los
+      // que están más abajo creaba cientos de capas y trababa el primer desplazamiento.
+      if (!visible) return;
       if (!el.animate) return;
       try {
         el.animate(
           [{ opacity: 0, translate: '0 28px' }, { opacity: 1, translate: '0 0' }],
-          { duration: visible ? 800 : 450, delay: retraso, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' }
+          { duration: 800, delay: retraso, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' }
         );
       } catch (e) { /* navegador antiguo: aparece sin animación */ }
     });
@@ -824,11 +829,15 @@
     overlay.style.pointerEvents = 'none';
     overlay.classList.add('terminado');
     if (rapido) overlay.classList.add('rapido');
+    // Rendimiento: el lienzo de estrellas ocupa toda la pantalla. Antes seguía dibujándose
+    // 2.2 s encima de la página mientras la persona empezaba a bajar (eso causaba el
+    // congelamiento). Ahora se detiene en cuanto se desvanece y se retira enseguida.
+    setTimeout(function () { cancelAnimationFrame(raf); raf = 0; }, rapido ? 350 : 700);
     setTimeout(function () {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', medir);
       if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
-    }, rapido ? 600 : 2200);
+    }, rapido ? 600 : 1000);
   }
 
   function aterrizar() {
@@ -878,6 +887,14 @@
     }
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', alCargar);
-  else alCargar();
+  // Primera visita: se espera a saber el tema antes de arrancar la intro.
+  function alCargarSegunTema() {
+    if (!window.CakeTema) { alCargar(); return; }
+    window.CakeTema.cuandoListo(function (tema) {
+      if (tema === 'navidad') { alCargar(); return; }
+      html.classList.remove('intro-navidad', 'intro-activa', 'gorro-salta');
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', alCargarSegunTema);
+  else alCargarSegunTema();
 })();

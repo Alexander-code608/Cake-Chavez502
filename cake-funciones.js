@@ -226,8 +226,12 @@
     if (!sec || !a || a.countdown_enabled === false) return;
     var eventos = (Array.isArray(a.countdown_events) ? a.countdown_events : []).map(function (e) { return { label: String(e.label || 'Celebración'), fecha: fechaEvento(e.date) }; })
       .filter(function (e) { return e.fecha; }).sort(function (x, y) { return x.fecha - y.fecha; });
+    // Tema de Año Nuevo: la cuenta regresiva apunta a Año Nuevo y se omiten los mensajes navideños.
+    var temaAnio = document.documentElement.classList.contains('tema-anio-nuevo');
+    if (temaAnio) { var soloAnio = eventos.filter(function (e) { return /a(ñ|n)o\s*nuevo/i.test(e.label); }); if (soloAnio.length) eventos = soloAnio; }
     if (!eventos.length) return;
     var mensajes = (Array.isArray(a.countdown_messages) ? a.countdown_messages : []).map(String).filter(Boolean);
+    if (temaAnio) { var sinNavidad = mensajes.filter(function (m) { return !/🎄|🎅|navide|navidad|nochebuena|santa/i.test(m); }); mensajes = sinNavidad.length ? sinNavidad : ['¡Feliz Año Nuevo! Celebra con un postre hecho con amor ✨']; }
     var titulo = sec.querySelector('.cf-cuenta-titulo');
     var nums = { d: sec.querySelector('[data-cf-d]'), h: sec.querySelector('[data-cf-h]'), m: sec.querySelector('[data-cf-m]'), s: sec.querySelector('[data-cf-s]') };
     var msj = sec.querySelector('.cf-cuenta-mensaje');
@@ -548,6 +552,11 @@
     if (!a || a.scratch_enabled === false || !CF.premios.length) { sec.hidden = true; return; }
     sec.hidden = false;
     if (a.scratch_title) sec.querySelector('.cf-raspa-titulo').textContent = a.scratch_title;
+    // Tema de Año Nuevo: el título no habla de Navidad.
+    if (document.documentElement.classList.contains('tema-anio-nuevo')) {
+      var tRaspa = sec.querySelector('.cf-raspa-titulo');
+      if (tRaspa && /navide|navidad/i.test(tRaspa.textContent)) tRaspa.textContent = tRaspa.textContent.replace(/navideñ[oa]s?|de navidad|navidad/ig, 'de Año Nuevo').replace(/\s+/g, ' ').trim();
+    }
     if (a.scratch_subtitle) sec.querySelector('.cf-raspa-sub').textContent = a.scratch_subtitle;
     var tarjeta = sec.querySelector('.cf-raspa-tarjeta');
     var premioBox = sec.querySelector('.cf-raspa-premio');
@@ -590,7 +599,7 @@
       c.font = '600 ' + Math.round(Math.min(W, 520) / 14) + 'px Poppins, Arial, sans-serif';
       c.fillText('✨ Raspa aquí con tu dedo ✨', W / 2, H / 2 - 12);
       c.font = '400 ' + Math.round(Math.min(W, 520) / 24) + 'px Poppins, Arial, sans-serif';
-      c.fillText('Descubre tu regalito navideño', W / 2, H / 2 + 22);
+      c.fillText(document.documentElement.classList.contains('tema-anio-nuevo') ? 'Descubre tu regalito de Año Nuevo' : 'Descubre tu regalito navideño', W / 2, H / 2 + 22);
     }
     pintarCapa();
     function punto(ev) {

@@ -39,7 +39,9 @@
   // Se editan desde el panel (pestañas «Navidad» y «Carrusel»), no con el editor visual.
   '#navidad-especialidades', '.navidad-fondo-luces', '.navidad-cielo',
   // Funciones nuevas 2026: se editan desde el panel, no con el editor visual.
-  '.cf-excluir-editor'].
+  '.cf-excluir-editor',
+  // Temas 2026 (Año Nuevo y escenas de opiniones): son adornos, no textos editables.
+  '#intro-anio-nuevo', '.opiniones-escena', '.an-cinta-anio'].
   join(',');
 
   function clientFromConfig() {

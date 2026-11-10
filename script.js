@@ -2002,25 +2002,37 @@ function activarAnimacionesAlDesplazarse() {
     }
   }
 
+  // Rendimiento: antes se medía la barra en CADA evento de desplazamiento (forzaba a
+  // recalcular toda la página y causaba tirones al empezar a bajar). Ahora solo se
+  // actualiza una vez por cuadro y únicamente cuando cambia de estado.
+  let estadoFijo = null;
+  let cuadroPendiente = false;
   function actualizarBarra() {
+    cuadroPendiente = false;
     const fijar = window.scrollY >= puntoFijacion;
+    if (fijar === estadoFijo) return;
+    estadoFijo = fijar;
+    if (fijar) espacio.style.height = `${barra.offsetHeight}px`;
     barra.classList.toggle('barra-categorias-fija', fijar);
     espacio.hidden = !fijar;
-
-    if (fijar) {
-      espacio.style.height = `${barra.offsetHeight}px`;
-    }
+  }
+  function alDesplazar() {
+    if (cuadroPendiente) return;
+    cuadroPendiente = true;
+    requestAnimationFrame(actualizarBarra);
   }
 
   medirPunto();
 
-  window.addEventListener('scroll', actualizarBarra, { passive: true });
+  window.addEventListener('scroll', alDesplazar, { passive: true });
   window.addEventListener('resize', () => {
     medirPunto();
+    estadoFijo = null;
     actualizarBarra();
   });
   window.addEventListener('load', () => {
     medirPunto();
+    estadoFijo = null;
     actualizarBarra();
   });
 

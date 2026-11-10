@@ -1,0 +1,152 @@
+/* =========================================================
+   CAKE CHÁVEZ — PANEL: TEMAS, RECORDATORIOS DE WHATSAPP
+   y adornos del panel según el tema (Navidad / Año Nuevo).
+   Los colores de Año Nuevo del panel están en admin-anio-nuevo-colores.css
+   ========================================================= */
+
+/* ---------- Pestañas nuevas ---------- */
+.admin-tab-temas,.admin-tab-recordatorios{border:1px dashed rgba(240,156,187,.35)!important}
+
+/* ---------- Tarjetas de temas ---------- */
+.tema-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:18px}
+.tema-card{position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);border-radius:20px;background:var(--panel);
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.tema-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.28)}
+.tema-card.activo{border-color:#e8c56a;box-shadow:0 0 0 3px rgba(232,197,106,.25),0 18px 40px rgba(0,0,0,.28)}
+.tema-card-vista{position:relative;height:190px;overflow:hidden}
+.tema-card-navidad .tema-card-vista{background:radial-gradient(ellipse at 70% 10%,rgba(255,127,179,.35),transparent 60%),linear-gradient(180deg,#1b0a14,#4a1429)}
+.tema-card-anio .tema-card-vista{background:radial-gradient(ellipse at 50% 30%,#fff6dc,transparent 65%),linear-gradient(160deg,#efe3cc,#d6ead4)}
+.tema-card-vista img{position:absolute;bottom:6px;height:auto;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
+.tema-card-navidad .tema-vista-izq{left:6%;width:26%}
+.tema-card-navidad .tema-vista-centro{left:38%;height:82%;width:auto;animation:temaVaiven 3s ease-in-out infinite;transform-origin:50% 100%}
+.tema-card-navidad .tema-vista-der{right:8%;height:92%;width:auto}
+.tema-card-anio .tema-vista-izq{left:5%;width:34%;animation:temaVaiven 3.4s ease-in-out infinite;transform-origin:50% 100%}
+.tema-card-anio .tema-vista-der{right:7%;height:86%;width:auto}
+@keyframes temaVaiven{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg) translateY(-3px)}}
+.tema-vista-nieve i{position:absolute;top:-12px;color:#fff;font-style:normal;opacity:.85;animation:temaCae 6s linear infinite}
+.tema-vista-nieve i:nth-child(1){left:12%}.tema-vista-nieve i:nth-child(2){left:30%;animation-delay:-2s}
+.tema-vista-nieve i:nth-child(3){left:52%;animation-delay:-4s}.tema-vista-nieve i:nth-child(4){left:70%;animation-delay:-1s}.tema-vista-nieve i:nth-child(5){left:88%;animation-delay:-3s}
+@keyframes temaCae{to{transform:translateY(215px) rotate(200deg)}}
+.tema-vista-confeti i{position:absolute;top:-10px;width:6px;height:10px;border-radius:2px;animation:temaCae 5s linear infinite}
+.tema-vista-confeti i:nth-child(odd){background:#7fae8a}.tema-vista-confeti i:nth-child(even){background:#e7c98b}
+.tema-vista-confeti i:nth-child(1){left:8%}.tema-vista-confeti i:nth-child(2){left:20%;animation-delay:-1.2s}.tema-vista-confeti i:nth-child(3){left:33%;animation-delay:-2.6s}
+.tema-vista-confeti i:nth-child(4){left:46%;animation-delay:-.6s}.tema-vista-confeti i:nth-child(5){left:58%;animation-delay:-3.4s}.tema-vista-confeti i:nth-child(6){left:70%;animation-delay:-1.8s}
+.tema-vista-confeti i:nth-child(7){left:82%;animation-delay:-4.2s}.tema-vista-confeti i:nth-child(8){left:93%;animation-delay:-2.2s}
+.tema-vista-anio{position:absolute;left:50%;top:12px;transform:translateX(-50%);font:600 italic 2.6rem/1 'Playfair Display',serif;
+  background:linear-gradient(100deg,#b8893f,#f3dca6,#fff6dc,#c9a35c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tema-card-info{position:relative;padding:18px 20px 20px}
+.tema-card-info h3{margin:0 0 8px;font-family:'Playfair Display',serif;color:var(--pink);font-size:1.3rem}
+.tema-card-info p{margin:0;color:var(--muted);font-size:.84rem;line-height:1.6}
+.tema-badge{position:absolute;top:-16px;right:16px;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;
+  background:linear-gradient(135deg,#e8c56a,#c9a35c);color:#3a2610;font-size:.74rem;font-weight:700;box-shadow:0 6px 14px rgba(0,0,0,.25)}
+.tema-badge[hidden]{display:none}
+.tema-paleta{display:flex;gap:6px;margin-top:12px}
+.tema-paleta i{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.18)}
+.tema-card .admin-button[disabled]{opacity:.65;cursor:default;transform:none}
+.tema-nota{margin-top:14px;color:var(--muted);font-size:.8rem;line-height:1.6}
+
+/* ---------- Recordatorios de WhatsApp ---------- */
+.rec-aviso-separado{display:flex;gap:12px;align-items:flex-start;margin:0 0 16px;padding:13px 15px;border:1px solid rgba(37,211,102,.3);border-radius:14px;
+  background:rgba(37,211,102,.07);color:var(--text);font-size:.83rem;line-height:1.6}
+.rec-aviso-separado>i{color:#25d366;font-size:1.25rem;margin-top:2px}
+.rec-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:17px;align-items:start}
+.rec-col{display:grid;gap:17px;min-width:0}
+.rec-switch-fila{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.rec-switch-fila h3{margin:0 0 4px!important}
+.rec-estado-texto{margin:0;color:var(--muted);font-size:.82rem}
+.rec-estado-texto.on{color:var(--green)}
+.rec-switch{position:relative;display:inline-flex;align-items:center;gap:9px;cursor:pointer;user-select:none;flex-shrink:0}
+.rec-switch input{position:absolute;opacity:0;width:1px;height:1px}
+.rec-switch-pista{position:relative;width:52px;height:29px;border-radius:99px;background:#4a3f43;border:1px solid var(--border);transition:background .2s ease}
+.rec-switch-bola{position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.35);transition:transform .2s ease}
+.rec-switch input:checked+.rec-switch-pista{background:#25d366}
+.rec-switch input:checked+.rec-switch-pista .rec-switch-bola{transform:translateX(23px)}
+.rec-switch input:focus-visible+.rec-switch-pista{outline:2px solid var(--pink);outline-offset:2px}
+.rec-switch-etiqueta{font-size:.82rem;font-weight:700;color:var(--text)}
+.rec-switch-chico .rec-switch-pista{width:44px;height:25px}
+.rec-switch-chico .rec-switch-bola{width:17px;height:17px}
+.rec-switch-chico input:checked+.rec-switch-pista .rec-switch-bola{transform:translateX(19px)}
+.rec-avanzado{margin-top:14px;padding:10px 12px;border:1px dashed var(--border);border-radius:12px}
+.rec-avanzado summary{cursor:pointer;color:var(--muted);font-size:.82rem;font-weight:600}
+.rec-avanzado .admin-form-grid{margin-top:12px}
+.rec-numeros-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.rec-numeros-head h3{margin:0!important}
+.rec-add-form{margin:0 0 14px;padding:14px;border:1px solid var(--border);border-radius:13px;background:var(--panel2)}
+.rec-add-form[hidden]{display:none}
+.rec-list{display:grid;gap:9px}
+.rec-fila{display:grid;grid-template-columns:40px minmax(0,1fr) auto auto;gap:11px;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:var(--panel2)}
+.rec-fila.inactivo{opacity:.62}
+.rec-fila-icono{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(37,211,102,.14);color:#25d366;font-size:1.25rem}
+.rec-fila-datos strong{display:block;font-size:.95rem;letter-spacing:.02em}
+.rec-fila-datos small{display:block;color:var(--muted);font-size:.74rem}
+.rec-fila .admin-button{min-height:34px;padding:6px 10px;font-size:.74rem}
+.rec-acciones{display:grid!important;grid-template-columns:1fr 1fr}
+.rec-conexion dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 14px;margin:0;font-size:.82rem}
+.rec-conexion dt{color:var(--muted)}
+.rec-conexion dd{margin:0;overflow-wrap:anywhere}
+.rec-conexion small{color:var(--muted)}
+.rec-log{display:grid;gap:7px;max-height:360px;overflow:auto}
+.rec-log-fila{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;background:var(--panel2);font-size:.8rem}
+.rec-log-fila small{display:block;color:var(--muted);font-size:.72rem;line-height:1.5}
+.rec-log-fila a{color:var(--pink)}
+.rec-chip{flex-shrink:0;padding:3px 8px;border-radius:99px;font-size:.68rem;font-weight:700}
+.rec-chip.ok{background:rgba(37,211,102,.16);color:#7ee2a2}
+.rec-chip.error{background:rgba(225,120,136,.16);color:#ffb1bd}
+.rec-chip.espera{background:rgba(232,197,106,.16);color:#f0d48a}
+.rec-guia summary{cursor:pointer;font-weight:700;color:var(--pink)}
+.rec-guia ol{margin:12px 0 8px;padding-left:20px;color:var(--text);font-size:.82rem;line-height:1.7}
+.rec-guia p{margin:0;color:var(--muted);font-size:.8rem}
+.rec-guia code{padding:1px 5px;border-radius:5px;background:var(--panel2);font-size:.76rem}
+@media (max-width:900px){.rec-layout{grid-template-columns:1fr}}
+@media (max-width:560px){
+  .rec-fila{grid-template-columns:36px minmax(0,1fr) auto}
+  .rec-fila .admin-row-actions{grid-column:1/-1;justify-content:flex-start}
+  .rec-acciones{grid-template-columns:1fr}
+  .rec-switch-fila{align-items:flex-start}
+}
+
+/* ---------- Pedido abierto desde el enlace del recordatorio ---------- */
+.admin-order-row.admin-order-destacado{border-color:#25d366!important;box-shadow:0 0 0 3px rgba(37,211,102,.35),0 14px 30px rgba(0,0,0,.3);animation:pedidoDestacado 1.4s ease-in-out 3}
+@keyframes pedidoDestacado{50%{box-shadow:0 0 0 7px rgba(37,211,102,.15),0 14px 30px rgba(0,0,0,.3)}}
+
+/* ---------- Adornos del panel: NAVIDAD ---------- */
+.panel-adornos{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.admin-shell{position:relative;z-index:1}
+.panel-guirnalda{position:absolute;top:-12px;left:-2%;right:-2%;height:36px;border-bottom:2px solid rgba(60,90,60,.8);border-radius:0 0 50% 50%/0 0 100% 100%}
+.panel-guirnalda i{position:absolute;bottom:-8px;width:8px;height:12px;border-radius:50%/40% 40% 60% 60%;background:currentColor;box-shadow:0 0 8px 2px currentColor;animation:panelFoco 1.5s ease-in-out infinite}
+.panel-guirnalda i:nth-child(4n+1){color:#ff4f8f}.panel-guirnalda i:nth-child(4n+2){color:#ffd45c;animation-delay:-.4s}
+.panel-guirnalda i:nth-child(4n+3){color:#3ff0c8;animation-delay:-.8s}.panel-guirnalda i:nth-child(4n+4){color:#7fd6ff;animation-delay:-1.2s}
+.panel-guirnalda i:nth-child(1){left:2%;bottom:6px}.panel-guirnalda i:nth-child(2){left:7.5%;bottom:0}.panel-guirnalda i:nth-child(3){left:13%;bottom:-4px}
+.panel-guirnalda i:nth-child(4){left:18.5%;bottom:-6px}.panel-guirnalda i:nth-child(5){left:24%}.panel-guirnalda i:nth-child(6){left:29.5%}
+.panel-guirnalda i:nth-child(7){left:35%;bottom:-9px}.panel-guirnalda i:nth-child(8){left:40.5%;bottom:-10px}.panel-guirnalda i:nth-child(9){left:46%;bottom:-10px}
+.panel-guirnalda i:nth-child(10){left:51.5%;bottom:-10px}.panel-guirnalda i:nth-child(11){left:57%;bottom:-10px}.panel-guirnalda i:nth-child(12){left:62.5%;bottom:-9px}
+.panel-guirnalda i:nth-child(13){left:68%}.panel-guirnalda i:nth-child(14){left:73.5%}.panel-guirnalda i:nth-child(15){left:79%;bottom:-6px}
+.panel-guirnalda i:nth-child(16){left:84.5%;bottom:-4px}.panel-guirnalda i:nth-child(17){left:90%;bottom:0}.panel-guirnalda i:nth-child(18){left:95.5%;bottom:6px}
+@keyframes panelFoco{0%,100%{opacity:1}50%{opacity:.4}}
+.panel-copo{position:absolute;top:-20px;color:#fff;opacity:.4;animation:panelCae linear infinite}
+@keyframes panelCae{to{transform:translate3d(30px,105vh,0) rotate(260deg)}}
+html.tema-navidad .admin-brand-icon{position:relative}
+html.tema-navidad .admin-brand-icon::after{content:"";position:absolute;top:-14px;right:-12px;width:30px;height:24px;background:url("img/navidad/gorrito.webp") no-repeat center/contain;transform:rotate(18deg)}
+html.tema-navidad .admin-welcome h1::after{content:" 🎄"}
+html.tema-navidad .admin-tabs{border-color:rgba(232,197,106,.35);box-shadow:inset 0 0 0 1px rgba(255,127,179,.08)}
+html.tema-navidad .admin-stats article{border-top:3px solid #c4163f}
+html.tema-navidad .admin-stats article:nth-child(2){border-top-color:#23964f}
+html.tema-navidad .admin-stats article:nth-child(3){border-top-color:#e8c56a}
+
+/* ---------- Adornos del panel: AÑO NUEVO ---------- */
+.panel-banderines{position:absolute;top:0;left:0;right:0;height:34px;display:flex;justify-content:space-around;padding:0 1%}
+.panel-banderines::before{content:"";position:absolute;left:0;right:0;top:-10px;height:22px;border-bottom:2px solid rgba(231,201,139,.75);border-radius:0 0 50% 50%/0 0 100% 100%}
+.panel-banderines i{position:relative;top:4px;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:18px solid #b9dfc0;transform-origin:50% 0;animation:panelBandera 3s ease-in-out infinite}
+.panel-banderines i:nth-child(4n+2){border-top-color:#f7eedd;animation-delay:-.6s}.panel-banderines i:nth-child(4n+3){border-top-color:#e7c98b;animation-delay:-1.2s}.panel-banderines i:nth-child(4n+4){border-top-color:#f3cdb4;animation-delay:-1.8s}
+.panel-banderines i:nth-child(n+6):nth-child(-n+17){top:9px}
+@keyframes panelBandera{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.panel-confeti{position:absolute;top:-16px;width:7px;height:11px;border-radius:2px;opacity:.45;animation:panelCae linear infinite}
+html.tema-anio-nuevo .admin-welcome h1::after{content:" 🥂"}
+html.tema-anio-nuevo .admin-stats article{border-top:3px solid #7fae8a}
+html.tema-anio-nuevo .admin-stats article:nth-child(2){border-top-color:#e7c98b}
+html.tema-anio-nuevo .admin-stats article:nth-child(3){border-top-color:#f3cdb4}
+html.tema-anio-nuevo .admin-tab-navidad{opacity:.7}
+html.tema-anio-nuevo .tema-card.activo{border-color:#7fae8a;box-shadow:0 0 0 3px rgba(127,174,138,.3),0 18px 40px rgba(0,0,0,.28)}
+
+@media (prefers-reduced-motion:reduce){.panel-adornos *,.tema-card-vista *{animation:none!important}}
+@media (max-width:600px){.panel-banderines i:nth-child(n+14){display:none}}

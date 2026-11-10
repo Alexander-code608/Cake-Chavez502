@@ -962,12 +962,14 @@
       list.append(item, full);
     });
   }
-  window.CakeAdmin = { getClient: () => client, globalMessage, reloadCategories: () => loadCategoriesForForm().then(loadProducts), loadProducts, getProducts: () => products, uploadPhoto, imageStoragePath, isImage };
+  window.CakeAdmin = { getClient: () => client, globalMessage, setTab: (t) => setTab(t), setOrdersView: (v) => setOrdersView(v), loadOrders: () => loadOrders(), statusView: (s) => statusView(s), reloadCategories: () => loadCategoriesForForm().then(loadProducts), loadProducts, getProducts: () => products, uploadPhoto, imageStoragePath, isImage };
   async function boot(user) {if (!(await requireAdmin(user))) return;showApp(user);await loadCategoriesForForm();await loadProducts();await loadSettings();await loadCapacitySettings();document.dispatchEvent(new CustomEvent('cake-admin-listo'));}
   document.addEventListener('DOMContentLoaded', async () => {var _$5, _$6, _$7, _$8, _$9, _$0, _$1, _$10, _$11, _$12, _$13, _$14, _$18;
     client = configuredClient();
     if (!client) {$('admin-config-notice').hidden = false;$('admin-login-view').hidden = true;return;}
-    const forcePanel = new URLSearchParams(window.location.search).get('panel') === '1';
+    const paramsPanel = new URLSearchParams(window.location.search);
+    // Los enlaces de los recordatorios de WhatsApp (?pedido=CC-...) abren directamente el panel y el pedido.
+    const forcePanel = paramsPanel.get('panel') === '1' || /^CC-[A-Z0-9]{16}$/.test(paramsPanel.get('pedido') || '');
     $('admin-login-form').addEventListener('submit', async (event) => {
       event.preventDefault();message('admin-login-message', 'Verificando…');
       const { data, error } = await client.auth.signInWithPassword({ email: $('admin-email').value.trim(), password: $('admin-password').value });

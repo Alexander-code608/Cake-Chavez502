@@ -2564,7 +2564,9 @@ footer {
 
 .revelar-scroll.visible-scroll {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    /* Rendimiento: "none" en lugar de translate3d(0,0,0); así cada bloque ya revelado deja
+       de ocupar una capa gráfica propia y el desplazamiento es más fluido. */
+    transform: none;
 }
 
 /* Evita que las animaciones antiguas de entrada anulen el revelado al hacer scroll. */
@@ -2575,7 +2577,7 @@ footer {
 
 /* Mantiene el efecto de elevación de las tarjetas al pasar el cursor. */
 #productos-container .producto.revelar-scroll.visible-scroll:hover {
-    transform: translate3d(0, -5px, 0);
+    transform: translateY(-5px);
 }
 
 @media (max-width: 600px) {

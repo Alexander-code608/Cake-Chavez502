@@ -1,0 +1,209 @@
+/* =========================================================
+   CAKE CHÁVEZ — «TU OPINIÓN NOS MOTIVA» NAVIDEÑO
+   1. Escena: Santa animado, árbol con luces (derecha), regalos (izquierda),
+      nieve, luna, estrellas y guirnalda. Reutiliza img/navidad/*.
+   2. Ventana «Deja tu reseña» con diseño navideño.
+   Todo es solo decoración: no cambia el formulario ni cómo se envía.
+   ========================================================= */
+
+/* ---------- Contenedor de la escena ---------- */
+.opiniones-hero-art{position:relative}
+.opiniones-escena{position:absolute;inset:0;overflow:hidden;isolation:isolate;pointer-events:none}
+.opiniones-escena i{font-style:normal}
+/* Anula el tamaño de la foto anterior (style.css) para las figuras de la escena */
+.opiniones-hero-art .opiniones-escena img{position:absolute;display:block;min-width:0;min-height:0;max-width:none;max-height:none;margin:0;object-fit:contain;object-position:center}
+.escena-anio{display:none}
+html.tema-anio-nuevo .escena-navidad{display:none}
+html.tema-anio-nuevo .escena-anio{display:block}
+
+/* Fondo: noche navideña en vino y rosa, a juego con la página */
+.escena-cielo{position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 55% at 72% 18%,rgba(255,140,190,.30),transparent 62%),
+    radial-gradient(ellipse 60% 45% at 18% 30%,rgba(255,206,130,.16),transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 110%,#5b1530 0%,transparent 60%),
+    linear-gradient(180deg,#1b0a14 0%,#3a0f22 48%,#5a1a33 100%)}
+.escena-luna{position:absolute;z-index:1;top:11%;left:9%;width:12%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 38% 38%,#fff9ec 0%,#ffe9c2 55%,#f7d39a 100%);
+  box-shadow:0 0 22px 6px rgba(255,230,180,.45),0 0 60px 18px rgba(255,200,150,.18)}
+.escena-estrellas i{position:absolute;z-index:1;width:3px;height:3px;border-radius:50%;background:#fff;
+  box-shadow:0 0 6px 1px rgba(255,255,255,.8);animation:escenaTitilar 2.6s ease-in-out infinite}
+.escena-estrellas i:nth-child(1){top:14%;left:30%}
+.escena-estrellas i:nth-child(2){top:8%;left:46%;animation-delay:-.6s}
+.escena-estrellas i:nth-child(3){top:22%;left:56%;animation-delay:-1.2s}
+.escena-estrellas i:nth-child(4){top:12%;left:64%;animation-delay:-1.8s}
+.escena-estrellas i:nth-child(5){top:30%;left:38%;animation-delay:-.3s;width:2px;height:2px}
+.escena-estrellas i:nth-child(6){top:6%;left:24%;animation-delay:-2.1s;width:2px;height:2px}
+.escena-estrellas i:nth-child(7){top:26%;left:22%;animation-delay:-1.5s}
+.escena-estrellas i:nth-child(8){top:18%;left:74%;animation-delay:-.9s;width:2px;height:2px}
+@keyframes escenaTitilar{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+
+/* Guirnalda de foquitos arriba */
+.escena-guirnalda{position:absolute;z-index:4;top:-14px;left:-4%;right:-4%;height:44px;
+  border-bottom:2px solid rgba(40,70,40,.85);border-radius:0 0 50% 50%/0 0 100% 100%}
+.escena-guirnalda i{position:absolute;top:calc(100% - 3px);width:9px;height:13px;border-radius:50%/40% 40% 60% 60%;
+  background:currentColor;box-shadow:0 0 8px 2px currentColor;animation:escenaFoco 1.4s ease-in-out infinite}
+.escena-guirnalda i::before{content:"";position:absolute;top:-4px;left:2px;width:5px;height:5px;border-radius:1px;background:#2b3a2b}
+.escena-guirnalda i:nth-child(1){left:6%;top:calc(60% - 3px);color:#ff4f8f}
+.escena-guirnalda i:nth-child(2){left:14%;top:calc(76% - 3px);color:#ffd45c;animation-delay:-.3s}
+.escena-guirnalda i:nth-child(3){left:23%;top:calc(88% - 3px);color:#3ff0c8;animation-delay:-.6s}
+.escena-guirnalda i:nth-child(4){left:32%;top:calc(96% - 3px);color:#ff6b6b;animation-delay:-.9s}
+.escena-guirnalda i:nth-child(5){left:41%;top:calc(100% - 3px);color:#7fd6ff;animation-delay:-1.2s}
+.escena-guirnalda i:nth-child(6){left:50%;top:calc(101% - 3px);color:#ff4f8f;animation-delay:-.15s}
+.escena-guirnalda i:nth-child(7){left:59%;top:calc(100% - 3px);color:#ffd45c;animation-delay:-.45s}
+.escena-guirnalda i:nth-child(8){left:68%;top:calc(96% - 3px);color:#3ff0c8;animation-delay:-.75s}
+.escena-guirnalda i:nth-child(9){left:77%;top:calc(88% - 3px);color:#ff6b6b;animation-delay:-1.05s}
+.escena-guirnalda i:nth-child(10){left:86%;top:calc(76% - 3px);color:#7fd6ff;animation-delay:-1.35s}
+.escena-guirnalda i:nth-child(11){left:94%;top:calc(60% - 3px);color:#ff4f8f;animation-delay:-.5s}
+@keyframes escenaFoco{0%,100%{opacity:1;filter:brightness(1.15)}50%{opacity:.45;filter:brightness(.7)}}
+
+/* Nieve que cae dentro de la escena */
+.escena-nieve i{position:absolute;z-index:6;top:-24px;color:#fff;opacity:.85;font-size:12px;line-height:1;
+  text-shadow:0 0 6px rgba(255,255,255,.6);animation:escenaNieve 9s linear infinite}
+.escena-nieve i:nth-child(1){left:4%;animation-duration:8s;animation-delay:-1s}
+.escena-nieve i:nth-child(2){left:12%;font-size:9px;animation-duration:11s;animation-delay:-6s}
+.escena-nieve i:nth-child(3){left:21%;animation-duration:9.5s;animation-delay:-3s}
+.escena-nieve i:nth-child(4){left:30%;font-size:15px;animation-duration:12s;animation-delay:-8s}
+.escena-nieve i:nth-child(5){left:39%;font-size:9px;animation-duration:8.5s;animation-delay:-2s}
+.escena-nieve i:nth-child(6){left:48%;animation-duration:10s;animation-delay:-5s}
+.escena-nieve i:nth-child(7){left:57%;font-size:10px;animation-duration:9s;animation-delay:-7s}
+.escena-nieve i:nth-child(8){left:66%;font-size:14px;animation-duration:11.5s;animation-delay:-4s}
+.escena-nieve i:nth-child(9){left:75%;animation-duration:8s;animation-delay:-.5s}
+.escena-nieve i:nth-child(10){left:84%;font-size:9px;animation-duration:10.5s;animation-delay:-9s}
+.escena-nieve i:nth-child(11){left:92%;animation-duration:9s;animation-delay:-2.5s}
+.escena-nieve i:nth-child(12){left:52%;font-size:16px;animation-duration:13s;animation-delay:-10s}
+.escena-nieve{position:absolute;inset:0;z-index:6}
+@keyframes escenaNieve{to{transform:translate3d(16px,480px,0) rotate(220deg)}}
+
+/* Suelo nevado */
+.escena-suelo{position:absolute;z-index:2;left:-6%;right:-6%;bottom:-12%;height:30%;border-radius:50% 50% 0 0/100% 100% 0 0;
+  background:radial-gradient(ellipse at 50% 0%,#ffffff 0%,#f6eef4 45%,#e7d6e0 100%);
+  box-shadow:0 -6px 22px rgba(255,255,255,.18)}
+
+/* Regalos (izquierda) */
+.opiniones-hero-art .opiniones-escena img.escena-regalos{position:absolute;z-index:5;left:2%;bottom:3%;width:30%;height:auto;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.35));transform-origin:50% 100%;animation:escenaRegalos 3.2s ease-in-out infinite}
+@keyframes escenaRegalos{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-1.5deg)}}
+
+/* Santa animado (centro): camina de lado a lado, rebota y se inclina saludando */
+.opiniones-hero-art .opiniones-escena img.escena-santa{position:absolute;z-index:5;left:35%;bottom:4%;height:80%;width:auto;
+  filter:drop-shadow(0 10px 12px rgba(0,0,0,.4));transform-origin:50% 100%;
+  animation:escenaSantaCamina 7s ease-in-out infinite}
+@keyframes escenaSantaCamina{
+  0%  {transform:translateX(-14%) translateY(0) rotate(-2deg)}
+  10% {transform:translateX(-9%) translateY(-4%) rotate(2deg)}
+  20% {transform:translateX(-4%) translateY(0) rotate(-2deg)}
+  30% {transform:translateX(1%) translateY(-4%) rotate(2deg)}
+  40% {transform:translateX(6%) translateY(0) rotate(-2deg)}
+  50% {transform:translateX(9%) translateY(-6%) rotate(5deg) scale(1.03)}
+  60% {transform:translateX(6%) translateY(0) rotate(2deg)}
+  70% {transform:translateX(1%) translateY(-4%) rotate(-2deg)}
+  80% {transform:translateX(-4%) translateY(0) rotate(2deg)}
+  90% {transform:translateX(-9%) translateY(-4%) rotate(-2deg)}
+  100%{transform:translateX(-14%) translateY(0) rotate(-2deg)}
+}
+
+/* Árbol con luces (derecha) */
+.escena-arbol{position:absolute;z-index:4;right:5%;bottom:2%;height:94%;aspect-ratio:300/1040;
+  filter:drop-shadow(0 10px 14px rgba(0,0,0,.45))}
+.opiniones-hero-art .escena-arbol img{position:static;width:100%;height:100%}
+.escena-arbol-luces i{position:absolute;width:9%;aspect-ratio:1;border-radius:50%;background:currentColor;
+  box-shadow:0 0 6px 2px currentColor,0 0 12px 3px currentColor;animation:escenaFoco 1.6s ease-in-out infinite}
+.escena-arbol-luces i:nth-child(5n+1){color:#ffe08a}
+.escena-arbol-luces i:nth-child(5n+2){color:#ff7fb3}
+.escena-arbol-luces i:nth-child(5n+3){color:#9ff5dc}
+.escena-arbol-luces i:nth-child(5n+4){color:#fff3d6}
+.escena-arbol-luces i:nth-child(5n+5){color:#ff9a7a}
+.escena-arbol-luces i:nth-child(1){top:9%;left:47%}
+.escena-arbol-luces i:nth-child(2){top:15%;left:36%;animation-delay:-.4s}
+.escena-arbol-luces i:nth-child(3){top:20%;left:58%;animation-delay:-.8s}
+.escena-arbol-luces i:nth-child(4){top:27%;left:30%;animation-delay:-1.2s}
+.escena-arbol-luces i:nth-child(5){top:32%;left:62%;animation-delay:-.2s}
+.escena-arbol-luces i:nth-child(6){top:39%;left:42%;animation-delay:-.6s}
+.escena-arbol-luces i:nth-child(7){top:45%;left:24%;animation-delay:-1s}
+.escena-arbol-luces i:nth-child(8){top:50%;left:66%;animation-delay:-1.4s}
+.escena-arbol-luces i:nth-child(9){top:57%;left:46%;animation-delay:-.3s}
+.escena-arbol-luces i:nth-child(10){top:63%;left:22%;animation-delay:-.7s}
+.escena-arbol-luces i:nth-child(11){top:68%;left:70%;animation-delay:-1.1s}
+.escena-arbol-luces i:nth-child(12){top:74%;left:38%;animation-delay:-1.5s}
+.escena-arbol-luces i:nth-child(13){top:80%;left:60%;animation-delay:-.5s}
+.escena-arbol-luces i:nth-child(14){top:85%;left:26%;animation-delay:-.9s}
+
+/* La escena solo se anima cuando está en pantalla (ahorra batería y evita tirones) */
+.opiniones-escena.escena-pausa *{animation-play-state:paused!important}
+
+@media (max-width:650px){
+  .escena-guirnalda i{width:7px;height:10px}
+  .escena-nieve i:nth-child(n+9){display:none}
+}
+html.cake-ligero .escena-nieve,html.cake-ligero .escena-estrellas{display:none}
+html.cake-ligero .escena-santa,html.cake-ligero .escena-regalos,html.cake-ligero .escena-arbol-luces i,html.cake-ligero .escena-guirnalda i{animation:none}
+@media (prefers-reduced-motion:reduce){.opiniones-escena *{animation:none!important}}
+
+
+/* =========================================================
+   VENTANA «DEJA TU RESEÑA» — DISEÑO NAVIDEÑO
+   ========================================================= */
+body.navidad .cake-review-backdrop{background:radial-gradient(circle at 50% 30%,rgba(90,15,40,.55),rgba(10,4,8,.82))}
+body.navidad .cake-review-dialog{
+  border:2px solid #e8c56a;border-radius:22px;color:#3d1424;
+  background:
+    radial-gradient(circle at 12% 18%,rgba(255,255,255,.9) 0 2px,transparent 3px) 0 0/46px 46px,
+    radial-gradient(circle at 70% 64%,rgba(255,255,255,.75) 0 1.5px,transparent 2.5px) 0 0/58px 58px,
+    linear-gradient(180deg,#fff8ef 0%,#fdeee6 55%,#f9e3e6 100%);
+  box-shadow:0 0 0 6px rgba(178,22,58,.35),0 28px 80px rgba(0,0,0,.55),0 0 50px rgba(255,200,120,.18)}
+/* Encabezado: terciopelo rojo con borde de "peluche" blanco, como el gorro de Santa */
+body.navidad .cake-review-dialog-head{
+  position:sticky;padding:20px 18px 26px 66px;color:#fff;
+  background:
+    url("img/navidad/acebo.webp") no-repeat 14px 50%/42px auto,
+    radial-gradient(ellipse at 30% 0%,rgba(255,255,255,.18),transparent 60%),
+    linear-gradient(135deg,#c4163f 0%,#9a0f31 55%,#7a0a26 100%)}
+body.navidad .cake-review-dialog-head::after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:18px;pointer-events:none;
+  background:radial-gradient(circle at 9px 0,#fffdf8 8px,transparent 8.5px) 0 0/18px 18px repeat-x;
+  filter:drop-shadow(0 3px 2px rgba(120,20,40,.25))}
+body.navidad .cake-review-dialog-head::before{content:"";position:absolute;left:0;right:0;top:6px;height:12px;pointer-events:none;
+  background:
+    radial-gradient(circle,#ffd45c 0 3px,transparent 3.6px) 6px 0/40px 12px repeat-x,
+    radial-gradient(circle,#3ff0c8 0 3px,transparent 3.6px) 26px 0/40px 12px repeat-x;
+  opacity:.95;animation:resenaLuces 1.6s steps(2,end) infinite}
+@keyframes resenaLuces{50%{opacity:.45}}
+body.navidad .cake-review-dialog-head h2{color:#fff;text-shadow:0 2px 8px rgba(60,0,15,.45);letter-spacing:.01em}
+body.navidad .cake-review-dialog-head h2 i{color:#ffd45c}
+body.navidad .cake-review-close{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.35)}
+body.navidad .cake-review-close:hover{background:rgba(255,255,255,.3)}
+/* Gorrito en la esquina del recuadro */
+body.navidad .cake-review-dialog::before{content:"";position:absolute;z-index:3;top:4px;right:46px;width:52px;height:40px;pointer-events:none;
+  background:url("img/navidad/gorrito.webp") no-repeat center/contain;transform:rotate(14deg);filter:drop-shadow(0 4px 4px rgba(0,0,0,.3))}
+body.navidad .cake-review-intro{margin-top:14px;color:#a3123a;font-family:'Playfair Display',Georgia,serif;font-size:1.02rem}
+body.navidad .cake-review-intro::before{content:"🎄 "}
+body.navidad .cake-review-intro::after{content:" ✨"}
+/* Franja de bastón de caramelo */
+body.navidad #cake-public-review-form{position:relative}
+body.navidad #cake-public-review-form::before{content:"";display:block;height:6px;margin:0 0 8px;border-radius:99px;
+  background:repeating-linear-gradient(-45deg,#c4163f 0 10px,#fff 10px 20px);opacity:.85}
+body.navidad #cake-public-review-form>label,body.navidad .cake-review-stars legend{color:#7a0a26}
+body.navidad #cake-public-review-form>label span{color:#8a5a66}
+body.navidad #cake-public-review-form input:not([type=file]):not([type=checkbox]),
+body.navidad #cake-public-review-form textarea{border:1.5px solid #e9c9cf;background:#fffdfb;color:#3d1424}
+body.navidad #cake-public-review-form input:not([type=file]):not([type=checkbox]):focus,
+body.navidad #cake-public-review-form textarea:focus{border-color:#1f8a4c;box-shadow:0 0 0 3px rgba(31,138,76,.16)}
+body.navidad #cake-public-review-form input[type=file]{border-color:#1f8a4c!important;background:rgba(31,138,76,.05)!important}
+body.navidad .cake-star-picker button{color:#e7d3c3;text-shadow:none}
+body.navidad .cake-star-picker button.active,body.navidad .cake-star-picker button[aria-checked="true"],
+body.navidad .cake-star-picker button.is-active{color:#f2b324;text-shadow:0 0 10px rgba(242,179,36,.55)}
+body.navidad .cake-review-help{color:#7c5a62}
+body.navidad .cake-review-consent{color:#5a2a38}
+body.navidad .cake-review-consent input{accent-color:#1f8a4c}
+body.navidad .cake-review-submit{background:linear-gradient(135deg,#23964f,#156b37);color:#fff;border:1px solid rgba(255,230,160,.7);
+  box-shadow:0 8px 18px rgba(21,107,55,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+body.navidad .cake-review-submit:hover{filter:brightness(1.08)}
+body.navidad .cake-review-cancel{background:#fff;color:#a3123a;border:1.5px solid #c4163f}
+body.navidad .cake-review-success-icon{background:linear-gradient(135deg,#23964f,#156b37);color:#fff;box-shadow:0 0 0 6px rgba(35,150,79,.15)}
+body.navidad .cake-review-success h3{color:#a3123a}
+body.navidad .cake-review-success .opiniones-cta{background:linear-gradient(135deg,#c4163f,#8a0d2c)}
+body.navidad .cake-review-dialog{scrollbar-color:#c4163f #fbe8e8}
+@media (max-width:650px){
+  body.navidad .cake-review-dialog-head{padding:16px 12px 22px 56px;background-size:34px auto,auto,auto;background-position:12px 50%,0 0,0 0}
+  body.navidad .cake-review-dialog::before{width:46px;height:34px;right:40px}
+}

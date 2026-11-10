@@ -1,0 +1,186 @@
+/* =========================================================
+   CAKE CHÁVEZ — TEMA AÑO NUEVO: COLORES (archivo generado)
+   Convierte los rosas/vino del diseño a verde pastel, verde
+   pálido, café suave y crema SOLO cuando el tema activo es
+   Año Nuevo (html.tema-anio-nuevo). No modifica el tema de Navidad.
+   ========================================================= */
+/* ---- generado desde admin.css ---- */
+html.tema-anio-nuevo{--bg:#544234;--panel:#5b4738;--panel2:#4c3b2e;--pink:#afdeb6;--pink2:#4c8d64;--text:#f6efdf;--muted:#bfb19b;--border:#635548;--red:#98d5a0;--green:#9bd4b0}
+html.tema-anio-nuevo{background:var(--bg)}
+html.tema-anio-nuevo body{background:radial-gradient(circle at top right,rgba(76,141,100,0.15),transparent 35%),var(--bg);color:var(--text)}
+html.tema-anio-nuevo a{color:inherit}
+html.tema-anio-nuevo .admin-topbar{border-bottom:1px solid var(--border)}
+html.tema-anio-nuevo .admin-brand{text-decoration:none}
+html.tema-anio-nuevo .admin-brand-icon{background:rgba(175,222,182,0.14);color:var(--pink)}
+html.tema-anio-nuevo .admin-brand small{color:var(--muted)}
+html.tema-anio-nuevo .admin-store-link{color:var(--pink);text-decoration:none}
+html.tema-anio-nuevo .admin-auth-card,html.tema-anio-nuevo .admin-notice{border:1px solid var(--border);background:var(--panel);box-shadow:0 18px 45px rgba(0,0,0,.25)}
+html.tema-anio-nuevo .admin-auth-card h1,html.tema-anio-nuevo .admin-welcome h1,html.tema-anio-nuevo .admin-notice h1{color:var(--pink)}
+html.tema-anio-nuevo .admin-auth-card p,html.tema-anio-nuevo .admin-notice p{color:var(--muted)}
+html.tema-anio-nuevo .admin-eyebrow{color:var(--pink)}
+html.tema-anio-nuevo .admin-auth-card label,html.tema-anio-nuevo .admin-form-card label{color:var(--text)}
+html.tema-anio-nuevo .admin-auth-card input,html.tema-anio-nuevo .admin-form-card input:not([type=checkbox]):not([type=file]),html.tema-anio-nuevo .admin-form-card textarea,html.tema-anio-nuevo .admin-form-card select,html.tema-anio-nuevo .admin-list-toolbar input{border:1px solid var(--border);background:var(--panel2);color:var(--text);outline:none}
+html.tema-anio-nuevo .admin-auth-card input:focus,html.tema-anio-nuevo .admin-form-card input:focus,html.tema-anio-nuevo .admin-form-card textarea:focus,html.tema-anio-nuevo .admin-form-card select:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(175,222,182,0.1)}
+html.tema-anio-nuevo .admin-button{border:1px solid transparent}
+html.tema-anio-nuevo .admin-button-primary{background:var(--pink2);color:white}
+html.tema-anio-nuevo .admin-button-primary:hover{background:#5ea879}
+html.tema-anio-nuevo .admin-button-outline{background:transparent;border-color:var(--border);color:var(--text)}
+html.tema-anio-nuevo .admin-button-danger{background:rgba(152,213,160,0.12);border-color:rgba(152,213,160,0.3);color:#f6efdf}
+html.tema-anio-nuevo .admin-message{color:var(--muted)}
+html.tema-anio-nuevo .admin-message.error{color:#f6efdf}
+html.tema-anio-nuevo .admin-message.success{color:var(--green)}
+html.tema-anio-nuevo .admin-welcome p{color:var(--muted)}
+html.tema-anio-nuevo .admin-stats article{border:1px solid var(--border);background:var(--panel)}
+html.tema-anio-nuevo .admin-stats span{color:var(--muted)}
+html.tema-anio-nuevo .admin-stats strong{color:var(--pink)}
+html.tema-anio-nuevo .admin-tabs{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .admin-tab{border:0;background:transparent;color:var(--muted)}
+html.tema-anio-nuevo .admin-tab.active{background:var(--pink2);color:#fff}
+html.tema-anio-nuevo .admin-section-head h2{color:var(--pink)}
+html.tema-anio-nuevo .admin-section-head p{color:var(--muted)}
+html.tema-anio-nuevo .admin-form-card,html.tema-anio-nuevo .admin-list-card{border:1px solid var(--border);background:var(--panel)}
+html.tema-anio-nuevo .admin-form-card h3,html.tema-anio-nuevo .admin-list-card h3{color:var(--pink)}
+html.tema-anio-nuevo .admin-form-card small{color:var(--muted)}
+html.tema-anio-nuevo .admin-form-card input[type=file]{color:var(--muted)}
+html.tema-anio-nuevo .admin-checkboxes label,html.tema-anio-nuevo .admin-inline-check{color:var(--text)}
+html.tema-anio-nuevo .admin-checkboxes input,html.tema-anio-nuevo .admin-inline-check input{accent-color:var(--pink2)}
+html.tema-anio-nuevo .admin-product-row,html.tema-anio-nuevo .admin-order-row,html.tema-anio-nuevo .admin-review-row{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .admin-product-row img,html.tema-anio-nuevo .admin-review-row img{background:var(--panel)}
+html.tema-anio-nuevo .admin-product-meta span,html.tema-anio-nuevo .admin-product-meta small{color:var(--muted)}
+html.tema-anio-nuevo .admin-order-code{color:var(--pink)}
+html.tema-anio-nuevo .admin-order-detail{color:var(--muted)}
+html.tema-anio-nuevo .admin-order-status select{background:var(--panel);color:var(--text);border:1px solid var(--border)}
+html.tema-anio-nuevo .admin-review-row p{color:var(--muted)}
+html.tema-anio-nuevo .admin-global-message{background:var(--bg)}
+html.tema-anio-nuevo .admin-footer{border-top:1px solid var(--border);color:var(--muted)}
+html.tema-anio-nuevo .admin-current-gallery img{border:1px solid var(--border)}
+html.tema-anio-nuevo .admin-order-image{background:var(--panel)}
+html.tema-anio-nuevo .admin-order-group-title{color:var(--pink)}
+html.tema-anio-nuevo .admin-order-view{border:1px solid var(--border);background:var(--panel2);color:var(--text)}
+html.tema-anio-nuevo .admin-order-view:hover{border-color:var(--pink)}
+html.tema-anio-nuevo .admin-order-view.active{background:var(--pink2);border-color:var(--pink2);color:#fff}
+html.tema-anio-nuevo .admin-order-view span{background:rgba(255,255,255,.15)}
+html.tema-anio-nuevo .admin-order-view-trash{border-color:rgba(152,213,160,0.35)}
+html.tema-anio-nuevo .admin-order-views-note{color:var(--muted)}
+html.tema-anio-nuevo .admin-order-date{color:var(--muted)}
+html.tema-anio-nuevo .admin-order-image-button{border:0;background:transparent}
+html.tema-anio-nuevo .admin-order-no-image{border:1px dashed var(--border);color:var(--muted)}
+html.tema-anio-nuevo .admin-order-info-group{border:1px solid rgba(99,85,72,0.75);background:rgba(76,59,46,0.45)}
+html.tema-anio-nuevo .admin-order-info-group h4{color:var(--pink)}
+html.tema-anio-nuevo .admin-order-info-item span{color:var(--muted)}
+html.tema-anio-nuevo .admin-order-info-item strong{color:var(--text)}
+html.tema-anio-nuevo .admin-order-items li{border-bottom:1px solid rgba(99,85,72,0.55)}
+html.tema-anio-nuevo .admin-order-items li:last-child{border-bottom:0}
+html.tema-anio-nuevo .admin-order-items li strong{color:var(--text)}
+html.tema-anio-nuevo .admin-order-total{border-top:1px solid var(--border)}
+html.tema-anio-nuevo .admin-order-total span{color:var(--muted)}
+html.tema-anio-nuevo .admin-order-total strong{color:var(--pink)}
+html.tema-anio-nuevo .admin-order-muted{color:var(--muted)}
+html.tema-anio-nuevo .admin-trash-product-row{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .admin-trash-product-row>img{background:var(--panel)}
+html.tema-anio-nuevo .admin-image-lightbox{background:rgba(58,42,31,0.94)}
+html.tema-anio-nuevo .admin-image-lightbox img{box-shadow:0 20px 70px rgba(0,0,0,.5)}
+html.tema-anio-nuevo .admin-image-lightbox-close{border:1px solid rgba(255,255,255,.35);background:rgba(79,62,49,0.85);color:#fff}
+html.tema-anio-nuevo .admin-order-edit-modal{background:rgba(59,43,32,0.78)}
+html.tema-anio-nuevo .admin-order-edit-panel{border:1px solid rgba(175,222,182,0.35);background:var(--panel);box-shadow:0 25px 90px rgba(0,0,0,.55)}
+html.tema-anio-nuevo .admin-order-edit-header{background:linear-gradient(115deg,#4c8d64,#7bc985);color:#fff}
+html.tema-anio-nuevo .admin-order-edit-header small{color:rgba(255,255,255,.83)}
+html.tema-anio-nuevo .admin-order-edit-close{border:1px solid rgba(255,255,255,.38);background:rgba(91,66,49,0.16);color:#fff}
+html.tema-anio-nuevo .admin-order-edit-close:hover{background:rgba(91,66,49,0.32)}
+html.tema-anio-nuevo .admin-order-edit-preview-wrap{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .admin-order-edit-empty{color:var(--muted)}
+html.tema-anio-nuevo .admin-order-edit-empty i{color:var(--pink)}
+html.tema-anio-nuevo .admin-order-edit-photo>small{color:var(--muted)}
+html.tema-anio-nuevo .admin-order-edit-grid label,html.tema-anio-nuevo .admin-order-edit-item-field{color:var(--text)}
+html.tema-anio-nuevo .admin-order-edit-grid input,html.tema-anio-nuevo .admin-order-edit-grid textarea,html.tema-anio-nuevo .admin-order-edit-grid select,html.tema-anio-nuevo .admin-order-edit-item-field input{border:1px solid var(--border);background:var(--panel2);color:var(--text);outline:none}
+html.tema-anio-nuevo .admin-order-edit-grid input:focus,html.tema-anio-nuevo .admin-order-edit-grid textarea:focus,html.tema-anio-nuevo .admin-order-edit-grid select:focus,html.tema-anio-nuevo .admin-order-edit-item-field input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(175,222,182,0.1)}
+html.tema-anio-nuevo .admin-order-edit-items-section{border-top:1px solid var(--border)}
+html.tema-anio-nuevo .admin-order-edit-items-heading h3{color:var(--pink)}
+html.tema-anio-nuevo .admin-order-edit-item{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .admin-order-edit-actions{border-top:1px solid var(--border)}
+html.tema-anio-nuevo .admin-review-share-card{border:1px solid rgba(175,222,182,0.32);background:linear-gradient(120deg,rgba(76,141,100,0.18),var(--panel))}
+html.tema-anio-nuevo .admin-review-share-card strong{color:var(--pink)}
+html.tema-anio-nuevo .admin-review-share-card p{color:var(--muted)}
+html.tema-anio-nuevo .admin-review-share-card code{color:var(--text)}
+html.tema-anio-nuevo .admin-review-list-heading h3{color:var(--pink)}
+html.tema-anio-nuevo .admin-review-list-heading span{color:var(--muted)}
+html.tema-anio-nuevo .admin-review-gallery img{background:var(--panel2)}
+html.tema-anio-nuevo .admin-review-copy>strong{color:var(--pink)}
+html.tema-anio-nuevo .admin-review-copy>small{color:var(--muted)}
+html.tema-anio-nuevo .admin-review-copy p{color:var(--text)}
+html.tema-anio-nuevo .admin-review-state{color:var(--green) !important}
+
+/* ---- generado desde admin-extra.css ---- */
+html.tema-anio-nuevo .admin-order-photo-count{background:rgba(65,48,35,0.82);color:#fff}
+html.tema-anio-nuevo .admin-order-item-thumb{border:1px solid var(--border)}
+html.tema-anio-nuevo .admin-image-lightbox-nav{border:1px solid rgba(255, 255, 255, .35);background:rgba(76,141,100,0.9);color:#fff}
+html.tema-anio-nuevo .admin-image-lightbox-count{background:rgba(79,62,49,0.85);color:#fff}
+html.tema-anio-nuevo .admin-photo-tile{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .admin-photo-tile.is-new{border-color:var(--pink)}
+html.tema-anio-nuevo .admin-photo-name{color:var(--muted)}
+html.tema-anio-nuevo .admin-photo-remove{border:0;background:rgba(65,48,35,0.85);color:#fff}
+html.tema-anio-nuevo .admin-photo-tag{background:var(--pink2);color:#fff}
+html.tema-anio-nuevo .admin-order-edit-item-photo img{border:1px solid var(--border)}
+html.tema-anio-nuevo .admin-carousel-row{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .admin-carousel-row img{background:var(--panel)}
+html.tema-anio-nuevo .admin-order-hint{color:var(--muted)}
+html.tema-anio-nuevo .admin-tab-navidad{background:rgba(47, 146, 86, .18);color:#c9f3d8}
+html.tema-anio-nuevo .admin-tab-navidad.active{background:linear-gradient(135deg, #1f6b3a, #2f9256);color:#fff}
+
+/* ---- generado desde admin-funciones.css ---- */
+html.tema-anio-nuevo .admin-tab-nueva{border:1px dashed rgba(175,222,182,0.35) !important}
+html.tema-anio-nuevo .af-ayuda{color:var(--muted)}
+html.tema-anio-nuevo .af-vacio{border:1px dashed var(--border);color:var(--muted)}
+html.tema-anio-nuevo .af-error{color:#f6efdf}
+html.tema-anio-nuevo .af-fila{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .af-fila-meta span{color:var(--muted)}
+html.tema-anio-nuevo .af-crud-preview{border:1px solid var(--border)}
+html.tema-anio-nuevo .af-filtro{border:1px solid var(--border);background:var(--panel2);color:var(--text)}
+html.tema-anio-nuevo .af-filtro span{background:rgba(175,222,182,0.15);color:var(--pink)}
+html.tema-anio-nuevo .af-filtro.active{border-color:var(--pink2);background:var(--pink2);color:#fff}
+html.tema-anio-nuevo .af-filtro.active span{background:rgba(255, 255, 255, .2);color:#fff}
+html.tema-anio-nuevo .af-filtro-fecha{color:var(--muted)}
+html.tema-anio-nuevo .af-filtro-fecha input{border:1px solid var(--border);background:var(--panel2);color:var(--text)}
+html.tema-anio-nuevo .af-dia{border-left:4px solid var(--pink2);background:rgba(76,141,100,0.14);color:var(--pink)}
+html.tema-anio-nuevo .af-agenda{border:1px solid var(--border);background:var(--panel)}
+html.tema-anio-nuevo .af-agenda-hora{background:var(--panel2);color:#fff}
+html.tema-anio-nuevo .af-agenda-items{color:var(--muted)}
+html.tema-anio-nuevo .af-tag{background:var(--panel2);border:1px solid var(--border)}
+html.tema-anio-nuevo .af-tag-oro{border-color:rgba(233, 196, 106, .55);color:#f6d77a}
+html.tema-anio-nuevo .af-wa-link{color:#7ee3a5 !important;text-decoration:none}
+html.tema-anio-nuevo .af-wa-link:hover{text-decoration:underline}
+html.tema-anio-nuevo .af-wa-link i{color:#25d366}
+html.tema-anio-nuevo .af-map-link{color:var(--pink) !important;text-decoration:none}
+html.tema-anio-nuevo .af-map-link:hover{text-decoration:underline}
+html.tema-anio-nuevo .af-wa-button{background:#25d366;color:#fff;text-decoration:none}
+html.tema-anio-nuevo .af-gift{border:1px solid rgba(233, 196, 106, .45);background:linear-gradient(135deg, rgba(76,141,100,0.16), rgba(233, 196, 106, .08))}
+html.tema-anio-nuevo .af-gift h4{color:#f6d77a}
+html.tema-anio-nuevo .af-gift-anim{color:#fff}
+html.tema-anio-nuevo .af-gift-anim small{color:rgba(255, 255, 255, .7)}
+html.tema-anio-nuevo .af-gift-message{border-left:3px solid var(--pink);background:rgba(0, 0, 0, .2);color:#fff}
+html.tema-anio-nuevo .af-gift-qr-img canvas{background:#fff;box-shadow:0 6px 18px rgba(0, 0, 0, .3)}
+html.tema-anio-nuevo .af-cat-fila{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .af-cat-campos input:not([type=checkbox]){border:1px solid var(--border);background:var(--panel);color:var(--text)}
+html.tema-anio-nuevo .af-cat-info{color:var(--muted)}
+html.tema-anio-nuevo .af-precios select{border:1px solid var(--border);background:var(--panel2);color:var(--text)}
+html.tema-anio-nuevo .af-precio-fila{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .af-precio-fila.af-guardado{border-color:var(--green)}
+html.tema-anio-nuevo .af-precio-campo{color:var(--muted)}
+html.tema-anio-nuevo .af-precio-campo input{border:1px solid var(--border);background:var(--panel);color:var(--text)}
+html.tema-anio-nuevo .af-precio-campo.af-reb input{border-color:rgba(175,222,182,0.45)}
+html.tema-anio-nuevo .af-qr canvas{background:#fff}
+html.tema-anio-nuevo .af-qr-url{color:var(--muted)}
+html.tema-anio-nuevo .af-foto{border:1px solid var(--border);background:var(--panel)}
+html.tema-anio-nuevo .af-foto-meta p{color:var(--text)}
+html.tema-anio-nuevo .af-foto-meta small{color:var(--muted)}
+html.tema-anio-nuevo .af-guia-fila{border:1px solid var(--border);background:var(--panel2)}
+html.tema-anio-nuevo .af-guia-campo{color:var(--muted) !important}
+html.tema-anio-nuevo .af-guia-campo input{border:1px solid var(--border);background:var(--panel);color:var(--text)}
+
+/* ---- Ajustes finos del panel con el tema de Año Nuevo (escritos a mano) ---- */
+html.tema-anio-nuevo{--bg:#463629;--panel:#54423a;--panel2:#3a2c24;--pink:#b9dfc0;--pink2:#5f9270;--text:#f7eedd;--muted:#cdbda8;--border:#6d5a4b;--red:#d98a78;--green:#b9dfc0;background:#463629}
+html.tema-anio-nuevo body{background:radial-gradient(circle at top right,rgba(185,223,192,.14),transparent 38%),radial-gradient(circle at 0% 100%,rgba(231,201,139,.10),transparent 40%),#463629;color:#f7eedd}
+html.tema-anio-nuevo .admin-button-primary:hover{background:#4f7d5c}
+html.tema-anio-nuevo .admin-tab.active{background:linear-gradient(135deg,#7fae8a,#5f9270);color:#fff}
+html.tema-anio-nuevo .admin-form-card input:focus,html.tema-anio-nuevo .admin-form-card textarea:focus,html.tema-anio-nuevo .admin-form-card select:focus,html.tema-anio-nuevo .admin-auth-card input:focus{border-color:#b9dfc0;box-shadow:0 0 0 3px rgba(185,223,192,.15)}
+html.tema-anio-nuevo .admin-tab-temas,html.tema-anio-nuevo .admin-tab-recordatorios{border-color:rgba(185,223,192,.4)!important}

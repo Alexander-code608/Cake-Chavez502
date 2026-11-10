@@ -181,6 +181,11 @@
     }
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciarTodo);
-  else iniciarTodo();
+  // Solo con el tema de Navidad (con Año Nuevo no se crean nieve, luces ni adornos navideños).
+  function iniciarSegunTema() {
+    if (!window.CakeTema) { iniciarTodo(); return; }
+    window.CakeTema.cuandoListo(function (tema) { if (tema === 'navidad') iniciarTodo(); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciarSegunTema);
+  else iniciarSegunTema();
 })();

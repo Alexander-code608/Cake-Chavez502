@@ -1,0 +1,57 @@
+=====================================================================
+ CAKE CHÁVEZ — CAMBIOS DE NOVIEMBRE 2026
+=====================================================================
+Todo lo anterior se conserva: pedidos, pasteles, fechas de entrega,
+reseñas, carrusel, premios, editor visual, intro navideña con música y
+el aviso de WhatsApp de pedidos nuevos (mismo número, sin cambios).
+
+PASO OBLIGATORIO DESPUÉS DE SUBIR LOS ARCHIVOS
+  Supabase > SQL Editor > pega TODO  supabase/temas_y_recordatorios_2026.sql  > Run.
+  (Sin este paso la tienda funciona igual con el tema de Navidad, pero el panel
+   no podrá guardar temas ni números de recordatorios.)
+
+1. DESLIZAR SIN TRABARSE
+   - La barra de categorías ya no se mide en cada movimiento del dedo.
+   - El cielo de estrellas de la intro se apaga en cuanto termina.
+   - Solo se animan los bloques que se ven en pantalla al aparecer la página.
+   - Las luces de las tarjetas que no se ven dejan de ocupar memoria.
+   La nieve, las esferas, las luces y todas las animaciones siguen igual.
+   Archivos: script.js, navidad-intro.js, navidad-intro.css, navidad.css, style.css
+
+2. GORRA DEL LOGO
+   Nueva animación como el video: reposa, se eleva inclinándose, da una vuelta
+   sobre sí misma y aterriza. Mismo logo, misma gorra, mismos colores.
+   Archivo: navidad-intro.css
+
+3. «TU OPINIÓN NOS MOTIVA»
+   - Escena navideña: Santa animado caminando, árbol con luces a la derecha,
+     regalos a la izquierda, luna, estrellas, guirnalda y nieve (usa las
+     imágenes que ya tenías en img/navidad).
+   - Ventana «Deja tu reseña» con diseño navideño (terciopelo rojo, borde de
+     peluche, acebo, gorrito, bastón de caramelo, botón verde).
+   Archivos: index.html, navidad-opiniones.css
+
+4. RECORDATORIOS DE ENTREGAS POR WHATSAPP (HOY y MAÑANA)
+   Ver whatsapp-recordatorios/LEEME_RECORDATORIOS_WHATSAPP.txt
+   Panel > «📲 Notificaciones de entregas por WhatsApp».
+   Archivos: admin.html, admin-temas.js, admin-temas.css,
+             whatsapp-recordatorios/*, supabase/temas_y_recordatorios_2026.sql
+
+5-7. TEMAS: NAVIDAD / AÑO NUEVO
+   Panel > «🎨 Temas» > «Cambiar tema». Cambia la tienda y el panel.
+   - Navidad: todo exactamente como antes.
+   - Año Nuevo: verde pastel, verde pálido, café suave y crema; sin Santa,
+     gorros, regalos ni árboles; bienvenida «¡Feliz Año Nuevo!» con cuenta
+     3·2·1 y fuegos artificiales; confeti, burbujas, banderines, estrellas
+     colgantes, logo con marco verde, escena de copas y pastel en
+     «Tu opinión nos motiva» y ventana de reseña a juego.
+     La sección «Especialidades de Navidad» se oculta (tus productos navideños
+     siguen guardados y vuelven al regresar al tema de Navidad).
+   - Ver un tema sin activarlo:  index.html?tema=anio-nuevo   o   ?tema=navidad
+   Archivos: tema.js, anio-nuevo.js, anio-nuevo.css, anio-nuevo-colores.css,
+             admin-anio-nuevo-colores.css, img/anio-nuevo/*
+
+8. ENLACE DIRECTO A UN PEDIDO
+   admin.html?panel=1&pedido=CC-XXXXXXXXXXXXXXXX abre el panel (pide iniciar
+   sesión si hace falta) y resalta ese pedido. Lo usa el botón «Ver pedido»
+   de los recordatorios.

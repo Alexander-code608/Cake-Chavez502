@@ -428,6 +428,9 @@ body.navidad .btn-cerrar-imagen{top:16px!important;border:1.5px solid rgba(255,2
    - html.cake-ligero: teléfono sencillo o antiguo -> adornos quietos y menos efectos.
    ========================================================= */
 .cake-pausa::before,.cake-pausa::after,.cake-pausa *,.cake-pausa *::before,.cake-pausa *::after{animation-play-state:paused!important}
+/* Rendimiento: las lucecitas de las tarjetas que no están en pantalla se quitan por completo
+   (en pausa seguían ocupando una capa gráfica cada una: más de 100 capas que trababan el desplazamiento). */
+.cake-pausa>.navidad-tarjeta-luces{display:none!important}
 
 html.cake-ligero .navidad-fondo-luces i,
 html.cake-ligero .navidad-fondo-luces b{animation:none!important;opacity:.35}

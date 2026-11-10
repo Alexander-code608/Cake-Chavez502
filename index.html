@@ -8,24 +8,33 @@
     <title>Cake Chavez - Repostería</title>
     <!-- Compatibilidad con celulares antiguos y modo ligero (debe ir primero) -->
     <script src="cake-compat.js?v=20261109"></script>
+    <!-- Conexión pública y TEMA ACTIVO (Navidad / Año Nuevo). Deben ir antes de los estilos. -->
+    <script src="supabase-config.js?v=20261110"></script>
+    <script src="tema.js?v=20261110"></script>
+    <style>html.tema-cargando body{opacity:0!important}</style>
     <link rel="preconnect" href="https://nlsmjrlwbzloehfvdczy.supabase.co" crossorigin>
-    <link rel="stylesheet" href="style.css?v=20261109">
+    <link rel="stylesheet" href="style.css?v=20261110">
     <link rel="stylesheet" href="store-editor.css?v=20261109">
     <!-- Tema navideño -->
-    <link rel="stylesheet" href="navidad.css?v=20261109">
+    <link rel="stylesheet" href="navidad.css?v=20261110">
     <!-- Nuevas secciones: especialidades navideñas, ventanita "¿otro producto?", carrito con fotos -->
     <link rel="stylesheet" href="mejoras-navidad.css?v=20261109">
     <!-- Intro navideña (estrella, explosión, gorra que salta y música) -->
-    <link rel="stylesheet" href="navidad-intro.css?v=20261109">
+    <link rel="stylesheet" href="navidad-intro.css?v=20261110">
     <!-- Funciones nuevas 2026: cupos, cuenta regresiva, raspa y gana, QR de regalo, ticket… -->
     <link rel="stylesheet" href="cake-funciones.css?v=20261109">
-    <script src="navidad-intro.js?v=20261109"></script>
+    <!-- Escena navideña de «Tu opinión nos motiva» y ventana de reseña navideña -->
+    <link rel="stylesheet" href="navidad-opiniones.css?v=20261110">
+    <!-- Tema de Año Nuevo: adornos y animaciones (solo actúa con el tema Año Nuevo activo) -->
+    <link rel="stylesheet" href="anio-nuevo.css?v=20261110">
+    <script src="navidad-intro.js?v=20261110"></script>
     <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <!-- Íconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="navidad">
+    <script>window.CakeTema && window.CakeTema.cuerpo();</script>
 
     <!-- Decoraciones navideñas (solo adorno, no afectan los botones) -->
     <img src="img/navidad/arbol.webp" alt="" aria-hidden="true" class="navidad-lado navidad-arbol izq">
@@ -526,7 +535,30 @@
     <section class="opiniones-section opiniones-v2" id="opiniones" aria-labelledby="titulo-opiniones">
         <div class="opiniones-hero">
             <div class="opiniones-hero-art" aria-hidden="true">
-                <img src="img/opiniones/pastel-hero-opiniones-v2.jpg?v=2" alt="Pastel rosado decorado con fresas de Cake Chávez" width="636" height="393" loading="eager" fetchpriority="high" decoding="async">
+                <!-- Escena navideña: Santa animado, árbol con luces a la derecha y regalos a la izquierda -->
+                <div class="opiniones-escena escena-navidad">
+                    <span class="escena-cielo"></span>
+                    <span class="escena-luna"></span>
+                    <span class="escena-estrellas"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                    <span class="escena-guirnalda"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                    <span class="escena-nieve"><i>❄</i><i>❅</i><i>❆</i><i>❄</i><i>✦</i><i>❅</i><i>❄</i><i>❆</i><i>❄</i><i>✦</i><i>❅</i><i>❄</i></span>
+                    <span class="escena-suelo"></span>
+                    <img class="escena-regalos" src="img/navidad/regalos.webp" alt="" width="300" height="281" loading="lazy" decoding="async">
+                    <img class="escena-santa" src="img/navidad/santa.webp" alt="" width="380" height="637" loading="lazy" decoding="async">
+                    <span class="escena-arbol">
+                        <img src="img/navidad/arbol.webp" alt="" width="300" height="1040" loading="lazy" decoding="async">
+                        <span class="escena-arbol-luces"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                    </span>
+                </div>
+                <!-- Escena de Año Nuevo (solo con el tema Año Nuevo) -->
+                <div class="opiniones-escena escena-anio">
+                    <span class="escena-anio-fondo"></span>
+                    <span class="escena-anio-brillos"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                    <span class="escena-anio-numero" data-anio-nuevo>2027</span>
+                    <img class="escena-anio-copas" src="img/anio-nuevo/copas.webp" alt="" width="520" height="527" loading="lazy" decoding="async">
+                    <img class="escena-anio-pastel" src="img/anio-nuevo/pastel-anio-nuevo.webp" alt="" width="426" height="620" loading="lazy" decoding="async">
+                    <span class="escena-anio-confeti"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                </div>
             </div>
             <div class="opiniones-hero-copy">
                 <span class="opiniones-pill"><i class="fas fa-heart" aria-hidden="true"></i> Nuestros clientes</span>
@@ -1123,16 +1155,18 @@
     <script src="vendor/supabase-2.119.0-compat.js?v=1"></script>
     <script>window.supabase || document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"><\/script>');</script>
     <!-- CONFIGURACIÓN: completar supabase-config.js cuando se cree el proyecto Supabase. -->
-    <script src="supabase-config.js?v=20261109"></script>
+    <!-- supabase-config.js ya se cargó en el <head> (lo necesita el tema). -->
     <!-- SCRIPT PRINCIPAL: carrito, catálogo, galería y navegación existente. -->
     <!-- Funciones nuevas 2026 (QR, animaciones y secciones nuevas) -->
     <script src="vendor/qrcode.min.js?v=1"></script>
     <script src="cake-qr.js?v=20261109"></script>
     <script src="cake-animaciones.js?v=20261109"></script>
-    <script src="cake-funciones.js?v=20261109"></script>
-    <script src="script.js?v=20261109"></script>
-    <script src="store-editor.js?v=20261109"></script>
+    <script src="cake-funciones.js?v=20261110"></script>
+    <script src="script.js?v=20261110"></script>
+    <script src="store-editor.js?v=20261110"></script>
     <!-- Nieve y luces navideñas -->
-    <script src="navidad.js?v=20261109"></script>
+    <script src="navidad.js?v=20261110"></script>
+    <!-- Tema de Año Nuevo: bienvenida y animaciones (no hace nada con el tema de Navidad) -->
+    <script src="anio-nuevo.js?v=20261110"></script>
 </body>
 </html>

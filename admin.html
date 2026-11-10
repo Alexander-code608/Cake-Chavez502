@@ -6,9 +6,15 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Administración segura | Cake Chavez</title>
   <script src="cake-compat.js?v=20261109"></script>
+  <meta name="cake-panel" content="1">
+  <!-- Tema activo (Navidad / Año Nuevo): también cambia la apariencia del panel -->
+  <script src="supabase-config.js?v=20261110"></script>
+  <script src="tema.js?v=20261110"></script>
   <link rel="stylesheet" href="admin.css?v=20261109">
   <link rel="stylesheet" href="admin-extra.css?v=20261109">
   <link rel="stylesheet" href="admin-funciones.css?v=20261109">
+  <!-- Temas, recordatorios de WhatsApp y adornos del panel según el tema -->
+  <link rel="stylesheet" href="admin-temas.css?v=20261110">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -58,6 +64,8 @@
         <button type="button" class="admin-tab" data-admin-tab="settings">Entregas y pagos</button>
         <button type="button" class="admin-tab" data-admin-tab="carousel"><i class="fas fa-images" aria-hidden="true"></i> Carrusel</button>
         <button type="button" class="admin-tab admin-tab-navidad" data-admin-tab="navidad">🎄 Navidad</button>
+        <button type="button" class="admin-tab admin-tab-temas" data-admin-tab="temas">🎨 Temas</button>
+        <button type="button" class="admin-tab admin-tab-recordatorios" data-admin-tab="recordatorios">📲 Notificaciones de entregas por WhatsApp</button>
         <!-- Funciones nuevas 2026 -->
         <button type="button" class="admin-tab admin-tab-nueva" data-admin-tab="scheduled">📅 Pedidos programados</button>
         <button type="button" class="admin-tab admin-tab-nueva" data-admin-tab="categories">🏷️ Categorías y precios</button>
@@ -349,6 +357,123 @@
         </div>
       </section>
 
+      <!-- TEMAS DE LA TIENDA: Navidad / Año Nuevo. Cambia la tienda y este panel. -->
+      <section class="admin-section" id="admin-panel-temas" hidden>
+        <div class="admin-section-head"><div><h2>🎨 Temas</h2><p>Elige el diseño que verán tus clientes. El cambio se aplica a la página principal y también a este panel. Tus productos, pedidos, reseñas y ajustes no cambian.</p></div><button type="button" id="tema-refresh" class="admin-button admin-button-outline"><i class="fas fa-rotate"></i> Actualizar</button></div>
+        <div class="tema-grid">
+          <article class="tema-card tema-card-navidad" data-tema-card="navidad">
+            <div class="tema-card-vista" aria-hidden="true">
+              <span class="tema-vista-nieve"><i>❄</i><i>❅</i><i>❄</i><i>❆</i><i>❄</i></span>
+              <img src="img/navidad/regalos.webp" alt="" class="tema-vista-izq">
+              <img src="img/navidad/santa.webp" alt="" class="tema-vista-centro">
+              <img src="img/navidad/arbol.webp" alt="" class="tema-vista-der">
+            </div>
+            <div class="tema-card-info">
+              <span class="tema-badge" hidden><i class="fas fa-check"></i> Tema activo</span>
+              <h3>🎄 Tema de Navidad</h3>
+              <p>Rosa y vino con nieve, luces, Santa Claus, árboles, regalos, la gorra animada del logo, la intro con música y las especialidades navideñas.</p>
+              <div class="tema-paleta" aria-hidden="true"><i style="background:#1d1216"></i><i style="background:#a83b65"></i><i style="background:#f09cbb"></i><i style="background:#23964f"></i><i style="background:#e8c56a"></i></div>
+              <div class="admin-form-actions"><button type="button" class="admin-button admin-button-primary" data-cambiar-tema="navidad"><i class="fas fa-wand-magic-sparkles"></i> Cambiar tema</button><a class="admin-button admin-button-outline" href="index.html?tema=navidad" target="_blank" rel="noopener"><i class="fas fa-eye"></i> Ver vista previa</a></div>
+            </div>
+          </article>
+          <article class="tema-card tema-card-anio" data-tema-card="anio-nuevo">
+            <div class="tema-card-vista" aria-hidden="true">
+              <span class="tema-vista-confeti"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+              <span class="tema-vista-anio" data-anio-nuevo>2027</span>
+              <img src="img/anio-nuevo/copas.webp" alt="" class="tema-vista-izq">
+              <img src="img/anio-nuevo/pastel-anio-nuevo.webp" alt="" class="tema-vista-der">
+            </div>
+            <div class="tema-card-info">
+              <span class="tema-badge" hidden><i class="fas fa-check"></i> Tema activo</span>
+              <h3>🥂 Tema de Año Nuevo</h3>
+              <p>Verde pastel, verde pálido, café suave y crema con confeti, banderines, brillos dorados, fuegos artificiales suaves y bienvenida «¡Feliz Año Nuevo!». Sin adornos navideños.</p>
+              <div class="tema-paleta" aria-hidden="true"><i style="background:#463629"></i><i style="background:#7fae8a"></i><i style="background:#b9dfc0"></i><i style="background:#e4f2e1"></i><i style="background:#f7eedd"></i><i style="background:#e7c98b"></i></div>
+              <div class="admin-form-actions"><button type="button" class="admin-button admin-button-primary" data-cambiar-tema="anio-nuevo"><i class="fas fa-wand-magic-sparkles"></i> Cambiar tema</button><a class="admin-button admin-button-outline" href="index.html?tema=anio-nuevo" target="_blank" rel="noopener"><i class="fas fa-eye"></i> Ver vista previa</a></div>
+            </div>
+          </article>
+        </div>
+        <p id="tema-message" class="admin-message" role="status"></p>
+        <p class="tema-nota"><i class="fas fa-circle-info"></i> Los clientes que ya tienen la página abierta verán el tema nuevo la próxima vez que la abran o la actualicen. «Ver vista previa» muestra un tema sin activarlo.</p>
+      </section>
+
+      <!-- RECORDATORIOS DE ENTREGAS POR WHATSAPP (sistema independiente). -->
+      <section class="admin-section" id="admin-panel-recordatorios" hidden>
+        <div class="admin-section-head"><div><h2>📲 Notificaciones de entregas por WhatsApp</h2><p>Recordatorios automáticos de los pedidos que se entregan <strong>HOY</strong> y <strong>MAÑANA</strong>, enviados por WhatsApp a los números de esta lista. Funcionan aunque la página y el panel estén cerrados.</p></div><button type="button" id="rec-refresh" class="admin-button admin-button-outline"><i class="fas fa-rotate"></i> Actualizar</button></div>
+        <div class="rec-aviso-separado"><i class="fas fa-shield-heart"></i><div><strong>Sistema separado del aviso de pedidos nuevos.</strong> El aviso que te llega cuando un cliente hace un pedido sigue igual, a tu número de siempre. Los números de esta lista reciben <em>solo</em> recordatorios de entregas de hoy y mañana (nunca pedidos nuevos, ni cancelados, ni entregados).</div></div>
+
+        <div class="rec-layout">
+          <div class="rec-col">
+            <form id="rec-settings-form" class="admin-form-card">
+              <div class="rec-switch-fila">
+                <div><h3>Recordatorios automáticos</h3><p class="rec-estado-texto" id="rec-estado-texto">Cargando…</p></div>
+                <label class="rec-switch" title="Activar o pausar todos los recordatorios"><input type="checkbox" id="rec-enabled"><span class="rec-switch-pista"><span class="rec-switch-bola"></span></span><span class="rec-switch-etiqueta" id="rec-enabled-label">Pausados</span></label>
+              </div>
+              <div class="admin-form-grid">
+                <div><label for="rec-tomorrow-at">🌙 Aviso de pedidos de MAÑANA a las</label><input id="rec-tomorrow-at" type="time" value="18:00" required></div>
+                <div><label for="rec-today-at">☀️ Aviso de pedidos de HOY a las</label><input id="rec-today-at" type="time" value="07:00" required></div>
+                <div class="admin-full"><small>Hora de Guatemala. Revisa cada 15 minutos y nunca repite el mismo aviso. Por la noche (de 9:30 p. m. a 6:00 a. m.) no envía nada.</small></div>
+              </div>
+              <details class="rec-avanzado">
+                <summary>Opciones avanzadas</summary>
+                <div class="admin-form-grid">
+                  <div class="admin-full"><label for="rec-admin-url">Dirección de tu panel (para el enlace «Ver pedido»)</label><input id="rec-admin-url" type="url" maxlength="300" placeholder="https://…/admin.html?panel=1"></div>
+                  <div><label for="rec-template">Nombre de la plantilla de Meta</label><input id="rec-template" maxlength="100" placeholder="cake_recordatorio_entrega"></div>
+                  <div><label for="rec-language">Idioma de la plantilla</label><input id="rec-language" maxlength="5" placeholder="es"></div>
+                </div>
+              </details>
+              <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar ajustes</button></div>
+              <p id="rec-settings-message" class="admin-message" role="status"></p>
+            </form>
+
+            <div class="admin-form-card rec-numeros">
+              <div class="rec-numeros-head"><h3>Números que reciben recordatorios</h3><button type="button" id="rec-add-toggle" class="admin-button admin-button-primary"><i class="fas fa-plus"></i> Agregar número</button></div>
+              <form id="rec-add-form" class="rec-add-form" hidden>
+                <div class="admin-form-grid">
+                  <div><label for="rec-phone">Número con código de país</label><input id="rec-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej. 502 5555 1234" required></div>
+                  <div><label for="rec-label">Nombre (opcional)</label><input id="rec-label" maxlength="80" placeholder="Ej. Cocina, Repartidor"></div>
+                  <div class="admin-full"><label class="admin-inline-check"><input type="checkbox" id="rec-consent" required> Esta persona aceptó recibir recordatorios de entregas por WhatsApp de Cake Chávez.</label></div>
+                </div>
+                <div class="admin-form-actions"><button type="submit" class="admin-button admin-button-primary"><i class="fas fa-save"></i> Guardar</button><button type="button" id="rec-add-cancel" class="admin-button admin-button-outline">Cancelar</button></div>
+              </form>
+              <div id="rec-list" class="rec-list"><p class="admin-order-muted">Cargando…</p></div>
+              <p id="rec-list-message" class="admin-message" role="status"></p>
+            </div>
+          </div>
+
+          <div class="rec-col">
+            <div class="admin-form-card">
+              <h3>Conexión con WhatsApp</h3>
+              <div id="rec-conexion" class="rec-conexion"><p class="admin-order-muted">Toca «Revisar conexión».</p></div>
+              <div class="admin-form-actions rec-acciones">
+                <button type="button" id="rec-check" class="admin-button admin-button-outline"><i class="fas fa-plug-circle-check"></i> Revisar conexión</button>
+                <button type="button" id="rec-test" class="admin-button admin-button-primary"><i class="fab fa-whatsapp"></i> Enviar mensaje de prueba</button>
+                <button type="button" id="rec-run" class="admin-button admin-button-outline"><i class="fas fa-paper-plane"></i> Enviar recordatorios pendientes ahora</button>
+                <button type="button" id="rec-template-create" class="admin-button admin-button-outline"><i class="fas fa-file-circle-plus"></i> Crear plantilla en Meta</button>
+              </div>
+              <p id="rec-action-message" class="admin-message" role="status"></p>
+            </div>
+
+            <div class="admin-form-card">
+              <div class="rec-numeros-head"><h3>Últimos envíos</h3><button type="button" id="rec-log-refresh" class="admin-button admin-button-outline"><i class="fas fa-rotate"></i></button></div>
+              <div id="rec-log" class="rec-log"><p class="admin-order-muted">Cargando…</p></div>
+            </div>
+
+            <details class="admin-form-card rec-guia">
+              <summary><i class="fas fa-book-open"></i> Cómo se conecta (una sola vez)</summary>
+              <ol>
+                <li>En <strong>Meta Business</strong> (business.facebook.com) crea o usa tu cuenta de <strong>WhatsApp Business Platform</strong> y agrega un número que <em>envíe</em> los recordatorios. Debe ser un número que <strong>no</strong> esté usándose en la app de WhatsApp (puede ser uno nuevo).</li>
+                <li>Crea un <strong>usuario del sistema</strong> con permiso <em>whatsapp_business_messaging</em> y <em>whatsapp_business_management</em> y genera un <strong>token permanente</strong>.</li>
+                <li>En <strong>Supabase → Edge Functions → Secrets</strong> guarda: <code>WHATSAPP_TOKEN</code>, <code>WHATSAPP_PHONE_NUMBER_ID</code>, <code>WHATSAPP_WABA_ID</code> y (opcional) <code>WHATSAPP_APP_ID</code>. Nunca los pongas en la página.</li>
+                <li>Publica la función <code>cake-recordatorios</code> (instrucciones en el archivo LEEME de recordatorios).</li>
+                <li>Toca <strong>Crear plantilla en Meta</strong> y espera la aprobación (minutos a 48 h). Meta exige plantillas aprobadas para mensajes automáticos.</li>
+                <li>Agrega los números, activa los recordatorios y toca <strong>Enviar mensaje de prueba</strong>.</li>
+              </ol>
+              <p>Los destinatarios pueden usar WhatsApp normal o WhatsApp Business; no necesitan instalar nada.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
       <!-- ESPECIALIDADES NAVIDEÑAS: textos de la sección y productos de temporada. -->
       <section class="admin-section" id="admin-panel-navidad" hidden>
         <div class="admin-section-head"><div><h2>🎄 Especialidades de Navidad</h2><p>Cambia los textos de la ventanita navideña y agrega, edita o quita sus productos. Los clientes pueden pedirlos y se suman al carrito como cualquier otro producto.</p></div><button type="button" id="xmas-refresh" class="admin-button admin-button-outline"><i class="fas fa-rotate"></i> Actualizar</button></div>
@@ -457,13 +582,15 @@
   </main>
   <script src="vendor/supabase-2.119.0-compat.js?v=1"></script>
   <script>window.supabase || document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"><\/script>');</script>
-  <script src="supabase-config.js?v=20261109"></script>
-  <script src="admin.js?v=20261109"></script>
+  <!-- supabase-config.js ya se cargó en el <head> (lo necesita el tema). -->
+  <script src="admin.js?v=20261110"></script>
   <script src="admin-extra.js?v=20261109"></script>
   <!-- Funciones nuevas 2026 -->
   <script src="vendor/qrcode.min.js?v=1"></script>
   <script src="cake-qr.js?v=20261109"></script>
   <script src="cake-animaciones.js?v=20261109"></script>
   <script src="admin-funciones.js?v=20261109"></script>
+  <!-- Temas (Navidad / Año Nuevo), recordatorios de WhatsApp y enlace directo a un pedido -->
+  <script src="admin-temas.js?v=20261110"></script>
 </body>
 </html>
