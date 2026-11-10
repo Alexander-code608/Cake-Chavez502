@@ -1,0 +1,146 @@
+=====================================================================
+ CAKE CHÁVEZ — RECORDATORIOS DE ENTREGAS POR WHATSAPP
+ (sistema NUEVO e INDEPENDIENTE del aviso de pedidos nuevos)
+=====================================================================
+
+QUÉ HACE
+--------
+- Envía por WhatsApp un recordatorio de cada pedido que se entrega HOY y MAÑANA
+  a los números que agregues en el panel:
+  Administración > «📲 Notificaciones de entregas por WhatsApp».
+- Cada mensaje trae: foto del pastel, nombre del pastel, cliente, fecha,
+  hora (si existe), estado y el botón «Ver pedido» que abre ese pedido en tu
+  panel (pide iniciar sesión si no la tienes abierta).
+- Funciona solo, aunque la página y el panel estén cerrados (revisa cada 15 min).
+- Usa la hora de Guatemala. De 9:30 p. m. a 6:00 a. m. no envía nada.
+- Nunca repite el mismo aviso (mismo pedido + misma fecha + mismo tipo + mismo número).
+- Si cambias la fecha de entrega de un pedido, se avisa con la fecha nueva.
+- No avisa pedidos cancelados, entregados, en papelera, ni con fecha posterior a mañana.
+
+LO QUE NO SE TOCÓ
+-----------------
+El aviso que te llega cuando un cliente hace un pedido (script.js,
+NUMERO_WHATSAPP) sigue EXACTAMENTE igual y a tu mismo número.
+Los números de los recordatorios jamás reciben avisos de pedidos nuevos.
+
+
+---------------------------------------------------------------------
+ LO QUE NECESITAS DE META (una sola vez)
+---------------------------------------------------------------------
+Meta (dueño de WhatsApp) exige su plataforma oficial para mensajes automáticos.
+Los destinatarios pueden tener WhatsApp normal o Business; no instalan nada.
+
+1. Entra a https://business.facebook.com y crea/usa tu portafolio comercial.
+2. En https://developers.facebook.com crea una app tipo «Empresa» y agrégale
+   el producto «WhatsApp».
+3. Agrega el número que va a ENVIAR los recordatorios. Debe ser un número que
+   NO esté activo en la app de WhatsApp del teléfono (puede ser uno nuevo).
+   Tu número de pedidos actual no tiene que cambiar.
+4. Configura un método de pago en WhatsApp Manager (los mensajes de tipo
+   «utilidad» como estos pueden tener costo según Meta; revisa sus precios).
+5. Crea un «Usuario del sistema» (Configuración del negocio > Usuarios >
+   Usuarios del sistema), dale acceso a la app y a la cuenta de WhatsApp, y
+   genera un TOKEN PERMANENTE con los permisos:
+     whatsapp_business_messaging  y  whatsapp_business_management
+6. Anota estos 4 datos:
+     WHATSAPP_TOKEN            el token permanente del paso 5
+     WHATSAPP_PHONE_NUMBER_ID  «Identificador del número de teléfono» (WhatsApp > Configuración de la API)
+     WHATSAPP_WABA_ID          «Identificador de la cuenta de WhatsApp Business»
+     WHATSAPP_APP_ID           (opcional) identificador de la app; solo para el botón «Crear plantilla en Meta»
+
+NUNCA pongas estos datos en la página ni en GitHub. Solo van en Supabase (paso B).
+
+
+---------------------------------------------------------------------
+ INSTALACIÓN EN SUPABASE
+---------------------------------------------------------------------
+A) BASE DE DATOS
+   Supabase > SQL Editor > New query > pega TODO el archivo
+   supabase/temas_y_recordatorios_2026.sql > Run.
+   (Crea las tablas de temas y recordatorios y la tarea automática cada 15 min.
+    No borra ni cambia nada de lo que ya tienes. Se puede ejecutar varias veces.)
+
+B) CLAVES SECRETAS
+   Supabase > Edge Functions > Secrets > agrega:
+     WHATSAPP_TOKEN, WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_WABA_ID (y WHATSAPP_APP_ID si lo tienes)
+
+C) PUBLICAR LA FUNCIÓN «cake-recordatorios»  (elige UNA opción)
+
+   Opción 1 — Desde el navegador (más fácil):
+     1. Supabase > Edge Functions > «Deploy a new function» > «Via Editor».
+     2. Nombre: cake-recordatorios   (exactamente así)
+     3. Borra el ejemplo y pega TODO el archivo
+        whatsapp-recordatorios/cake-recordatorios-UN-SOLO-ARCHIVO.ts
+     4. Deploy.
+     5. Abre la función > Details/Settings y DESACTIVA «Verify JWT / Enforce JWT»
+        (la tarea automática se identifica con su propia clave secreta interna;
+         las acciones del panel siguen exigiendo tu sesión de administradora).
+
+   Opción 2 — Con la terminal (Supabase CLI):
+     Copia la carpeta whatsapp-recordatorios/cake-recordatorios a
+     supabase/functions/cake-recordatorios  y ejecuta:
+       supabase functions deploy cake-recordatorios --no-verify-jwt --project-ref nlsmjrlwbzloehfvdczy
+
+D) PLANTILLA DE META
+   Meta solo permite mensajes automáticos con una PLANTILLA APROBADA.
+   - En el panel: «📲 Notificaciones…» > «Crear plantilla en Meta» (requiere WHATSAPP_APP_ID).
+   - O créala a mano en WhatsApp Manager > Plantillas, con estos datos:
+       Nombre: cake_recordatorio_entrega     Idioma: Español (es)     Categoría: Utilidad
+       Encabezado: IMAGEN
+       Cuerpo:
+         🎂 *CAKE CHÁVEZ*
+
+         ⚠️ *RECORDATORIO: PEDIDO PARA {{1}}*
+
+         🎂 Pastel: {{2}}
+         👤 Cliente: {{3}}
+         📅 Fecha de entrega: {{4}}
+         🕒 Hora: {{5}}
+         📦 Estado: {{6}}
+         🧾 {{7}}
+
+         🔗 Toca el botón para ver el pedido en el administrador.
+       Pie: Recordatorio automático de entregas
+       Botón «Visitar sitio web» — Texto: Ver pedido — URL dinámica:
+         https://alexander-code608.github.io/Cake-Chavez502/admin.html?panel=1&pedido={{1}}
+   La aprobación suele tardar minutos; puede tardar hasta 48 horas.
+
+E) PROBAR
+   Panel > «📲 Notificaciones de entregas por WhatsApp»:
+     1. «+ Agregar número» > escribe el número con código de país > marca el
+        consentimiento > Guardar.
+     2. «Revisar conexión»: todo debe salir en ✅ y la plantilla «Aprobada».
+     3. «Enviar mensaje de prueba».
+     4. Activa el interruptor «Recordatorios automáticos».
+   Opcional: «Enviar recordatorios pendientes ahora» manda en el momento los de
+   hoy y mañana que aún no se hayan enviado.
+
+
+---------------------------------------------------------------------
+ SEGURIDAD
+---------------------------------------------------------------------
+- El token de Meta vive solo en Supabase (Secrets). La página nunca lo ve.
+- La lista de números, los ajustes y el registro solo los ve la administradora
+  (políticas RLS con admin_users).
+- El enlace «Ver pedido» solo lleva un código; sin iniciar sesión como
+  administradora nadie puede ver el pedido.
+- La tarea automática usa una clave interna aleatoria guardada en una tabla
+  que nadie puede leer desde la página.
+
+
+---------------------------------------------------------------------
+ HORARIOS (se cambian desde el panel)
+---------------------------------------------------------------------
+- Pedidos de MAÑANA: a partir de las 6:00 p. m. (por defecto).
+- Pedidos de HOY: a partir de las 7:00 a. m. (por defecto). En el aviso de
+  hoy se omiten los pedidos cuya hora de entrega ya pasó.
+
+
+---------------------------------------------------------------------
+ PRUEBAS AUTOMÁTICAS DE LAS REGLAS (para quien programe)
+---------------------------------------------------------------------
+  cd whatsapp-recordatorios/cake-recordatorios
+  deno test index.test.ts
+Comprueban: hora de Guatemala, cambio de mes/año, horarios de hoy/mañana,
+que no se avise de cancelados/entregados ni de fechas posteriores a mañana,
+el orden por hora y la elección de la foto.
