@@ -186,6 +186,9 @@
     var a = CF.ajustes, barra = $('cf-barra-cupos');
     if (!barra || !a || a.banner_enabled === false) return;
     try { if (sessionStorage.getItem('cf-barra-cerrada') === String(a.updated_at || '1')) return; } catch (e) { /* nada */ }
+    // Temáticas 2027: un aviso de cupos navideños (24 y 31 de diciembre) solo se muestra en Navidad y Año Nuevo.
+    var t27 = w.CakeTemas2027 && w.CakeTemas2027.conf();
+    if (t27 && !document.documentElement.classList.contains('tema-anio-nuevo') && /diciembre|navid|nochebuena|24 y 31/i.test(String(a.banner_text || ''))) return;
     var hoy = new Date(); hoy.setHours(0, 0, 0, 0);
     if (a.banner_deadline) {
       var lim = fechaEvento(a.banner_deadline);
@@ -226,12 +229,16 @@
     if (!sec || !a || a.countdown_enabled === false) return;
     var eventos = (Array.isArray(a.countdown_events) ? a.countdown_events : []).map(function (e) { return { label: String(e.label || 'Celebración'), fecha: fechaEvento(e.date) }; })
       .filter(function (e) { return e.fecha; }).sort(function (x, y) { return x.fecha - y.fecha; });
-    // Tema de Año Nuevo: la cuenta regresiva apunta a Año Nuevo y se omiten los mensajes navideños.
-    var temaAnio = document.documentElement.classList.contains('tema-anio-nuevo');
-    if (temaAnio) { var soloAnio = eventos.filter(function (e) { return /a(ñ|n)o\s*nuevo/i.test(e.label); }); if (soloAnio.length) eventos = soloAnio; }
-    if (!eventos.length) return;
+    // Temáticas 2027: cada una cuenta hacia su propia celebración (Tema Oficial y Jardín no tienen cuenta).
+    var ev27 = w.CakeTemas2027 ? w.CakeTemas2027.eventoCuenta() : undefined;
+    if (ev27 !== undefined) eventos = ev27 ? [ev27] : [];
+    if (!eventos.length) { sec.hidden = true; return; }
     var mensajes = (Array.isArray(a.countdown_messages) ? a.countdown_messages : []).map(String).filter(Boolean);
-    if (temaAnio) { var sinNavidad = mensajes.filter(function (m) { return !/🎄|🎅|navide|navidad|nochebuena|santa/i.test(m); }); mensajes = sinNavidad.length ? sinNavidad : ['¡Feliz Año Nuevo! Celebra con un postre hecho con amor ✨']; }
+    if (ev27 !== undefined) {
+      var propios = w.CakeTemas2027.mensajesCuenta() || [];
+      var sinNavidad = mensajes.filter(function (m) { return !/🎄|🎅|navide|navidad|nochebuena|santa|año nuevo|ano nuevo/i.test(m); });
+      mensajes = propios.concat(sinNavidad);
+    }
     var titulo = sec.querySelector('.cf-cuenta-titulo');
     var nums = { d: sec.querySelector('[data-cf-d]'), h: sec.querySelector('[data-cf-h]'), m: sec.querySelector('[data-cf-m]'), s: sec.querySelector('[data-cf-s]') };
     var msj = sec.querySelector('.cf-cuenta-mensaje');
@@ -552,10 +559,11 @@
     if (!a || a.scratch_enabled === false || !CF.premios.length) { sec.hidden = true; return; }
     sec.hidden = false;
     if (a.scratch_title) sec.querySelector('.cf-raspa-titulo').textContent = a.scratch_title;
-    // Tema de Año Nuevo: el título no habla de Navidad.
-    if (document.documentElement.classList.contains('tema-anio-nuevo')) {
+    // Temáticas 2027: el título no habla de Navidad.
+    var infoRaspa = w.CakeTemas2027 && w.CakeTemas2027.conf() && w.CAKE_TEMAS ? w.CAKE_TEMAS.buscar(w.CakeTema.actual) : null;
+    if (infoRaspa) {
       var tRaspa = sec.querySelector('.cf-raspa-titulo');
-      if (tRaspa && /navide|navidad/i.test(tRaspa.textContent)) tRaspa.textContent = tRaspa.textContent.replace(/navideñ[oa]s?|de navidad|navidad/ig, 'de Año Nuevo').replace(/\s+/g, ' ').trim();
+      if (tRaspa && /navide|navidad/i.test(tRaspa.textContent)) tRaspa.textContent = infoRaspa.raspa;
     }
     if (a.scratch_subtitle) sec.querySelector('.cf-raspa-sub').textContent = a.scratch_subtitle;
     var tarjeta = sec.querySelector('.cf-raspa-tarjeta');
@@ -599,7 +607,8 @@
       c.font = '600 ' + Math.round(Math.min(W, 520) / 14) + 'px Poppins, Arial, sans-serif';
       c.fillText('✨ Raspa aquí con tu dedo ✨', W / 2, H / 2 - 12);
       c.font = '400 ' + Math.round(Math.min(W, 520) / 24) + 'px Poppins, Arial, sans-serif';
-      c.fillText(document.documentElement.classList.contains('tema-anio-nuevo') ? 'Descubre tu regalito de Año Nuevo' : 'Descubre tu regalito navideño', W / 2, H / 2 + 22);
+      var infoReg = w.CAKE_TEMAS && w.CakeTema ? w.CAKE_TEMAS.buscar(w.CakeTema.actual) : null;
+      c.fillText(infoReg && infoReg.regalito ? infoReg.regalito : 'Descubre tu regalito navideño', W / 2, H / 2 + 22);
     }
     pintarCapa();
     function punto(ev) {

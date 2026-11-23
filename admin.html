@@ -9,12 +9,18 @@
   <meta name="cake-panel" content="1">
   <!-- Tema activo (Navidad / Año Nuevo): también cambia la apariencia del panel -->
   <script src="supabase-config.js?v=20261110"></script>
-  <script src="tema.js?v=20261110"></script>
+  <script src="temas-config.js?v=20270101"></script>
+  <script src="tema.js?v=20270101"></script>
   <link rel="stylesheet" href="admin.css?v=20261109">
   <link rel="stylesheet" href="admin-extra.css?v=20261109">
   <link rel="stylesheet" href="admin-funciones.css?v=20261109">
   <!-- Temas, recordatorios de WhatsApp y adornos del panel según el tema -->
   <link rel="stylesheet" href="admin-temas.css?v=20261110">
+  <!-- Panel avanzado 2027: personas, correo, números y paleta fija café/crema/rosa (siempre al final) -->
+  <link rel="stylesheet" href="admin-acceso.css?v=20270101">
+  <link rel="stylesheet" href="admin-correo.css?v=20270101">
+  <link rel="stylesheet" href="admin-numeros.css?v=20270101">
+  <link rel="stylesheet" href="admin-panel-2027.css?v=20270101">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -49,7 +55,7 @@
     <section id="admin-app-view" hidden>
       <div class="admin-welcome">
         <div><span class="admin-eyebrow">RESUMEN DE TU TIENDA</span><h1>Panel de Cake Chavez</h1><p id="admin-user-line">Sesión autenticada</p></div>
-        <button type="button" id="admin-logout" class="admin-button admin-button-outline"><i class="fas fa-right-from-bracket"></i> Cerrar sesión</button>
+        <button type="button" id="admin-logout" class="admin-button admin-button-outline"><i class="fas fa-right-from-bracket"></i> Salir del Panel avanzado</button>
       </div>
       <div class="admin-stats" id="admin-stats">
         <article><span>Productos</span><strong id="stat-products">—</strong></article>
@@ -583,14 +589,21 @@
   <script src="vendor/supabase-2.119.0-compat.js?v=1"></script>
   <script>window.supabase || document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"><\/script>');</script>
   <!-- supabase-config.js ya se cargó en el <head> (lo necesita el tema). -->
-  <script src="admin.js?v=20261110"></script>
+  <script src="admin.js?v=20270101"></script>
   <script src="admin-extra.js?v=20261109"></script>
   <!-- Funciones nuevas 2026 -->
   <script src="vendor/qrcode.min.js?v=1"></script>
   <script src="cake-qr.js?v=20261109"></script>
+  <script src="temas/glifos-2027.js?v=20270101"></script>
   <script src="cake-animaciones.js?v=20261109"></script>
+  <script src="cake-animaciones-2027.js?v=20270101"></script>
   <script src="admin-funciones.js?v=20261109"></script>
   <!-- Temas (Navidad / Año Nuevo), recordatorios de WhatsApp y enlace directo a un pedido -->
-  <script src="admin-temas.js?v=20261110"></script>
+  <!-- Panel avanzado 2027 (menú ☰, pedidos por tema, audio, tutoriales; antes de admin-temas.js) -->
+  <script src="admin-panel-2027.js?v=20270101"></script>
+  <script src="admin-temas.js?v=20270101"></script>
+  <script src="admin-acceso.js?v=20270101"></script>
+  <script src="admin-correo.js?v=20270101"></script>
+  <script src="admin-numeros.js?v=20270101"></script>
 </body>
 </html>

@@ -1,3 +1,6 @@
+NOTA PARA LA ACTUALIZACIÓN ACTUAL DE CAKE CHAVEZ:
+Este documento describe una instalación o versión anterior. Los archivos SQL que menciona pueden no estar incluidos en este ZIP fuente. No pidas a la usuaria que los envíe ni ejecutes un script ausente. La IA debe revisar la estructura actual de Supabase y preparar las migraciones reales necesarias para la entrega final; la usuaria solo recibirá el SQL listo para copiar y ejecutar después de revisarlo.
+
 CAKE CHAVEZ — PAQUETE ACTUALIZADO
 
 Incluye:

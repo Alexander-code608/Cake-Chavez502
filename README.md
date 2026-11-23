@@ -12,9 +12,8 @@ Este es el código fuente de la página de Cake Chávez y su panel privado. Cons
 - `admin.css`: estilos del panel privado.
 - `store-editor.js` / `store-editor.css`: editor visual del contenido del sitio.
 - `supabase-config.js`: conexión pública de Supabase. Solo debe contener URL del proyecto y clave publicable/anon; nunca `service_role`.
-- `supabase/site_content_editor.sql`: tabla y permisos del editor visual de textos e imágenes.
-- `supabase/capacidad_pedidos.sql`: migración para la capacidad diaria y excepciones por fecha.
-- `documentacion/`: instrucciones y lista de pruebas.
+- `supabase/`: carpeta para las migraciones SQL finales que la IA deberá preparar únicamente si hacen falta tras revisar el esquema real. No se incluye un conjunto de migraciones SQL en este archivo fuente.
+- `documentacion/`: carpeta para las instrucciones finales de instalación y pruebas que deberán acompañar la entrega actualizada; no está incluida en este archivo fuente.
 
 ## Cambios preparados
 
@@ -24,17 +23,15 @@ Este es el código fuente de la página de Cake Chávez y su panel privado. Cons
 4. Supabase: función para consultar cupos y función RPC para registrar el pedido validando el cupo dentro de la base de datos. El registro final vuelve a validar aunque el calendario haya mostrado espacio antes.
 5. Si Supabase no puede registrar el pedido por falta de cupo o por un error de validación, el flujo no debe abrir WhatsApp como si el pedido hubiera sido aceptado.
 
-## Instalación resumida
+## Instalación resumida y preparación de Supabase
 
-1. Respaldar el sitio y la base de datos.
-2. En Supabase, confirma primero si ya existe `public.site_content`. Si no existe, ejecuta `supabase/site_content_editor.sql` una vez. Si ya existe y el editor visual guarda cambios, no hace falta volver a ejecutar esa migración.
-3. Ejecuta `supabase/capacidad_pedidos.sql` solo después de confirmar que `public.orders` tiene las columnas `order_code`, `status` y `payload`, y que `public.admin_users` tiene `user_id`.
-4. Confirmar que las tablas `cake_order_capacity_settings` y `cake_order_capacity_overrides` existan.
-5. Publicar el contenido del proyecto en el mismo alojamiento y ruta usados por la página actual.
-6. Entrar al panel privado, abrir **Entregas y pagos** y guardar el límite general.
-7. Probar con un límite bajo y una fecha futura antes de anunciar que está listo.
-
-La guía completa está en `documentacion/INSTALACION_Y_PRUEBAS.md` y `supabase/capacidad_pedidos.sql`.
+1. Respaldar el sitio y la base de datos antes de reemplazar archivos.
+2. Este ZIP fuente no incluye los archivos SQL que mencionan algunas notas históricas ni una carpeta `documentacion` completa. No des por hecho que esos archivos están presentes.
+3. No solicites a la usuaria que te envíe SQL, migraciones ni credenciales de Supabase. Revisa el código y la estructura de la base de datos que esté disponible para identificar los cambios necesarios.
+4. Si hacen falta cambios de base de datos, prepara tú las migraciones SQL reales, completas y compatibles con el esquema existente, e inclúyelas en la entrega final junto con una guía de instalación y pruebas. Si no hace falta ningún cambio, indícalo expresamente y no inventes SQL.
+5. La usuaria recibirá el SQL listo para revisar, copiar y ejecutar en Supabase. No ejecutes operaciones destructivas ni incluyas claves privadas o `service_role` en archivos públicos.
+6. Publica los archivos del proyecto actualizado en el mismo alojamiento y ruta usados por la página actual, conservando el respaldo anterior.
+7. Prueba los pedidos y las funciones administrativas en un entorno controlado antes de usar la actualización con clientes.
 
 ## Nota sobre el calendario
 

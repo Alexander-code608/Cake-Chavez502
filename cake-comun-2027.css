@@ -1,0 +1,78 @@
+/* =========================================================
+   CAKE CHÁVEZ — PIEZAS COMUNES DE LAS DIEZ TEMÁTICAS (se carga siempre, también en Navidad)
+   - Botón y ventana «¿Necesitas un pedido urgente?»
+   - Ventana de enlaces de productos no disponibles
+   - Ilustraciones de los botones de categorías
+   Los colores salen de variables (--urg-*, --ico-*) que define cada temática;
+   Navidad usa los valores de este archivo, que respetan sus colores actuales.
+   ========================================================= */
+/* ---------- 1. Botón «¿Necesitas un pedido urgente?» (las diez temáticas) ---------- */
+.t27-urgente-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin: 10px auto 4px; padding: 10px 20px;
+  border-radius: 999px; border: 1.5px solid var(--urg-borde, rgba(255, 214, 140, .7)); cursor: pointer;
+  font: 600 .92rem Poppins, system-ui, sans-serif; color: var(--urg-texto, #fff7ea);
+  background: var(--urg-fondo, linear-gradient(135deg, #b0303f, #7d1f2c));
+  box-shadow: 0 6px 18px var(--urg-sombra, rgba(120, 20, 40, .35)); transition: transform .2s, box-shadow .2s;
+}
+.t27-urgente-btn i { animation: t27Reloj 2.4s ease-in-out infinite; transform-origin: 50% 50%; }
+@keyframes t27Reloj { 0%, 70%, 100% { rotate: 0deg } 78% { rotate: -16deg } 86% { rotate: 14deg } 94% { rotate: -6deg } }
+.t27-urgente-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px var(--urg-sombra, rgba(120, 20, 40, .45)); }
+.t27-urgente-btn:focus-visible { outline: 3px solid var(--urg-borde, #ffd68c); outline-offset: 3px; }
+.t27-urgente-fila { display: flex; justify-content: center; padding: 0 14px; position: relative; z-index: 3; }
+body.navidad .t27-urgente-btn { --urg-fondo: linear-gradient(135deg, #c4314b, #7c1830); --urg-borde: #ffd27a; --urg-texto: #fff6e8; }
+body.navidad .t27-urgente-btn::before { content: '🎄'; }
+
+.t27-urgente { position: fixed; inset: 0; z-index: 12000; display: flex; align-items: center; justify-content: center; padding: 16px;
+  background: rgba(15, 8, 10, .62); backdrop-filter: blur(4px); }
+.t27-urgente[hidden] { display: none; }
+.t27-urgente-caja {
+  width: min(520px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; border-radius: 22px; padding: 26px 22px 20px;
+  background: var(--urg-caja, #fffaf4); color: var(--urg-caja-texto, #3b2a2a); border: 1.5px solid var(--urg-borde, #e7c58a);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .35); animation: t27VentanaEntra .5s cubic-bezier(.2, .9, .3, 1.1) both;
+}
+.t27-urgente-caja h2 { margin: 6px 0 4px; font: 600 1.45rem 'Playfair Display', serif; color: var(--urg-titulo, inherit); }
+.t27-urgente-caja .t27-urg-sub { margin: 0 0 14px; font-size: .9rem; opacity: .85; }
+.t27-urgente-caja label { display: block; margin: 10px 0 4px; font-size: .84rem; font-weight: 600; }
+.t27-urgente-caja input, .t27-urgente-caja select, .t27-urgente-caja textarea {
+  width: 100%; box-sizing: border-box; padding: 11px 12px; border-radius: 12px; font: 400 .95rem Poppins, system-ui, sans-serif;
+  border: 1.5px solid var(--urg-campo-borde, #e3cfc0); background: var(--urg-campo, #fff); color: inherit;
+}
+.t27-urgente-caja textarea { min-height: 84px; resize: vertical; }
+.t27-urgente-caja .t27-urg-fila { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.t27-urgente-caja .t27-urg-error { min-height: 1.2em; margin: 10px 0 0; color: #b3261e; font-size: .85rem; font-weight: 600; }
+.t27-urgente-caja .t27-urg-aviso { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; font-size: .82rem; background: var(--urg-aviso, rgba(0, 0, 0, .05)); }
+.t27-urgente-caja .t27-urg-acciones { display: flex; gap: 10px; margin-top: 14px; }
+.t27-urgente-caja .t27-urg-acciones button { flex: 1; min-height: 46px; border-radius: 999px; font: 600 .95rem Poppins, system-ui, sans-serif; cursor: pointer; border: 0; }
+.t27-urg-enviar { background: var(--urg-boton, #25a35a); color: var(--urg-boton-texto, #fff); }
+.t27-urg-cerrar { background: transparent; color: inherit; border: 1.5px solid currentColor !important; opacity: .8; }
+.t27-urgente-x { position: absolute; top: 10px; right: 12px; z-index: 2; width: 36px; height: 36px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(0, 0, 0, .06); color: inherit; font-size: 1.3rem; line-height: 1; }
+@media (max-width: 480px) { .t27-urgente-caja .t27-urg-fila { grid-template-columns: 1fr; } .t27-urgente-caja { padding: 22px 16px 16px; } }
+
+
+/* Navidad: rojo navideño, crema y dorado (los mismos tonos de su tienda) */
+body.navidad { --urg-caja: #fff8f0; --urg-caja-texto: #3a1d22; --urg-campo-borde: #ecd3c4; --urg-boton: #1f8a4c; --urg-titulo: #8e1f33; }
+
+/* ---------- 2. Ventana «producto no disponible» (enlaces) ---------- */
+.t27-aviso-icono { width: 64px; height: 64px; margin: 4px auto 6px; background: var(--t27-oro, #d8a94f);
+  -webkit-mask: var(--t27-glifo, var(--g-estrella)) center / contain no-repeat; mask: var(--t27-glifo, var(--g-estrella)) center / contain no-repeat; animation: t27AvisoLatido 2.4s ease-in-out infinite; }
+body.navidad .t27-aviso-icono { -webkit-mask-image: var(--g-estrella); mask-image: var(--g-estrella); background: #d8a94f; }
+@keyframes t27AvisoLatido { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.1) rotate(-5deg) } }
+.t27-urgente-caja.t27-aviso-caja { text-align: center; }
+.t27-aviso-caja .t27-urg-acciones { flex-direction: column; }
+.t27-aviso-caja .t27-urg-acciones button { width: 100%; }
+@media (min-width: 520px) { .t27-aviso-caja .t27-urg-acciones { flex-direction: row; } }
+
+/* ---------- 3. Ilustraciones en los botones de categorías ---------- */
+nav .nav-btn .cc-ico { display: inline-block; width: 26px; height: 26px; flex: 0 0 26px; vertical-align: middle; margin-right: 7px; margin-top: -3px; }
+nav .nav-btn .cc-ico svg { display: block; width: 100%; height: 100%; overflow: visible; }
+nav .nav-btn .cc-ico .t { fill: none; stroke: var(--ico-trazo, #3a2230); stroke-width: 1.7; stroke-linejoin: round; stroke-linecap: round; }
+nav .nav-btn .cc-ico .r1 { fill: var(--ico-r1, #f2c46d); }
+nav .nav-btn .cc-ico .r2 { fill: var(--ico-r2, #f4a7b9); }
+nav .nav-btn .cc-ico .p { fill: var(--ico-trazo, #3a2230); }
+nav .nav-btn.cc-con-ico { display: inline-flex; align-items: center; justify-content: center; }
+nav .nav-btn.cc-con-ico > i.fab, nav .nav-btn.cc-con-ico > i.fas { display: none; }
+@media (hover: hover) { nav .nav-btn:hover .cc-ico { animation: ccSaltito .6s ease; } }
+@keyframes ccSaltito { 0%, 100% { transform: translateY(0) } 40% { transform: translateY(-3px) rotate(-6deg) } }
+@media (max-width: 700px) { nav .nav-btn .cc-ico { width: 22px; height: 22px; flex-basis: 22px; margin-right: 5px; } }
+body.navidad { --ico-trazo: #3a1d22; --ico-r1: #f2c46d; --ico-r2: #f4a7b9; }

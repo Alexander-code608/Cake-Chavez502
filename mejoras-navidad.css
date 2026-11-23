@@ -213,9 +213,19 @@
         padding: 4px 16px 12px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        /* CORRECCIÓN 2027: en escritorio la cuadrícula usa justify-content:center. En celular,
+           al convertirse en una fila deslizable, ese centrado empujaba las primeras tarjetas
+           fuera del borde izquierdo y ya no se podían alcanzar (por eso «desaparecía» un producto
+           en el celular). Ahora la fila empieza a la izquierda y se centra solo si sobra espacio. */
+        justify-content: flex-start;
+        scroll-padding-inline: 16px;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 214, 140, .55) transparent;
     }
-    .navidad-esp-grid::-webkit-scrollbar { display: none; }
+    .navidad-esp-grid::-webkit-scrollbar { height: 4px; }
+    .navidad-esp-grid::-webkit-scrollbar-thumb { border-radius: 4px; background: rgba(255, 214, 140, .55); }
+    .navidad-esp-card:first-child { margin-left: auto; }
+    .navidad-esp-card:last-child { margin-right: auto; }
     .navidad-esp-card {
         flex: 0 0 78%;
         max-width: 300px;

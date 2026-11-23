@@ -100,12 +100,14 @@ async function cargarCarruselAdminCake(client) {
   if (!client) {cakeCarruselAdmin = [];return cakeCarruselAdmin;}
   try {
     const { data, error } = await client.from('cake_carousel_slides').
-    select('id, image_url, title, subtitle, display_order, created_at').
+    select('*').
     eq('is_active', true).
     order('display_order', { ascending: true }).
     order('created_at', { ascending: true });
     if (error) throw error;
-    cakeCarruselAdmin = (data || []).filter((slide) => slide && slide.image_url);
+    // Cada temática tiene su propio carrusel (las imágenes antiguas pertenecen a Navidad).
+    const temaCarrusel = cakeTemaTiendaActual();
+    cakeCarruselAdmin = (data || []).filter((slide) => slide && slide.image_url && (slide.store_theme || 'navidad') === temaCarrusel);
   } catch (error) {
     // Si todavía no se ejecutó el SQL nuevo, el carrusel sigue usando las fotos del catálogo.
     console.info('Carrusel: se usan las fotos del catálogo.', error && error.message ? error.message : error);
@@ -745,6 +747,8 @@ function abrirVentanita(nombre, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) 
 
   if (modalDesc) modalDesc.innerText = descripcion;
   productoTemporal.imagen = imagen;
+  // Catálogos 2027: precio sugerido pendiente de aprobación en el Panel avanzado.
+  productoTemporal.porConfirmar = cakeNombrePorConfirmar(nombre);
 
   calcularSubtotalModal();
 
@@ -791,7 +795,7 @@ function calcularSubtotalModal() {
   const pInfo = document.getElementById('modal-precio-info');
   const pSubtotal = document.getElementById('modal-subtotal');
 
-  if (pInfo) pInfo.innerText = "Precio unitario: Q" + precioUnitario.toFixed(2);
+  if (pInfo) pInfo.innerText = "Precio unitario: Q" + precioUnitario.toFixed(2) + (productoTemporal.porConfirmar ? ' (precio de referencia, Cake Chavez lo confirmará por WhatsApp)' : '');
   if (pSubtotal) pSubtotal.innerText = "Q" + subtotal.toFixed(2);
 }
 
@@ -824,6 +828,7 @@ function agregarDesdeVentanita() {
   } else {
     precioFinal = productoTemporal.precioBase || 0;
   }
+  if (productoTemporal.porConfirmar && !/precio por confirmar/.test(nombreFinal)) nombreFinal += ' · precio por confirmar';
 
   const productoExistente = orden.find((item) => item.nombre === nombreFinal);
 
@@ -1589,6 +1594,7 @@ async function enviarPedidoPersonalizadoWhatsAppInterno(bloquear) {var _ref;
 
   const payloadPersonalizado = {
     order_type: 'pastel_personalizado',
+    store_theme: cakeTemaTiendaActual(),
     name: String(nombre === 'No indicado' ? '' : nombre).slice(0, 120),
     phone: telefonoP.slice(0, 30),
     delivery_date: String(fecha).slice(0, 10),
@@ -1612,6 +1618,8 @@ async function enviarPedidoPersonalizadoWhatsAppInterno(bloquear) {var _ref;
     return;
   }
   const codigoGuardado = ((_ref = Array.isArray(registroPersonalizado) ? registroPersonalizado[0] : registroPersonalizado) == null ? void 0 : _ref.order_code) || codigoPersonalizado;
+  // Aviso automático a los «Números para recibir los pedidos» (no bloquea al cliente).
+  if (window.CakeAvisoPedido) window.CakeAvisoPedido.enviar(codigoGuardado);
   texto += `\nCódigo de solicitud: ${codigoGuardado}\n`;
 
   // En navegadores compatibles, comparte la foto y el texto mediante el menú
@@ -1875,7 +1883,12 @@ async function confirmarOrdenInterno(datos, regalo) {
     }
   });
 
-  texto += `\n💰 *TOTAL A PAGAR: Q${total.toFixed(2)}*\n\n`;
+  if (orden.some((item) => /precio por confirmar/.test(item.nombre))) {
+    texto += `\n💰 *TOTAL ESTIMADO: Q${total.toFixed(2)}*\n`;
+    texto += `⚠️ Algunos productos tienen precio de referencia: Cake Chavez confirmará el total final.\n\n`;
+  } else {
+    texto += `\n💰 *TOTAL A PAGAR: Q${total.toFixed(2)}*\n\n`;
+  }
   if (premio) texto += `🎁 *Premio Raspa y Gana:* ${premio.name}\n\n`;
   texto += `──────────────────────────────\n\n`;
   texto += `📦 *DATOS DE ENTREGA:*\n`;
@@ -2399,6 +2412,22 @@ async function cargarInformacionTiendaCake(client) {
   if (anticipo && data.order_notice) anticipo.textContent = data.order_notice;
 }
 
+// TEMÁTICA DE LA TIENDA (store_theme): identificador permanente de la temática activa
+// en el momento del pedido. Supabase también la completa por si faltara.
+function cakeTemaTiendaActual() {
+  return window.CakeTema && window.CakeTema.actual ? window.CakeTema.actual : 'navidad';
+}
+// Productos de otras temáticas: se conservan aparte para reconocer enlaces antiguos.
+function cakeTemaDeProducto(p) { return p && p.store_theme ? p.store_theme : 'navidad'; }
+function cakePrecioPorConfirmar(p) { return !!(p && p.price_status === 'por_confirmar'); }
+function cakeNombrePorConfirmar(nombre) {
+  const n = String(nombre || '').trim().toLowerCase();
+  if (!n) return false;
+  if (/precio por confirmar/.test(n)) return true;
+  const lista = Array.isArray(window.CAKE_PRODUCTOS_REMOTOS) ? window.CAKE_PRODUCTOS_REMOTOS : [];
+  return lista.some((p) => cakePrecioPorConfirmar(p) && String(p.name || '').trim().toLowerCase() === n);
+}
+
 // REGISTRO DEL PEDIDO: exige dirección, fecha, hora y teléfono (también lo valida Supabase)
 // y crea el mensaje secreto con QR si el cliente lo pidió. Devuelve { codigo, tokenRegalo }.
 window.registrarPedidoCake = async function (datosPedido, regalo) {
@@ -2411,6 +2440,7 @@ window.registrarPedidoCake = async function (datosPedido, regalo) {
   const code = `CC-${random.slice(0, 16)}`;
   const payload = {
     order_type: 'catalogo',
+    store_theme: cakeTemaTiendaActual(),
     name: String(datosPedido.nombre || '').slice(0, 120),
     phone: String(datosPedido.telefono || '').slice(0, 30),
     delivery_date: String(datosPedido.fecha || '').slice(0, 20),
@@ -2434,6 +2464,7 @@ window.registrarPedidoCake = async function (datosPedido, regalo) {
     return null;
   }
   const fila = Array.isArray(data) ? data[0] : data;
+  if (window.CakeAvisoPedido) window.CakeAvisoPedido.enviar(fila && fila.order_code || code);
   return { codigo: fila && fila.order_code || code, tokenRegalo: fila && fila.gift_token || '' };
 };
 // Registra el pedido con la función nueva (datos obligatorios + QR de regalo).
@@ -2519,14 +2550,21 @@ function construirTarjetaRemotaCake(producto) {
   basePrice > 0 ? `Q${basePrice.toFixed(2)}` : '';
   const price = crearElementoTextoCake('span', 'precio', catalogPriceText);
   price.hidden = !(basePrice > 0 || sizePrices.length > 0);
+  // Precio sugerido pendiente de aprobación: se muestra como referencia, nunca como confirmado.
+  if (cakePrecioPorConfirmar(producto) && !price.hidden) {
+    price.textContent = `${catalogPriceText} · precio por confirmar`;
+    price.classList.add('precio-por-confirmar');
+    price.title = 'Precio de referencia: Cake Chavez lo confirmará por WhatsApp.';
+  }
   const listaRebanadas = crearListaPreciosRebanadasCake(producto, categoria);
   const orderButton = document.createElement('button');orderButton.type = 'button';orderButton.dataset.orderButton = 'true';orderButton.textContent = 'Añadir a la orden';
   if (!(unitPrice > 0)) {orderButton.disabled = true;orderButton.textContent = 'Precio por definir';}
   orderButton.addEventListener('click', () => {
+    const nombrePedido = cakePrecioPorConfirmar(producto) ? `${producto.name} (precio por confirmar)` : producto.name;
     const small = Number(producto.price_small) || 0,medium = Number(producto.price_medium) || 0,large = Number(producto.price_large) || 0;
     const gallery = [producto.image_url, ...(Array.isArray(producto.gallery_urls) ? producto.gallery_urls : [])].filter(Boolean).slice(0, 20);
-    if (sizePrices.length) abrirVentanita(producto.name, small, medium, large, 'pastel', producto.image_url, producto.description || '', gallery, { rebanadas: [producto.slices_small, producto.slices_medium, producto.slices_large] });else
-    abrirVentanita(producto.name, salePrice > 0 && salePrice < unitPrice ? salePrice : unitPrice, 0, 0, 'unidad', producto.image_url, producto.description || '', gallery);
+    if (sizePrices.length) abrirVentanita(nombrePedido, small, medium, large, 'pastel', producto.image_url, producto.description || '', gallery, { rebanadas: [producto.slices_small, producto.slices_medium, producto.slices_large] });else
+    abrirVentanita(nombrePedido, salePrice > 0 && salePrice < unitPrice ? salePrice : unitPrice, 0, 0, 'unidad', producto.image_url, producto.description || '', gallery);
   });
   card.append(img, h3, desc, price);
   if (listaRebanadas) card.appendChild(listaRebanadas);
@@ -2552,12 +2590,44 @@ function crearListaPreciosRebanadasCake(producto, categoria) {
   });
   return ul;
 }
+// Catálogo 2027 incluido con la página (img/catalogo/manifiesto.json). Solo se usa mientras
+// el archivo SQL 00_base_tematicas.sql todavía no se ha ejecutado en Supabase (sin columna
+// store_theme) o si no hay conexión: así ninguna tienda nueva queda vacía ni muestra productos de Navidad.
+let cakeManifiesto2027 = null;
+async function cakeCatalogoLocal2027(tema) {
+  try {
+    if (!cakeManifiesto2027) {
+      const r = await fetch('img/catalogo/manifiesto.json?v=20270101', { cache: 'force-cache' });
+      cakeManifiesto2027 = r.ok ? await r.json() : {};
+    }
+  } catch (_) { cakeManifiesto2027 = {}; }
+  return (cakeManifiesto2027[tema] || []).map((m) => ({
+    id: m.slug, slug: m.slug, name: m.nombre, category: m.categoria, description: m.descripcion || '',
+    image_url: m.imagen, gallery_urls: [], price: m.precio_sugerido, has_sizes: false, is_active: true,
+    is_featured: !!m.especialidad, is_theme_special: !!m.especialidad, is_offer: false, occasion: '',
+    store_theme: tema, price_status: 'por_confirmar', display_order: m.orden * 10, cake_local: true
+  }));
+}
 async function sincronizarCatalogoAdminCake() {
   const client = obtenerClienteSupabaseCake();
-  if (!client) return null;
-  const { data, error } = await client.from('products').select('*').eq('is_active', true).is('deleted_at', null).order('created_at', { ascending: false, nullsFirst: false }).order('display_order', { ascending: true });
-  if (error) {console.warn('Se mantiene el catálogo local porque no se pudo consultar la base de datos:', error.message);return null;}
-  if (!Array.isArray(data)) return null;
+  const temaTienda = cakeTemaTiendaActual();
+  let data = null, error = null;
+  if (client) {
+    ({ data, error } = await client.from('products').select('*').eq('is_active', true).is('deleted_at', null).order('created_at', { ascending: false, nullsFirst: false }).order('display_order', { ascending: true }));
+  }
+  if (!client || error || !Array.isArray(data)) {
+    if (error) console.warn('No se pudo consultar la base de datos:', error.message);
+    // Navidad conserva su catálogo local de siempre; las demás tiendas usan su catálogo 2027.
+    if (temaTienda === 'navidad') return null;
+    data = await cakeCatalogoLocal2027(temaTienda);
+  } else {
+    // CATÁLOGOS INDEPENDIENTES: cada temática muestra solo sus productos publicados.
+    // Los productos antiguos sin temática registrada pertenecen a Navidad (donde se publicaron).
+    window.CAKE_PRODUCTOS_TODAS_TEMATICAS = data;
+    const columnaTemas = data.some((p) => Object.prototype.hasOwnProperty.call(p, 'store_theme'));
+    if (!columnaTemas && temaTienda !== 'navidad') data = await cakeCatalogoLocal2027(temaTienda);
+    else data = data.filter((p) => cakeTemaDeProducto(p) === temaTienda);
+  }
   const contenedor = document.getElementById('productos-container');
   if (!contenedor) return null;
   contenedor.replaceChildren();
@@ -2566,6 +2636,7 @@ async function sincronizarCatalogoAdminCake() {
   data.filter((p) => p.category !== 'especiales').forEach((p) => fragment.appendChild(construirTarjetaRemotaCake(p)));
   contenedor.appendChild(fragment);
   window.CAKE_PRODUCTOS_REMOTOS = data;
+  if (window.CakeTemas2027) window.CakeTemas2027.alCatalogo(data);
   configurarEnlacesDirectosProductos();
   filtrar('todos');
   return data;
@@ -2954,7 +3025,7 @@ document.addEventListener('DOMContentLoaded', async () => {var _document$getElem
   const opinionesIniciales = cargarOpinionesAprobadasCake(client, true);
   cakeReviewStartRefresh(client);
   // Las especialidades navideñas se cargan en paralelo con el catálogo.
-  const navidadInicial = cargarNavidadCake(client);
+  const navidadInicial = cakeTemaTiendaActual() === 'navidad' ? cargarNavidadCake(client) : Promise.resolve();
   // Categorías editables: se cargan antes del catálogo para armar el menú.
   if (window.CakeFunciones) await window.CakeFunciones.cargarCategorias(client);
   const productosRemotos = await sincronizarCatalogoAdminCake();
@@ -2972,7 +3043,8 @@ document.addEventListener('DOMContentLoaded', async () => {var _document$getElem
   // Funciones nuevas 2026 (cupos, reloj, FAQ, extras, raspa y gana, galería…).
   if (window.CakeFunciones) await window.CakeFunciones.cargarTodo(client).catch((e) => console.warn('Funciones nuevas:', e));
   activarAnimacionesAlDesplazarse();
-  manejarEnlaceDirectoProducto();
+  // Enlaces de producto y enlace universal: se atienden al terminar la entrada (temas-2027.js).
+  if (window.CakeEnlaces2027) window.CakeEnlaces2027.atender(); else manejarEnlaceDirectoProducto();
 });
 
 // =========================================================
@@ -3066,7 +3138,13 @@ function crearTarjetaNavidadCake(item, indice) {
   info.className = 'navidad-esp-info';
   info.appendChild(crearElementoTextoCake('h3', '', nombre));
   if (descripcion) info.appendChild(crearElementoTextoCake('p', 'navidad-esp-descripcion', descripcion));
-  if (precio.texto) info.appendChild(crearElementoTextoCake('strong', 'navidad-esp-precio', precio.texto));
+  const porConfirmarEsp = cakePrecioPorConfirmar(item);
+  if (precio.texto) {
+    const etiquetaPrecio = crearElementoTextoCake('strong', 'navidad-esp-precio', porConfirmarEsp ? `${precio.texto} · precio por confirmar` : precio.texto);
+    if (porConfirmarEsp) { etiquetaPrecio.classList.add('precio-por-confirmar'); etiquetaPrecio.title = 'Precio de referencia: Cake Chavez lo confirmará por WhatsApp.'; }
+    info.appendChild(etiquetaPrecio);
+  }
+  const nombrePedidoEsp = porConfirmarEsp ? `${nombre} (precio por confirmar)` : nombre;
   const rebanadasNavidad = crearListaPreciosRebanadasCake(item, 'navidad');
   if (rebanadasNavidad) info.appendChild(rebanadasNavidad);
 
@@ -3077,12 +3155,12 @@ function crearTarjetaNavidadCake(item, indice) {
   if (precio.conTamanos.length || precio.base > 0) {
     boton.innerHTML = '<i class="fas fa-gift" aria-hidden="true"></i> Añadir a la orden';
     boton.addEventListener('click', () => {
-      if (precio.conTamanos.length) abrirVentanita(nombre, precio.tamanos[0], precio.tamanos[1], precio.tamanos[2], 'pastel', imagen, descripcion, galeria, { rebanadas: [item.slices_small, item.slices_medium, item.slices_large] });else
-      abrirVentanita(nombre, precio.base, 0, 0, 'unidad', imagen, descripcion, galeria);
+      if (precio.conTamanos.length) abrirVentanita(nombrePedidoEsp, precio.tamanos[0], precio.tamanos[1], precio.tamanos[2], 'pastel', imagen, descripcion, galeria, { rebanadas: [item.slices_small, item.slices_medium, item.slices_large] });else
+      abrirVentanita(nombrePedidoEsp, precio.base, 0, 0, 'unidad', imagen, descripcion, galeria);
     });
   } else {
     boton.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i> Consultar precio';
-    boton.addEventListener('click', () => cakeAbrirWhatsApp(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(`Hola, Cake Chavez. Quisiera información y precio de la especialidad navideña: ${nombre}.`)}`));
+    boton.addEventListener('click', () => cakeAbrirWhatsApp(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(`Hola, Cake Chavez. Quisiera información y precio de la ${cakeTemaTiendaActual() === 'navidad' ? 'especialidad navideña' : 'especialidad de ' + ((window.CAKE_TEMAS && window.CAKE_TEMAS.nombre(cakeTemaTiendaActual())) || 'temporada')}: ${nombre}.`)}`));
   }
   info.appendChild(boton);
   card.append(marco, info);

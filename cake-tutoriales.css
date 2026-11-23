@@ -1,0 +1,36 @@
+/* =========================================================
+   CAKE CHAVEZ — VENTANA DE TUTORIALES (las diez temáticas)
+   Cada temática muestra sus dos tutoriales propios. Los colores salen de las variables --urg-*
+   que define cada temática (Navidad usa las de cake-comun-2027.css).
+   ========================================================= */
+.cake-tut-btn { --urg-fondo: var(--tut-fondo, linear-gradient(135deg, #3b2a2a, #6b4a3a)); margin-left: 8px; }
+.cake-tut-btn i { animation: none; }
+body.navidad .cake-tut-btn { --urg-fondo: linear-gradient(135deg, #1f6b43, #134a2d); }
+body.navidad .cake-tut-btn::before { content: none; }
+.t27-urgente-fila { flex-wrap: wrap; gap: 0 4px; }
+.cake-tut { position: fixed; inset: 0; z-index: 12000; display: flex; align-items: center; justify-content: center; padding: 16px;
+  background: rgba(15, 8, 10, .66); backdrop-filter: blur(4px); }
+.cake-tut[hidden] { display: none; }
+.cake-tut-caja { position: relative; width: min(860px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; border-radius: 24px; padding: 26px 24px 22px;
+  background: var(--urg-caja, #fffaf4); color: var(--urg-caja-texto, #3b2a2a); border: 1.5px solid var(--urg-borde, #e7c58a);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .35); animation: t27VentanaEntra .5s cubic-bezier(.2, .9, .3, 1.1) both; }
+.cake-tut-caja h2 { margin: 4px 0 4px; padding-right: 40px; font: 600 1.5rem 'Playfair Display', serif; color: var(--urg-titulo, inherit); }
+.cake-tut-caja .cake-tut-sub { margin: 0 0 16px; font-size: .92rem; opacity: .85; }
+.cake-tut-lista { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cake-tut-item { display: flex; flex-direction: column; gap: 8px; padding: 0; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; font: inherit; }
+.cake-tut-miniatura { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: rgba(0, 0, 0, .12); box-shadow: 0 10px 26px rgba(0, 0, 0, .22); }
+.cake-tut-miniatura img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+.cake-tut-item:hover .cake-tut-miniatura img, .cake-tut-item:focus-visible .cake-tut-miniatura img { transform: scale(1.05); }
+.cake-tut-play { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--urg-boton, #25a35a); color: var(--urg-boton-texto, #fff); font-size: 1.4rem; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); animation: cakeTutLatido 2s ease-in-out infinite; }
+@keyframes cakeTutLatido { 50% { transform: scale(1.08); } }
+.cake-tut-item strong { font-size: 1rem; }
+.cake-tut-item span.cake-tut-desc { font-size: .84rem; opacity: .8; }
+.cake-tut-item:focus-visible { outline: 3px solid var(--urg-boton, #25a35a); outline-offset: 4px; border-radius: 18px; }
+.cake-tut-reproductor { margin-top: 4px; }
+.cake-tut-reproductor video { width: 100%; max-height: 70dvh; border-radius: 16px; background: #000; display: block; }
+.cake-tut-volver { margin-top: 12px; min-height: 44px; padding: 0 20px; border-radius: 999px; cursor: pointer; font: 600 .92rem Poppins, system-ui, sans-serif;
+  background: transparent; color: inherit; border: 1.5px solid currentColor; }
+.cake-tut-vacio { padding: 18px; border-radius: 14px; background: rgba(0, 0, 0, .05); font-size: .9rem; }
+@media (max-width: 640px) { .cake-tut-lista { grid-template-columns: 1fr; } .cake-tut-caja { padding: 22px 16px 16px; } .cake-tut-btn { margin-left: 0; } }
+@media (prefers-reduced-motion: reduce) { .cake-tut-play { animation: none; } }

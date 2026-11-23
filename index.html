@@ -8,9 +8,11 @@
     <title>Cake Chavez - Repostería</title>
     <!-- Compatibilidad con celulares antiguos y modo ligero (debe ir primero) -->
     <script src="cake-compat.js?v=20261109"></script>
-    <!-- Conexión pública y TEMA ACTIVO (Navidad / Año Nuevo). Deben ir antes de los estilos. -->
+    <!-- Conexión pública y TEMA ACTIVO (10 temáticas). Deben ir antes de los estilos. -->
     <script src="supabase-config.js?v=20261110"></script>
-    <script src="tema.js?v=20261110"></script>
+    <script src="temas-config.js?v=20270101"></script>
+    <script src="tema.js?v=20270101"></script>
+    <script src="temas/glifos-2027.js?v=20270101"></script>
     <style>html.tema-cargando body{opacity:0!important}</style>
     <link rel="preconnect" href="https://nlsmjrlwbzloehfvdczy.supabase.co" crossorigin>
     <link rel="stylesheet" href="style.css?v=20261110">
@@ -18,16 +20,16 @@
     <!-- Tema navideño -->
     <link rel="stylesheet" href="navidad.css?v=20261110">
     <!-- Nuevas secciones: especialidades navideñas, ventanita "¿otro producto?", carrito con fotos -->
-    <link rel="stylesheet" href="mejoras-navidad.css?v=20261109">
+    <link rel="stylesheet" href="mejoras-navidad.css?v=20270101">
     <!-- Intro navideña (estrella, explosión, gorra que salta y música) -->
-    <link rel="stylesheet" href="navidad-intro.css?v=20261110">
+    <link rel="stylesheet" href="navidad-intro.css?v=20270101">
     <!-- Funciones nuevas 2026: cupos, cuenta regresiva, raspa y gana, QR de regalo, ticket… -->
     <link rel="stylesheet" href="cake-funciones.css?v=20261109">
     <!-- Escena navideña de «Tu opinión nos motiva» y ventana de reseña navideña -->
     <link rel="stylesheet" href="navidad-opiniones.css?v=20261110">
-    <!-- Tema de Año Nuevo: adornos y animaciones (solo actúa con el tema Año Nuevo activo) -->
-    <link rel="stylesheet" href="anio-nuevo.css?v=20261110">
-    <script src="navidad-intro.js?v=20261110"></script>
+    <link rel="stylesheet" href="cake-comun-2027.css?v=20270101">
+    <link rel="stylesheet" href="cake-tutoriales.css?v=20270101">
+    <script src="navidad-intro.js?v=20270101"></script>
     <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <!-- Íconos de FontAwesome -->
@@ -37,11 +39,11 @@
     <script>window.CakeTema && window.CakeTema.cuerpo();</script>
 
     <!-- Decoraciones navideñas (solo adorno, no afectan los botones) -->
-    <img src="img/navidad/arbol.webp" alt="" aria-hidden="true" class="navidad-lado navidad-arbol izq">
-    <img src="img/navidad/arbol.webp" alt="" aria-hidden="true" class="navidad-lado navidad-arbol der">
-    <img src="img/navidad/regalos.webp" alt="" aria-hidden="true" class="navidad-lado navidad-regalos izq">
-    <img src="img/navidad/santa.webp" alt="" aria-hidden="true" class="navidad-lado navidad-santa">
-    <img src="img/navidad/regalos.webp" alt="" aria-hidden="true" class="navidad-lado navidad-regalos der">
+    <img src="img/navidad/arbol.webp" alt="" loading="lazy" aria-hidden="true" class="navidad-lado navidad-arbol izq">
+    <img src="img/navidad/arbol.webp" alt="" loading="lazy" aria-hidden="true" class="navidad-lado navidad-arbol der">
+    <img src="img/navidad/regalos.webp" alt="" loading="lazy" aria-hidden="true" class="navidad-lado navidad-regalos izq">
+    <img src="img/navidad/santa.webp" alt="" loading="lazy" aria-hidden="true" class="navidad-lado navidad-santa">
+    <img src="img/navidad/regalos.webp" alt="" loading="lazy" aria-hidden="true" class="navidad-lado navidad-regalos der">
 
     <!-- Botón de Carrito Flotante -->
     <div class="carrito-flotante" onclick="toggleCarrito(); reproducirSonidoGotita();">
@@ -73,8 +75,8 @@
 
         <!-- Luces y esquinas navideñas -->
         <div class="navidad-luces" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <img src="img/navidad/esquina.webp" alt="" aria-hidden="true" class="navidad-esquina izq">
-        <img src="img/navidad/esquina.webp" alt="" aria-hidden="true" class="navidad-esquina der">
+        <img src="img/navidad/esquina.webp" alt="" loading="lazy" aria-hidden="true" class="navidad-esquina izq">
+        <img src="img/navidad/esquina.webp" alt="" loading="lazy" aria-hidden="true" class="navidad-esquina der">
 
         <div class="logo-container">
             <div class="logo-navidad-compuesto" id="logo-navidad">
@@ -180,17 +182,7 @@
                     <button type="button" class="destacado-boton" onclick="irAProducto('producto-pastel-aniversario')">Ver en catálogo <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </article>
-            <article class="destacado-card">
-                <div class="destacado-imagen-wrap">
-                    <span class="destacado-sello">Algo diferente</span>
-                    <img src="img/especiales/Macarons.jpg" alt="Macarons surtidos" class="destacado-imagen" loading="lazy">
-                </div>
-                <div class="destacado-info">
-                    <h3>Macarons</h3>
-                    <p>Pequeños dulces para regalar o compartir.</p>
-                    <button type="button" class="destacado-boton" onclick="irAProducto('producto-macarons')">Ver en catálogo <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-                </div>
-            </article>
+            
         </div>
     </section>
 
@@ -489,21 +481,9 @@
             </div>
 
             <!-- ESPECIALES -->
-            <div class="producto especiales todos" id="producto-macarons" data-product-slug="macarons" data-product-gallery="[&quot;img/especiales/Macarons.jpg&quot;, &quot;img/especiales/Macarons-2.jfif&quot;, &quot;img/especiales/Macarons-3.jpg&quot;]" data-product-description="Prueba nuestra selección de macarons ¡te encantará!">
-                <img src="img/especiales/Macarons.jpg" alt="Macarons" class="img-producto" onclick="abrirSoloImagenDesdeTarjeta(this)" title="Toca para ver las fotos en grande">
-                <h3>Macarons</h3>
-                <p>Deleitate con estos deliciosos macarons.</p>
-                <span class="precio">Desde Q30.00</span>
-                <button onclick="abrirVentanita('Macarons', 30, 45, 60, 'pastel', 'img/especiales/Macarons.jpg', 'Con sabores deliciosos.')">Añadir a la orden</button>
-            </div>
+            
 
-            <div class="producto especiales todos" id="producto-tartaleta" data-product-slug="tartaleta" data-product-gallery="[&quot;img/especiales/aros.jpg&quot;, &quot;img/especiales/fresh-2.jpeg&quot;, &quot;img/especiales/fresh-3.jfif&quot;]" data-product-description="Elegante pastel decorado para eventos inolvidables.">
-                <img src="img/especiales/aros.jpg" alt="Tartaleta" class="img-producto" onclick="abrirSoloImagenDesdeTarjeta(this)" title="Toca para ver las fotos en grande">
-                <h3>Tartaleta</h3>
-                <p>Deliciosas tartaletas con un aroma exquisito.</p>
-                <span class="precio">Desde Q30.00</span>
-                <button onclick="abrirVentanita('Tartaleta', 30, 45, 60, 'pastel', 'img/especiales/aros.jpg', 'Con sabores deliciosos.')">Añadir a la orden</button>
-            </div>
+            
 
             <div class="producto especiales todos" id="producto-postre-de-3-leches" data-product-slug="postre-de-3-leches" data-product-gallery="[&quot;img/especiales/postre-tres-leches-clasico.webp&quot;, &quot;img/especiales/tres-2.jfif&quot;, &quot;img/especiales/tres-3.jpg&quot;]" data-product-description="Postre de tres leches para compartir.">
                 <img src="img/especiales/postre-tres-leches-clasico.webp" alt="Postre de tres leches" class="img-producto" onclick="abrirSoloImagenDesdeTarjeta(this)" title="Toca para ver las fotos en grande">
@@ -550,15 +530,7 @@
                         <span class="escena-arbol-luces"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
                     </span>
                 </div>
-                <!-- Escena de Año Nuevo (solo con el tema Año Nuevo) -->
-                <div class="opiniones-escena escena-anio">
-                    <span class="escena-anio-fondo"></span>
-                    <span class="escena-anio-brillos"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-                    <span class="escena-anio-numero" data-anio-nuevo>2027</span>
-                    <img class="escena-anio-copas" src="img/anio-nuevo/copas.webp" alt="" width="520" height="527" loading="lazy" decoding="async">
-                    <img class="escena-anio-pastel" src="img/anio-nuevo/pastel-anio-nuevo.webp" alt="" width="426" height="620" loading="lazy" decoding="async">
-                    <span class="escena-anio-confeti"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-                </div>
+                <!-- Escenas de las temáticas 2027: las crea temas-2027.js según la temática activa -->
             </div>
             <div class="opiniones-hero-copy">
                 <span class="opiniones-pill"><i class="fas fa-heart" aria-hidden="true"></i> Nuestros clientes</span>
@@ -1145,7 +1117,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Cake Chavez. Todos los derechos reservados.</p>
+        <p>&copy; <span data-anio-actual>2026</span> Cake Chavez. Todos los derechos reservados.</p>
         <!-- MEJORA 17: ACCESO DISCRETO AL PANEL; la seguridad se aplica en Supabase, no por ocultar este enlace. -->
         <a class="cake-admin-link" href="admin.html">Administración</a>
     </footer>
@@ -1161,12 +1133,16 @@
     <script src="vendor/qrcode.min.js?v=1"></script>
     <script src="cake-qr.js?v=20261109"></script>
     <script src="cake-animaciones.js?v=20261109"></script>
+    <script src="cake-animaciones-2027.js?v=20270101"></script>
     <script src="cake-funciones.js?v=20261110"></script>
-    <script src="script.js?v=20261110"></script>
+    <script src="cake-aviso-pedido.js?v=20270101"></script>
+    <script src="script.js?v=20270101"></script>
     <script src="store-editor.js?v=20261110"></script>
     <!-- Nieve y luces navideñas -->
     <script src="navidad.js?v=20261110"></script>
-    <!-- Tema de Año Nuevo: bienvenida y animaciones (no hace nada con el tema de Navidad) -->
-    <script src="anio-nuevo.js?v=20261110"></script>
+    <!-- Temáticas 2027: entradas, decoraciones, especialidades, tutoriales, pedido urgente y enlaces -->
+    <script src="temas-2027.js?v=20270101"></script>
+    <!-- Tutoriales de la temática activa (dos videos por temática) -->
+    <script src="cake-tutoriales.js?v=20270101"></script>
 </body>
 </html>

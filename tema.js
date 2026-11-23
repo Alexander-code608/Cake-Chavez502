@@ -1,28 +1,33 @@
 /* =========================================================
-   CAKE CHÁVEZ — TEMA ACTIVO (Navidad / Año Nuevo)
-   Se carga en el <head> de index.html y admin.html, ANTES de los estilos
-   de cada tema, para que la página aparezca directamente con el tema correcto.
+   CAKE CHÁVEZ — TEMA ACTIVO (las 10 temáticas)
+   Se carga en el <head> de index.html y admin.html, DESPUÉS de temas-config.js
+   y ANTES de los estilos, para que la página aparezca directamente con el tema correcto.
 
    - El tema se guarda en Supabase (tabla cake_site_theme) y se cambia desde
-     el panel: Administración > 🎨 Temas > «Cambiar tema».
+     el Panel avanzado > «Temáticas» > «Activar esta temática».
    - Se recuerda en el teléfono para que la siguiente visita abra al instante.
-   - Para ver un tema sin activarlo: index.html?tema=anio-nuevo  o  ?tema=navidad
+   - Para ver un tema sin activarlo: index.html?tema=halloween (o cualquier id).
+   - Navidad conserva sus hojas originales. Las otras nueve cargan:
+       temas/temas-2027.css (decoración común) + temas/<id>/colores.css + temas/<id>/tema.css
+   - El Panel avanzado NUNCA carga hojas de temporada: su paleta es fija.
    ========================================================= */
 (function () {
   'use strict';
   var CLAVE = 'cakeTemaSitio';
-  var VALIDOS = { 'navidad': true, 'anio-nuevo': true };
+  var REG = window.CAKE_TEMAS || { valido: function (t) { return t === 'navidad'; }, buscar: function () { return null; }, ids: ['navidad'] };
+  var VERSION = '20270101';
   var html = document.documentElement;
   var esperando = [];
 
+  function valido(t) { return !!t && REG.valido(t); }
   function leer(k, almacen) { try { return window[almacen].getItem(k); } catch (e) { return null; } }
   function guardar(k, v, almacen) { try { window[almacen].setItem(k, v); } catch (e) { /* modo privado */ } }
 
   var forzado = null;
   try { forzado = new URLSearchParams(window.location.search).get('tema'); } catch (e) { forzado = null; }
-  if (!VALIDOS[forzado]) forzado = null;
+  if (!valido(forzado)) forzado = null;
   var guardado = leer(CLAVE, 'localStorage');
-  if (!VALIDOS[guardado]) guardado = null;
+  if (!valido(guardado)) guardado = null;
 
   var estado = {
     actual: forzado || guardado || 'navidad',
@@ -30,21 +35,21 @@
     listo: false
   };
 
-  // Hoja de colores de Año Nuevo: solo se descarga cuando ese tema está activo.
   function esPanel() {
     return /admin\.html/i.test(window.location.pathname) || !!document.querySelector('meta[name="cake-panel"]');
   }
-  function hojaAnioNuevo() {
-    return esPanel() ? 'admin-anio-nuevo-colores.css?v=20261110' : 'anio-nuevo-colores.css?v=20261110';
+  function reducirMovimiento() {
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
   }
-  // Bienvenida «¡Feliz Año Nuevo!»: en la tienda (no en el panel), salvo enlaces directos a un producto
-  // o si la persona pidió reducir animaciones. Se marca desde ya para que la página no "parpadee".
-  function prepararIntroAnio() {
-    if (esPanel()) return;
-    var reducir = false, directo = false;
-    try { reducir = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { reducir = false; }
-    try { directo = !!new URLSearchParams(window.location.search).get('producto'); } catch (e) { directo = false; }
-    if (!reducir && !directo) html.classList.add('an-intro-activa');
+  // Las nueve temáticas 2027 tienen su propia entrada (temas-2027.js). Se marca desde ya
+  // para que la página no "parpadee" antes de la animación.
+  function prepararIntro(tema) {
+    if (esPanel() || tema === 'navidad' || reducirMovimiento()) return;
+    html.classList.add('t27-intro-activa');
+  }
+  function hojas(tema) {
+    if (esPanel() || tema === 'navidad') return [];
+    return ['temas/temas-2027.css?v=' + VERSION, 'temas/' + tema + '/colores.css?v=' + VERSION, 'temas/' + tema + '/tema.css?v=' + VERSION];
   }
   function cargarHoja(href, sincronico) {
     if (document.querySelector('link[data-tema-hoja="' + href + '"]')) return;
@@ -56,18 +61,24 @@
     l.rel = 'stylesheet'; l.href = href; l.setAttribute('data-tema-hoja', href);
     document.head.appendChild(l);
   }
+  function cargarHojas(tema, sincronico) { hojas(tema).forEach(function (h) { cargarHoja(h, sincronico); }); }
 
   function aplicarClases(tema) {
-    html.classList.remove('tema-navidad', 'tema-anio-nuevo');
-    html.classList.add('tema-' + tema);
+    (REG.ids || []).forEach(function (id) { html.classList.remove('tema-' + id); });
+    html.classList.remove('tema-2027');
+    // Panel avanzado: paleta fija café/crema/rosa. No recibe la clase de la temática
+    // (así ninguna hoja de temporada cambia sus colores); solo se anota cuál está activa.
+    if (esPanel()) html.classList.add('tema-panel-fijo'); else html.classList.add('tema-' + tema);
+    var info = REG.buscar(tema);
+    if (info && info.anio2027 && !esPanel()) html.classList.add('tema-2027');
     html.setAttribute('data-tema', tema);
     var color = document.querySelector('meta[name="theme-color"]');
-    if (color) color.setAttribute('content', tema === 'anio-nuevo' ? '#4b3a30' : '#1d1216');
+    if (color && !esPanel()) color.setAttribute('content', info && info.colorMeta ? info.colorMeta : '#1d1216');
     if (document.body) aplicarCuerpo();
   }
 
   // El <body> de la tienda trae la clase "navidad" (activa todos los adornos navideños).
-  // Con Año Nuevo se quita y se pone "anio-nuevo".
+  // Con cualquier otra temática se quita y se pone "tema-temporada".
   function aplicarCuerpo() {
     var b = document.body; if (!b) return;
     var navidad = estado.actual === 'navidad';
@@ -75,14 +86,14 @@
       b.setAttribute('data-tema-navidad', '');
       b.classList.toggle('navidad', navidad);
     }
-    b.classList.toggle('anio-nuevo', !navidad);
+    b.classList.toggle('tema-temporada', !navidad);
   }
 
   function terminar(tema) {
     if (estado.listo) return;
     estado.actual = tema;
     estado.listo = true;
-    if (tema === 'anio-nuevo') { cargarHoja(hojaAnioNuevo(), false); prepararIntroAnio(); }
+    cargarHojas(tema, false); prepararIntro(tema);
     aplicarClases(tema);
     html.classList.remove('tema-cargando');
     var lista = esperando; esperando = [];
@@ -91,12 +102,12 @@
 
   // ---- Arranque inmediato (sin esperar a la red) ----
   aplicarClases(estado.actual);
-  if (estado.actual === 'anio-nuevo') cargarHoja(hojaAnioNuevo(), true);
+  cargarHojas(estado.actual, true);
   if (estado.pendiente) {
     html.classList.add('tema-cargando');
   } else {
     estado.listo = true;
-    if (estado.actual === 'anio-nuevo') prepararIntroAnio();
+    prepararIntro(estado.actual);
   }
 
   // ---- Consultar el tema guardado en Supabase ----
@@ -110,7 +121,8 @@
       cache: 'no-store'
     }).then(function (r) { return r.ok ? r.json() : []; }).then(function (filas) {
       clearTimeout(limite);
-      var tema = filas && filas[0] && VALIDOS[filas[0].theme] ? filas[0].theme : 'navidad';
+      var tema = filas && filas[0] && valido(filas[0].theme) ? filas[0].theme : 'navidad';
+      estado.remoto = tema;
       if (!forzado) guardar(CLAVE, tema, 'localStorage');
       if (abortado && estado.pendiente) return;
       if (!estado.listo || estado.pendiente) { estado.pendiente = false; terminar(tema); return; }
@@ -125,18 +137,20 @@
   window.CakeTema = {
     get actual() { return estado.actual; },
     get pendiente() { return !estado.listo; },
+    get info() { return REG.buscar(estado.actual); },
+    get forzado() { return forzado; },
+    lista: function () { return REG.lista || []; },
+    buscar: function (id) { return REG.buscar(id); },
+    valido: valido,
     // Ejecuta fn(tema) cuando el tema ya se conoce (al instante si ya se sabe).
     cuandoListo: function (fn) { if (estado.listo) { fn(estado.actual); } else { esperando.push(fn); } },
     cuerpo: aplicarCuerpo,
-    // Usado por el panel al pulsar «Cambiar tema».
-    recordar: function (tema) { if (VALIDOS[tema]) { guardar(CLAVE, tema, 'localStorage'); guardar('cakeTemaRecargado', tema, 'sessionStorage'); } },
-    // Cambia el tema en vivo (lo usa el panel después de guardar el cambio en Supabase).
+    // Usado por el panel al pulsar «Activar esta temática».
+    recordar: function (tema) { if (valido(tema)) { guardar(CLAVE, tema, 'localStorage'); guardar('cakeTemaRecargado', tema, 'sessionStorage'); } },
+    // Cambia el tema en vivo (solo se usa en el panel, que no tiene hojas de temporada).
     aplicar: function (tema) {
-      if (!VALIDOS[tema]) return;
+      if (!valido(tema)) return;
       estado.actual = tema;
-      if (tema === 'anio-nuevo') cargarHoja(hojaAnioNuevo(), false);
-      var hojas = document.querySelectorAll('link[data-tema-hoja]');
-      for (var i = 0; i < hojas.length; i++) hojas[i].disabled = tema !== 'anio-nuevo';
       aplicarClases(tema);
       this.recordar(tema);
       try { document.dispatchEvent(new CustomEvent('cake-tema-cambiado', { detail: { tema: tema } })); } catch (e) { /* navegador antiguo */ }

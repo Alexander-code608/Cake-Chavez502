@@ -12,7 +12,9 @@
   function db() { var a = A(); return a.getClient ? a.getClient() : null; }
   function msg(id, texto, tipo) { var el = $(id); if (!el) return; el.textContent = texto || ''; el.className = 'admin-message' + (tipo ? ' ' + tipo : ''); }
   function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
-  var NOMBRES = { 'navidad': 'Navidad', 'anio-nuevo': 'Año Nuevo' };
+  // Las diez temáticas del registro central (temas-config.js).
+  var NOMBRES = {};
+  (window.CAKE_TEMAS ? window.CAKE_TEMAS.lista : [{ id: 'navidad', nombre: 'Navidad' }, { id: 'anio-nuevo', nombre: 'Año Nuevo' }]).forEach(function (t) { NOMBRES[t.id] = t.nombreAdmin || t.nombre; });
   var listo = false;
 
   /* =========================================================
@@ -71,6 +73,9 @@
      2. ADORNOS DEL PANEL SEGÚN EL TEMA
      ========================================================= */
   function adornosPanel() {
+    // El Panel avanzado conserva siempre su paleta fija, sin adornos de temporada (nota, sección 11.4).
+    var previo = document.querySelector('.panel-adornos'); if (previo) previo.parentNode.removeChild(previo);
+    return;
     var viejo = document.querySelector('.panel-adornos');
     if (viejo) viejo.parentNode.removeChild(viejo);
     var reducir = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

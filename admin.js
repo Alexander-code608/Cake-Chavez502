@@ -135,9 +135,11 @@
   }
   function resetProductForm() {
     $('admin-product-form').reset();setTimeout(toggleSliceFields, 0);$('product-id').value = '';delete $('product-slug').dataset.touched;$('product-form-title').textContent = 'Agregar producto';$('product-active').checked = true;$('product-order').value = String(products.length * 10 + 10);$('product-images').value = '';$('product-gallery-urls').value = '';$('product-current-gallery').replaceChildren();currentGallery = [];message('admin-product-message', '');
+    if (window.CakeAdmin27) window.CakeAdmin27.alFormularioProducto(null);
   }
   function fillProduct(p) {var _p$price, _p$price_small, _p$price_medium, _p$price_large, _p$sale_price, _p$display_order;
     $('product-id').value = p.id;$('product-slug').dataset.touched = 'true';$('product-form-title').textContent = `Editar: ${p.name}`;$('product-name').value = p.name || '';$('product-slug').value = p.slug || '';if (p.category && !categorySlugs().includes(p.category)) {const o = document.createElement('option');o.value = p.category;o.textContent = p.category;$('product-category').appendChild(o);}$('product-category').value = p.category || 'especiales';['small', 'medium', 'large'].forEach((t) => {$(`product-slices-${t}`).value = p[`slices_${t}`] != null ? p[`slices_${t}`] : '';});toggleSliceFields();$('product-price').value = (_p$price = p.price) != null ? _p$price : 0;$('product-price-small').value = (_p$price_small = p.price_small) != null ? _p$price_small : '';$('product-price-medium').value = (_p$price_medium = p.price_medium) != null ? _p$price_medium : '';$('product-price-large').value = (_p$price_large = p.price_large) != null ? _p$price_large : '';$('product-sale-price').value = (_p$sale_price = p.sale_price) != null ? _p$sale_price : '';$('product-description').value = p.description || '';$('product-gallery-urls').value = Array.isArray(p.gallery_urls) ? p.gallery_urls.join('\n') : '';$('product-occasion').value = p.occasion || '';$('product-order').value = (_p$display_order = p.display_order) != null ? _p$display_order : 100;$('product-has-sizes').checked = !!p.has_sizes;$('product-active').checked = p.is_active !== false;$('product-featured').checked = !!p.is_featured;$('product-is-offer').checked = !!p.is_offer;currentGallery = [p.image_url, ...(Array.isArray(p.gallery_urls) ? p.gallery_urls : [])].filter(Boolean);$('product-current-gallery').replaceChildren();currentGallery.forEach((url) => {const img = document.createElement('img');img.src = url;img.alt = 'Foto guardada';img.onerror = () => img.remove();$('product-current-gallery').appendChild(img);});window.scrollTo({ top: $('admin-panel-products').getBoundingClientRect().top + window.scrollY - 15, behavior: 'smooth' });
+    if (window.CakeAdmin27) window.CakeAdmin27.alFormularioProducto(p);
   }
   $('product-name').addEventListener('input', () => {if (!$('product-id').value || !$('product-slug').dataset.touched) $('product-slug').value = slugify($('product-name').value);});
   $('product-slug').addEventListener('input', () => {$('product-slug').dataset.touched = 'true';});
@@ -163,6 +165,11 @@
         is_active: $('product-active').checked, is_featured: $('product-featured').checked, is_offer: $('product-is-offer').checked,
         occasion: $('product-occasion').value.trim(), display_order: Number($('product-order').value) || 100
       };
+      // Catálogos independientes: cada producto pertenece a una temática (columna store_theme, SQL 2027).
+      const temaSel = $('product-store-theme');
+      if (temaSel && temaSel.value && window.CakeAdmin27 && window.CakeAdmin27.columnaTemas) payload.store_theme = temaSel.value;
+      const precioConf = $('product-price-confirmed');
+      if (precioConf && window.CakeAdmin27 && window.CakeAdmin27.columnaTemas) payload.price_status = precioConf.checked ? 'confirmado' : 'por_confirmar';
       // Rebanadas a la par de cada precio (solo categorías de pasteles).
       ['small', 'medium', 'large'].forEach((t) => {
         const raw = $(`product-slices-${t}`).value.trim();
@@ -407,30 +414,40 @@
     if (error) {globalMessage(`No se pudo enviar el pedido a la papelera: ${error.message}. Comprueba el SQL de papelera.`, 'error');return;}
     activeOrdersView = 'papelera';globalMessage(`Pedido ${order.order_code} enviado a la papelera.`, 'success');await loadOrders();
   }
+  // ELIMINACIÓN DEFINITIVA: la base de datos borra el registro y devuelve solo las fotos que ya
+  // nadie más usa; cada una se vuelve a comprobar antes de borrarla de Storage.
+  async function cleanupCandidates(candidates) {
+    let pendientes = 0;
+    for (const c of candidates || []) {
+      try {
+        const url = client.storage.from(c.bucket_id).getPublicUrl(c.storage_path).data.publicUrl;
+        const enUso = await client.rpc('cake_url_en_uso', { p_url: url });
+        if (enUso.error || enUso.data === true) {pendientes++;continue;}
+        const { error } = await client.storage.from(c.bucket_id).remove([c.storage_path]);
+        if (error) pendientes++;
+      } catch (_) {pendientes++;}
+    }
+    return pendientes;
+  }
+  async function permanentDelete(table, record, label) {
+    if (!record.id) throw new Error('Falta instalar la actualización SQL 2027 (Cake_Chavez_Actualizacion_Supabase.sql) para eliminar definitivamente de forma segura.');
+    const { data, error } = await client.rpc('cake_papelera_eliminar', { p_tabla: table, p_id: record.id });
+    if (error) {
+      if (/cake_papelera_eliminar|PGRST202|schema cache/i.test(`${error.message} ${error.code || ''}`)) throw new Error('Falta instalar la actualización SQL 2027 en Supabase: sin ella no se elimina nada definitivamente, para no borrar fotos compartidas.');
+      throw error;
+    }
+    const pendientes = await cleanupCandidates(data);
+    globalMessage(pendientes ? `${label} eliminado definitivamente. ${pendientes} archivo(s) quedaron pendientes de limpieza en Storage (se pueden borrar después).` : `${label} y sus fotos que ya no se usan en ningún otro lugar fueron eliminados definitivamente.`, pendientes ? 'error' : 'success');
+  }
   async function permanentlyDeleteOrder(order) {
     if (!confirm(`¿Eliminar definitivamente el pedido ${order.order_code}? Esta acción no se puede deshacer.`)) return;
-    const payload = order.payload || {};
-    try {
-      // Solo se borran las fotos subidas para el pedido (carpeta custom-orders), nunca las del catálogo.
-      const orderPhotos = [payload.photo_reference_url, payload.reference_image_url, payload.inspiration_image_url, ...(Array.isArray(payload.photos) ? payload.photos : [])].filter((url) => {const path = imageStoragePath(url);return path && path.startsWith('custom-orders/');});
-      await removeStoredImages(orderPhotos);
-      const { data, error } = await client.from('orders').delete().eq('order_code', order.order_code).select('order_code');
-      if (error) throw error;
-      if (!(data != null && data.length)) throw new Error('Supabase no confirmó la eliminación. Revisa los permisos de administrador.');
-      globalMessage(`Pedido ${order.order_code} eliminado definitivamente.`, 'success');await loadTrash();
-    } catch (error) {globalMessage((error == null ? void 0 : error.message) || 'No se pudo eliminar definitivamente el pedido.', 'error');}
+    try {await permanentDelete('orders', order, `Pedido ${order.order_code}`);await loadTrash();}
+    catch (error) {globalMessage((error == null ? void 0 : error.message) || 'No se pudo eliminar definitivamente el pedido.', 'error');}
   }
   async function permanentlyDeleteProduct(product) {
-    if (!confirm(`¿Eliminar definitivamente “${product.name}” y sus fotos guardadas en Supabase Storage? Esta acción no se puede deshacer.`)) return;
-    const urls = [product.image_url, ...(Array.isArray(product.gallery_urls) ? product.gallery_urls : [])];
-    try {
-      await removeStoredImages(urls);
-      const { data, error } = await client.from('products').delete().eq('id', product.id).select('id');
-      if (error) throw error;
-      if (!(data != null && data.length)) throw new Error('Supabase no confirmó la eliminación. Revisa los permisos de administrador.');
-      globalMessage(`“${product.name}” y sus fotografías guardadas fueron eliminados definitivamente.`, 'success');
-      await loadProducts();await loadTrash();
-    } catch (error) {globalMessage((error == null ? void 0 : error.message) || 'No se pudo eliminar definitivamente el producto.', 'error');}
+    if (!confirm(`¿Eliminar definitivamente “${product.name}”? Sus fotos se borran de Supabase Storage solo si ningún otro producto, especialidad, carrusel o reseña las usa. Esta acción no se puede deshacer.`)) return;
+    try {await permanentDelete('products', product, `“${product.name}”`);await loadProducts();await loadTrash();}
+    catch (error) {globalMessage((error == null ? void 0 : error.message) || 'No se pudo eliminar definitivamente el producto.', 'error');}
   }
   function createTrashProductRow(product) {
     const row = document.createElement('article');row.className = 'admin-trash-product-row';
@@ -448,7 +465,7 @@
   async function loadTrash() {
     const list = $('admin-orders-list');list.replaceChildren(Object.assign(document.createElement('p'), { textContent: 'Cargando papelera…' }));
     const [ordersResult, productsResult] = await Promise.all([
-    client.from('orders').select('order_code,status,payload,created_at,deleted_at,deleted_previous_status').not('deleted_at', 'is', null).order('deleted_at', { ascending: false }).limit(500),
+    client.from('orders').select('*').not('deleted_at', 'is', null).order('deleted_at', { ascending: false }).limit(500),
     client.from('products').select('*').not('deleted_at', 'is', null).order('deleted_at', { ascending: false }).limit(500)]
     );
     if (ordersResult.error || productsResult.error) {const errors = [ordersResult.error, productsResult.error].filter(Boolean).map((e) => e.message).join(' · ');list.replaceChildren(Object.assign(document.createElement('p'), { textContent: `No se pudo cargar la papelera: ${errors}. Comprueba que ejecutaste el SQL de papelera.` }));return;}
@@ -460,15 +477,21 @@
   function renderOrdersView() {
     const list = $('admin-orders-list');if (!list) return;
     updateOrderViewButtons();list.replaceChildren();
-    const filtered = activeOrders.filter((order) => statusView(order.status) === activeOrdersView);
+    // «Pedidos por tema»: filtro independiente de la temática activa de la tienda (null = todos).
+    const temaFiltro = window.CakeAdmin && window.CakeAdmin.ordersTheme;
+    const porTema = (order) => !temaFiltro || (temaFiltro === 'sin' ? !order.store_theme : order.store_theme === temaFiltro);
+    const filtered = activeOrders.filter((order) => statusView(order.status) === activeOrdersView && porTema(order));
+    if (window.CakeAdmin27) window.CakeAdmin27.alPintarPedidos(activeOrders);
     const labels = { nuevos: 'Pedidos nuevos', entregados: 'Pedidos entregados', cancelados: 'Pedidos cancelados' };
-    const title = document.createElement('h3');title.className = 'admin-order-group-title';title.textContent = `${labels[activeOrdersView] || 'Pedidos'} (${filtered.length})`;list.appendChild(title);
+    const nombreTema = temaFiltro ? (temaFiltro === 'sin' ? ' · Sin temática registrada' : ` · ${window.CAKE_TEMAS ? window.CAKE_TEMAS.etiqueta(temaFiltro) : temaFiltro}`) : '';
+    const title = document.createElement('h3');title.className = 'admin-order-group-title';title.textContent = `${labels[activeOrdersView] || 'Pedidos'}${nombreTema} (${filtered.length})`;list.appendChild(title);
     if (!filtered.length) {list.appendChild(Object.assign(document.createElement('p'), { textContent: activeOrdersView === 'nuevos' ? 'No hay pedidos nuevos.' : activeOrdersView === 'entregados' ? 'Todavía no hay pedidos entregados.' : 'Todavía no hay pedidos cancelados.' }));return;}
-    filtered.forEach((order) => list.appendChild(createOrderRow(order)));
+    // Lista compacta (nombre, número, «Ver pedido completo», «Imprimir pedido»); la tarjeta completa se abre en ventana.
+    filtered.forEach((order) => list.appendChild(window.CakeAdmin27 ? window.CakeAdmin27.filaCompacta(order) : createOrderRow(order)));
   }
   async function loadOrders() {
     const list = $('admin-orders-list');list.replaceChildren(Object.assign(document.createElement('p'), { textContent: 'Cargando pedidos…' }));
-    const { data, error } = await client.from('orders').select('order_code,status,payload,created_at,deleted_at,deleted_previous_status').is('deleted_at', null).order('created_at', { ascending: false }).limit(500);
+    const { data, error } = await client.from('orders').select('*').is('deleted_at', null).order('created_at', { ascending: false }).limit(500);
     if (error) {list.replaceChildren(Object.assign(document.createElement('p'), { textContent: `No se pudieron cargar pedidos: ${error.message}. Comprueba que ejecutaste el SQL de papelera.` }));return;}
     activeOrders = data || [];$('stat-orders').textContent = activeOrders.filter((o) => statusView(o.status) === 'nuevos').length;
     await refreshTrashCount();
@@ -903,7 +926,7 @@
   async function loadScheduled() {
     const list = $('admin-scheduled-list');if (!list) return;
     list.replaceChildren(Object.assign(document.createElement('p'), { textContent: 'Cargando pedidos programados…' }));
-    const { data, error } = await client.from('orders').select('order_code,status,payload,created_at,deleted_at,deleted_previous_status').is('deleted_at', null).order('created_at', { ascending: false }).limit(1000);
+    const { data, error } = await client.from('orders').select('*').is('deleted_at', null).order('created_at', { ascending: false }).limit(1000);
     if (error) {list.replaceChildren(Object.assign(document.createElement('p'), { textContent: `No se pudieron cargar los pedidos: ${error.message}` }));return;}
     scheduledOrders = data || [];
     // La primera vez: si hoy no hay entregas, se muestran todos los próximos para no ver la lista vacía.
@@ -962,7 +985,7 @@
       list.append(item, full);
     });
   }
-  window.CakeAdmin = { getClient: () => client, globalMessage, setTab: (t) => setTab(t), setOrdersView: (v) => setOrdersView(v), loadOrders: () => loadOrders(), statusView: (s) => statusView(s), reloadCategories: () => loadCategoriesForForm().then(loadProducts), loadProducts, getProducts: () => products, uploadPhoto, imageStoragePath, isImage };
+  window.CakeAdmin = { ordersTheme: null, createOrderRow: (o, opt) => createOrderRow(o, opt), renderOrdersView: () => renderOrdersView(), getOrders: () => activeOrders, fillProduct: (p) => fillProduct(p), filterProducts: () => filterProducts(), getClient: () => client, globalMessage, setTab: (t) => setTab(t), setOrdersView: (v) => setOrdersView(v), loadOrders: () => loadOrders(), statusView: (s) => statusView(s), reloadCategories: () => loadCategoriesForForm().then(loadProducts), loadProducts, getProducts: () => products, uploadPhoto, imageStoragePath, isImage };
   async function boot(user) {if (!(await requireAdmin(user))) return;showApp(user);await loadCategoriesForForm();await loadProducts();await loadSettings();await loadCapacitySettings();document.dispatchEvent(new CustomEvent('cake-admin-listo'));}
   document.addEventListener('DOMContentLoaded', async () => {var _$5, _$6, _$7, _$8, _$9, _$0, _$1, _$10, _$11, _$12, _$13, _$14, _$18;
     client = configuredClient();

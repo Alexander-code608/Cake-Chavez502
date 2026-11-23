@@ -18,7 +18,7 @@
   try { params = new URLSearchParams(window.location.search); } catch (e) { params = null; }
   var enlaceDirecto = Boolean(params && params.get('producto'));
   var reducirMovimiento = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  var conIntro = !enlaceDirecto && !reducirMovimiento;
+  var conIntro = !reducirMovimiento; // los enlaces de producto también ven primero la entrada (sección 7)
 
   // Se oculta la página desde el primer momento para que todo empiece oscuro.
   if (conIntro) html.classList.add('intro-navidad', 'intro-activa');
@@ -144,12 +144,14 @@
 
   // Brillo de la estrella mientras da vueltas.
   function sonidoEstrella(t, dur) {
-    ruido(t, dur, 0.045, 'bandpass', 2600, 5200, 0.5, 2);
-    var paso = 0;
-    while (paso < dur) {
-      campana(midi(PENTA_ALTA[Math.floor(Math.random() * PENTA_ALTA.length)]), t + paso, 0.55, 0.035 + Math.random() * 0.04, sfx, CAJITA);
-      paso += 0.07 + Math.random() * 0.07;
+    // Brillo mágico y delicado: notas agudas espaciadas tipo cajita musical, sin ruido de fondo,
+    // para que nunca se confunda con la explosión.
+    var paso = 0, i = 0, notas = [96, 100, 103, 98, 101, 105, 100, 96];
+    while (paso < dur - 0.15) {
+      campana(midi(notas[i % notas.length]), t + paso, 0.9, 0.032, sfx, CAJITA);
+      paso += 0.22 + Math.random() * 0.08; i++;
     }
+    ruido(t, Math.min(dur, 1.6), 0.012, 'highpass', 7000, null, 0.4, 0.7);
   }
 
   // Sonido que sube cuando la estrella se acerca al centro.
@@ -161,53 +163,40 @@
     o.frequency.setValueAtTime(330, t);
     o.frequency.exponentialRampToValueAtTime(2100, t + dur);
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.09, t + dur * 0.9);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.05);
+    g.gain.exponentialRampToValueAtTime(0.05, t + dur * 0.8);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur - 0.08);
     o.connect(g); g.connect(sfx);
-    o.start(t); o.stop(t + dur + 0.1);
-    ruido(t, dur + 0.05, 0.12, 'bandpass', 700, 6500, dur * 0.85, 1.5);
-    for (var i = 0; i < 12; i++) {
-      var k = i / 12;
-      campana(midi(84 + i * 2), t + dur * (1 - Math.pow(1 - k, 1.8)), 0.4, 0.04, sfx, CAJITA);
+    o.start(t); o.stop(t + dur);
+    ruido(t, dur - 0.1, 0.05, 'bandpass', 900, 6000, dur * 0.7, 1.5);
+    for (var i = 0; i < 8; i++) {
+      var k = i / 8;
+      campana(midi(84 + i * 2), t + (dur - 0.2) * (1 - Math.pow(1 - k, 1.8)), 0.35, 0.028, sfx, CAJITA);
     }
   }
 
-  // ¡Pum! + campanitas + cascabeles.
+  // Explosión: un «¡pum!» grave, redondo y bien definido (sin campanitas encima).
+  // El acorde brillante llega 0.25 s después, justo cuando aparece el logo.
   function sonidoExplosion(t) {
     if (!ctx) return;
     var o = ctx.createOscillator(), g = ctx.createGain();
     o.type = 'sine';
-    o.frequency.setValueAtTime(150, t);
-    o.frequency.exponentialRampToValueAtTime(36, t + 0.55);
+    o.frequency.setValueAtTime(120, t);
+    o.frequency.exponentialRampToValueAtTime(42, t + 0.45);
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.95, t + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.3);
-    o.connect(g); g.connect(sfx); o.start(t); o.stop(t + 1.4);
-
-    var o2 = ctx.createOscillator(), g2 = ctx.createGain();
-    o2.type = 'triangle';
-    o2.frequency.setValueAtTime(80, t);
-    o2.frequency.exponentialRampToValueAtTime(30, t + 0.7);
-    g2.gain.setValueAtTime(0.0001, t);
-    g2.gain.exponentialRampToValueAtTime(0.35, t + 0.01);
-    g2.gain.exponentialRampToValueAtTime(0.0001, t + 0.9);
-    o2.connect(g2); g2.connect(sfx); o2.start(t); o2.stop(t + 1);
-
-    ruido(t, 0.9, 0.5, 'lowpass', 1800, 180, 0.005, 0.8);
-    ruido(t, 0.18, 0.25, 'highpass', 3000, null, 0.003, 0.7);
-
-    // Acorde de campana grande
-    campana(midi(72), t + 0.02, 4.2, 0.13);
-    campana(midi(76), t + 0.03, 4, 0.1);
-    campana(midi(79), t + 0.04, 3.8, 0.1);
-    campana(midi(84), t + 0.05, 3.5, 0.08);
-
-    // Lluvia de campanitas
-    var notas = [84, 88, 91, 96, 100, 103, 96, 91, 88, 100, 108, 103, 98, 93, 105, 96];
-    for (var i = 0; i < notas.length; i++) {
-      campana(midi(notas[i]), t + 0.08 + i * 0.09 + Math.random() * 0.06, 2.4, 0.06 + Math.random() * 0.05);
-    }
-    cascabeles(t + 0.1, 14, 0.11, 0.14);
+    g.gain.exponentialRampToValueAtTime(0.8, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.95);
+    o.connect(g); g.connect(sfx); o.start(t); o.stop(t + 1);
+    ruido(t, 0.55, 0.32, 'lowpass', 1400, 160, 0.004, 0.8);
+    ruido(t, 0.09, 0.12, 'highpass', 2500, null, 0.002, 0.7);
+  }
+  function sonidoLogo(t) {
+    if (!ctx) return;
+    campana(midi(72), t, 3.2, 0.09);
+    campana(midi(76), t + 0.015, 3, 0.07);
+    campana(midi(79), t + 0.03, 2.8, 0.07);
+    campana(midi(84), t + 0.05, 2.6, 0.05);
+    var notas = [91, 96, 100, 103, 100, 96];
+    for (var i = 0; i < notas.length; i++) campana(midi(notas[i]), t + 0.35 + i * 0.14, 1.6, 0.04, sfx, CAJITA);
   }
 
   function sonidoSalto(t) {
@@ -236,6 +225,20 @@
   // Volumen de fondo: suave y agradable, sin tapar los sonidos de la página.
   var VOLUMEN_MUSICA = 0.35;
   var musica = { sonando: false, audio: null, fundido: null, desbloqueada: false };
+  // «Añadir audio» del Panel avanzado: si la dueña cambió o quitó la música de Navidad,
+  // se respeta (tabla cake_theme_audio). Sin conexión o sin la tabla se usa la pista de siempre.
+  (function () {
+    var cfg = window.CAKE_SUPABASE_CONFIG || {};
+    if (!cfg.url || !cfg.anonKey || !window.fetch) return;
+    fetch(cfg.url + '/rest/v1/cake_theme_audio?theme=eq.navidad&select=audio_url,volume', { headers: { apikey: cfg.anonKey, Accept: 'application/json' }, cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (f) {
+        if (!Array.isArray(f) || !f.length || musica.audio) return;
+        if (!f[0].audio_url) { musica.desactivada = true; return; }
+        if (!/happy-christmas-faces-suave\.mp3/.test(f[0].audio_url)) RUTA_MUSICA = f[0].audio_url;
+        if (f[0].volume != null) VOLUMEN_MUSICA = Math.max(0, Math.min(1, Number(f[0].volume) || 0.35));
+      }).catch(function () { /* pista incluida */ });
+  })();
 
   function obtenerAudioMusica() {
     if (musica.audio) return musica.audio;
@@ -268,7 +271,7 @@
 
   // Debe llamarse dentro de un toque: así el navegador deja sonar la música después.
   function desbloquearMusica() {
-    if (musica.desbloqueada || preferenciaMusica() === 'off') return;
+    if (musica.desactivada || musica.desbloqueada || preferenciaMusica() === 'off') return;
     var a = obtenerAudioMusica();
     musica.desbloqueada = true;
     try {
@@ -281,6 +284,7 @@
   }
 
   function iniciarMusica(fundido) {
+    if (musica.desactivada) { musica.sonando = false; actualizarBotonMusica(); return; }
     var a = obtenerAudioMusica();
     musica.sonando = true;
     a.muted = false;
@@ -728,7 +732,7 @@
     });
     programar((ESPERA + ORBITA) * 1000, function () { if (ctx) sonidoAcercar(ctx.currentTime, ACERCA); });
     programar(T_EXPLOTA, explotar);
-    programar(T_EXPLOTA + 250, mostrarLogo);
+    programar(T_EXPLOTA + 250, function () { mostrarLogo(); if (ctx) sonidoLogo(ctx.currentTime); });
     programar(T_EXPLOTA + 1300, function () { iniciarMusicaSiSePermite(4); });
     programar(T_EXPLOTA + 2000, saltarGorro);
     programar(T_EXPLOTA + 3800, volarLogo);
@@ -840,11 +844,13 @@
     }, rapido ? 600 : 1000);
   }
 
+  function avisarFin() { if (window.CakeIntro) window.CakeIntro.terminar('navidad'); }
   function aterrizar() {
     if (estado.terminado) return;
     if (logoIntro) logoIntro.style.visibility = 'hidden';
     revelarPagina();
     cerrarIntro(false);
+    setTimeout(avisarFin, 700);
   }
 
   function saltarIntro() {
@@ -864,6 +870,7 @@
     revelarPagina();
     cerrarIntro(true);
     iniciarMusicaSiSePermite(1.5);
+    setTimeout(avisarFin, 400);
   }
 
   /* =========================================================
@@ -874,6 +881,7 @@
     if (conIntro) {
       crearIntro();
     } else {
+      avisarFin();
       if (!reducirMovimiento) html.classList.add('gorro-salta');
       // Sin intro: la música empieza con el primer toque en la página.
       // pointerdown no existe en iPhone antiguos: también se escucha touchstart y click.

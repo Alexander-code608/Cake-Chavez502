@@ -75,17 +75,18 @@ html.intro-activa body > *:not(#intro-navidad){opacity:0!important}
 
 /* Intro: la gorra se eleva, gira sobre sí misma (frente -> espaldas -> frente) y aterriza,
    con el mismo movimiento del video de referencia. */
-.intro-logo.salta .intro-logo-gorro{transform-origin:50% 85%;backface-visibility:visible;
-  animation:introGorroGiro 1.5s cubic-bezier(.45,.05,.35,1) both}
+.intro-logo.salta .intro-logo-gorro{transform-origin:50% 88%;backface-visibility:visible;will-change:transform;
+  animation:introGorroGiro 1.9s cubic-bezier(.37,0,.24,1) both}
+/* Movimiento continuo (sin pausas ni saltos): se agacha apenas, sube con suavidad mientras gira
+   una vuelta completa y se posa con un rebote amortiguado. */
 @keyframes introGorroGiro{
-  0%  {transform:perspective(700px) translateY(0) rotateY(0deg) rotate(0deg) scale(1)}
-  12% {transform:perspective(700px) translateY(4%) rotateY(0deg) rotate(0deg) scale(1.06,.9)}
-  30% {transform:perspective(700px) translateY(-18%) rotateY(120deg) rotate(-7deg) scale(1.05)}
-  48% {transform:perspective(700px) translateY(-26%) rotateY(220deg) rotate(-5deg) scale(1.06)}
-  66% {transform:perspective(700px) translateY(-10%) rotateY(320deg) rotate(-2deg) scale(1.02)}
-  78% {transform:perspective(700px) translateY(0) rotateY(360deg) rotate(0deg) scale(1.06,.92)}
-  88% {transform:perspective(700px) translateY(-3%) rotateY(360deg) rotate(0deg) scale(.98,1.03)}
-  100%{transform:perspective(700px) translateY(0) rotateY(360deg) rotate(0deg) scale(1)}
+  0%  {transform:perspective(800px) translate3d(0,0,0) rotateY(0deg) rotateZ(0deg) scale(1)}
+  10% {transform:perspective(800px) translate3d(0,3%,0) rotateY(0deg) rotateZ(2deg) scale(1.03,.95)}
+  45% {transform:perspective(800px) translate3d(0,-24%,0) rotateY(200deg) rotateZ(-6deg) scale(1.04)}
+  72% {transform:perspective(800px) translate3d(0,-6%,0) rotateY(350deg) rotateZ(-2deg) scale(1.01)}
+  84% {transform:perspective(800px) translate3d(0,1.5%,0) rotateY(360deg) rotateZ(0deg) scale(1.03,.97)}
+  93% {transform:perspective(800px) translate3d(0,-1%,0) rotateY(360deg) rotateZ(0deg) scale(.995,1.01)}
+  100%{transform:perspective(800px) translate3d(0,0,0) rotateY(360deg) rotateZ(0deg) scale(1)}
 }
 
 /* Logo del encabezado: base + gorra separada */
@@ -96,18 +97,18 @@ body.navidad .zona-portada .logo-navidad-compuesto .logo{width:380px;max-width:7
 /* Gorra del logo: se queda quieta un momento, se eleva un poquito, gira sobre sí misma
    (vuelta completa de frente a espaldas, como en el video de referencia) y aterriza
    con un pequeño rebote. Mismo logo y misma gorra: solo cambia el movimiento. */
-html.gorro-salta .logo-gorro{transform-origin:50% 85%;backface-visibility:visible;
-  animation:gorroGiroVideo 3.4s cubic-bezier(.45,.05,.35,1) 1s infinite}
+html.gorro-salta .logo-gorro{transform-origin:50% 88%;backface-visibility:visible;will-change:transform;
+  animation:gorroGiroVideo 6.5s cubic-bezier(.45,0,.25,1) 1.2s infinite}
+/* En el encabezado: balanceo muy suave y, cada 6.5 s, una vuelta completa fluida. */
 @keyframes gorroGiroVideo{
-  0%,66%{transform:perspective(700px) translateY(0) rotateY(0deg) rotate(0deg) scale(1)}
-  70%  {transform:perspective(700px) translateY(-6%) rotateY(55deg) rotate(-5deg) scale(1.02)}
-  75%  {transform:perspective(700px) translateY(-16%) rotateY(150deg) rotate(-7deg) scale(1.05)}
-  80%  {transform:perspective(700px) translateY(-20%) rotateY(210deg) rotate(-5deg) scale(1.05)}
-  85%  {transform:perspective(700px) translateY(-12%) rotateY(300deg) rotate(-2deg) scale(1.02)}
-  90%  {transform:perspective(700px) translateY(0) rotateY(360deg) rotate(0deg) scale(1.06,.93)}
-  94%  {transform:perspective(700px) translateY(-3%) rotateY(360deg) rotate(0deg) scale(.98,1.03)}
-  100% {transform:perspective(700px) translateY(0) rotateY(360deg) rotate(0deg) scale(1)}
-}
+  0%   {transform:perspective(800px) translate3d(0,0,0) rotateY(0deg) rotateZ(0deg)}
+  18%  {transform:perspective(800px) translate3d(0,-1%,0) rotateY(0deg) rotateZ(-3deg)}
+  36%  {transform:perspective(800px) translate3d(0,0,0) rotateY(0deg) rotateZ(2deg)}
+  52%  {transform:perspective(800px) translate3d(0,0,0) rotateY(0deg) rotateZ(0deg)}
+  70%  {transform:perspective(800px) translate3d(0,-16%,0) rotateY(190deg) rotateZ(-5deg)}
+  84%  {transform:perspective(800px) translate3d(0,-3%,0) rotateY(350deg) rotateZ(-1deg)}
+  91%  {transform:perspective(800px) translate3d(0,1%,0) rotateY(360deg) rotateZ(0deg) scale(1.02,.98)}
+  100% {transform:perspective(800px) translate3d(0,0,0) rotateY(360deg) rotateZ(0deg) scale(1)}
 }
 
 /* Botón de música */
