@@ -34,7 +34,7 @@
      --------------------------------------------------------- */
   var NUEVAS = [
     ['pedidos-tema', '🗂️ Pedidos por tema'], ['orders', '📋 Todos los pedidos', 'todos'], ['numeros', '📞 Números para recibir los pedidos'],
-    ['audio', '🎵 Añadir audio'], ['videos', '🎬 Tutoriales y videos'], ['correo', '✉️ Recordatorios por correo'], ['acceso', '👥 Personas con acceso']
+    ['audio', '🎵 Añadir audio'], ['videos', '🎬 Tutoriales y videos'], ['correo', '✉️ Recordatorios por correo']
   ];
   function seccion(id) {
     var s = $('admin-panel-' + id);
@@ -79,7 +79,7 @@
     { g: 'Pedidos', i: 'fa-cart-shopping', items: [['fa-list', 'Todos los pedidos', 'orders-todos'], ['fa-layer-group', 'Pedidos por tema', 'pedidos-tema'], ['fa-calendar-days', 'Pedidos programados', 'scheduled'], ['fa-phone', 'Números para recibir los pedidos', 'numeros']] },
     { g: 'Contenido', i: 'fa-circle-play', items: [['fa-film', 'Tutoriales y videos', 'videos'], ['fa-music', 'Añadir audio', 'audio'], ['fa-comment-dots', 'Opiniones reales', 'reviews'], ['fa-camera', 'Fotos de clientes', 'photos']] },
     { g: 'Herramientas', i: 'fa-screwdriver-wrench', items: [['fa-trophy', 'Premios', 'prizes'], ['fa-wand-magic-sparkles', 'Extras y avisos', 'features'], ['fa-bell', 'Notificaciones de entregas por WhatsApp', 'recordatorios'], ['fa-envelope', 'Recordatorios por correo', 'correo']] },
-    { g: 'Sistema', i: 'fa-gear', items: [['fa-truck', 'Entregas y pagos', 'settings'], ['fa-users', 'Personas con acceso', 'acceso'], ['fa-right-from-bracket', 'Salir del Panel avanzado', 'salir']] }
+    { g: 'Sistema', i: 'fa-gear', items: [['fa-truck', 'Entregas y pagos', 'settings'], ['fa-right-from-bracket', 'Salir del Panel avanzado', 'salir']] }
   ];
   var menu, velo;
   function esMovil() { return w.matchMedia('(max-width: 1099px)').matches; }
@@ -479,7 +479,7 @@
      --------------------------------------------------------- */
   function pintarVideos() {
     var s = seccion('videos'), t = info(tema());
-    var v = function (archivo, titulo) { var base = 'videos/tutoriales/' + t.id + '/' + archivo; return '<figure class="adm27-video"><video controls preload="none" poster="' + base + '.jpg" src="' + base + '.mp4" onerror="this.closest(\'figure\').classList.add(\'falta\')"></video><figcaption>' + titulo + '</figcaption></figure>'; };
+    var v = function (archivo, titulo) { var base = 'videos/tutoriales/' + t.id + '/' + archivo; return '<figure class="adm27-video"><video controls preload="none" poster="' + base + '.jpg" src="' + (window.cakeMedia ? window.cakeMedia(base + '.mp4') : base + '.mp4') + '" onerror="this.closest(\'figure\').classList.add(\'falta\')"></video><figcaption>' + titulo + '</figcaption></figure>'; };
     s.innerHTML = '<div class="admin-section-head"><div><h2>🎬 Tutoriales y videos</h2><p>Los dos tutoriales que ven tus clientes en la tienda de ' + esc(t.nombre) + ' (botón «Ver tutoriales»). Al cambiar de temática cambian también los tutoriales.</p></div></div><div class="adm27-videos">' + v('pedido', 'Cómo hacer un pedido') + v('personalizado', 'Cómo hacer un pedido personalizado') + '</div><p class="admin-order-muted">Los 50 videos (tutoriales, publicitarios y de productos) están organizados por temática en la carpeta VIDEOS del paquete de entrega.</p>';
   }
 

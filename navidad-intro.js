@@ -221,7 +221,7 @@
      Dura 2 minutos, termina con un fundido suave y se repite sola.
      Se usa un archivo de audio real para que no suene robótico.
      ========================================================= */
-  var RUTA_MUSICA = 'musica/happy-christmas-faces-suave.mp3?v=5';
+  var RUTA_MUSICA = (window.cakeMedia ? window.cakeMedia('musica/happy-christmas-faces-suave.mp3') : 'musica/happy-christmas-faces-suave.mp3');
   // Volumen de fondo: suave y agradable, sin tapar los sonidos de la página.
   var VOLUMEN_MUSICA = 0.35;
   var musica = { sonando: false, audio: null, fundido: null, desbloqueada: false };

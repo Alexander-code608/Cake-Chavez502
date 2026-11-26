@@ -1,0 +1,32 @@
+CÓMO PUBLICAR CAKE CHÁVEZ EN GITHUB PAGES
+==========================================
+
+1. Descomprime este ZIP en tu computadora. Verás la carpeta "cake-chavez".
+2. Entra a github.com > tu repositorio de la página (o crea uno nuevo, público).
+3. Si ya tenías archivos viejos: bórralos primero (Add file no reemplaza carpetas viejas).
+4. Pulsa "Add file" > "Upload files" y ARRASTRA TODO lo que está DENTRO de la
+   carpeta "cake-chavez" (index.html debe quedar en la raíz, no dentro de otra carpeta).
+   GitHub permite 100 archivos por vez: súbelos en varias tandas si es necesario
+   (primero los archivos sueltos, luego las carpetas img, temas, musica, videos, vendor).
+5. Pulsa "Commit changes".
+6. Ve a Settings > Pages > Source: "Deploy from a branch", rama "main", carpeta "/ (root)" > Save.
+7. Espera 1-3 minutos y abre la dirección que te muestra GitHub.
+
+TU SUPABASE
+-----------
+- El archivo supabase-config.js tiene tu Project URL y tu clave publicable.
+  Si cambiaste de clave, cámbiala ahí (Supabase > Project Settings > API Keys).
+  NUNCA pongas la service_role / secret key.
+- En Supabase > Authentication > URL Configuration, agrega la dirección de tu
+  página de GitHub en "Site URL" y "Redirect URLs".
+- SQL Editor: ejecuta 01_tematicas_zip.sql (respalda antes) y, si quieres quitar
+  restos del control de dispositivos, eliminar_control_dispositivos.sql (Paso 1, luego Paso 2).
+- Edge Functions: borra "cake-acceso" (ya no se usa).
+
+ADMINISTRACIÓN
+--------------
+Entra a  tu-pagina/admin.html  solo con tu correo y contraseña.
+
+TEMÁTICAS
+---------
+Navidad está activa al inicio. Las demás temáticas vienen en sus ZIP aparte.

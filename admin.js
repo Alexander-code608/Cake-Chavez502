@@ -993,11 +993,14 @@
     const paramsPanel = new URLSearchParams(window.location.search);
     // Los enlaces de los recordatorios de WhatsApp (?pedido=CC-...) abren directamente el panel y el pedido.
     const forcePanel = paramsPanel.get('panel') === '1' || /^CC-[A-Z0-9]{16}$/.test(paramsPanel.get('pedido') || '');
+    // El correo se recuerda en este navegador: la próxima vez solo hay que escribir la contraseña.
+    try {const guardado = localStorage.getItem('cake-admin-correo');if (guardado && $('admin-email') && !$('admin-email').value) {$('admin-email').value = guardado;}} catch (_) {}
     $('admin-login-form').addEventListener('submit', async (event) => {
       event.preventDefault();message('admin-login-message', 'Verificando…');
       const { data, error } = await client.auth.signInWithPassword({ email: $('admin-email').value.trim(), password: $('admin-password').value });
       if (error) {message('admin-login-message', 'No se pudo iniciar sesión. Revisa tu correo y contraseña.', 'error');return;}
       if (!data.user) {message('admin-login-message', 'No se recibió una sesión válida.', 'error');return;}
+      try {localStorage.setItem('cake-admin-correo', $('admin-email').value.trim());} catch (_) {}
       if (forcePanel) {await boot(data.user);return;}
       if (await requireAdmin(data.user)) window.location.href = 'index.html?modo=edicion';
     });

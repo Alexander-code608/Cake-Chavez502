@@ -21,7 +21,7 @@
   var pausados = [];
   function tema() { return (w.CakeTema && w.CakeTema.actual) || 'navidad'; }
   function nombreTema() { var t = w.CAKE_TEMAS && w.CAKE_TEMAS.buscar(tema()); return t ? t.nombre : 'Cake Chavez'; }
-  function ruta(id, ext) { return 'videos/tutoriales/' + tema() + '/' + id + '.' + ext + '?v=20270101'; }
+  function ruta(id, ext) { var r = 'videos/tutoriales/' + tema() + '/' + id + '.' + ext; return ext === 'mp4' && w.cakeMedia ? w.cakeMedia(r) : r + '?v=20270101'; }
   function crearBoton() {
     if (d.getElementById('cake-tut-abrir')) return true;
     var fila = d.querySelector('.t27-urgente-fila');
