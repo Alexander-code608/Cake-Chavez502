@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,700;1,400&display=swap');
+/* =========================================================
+   CAKE CHÁVEZ — DIA-PADRE: ADORNOS Y DETALLES PROPIOS (archivo generado)
+   Generado por herramientas/generar_temas_2027.py. Solo actúa con html.tema-dia-padre.
+   ========================================================= */
+html.tema-dia-padre {
+  --t27-fuente-titulo: 'Libre Baskerville', 'Playfair Display', serif;
+  --t27-acento: #1f5157; --t27-oro: #c49a52; --t27-champagne: #efe8da;
+  --t27-sombra: rgba(20,45,48,.22); --t27-sombra-logo: rgba(20,45,48,.22);
+  --t27-glifo: var(--g-corbata);
+  --t27-cabecera: url('../../img/temas/dia-padre/cabecera.webp');
+  --t27-cabecera-movil: url('../../img/temas/dia-padre/cabecera-movil.webp');
+  --t27-cabecera-velo: linear-gradient(180deg, rgba(234,229,219,0) 0%, rgba(234,229,219,.12) 60%, var(--cake-fondo) 100%);
+  --t27-intro-fondo: radial-gradient(ellipse at 50% 40%, #2c5d62 0%, #173a3e 60%, #0d2326 100%); --t27-intro-texto: #efe3c8;
+  --t27-slogan: #1f4a4f; --t27-slogan-sombra: 0 1px 0 rgba(255,255,255,.7);
+  --t27-escena-fondo: linear-gradient(180deg, #f3eee4, #dcd2bf);
+  --t27-franja: repeating-linear-gradient(135deg,#1f5157 0 10px,#2b6b72 10px 12px,#1f5157 12px 22px,#c49a52 22px 24px);
+  --t27-musica-fondo: rgba(23,58,62,.92); --t27-musica-texto: #efe3c8;
+  --urg-fondo: linear-gradient(135deg,#235a60,#123438); --urg-texto: #f3e7cc; --urg-borde: #c49a52;
+  --urg-caja: #f8f4ec; --urg-caja-texto: #2f2b25; --urg-campo: #ffffff;
+  --urg-campo-borde: #d9cdb7; --urg-boton: #1f5157; --urg-boton-texto: #f3e7cc; --urg-titulo: #1f4a4f;
+  --ico-trazo: #173a3e; --ico-r1: #d8b471; --ico-r2: #8fb5b0;
+}
+/* Día del Padre: crema, verde azulado profundo, chocolate y dorado; detalles de sastrería */
+html.tema-dia-padre .producto { border-radius: 14px; border: 1px solid #d7ccb6; box-shadow: 0 10px 22px rgba(20,45,48,.14); }
+html.tema-dia-padre .producto::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 5px; z-index: 3; pointer-events: none;
+  background: repeating-linear-gradient(135deg,#1f5157 0 8px,#c49a52 8px 10px); border-radius: 14px 14px 0 0; }
+html.tema-dia-padre .seccion-cabecera h2, html.tema-dia-padre .catalogo-intro h2 { font-family: var(--t27-fuente-titulo); letter-spacing: .01em; }
+html.tema-dia-padre .nav-btn.active { background: #1f5157 !important; color: #f3e7cc !important; }

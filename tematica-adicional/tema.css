@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&display=swap');
+/* =========================================================
+   CAKE CHÁVEZ — TEMATICA-ADICIONAL: ADORNOS Y DETALLES PROPIOS (archivo generado)
+   Generado por herramientas/generar_temas_2027.py. Solo actúa con html.tema-tematica-adicional.
+   ========================================================= */
+html.tema-tematica-adicional {
+  --t27-fuente-titulo: 'Cormorant Garamond', 'Playfair Display', serif;
+  --t27-acento: #7fa597; --t27-oro: #a9b4bb; --t27-champagne: #eef5f4;
+  --t27-sombra: rgba(60,90,85,.18); --t27-sombra-logo: rgba(60,90,85,.18);
+  --t27-glifo: var(--g-mariposa);
+  --t27-cabecera: url('../../img/temas/tematica-adicional/cabecera.webp');
+  --t27-cabecera-movil: url('../../img/temas/tematica-adicional/cabecera-movil.webp');
+  --t27-cabecera-velo: linear-gradient(180deg, rgba(230,241,242,0) 0%, rgba(230,241,242,.2) 60%, var(--cake-fondo) 100%);
+  --t27-intro-fondo: radial-gradient(ellipse at 50% 45%, #ffffff 0%, #e4efee 55%, #c6d9d6 100%); --t27-intro-texto: #3f5e55;
+  --t27-slogan: #3f5e55; --t27-slogan-sombra: 0 1px 0 rgba(255,255,255,.9);
+  --t27-escena-fondo: radial-gradient(ellipse at 50% 30%, #ffffff, #dbe9e7 80%);
+  --t27-franja: linear-gradient(90deg,#d6e4e1,#a9c2d8,#ffffff,#8fb3a3,#d6e4e1);
+  --t27-musica-fondo: rgba(250,253,253,.94); --t27-musica-texto: #3f5e55;
+  --urg-fondo: linear-gradient(135deg,#8fb3a3,#5f8778); --urg-texto: #ffffff; --urg-borde: #d6e4e1;
+  --urg-caja: #fbfefe; --urg-caja-texto: #33433f; --urg-campo: #ffffff;
+  --urg-campo-borde: #d5e3e1; --urg-boton: #5f8778; --urg-boton-texto: #fff; --urg-titulo: #3f5e55;
+  --ico-trazo: #3f5e55; --ico-r1: #dbe9e4; --ico-r2: #b9cde0;
+}
+/* Jardín Encantado: blanco niebla, salvia, azul polvo y plata; tarjetas de cristal */
+html.tema-tematica-adicional .producto { border-radius: 20px; border: 1px solid rgba(169,180,187,.6); background: rgba(255,255,255,.78); backdrop-filter: blur(6px); box-shadow: 0 10px 26px rgba(60,90,85,.12); }
+html.tema-tematica-adicional .seccion-cabecera h2, html.tema-tematica-adicional .catalogo-intro h2 { font-family: var(--t27-fuente-titulo); font-style: italic; font-size: 1.12em; }
+html.tema-tematica-adicional .carrusel-container { border-color: #c9d6da !important; }

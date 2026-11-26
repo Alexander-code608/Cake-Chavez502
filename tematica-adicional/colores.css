@@ -1,0 +1,336 @@
+/* =========================================================
+   CAKE CHÁVEZ — TEMATICA-ADICIONAL: COLORES (archivo generado)
+   Generado por herramientas/generar_colores_temas.py a partir de las hojas base.
+   Solo actúa con html.tema-tematica-adicional. No modifica Navidad.
+   ========================================================= */
+/* ---- desde style.css ---- */
+html.tema-tematica-adicional{--cake-fondo:#e6f1f2;--cake-panel:#e5f0f1;--cake-panel-oscuro:#e7f3f3;--cake-rosa:#406759;--cake-rosa-claro:#3f4848;--cake-rosa-fuerte:#557d6e;--cake-rosa-hover:#4f7769;--cake-texto:#3f4848;--cake-texto-suave:#656f6f;--cake-borde:#d4dfdf;--cake-blanco:#30393a;--cake-rojo-alerta:#4d7466;--blanco-hueso:var(--cake-texto-claro, #3f4848)}
+html.tema-tematica-adicional .carrusel-container{border:3px solid #ccd7d7;box-shadow:0 8px 25px rgba(22,28,28,0.138)}
+html.tema-tematica-adicional .carrusel-texto{background:rgba(230,241,242,0.84);box-shadow:0 4px 10px rgba(22,28,28,0.165)}
+html.tema-tematica-adicional .carrusel-texto h2{color:#2e3738}
+html.tema-tematica-adicional .carrusel-texto p{color:#3b4445}
+html.tema-tematica-adicional .carrusel-btn{background:rgba(231,243,243,0.92);color:#2e3738}
+html.tema-tematica-adicional .punto{background:rgba(46,55,56,0.5)}
+html.tema-tematica-adicional .zona-portada #input-busqueda::placeholder{color:#8f999a}
+html.tema-tematica-adicional .zona-portada #input-busqueda:focus{box-shadow:0 0 0 3px rgba(64,103,89,0.13)}
+html.tema-tematica-adicional .zona-portada .nav-btn.btn-personalizar{border-color:#5d8375;background:#e3eeee;box-shadow:0 2px 6px rgba(22,28,28,0.066)}
+html.tema-tematica-adicional .zona-portada nav.barra-categorias-fija{box-shadow:0 5px 16px rgba(22,28,28,0.165)}
+html.tema-tematica-adicional .zona-portada .catalogo-etiqueta i{color:#96917c}
+html.tema-tematica-adicional .producto{box-shadow:0 6px 18px rgba(22,28,28,0.11)}
+html.tema-tematica-adicional .producto:hover{box-shadow:0 12px 25px rgba(22,28,28,0.154)}
+html.tema-tematica-adicional .carrito-flotante{box-shadow:0 5px 18px rgba(22,28,28,0.193)}
+html.tema-tematica-adicional .overlay{background:rgba(22,28,28,0.374)}
+html.tema-tematica-adicional .carrito-lateral{box-shadow:-5px 0 20px rgba(22,28,28,0.22)}
+html.tema-tematica-adicional .btn-eliminar-item{color:#446c5e}
+html.tema-tematica-adicional .input-datos:focus,html.tema-tematica-adicional .input-datos-modal:focus{box-shadow:0 0 0 2px rgba(64,103,89,0.12)}
+html.tema-tematica-adicional .input-datos::placeholder{color:#7d8788}
+html.tema-tematica-adicional .btn-confirmar{color:#2e3738}
+html.tema-tematica-adicional .overlay-modal{background:rgba(238,249,250,0.78)}
+html.tema-tematica-adicional .caja-modal{box-shadow:0 15px 35px rgba(22,28,28,0.22)}
+html.tema-tematica-adicional .zoom-indicador{background:rgba(231,243,243,0.9);color:#2e3738}
+html.tema-tematica-adicional .btn-cancelar,html.tema-tematica-adicional .btn-agregar-modal{color:#2e3738}
+html.tema-tematica-adicional .btn-cancelar{background:#b5c0c0}
+html.tema-tematica-adicional .btn-cancelar:hover{background:#99a3a4}
+html.tema-tematica-adicional .caja-solo-imagen{box-shadow:0 10px 30px rgba(22,28,28,0.275)}
+html.tema-tematica-adicional .galeria-arrow{background:rgba(231,243,243,0.92);color:#2e3738}
+html.tema-tematica-adicional .dot-galeria{background:#b9c4c4}
+html.tema-tematica-adicional .btn-cerrar-imagen{box-shadow:0 2px 8px rgba(22,28,28,0.165)}
+html.tema-tematica-adicional .modal-personalizar-visual{color:#2e3738}
+html.tema-tematica-adicional .btn-confirmar-whatsapp{color:#2e3738}
+html.tema-tematica-adicional .cerrar-personalizar{border:1px solid rgba(46,55,56,0.35);color:#2e3738}
+html.tema-tematica-adicional .redes-sociales a:hover{color:#2e3738}
+html.tema-tematica-adicional .destacado-card{box-shadow:0 8px 22px rgba(22,28,28,0.099)}
+html.tema-tematica-adicional .destacado-card:hover{box-shadow:0 12px 28px rgba(22,28,28,0.154)}
+html.tema-tematica-adicional .destacado-sello{border:1px solid rgba(46,55,56,0.15)}
+html.tema-tematica-adicional .input-personalizar:focus,html.tema-tematica-adicional .input-foto-personalizar:focus{box-shadow:0 0 0 3px rgba(64,103,89,0.12)}
+html.tema-tematica-adicional .producto-destacado-enfasis{box-shadow:0 0 0 6px rgba(64,103,89,0.12), 0 12px 28px rgba(22,28,28,0.154)}
+html.tema-tematica-adicional .opinion-invitacion-card{box-shadow:0 8px 22px rgba(22,28,28,0.088)}
+html.tema-tematica-adicional .opinion-icono{border:1px solid rgba(64,103,89,0.28);background:rgba(64,103,89,0.1)}
+html.tema-tematica-adicional .ocasion-icono{background:rgba(64,103,89,0.11)}
+html.tema-tematica-adicional .producto-etiqueta{border:1px solid rgba(64,103,89,0.25);background:rgba(64,103,89,0.09)}
+html.tema-tematica-adicional .galeria-inspiracion-pie{background:linear-gradient(transparent, rgba(231,243,243,0.92));color:#2e3738}
+html.tema-tematica-adicional .galeria-inspiracion-ampliar{border:1px solid rgba(46,55,56,0.3);background:rgba(22,28,28,0.396);color:#2e3738}
+html.tema-tematica-adicional .calendario-pedidos-panel{box-shadow:0 10px 28px rgba(22,28,28,0.099)}
+html.tema-tematica-adicional .calendario-pedidos-icono{border:1px solid rgba(64,103,89,0.25);background:rgba(64,103,89,0.1)}
+html.tema-tematica-adicional .galeria-pedir-btn{box-shadow:0 5px 15px rgba(85,125,110,0.22)}
+html.tema-tematica-adicional .galeria-pedir-btn:hover{box-shadow:0 7px 18px rgba(85,125,110,0.28)}
+html.tema-tematica-adicional .cake-oferta-card{box-shadow:0 8px 24px rgba(22,28,28,0.099)}
+html.tema-tematica-adicional .cake-oferta-sello{background:rgba(64,103,89,0.13)}
+html.tema-tematica-adicional .cake-calculadora-panel,html.tema-tematica-adicional .cake-seguimiento-panel{box-shadow:0 10px 28px rgba(22,28,28,0.11)}
+html.tema-tematica-adicional #cake-favoritos-contador{background:rgba(64,103,89,0.18)}
+html.tema-tematica-adicional .producto-favorito-btn[aria-pressed="true"]{background:rgba(85,125,110,0.25)}
+html.tema-tematica-adicional .cake-asistente-boton{border:1px solid rgba(46,55,56,0.2);box-shadow:0 8px 24px rgba(22,28,28,0.154)}
+html.tema-tematica-adicional .cake-asistente-panel{box-shadow:0 14px 38px rgba(22,28,28,0.209)}
+html.tema-tematica-adicional .cake-seguimiento-icono{background:rgba(64,103,89,0.12)}
+html.tema-tematica-adicional .cake-seguimiento-status{background:rgba(64,103,89,0.12)}
+html.tema-tematica-adicional .cake-entrega-icono{background:rgba(64,103,89,0.12)}
+html.tema-tematica-adicional .cake-tematica-card:hover{background:#e4f0f0}
+html.tema-tematica-adicional .cake-tematica-card span{background:rgba(64,103,89,0.12)}
+html.tema-tematica-adicional input.cake-fecha-completa{border:2px solid #537b6d!important;background:#353e3e!important;color:#598173!important;outline-color:#537b6d}
+html.tema-tematica-adicional .cake-capacity-card hr{border-top:1px solid var(--border, #434c4c)}
+html.tema-tematica-adicional .cake-especialidades-section{border:1px solid rgba(64,103,89,0.2);background:radial-gradient(circle at 12% 8%,rgba(75,115,100,0.12),transparent 34%),linear-gradient(135deg,#e5f0f1,#e7f2f3);box-shadow:0 18px 48px rgba(22,28,28,0.132)}
+html.tema-tematica-adicional .cake-special-slide{border:1px solid rgba(64,103,89,0.24);background:linear-gradient(115deg,#e4f0f0,#e6f2f2);box-shadow:0 16px 40px rgba(22,28,28,0.154)}
+html.tema-tematica-adicional .cake-special-image-frame{background:#e8f3f3}
+html.tema-tematica-adicional .cake-special-image-arrow{border:1px solid rgba(46,55,56,0.28);background:rgba(232,243,244,0.76);color:#2e3738}
+html.tema-tematica-adicional .cake-special-image-dots button,html.tema-tematica-adicional .cake-special-dots button{background:rgba(46,55,56,0.46)}
+html.tema-tematica-adicional .cake-special-info h3{color:#333c3d}
+html.tema-tematica-adicional .cake-special-request{background:linear-gradient(135deg,#4b7364,#4b7364);box-shadow:0 8px 22px rgba(85,125,110,0.28)}
+html.tema-tematica-adicional .cake-special-request:hover{box-shadow:0 12px 26px rgba(85,125,110,0.38)}
+html.tema-tematica-adicional .cake-special-arrow{border:1px solid rgba(64,103,89,0.38);background:#e4f0f0;box-shadow:0 7px 18px rgba(22,28,28,0.11)}
+html.tema-tematica-adicional .cake-ofertas-flecha{box-shadow:0 5px 16px rgba(22,28,28,0.11)}
+html.tema-tematica-adicional .cake-ofertas-flecha:hover{color:#2e3738;box-shadow:0 7px 20px rgba(22,28,28,0.154)}
+html.tema-tematica-adicional .cake-ofertas-flecha{background:rgba(230,241,242,0.92)}
+html.tema-tematica-adicional .cake-ofertas-flecha:disabled:hover{background:rgba(230,241,242,0.92)}
+html.tema-tematica-adicional .opiniones-hero{border:1px solid rgba(66,105,92,0.28);background:radial-gradient(circle at 15% 40%,rgba(85,125,110,0.36),transparent 48%),linear-gradient(110deg,#689081,#e7f2f2 70%);box-shadow:0 16px 38px rgba(22,28,28,0.132)}
+html.tema-tematica-adicional .opiniones-pill{border:1px solid rgba(64,103,89,0.45);background:rgba(75,115,100,0.45)}
+html.tema-tematica-adicional .opiniones-hero-copy h2{color:#3e6658}
+html.tema-tematica-adicional .opiniones-hero-copy h2 span{color:#42695b}
+html.tema-tematica-adicional .opiniones-hero-copy p{color:#3f4848}
+html.tema-tematica-adicional .opiniones-cta{border:1px solid rgba(46,55,56,0.2);background:linear-gradient(135deg,#4b7364,#4b7364);box-shadow:0 8px 20px rgba(94,134,120,0.28)}
+html.tema-tematica-adicional .opiniones-publicadas-head{color:#406759}
+html.tema-tematica-adicional .opiniones-publicadas-head span{background:#51786a}
+html.tema-tematica-adicional .cake-opinion-card{border:1px solid rgba(66,105,91,0.25);background:linear-gradient(145deg,#e4f0f0,#e6f1f1);box-shadow:0 8px 20px rgba(22,28,28,0.099)}
+html.tema-tematica-adicional .cake-opinion-avatar{border:1px solid rgba(46,55,56,0.2);background:linear-gradient(135deg,#4b7364,#4b7364)}
+html.tema-tematica-adicional .cake-opinion-meta strong{color:#3f4848}
+html.tema-tematica-adicional .cake-opinion-estrellas{color:#958f7b}
+html.tema-tematica-adicional .cake-opinion-product{color:#3f6658}
+html.tema-tematica-adicional .cake-opinion-quote{color:#454f4f}
+html.tema-tematica-adicional .cake-opinion-photo-preview{border:1px solid rgba(46,55,56,0.13);background:#e7f2f3}
+html.tema-tematica-adicional .cake-opinion-photo-count{background:rgba(233,244,244,0.8);color:#2e3738}
+html.tema-tematica-adicional .opiniones-nav{border:1px solid rgba(64,104,90,0.4);background:#4d7265}
+html.tema-tematica-adicional .cake-review-backdrop,html.tema-tematica-adicional .cake-review-lightbox-backdrop{background:rgba(234,245,246,0.78)}
+html.tema-tematica-adicional .cake-review-dialog{border:1px solid rgba(68,107,93,0.4);background:linear-gradient(145deg,#3a4343,#3d5e52);color:#648b7d;box-shadow:0 24px 80px rgba(22,28,28,0.275)}
+html.tema-tematica-adicional .cake-review-dialog-head{background:linear-gradient(110deg,#4b7364,#4b7364)}
+html.tema-tematica-adicional .cake-review-close{background:rgba(46,55,56,0.18);color:#2e3738}
+html.tema-tematica-adicional .cake-review-intro{color:#598172}
+html.tema-tematica-adicional #cake-public-review-form>label,html.tema-tematica-adicional .cake-review-stars legend{color:#5e8677}
+html.tema-tematica-adicional #cake-public-review-form>label span{color:#57776b}
+html.tema-tematica-adicional #cake-public-review-form input:not([type=file]):not([type=checkbox]),html.tema-tematica-adicional #cake-public-review-form textarea{border:1px solid #406759;background:rgba(46,55,56,0.66);color:#698b7e}
+html.tema-tematica-adicional .cake-star-picker button{color:#4b685d}
+html.tema-tematica-adicional .cake-star-picker button.active{color:#96917c;text-shadow:0 2px 4px rgba(164,158,138,0.18)}
+html.tema-tematica-adicional #cake-review-photos{border:1px dashed #487062;background:rgba(46,55,56,0.35);color:#5e8678}
+html.tema-tematica-adicional .cake-review-help{color:#557c6e}
+html.tema-tematica-adicional .cake-review-previews img{border:1px solid #41685a}
+html.tema-tematica-adicional .cake-review-consent{color:#5b8375}
+html.tema-tematica-adicional .cake-review-consent input{accent-color:#527a6c}
+html.tema-tematica-adicional .cake-review-status{color:#598173}
+html.tema-tematica-adicional .cake-review-submit{background:#4b7364}
+html.tema-tematica-adicional .cake-review-cancel{background:#4d7265}
+html.tema-tematica-adicional .cake-review-success-icon{border:4px solid #4a7264;background:#4b7364;color:#2e3738}
+html.tema-tematica-adicional .cake-review-success h3{color:#5e8677}
+html.tema-tematica-adicional .cake-review-success p{color:#5a8273}
+html.tema-tematica-adicional .cake-review-lightbox{background:rgba(234,245,246,0.96)}
+html.tema-tematica-adicional .cake-review-lightbox-panel{border:1px solid rgba(64,103,89,0.25);background:#e7f2f3;box-shadow:0 20px 80px rgba(22,28,28,0.55)}
+html.tema-tematica-adicional .cake-review-lightbox-close{background:#4b7364}
+html.tema-tematica-adicional .cake-review-photo-nav{border:1px solid #5b8374;background:#e4eff0;color:#2e3738}
+html.tema-tematica-adicional .cake-review-lightbox-footer{color:#405e53}
+html.tema-tematica-adicional .cake-review-like{border:1px solid #598173;background:#e5f0f1;color:#3f4848}
+html.tema-tematica-adicional .cake-review-like.liked{background:#4b7364}
+html.tema-tematica-adicional .opiniones-hero-art{background:#e7f2f2}
+@media (max-width: 820px){
+  html.tema-tematica-adicional .opiniones-v2 .opiniones-hero-art{background:#e7f2f2}
+}
+html.tema-tematica-adicional .cake-review-lightbox{background:rgba(22,28,28,0.396)}
+html.tema-tematica-adicional .cake-review-lightbox-backdrop{background:rgba(233,244,245,0.82)}
+html.tema-tematica-adicional .cake-review-lightbox-panel{border:1px solid rgba(64,103,89,0.72);background:linear-gradient(145deg,#e4f0f0 0%,#e6f2f2 58%,#e7f2f3 100%);box-shadow:0 28px 90px rgba(22,28,28,0.319),0 0 0 5px rgba(64,103,89,0.08)}
+html.tema-tematica-adicional .cake-review-lightbox-close{box-shadow:0 5px 18px rgba(22,28,28,0.138)}
+html.tema-tematica-adicional .cake-review-viewer-photo{background:radial-gradient(ellipse at center,rgba(64,103,89,0.12),transparent 68%)}
+html.tema-tematica-adicional .cake-review-viewer-photo>img{filter:drop-shadow(0 12px 22px rgba(22,28,28,0.165))}
+html.tema-tematica-adicional .cake-review-photo-nav{border:1px solid rgba(46,55,56,0.55);box-shadow:0 5px 18px rgba(22,28,28,0.165)}
+html.tema-tematica-adicional .cake-review-photo-count{border:1px solid rgba(64,103,89,0.35);background:rgba(232,243,244,0.82);color:#2e3738}
+html.tema-tematica-adicional .cake-review-viewer-brand{border-bottom:1px solid rgba(64,103,89,0.25)}
+html.tema-tematica-adicional .cake-review-viewer-avatar{background:linear-gradient(145deg,#3f4848,#4f7768);color:#628a7b;box-shadow:0 5px 16px rgba(22,28,28,0.138)}
+html.tema-tematica-adicional .cake-review-viewer-stars{color:#948f7b}
+html.tema-tematica-adicional .cake-review-viewer-comment{color:#343d3e}
+html.tema-tematica-adicional .cake-review-viewer-product{border:1px solid rgba(64,103,89,0.35);background:rgba(75,115,100,0.14);color:#3d4646}
+html.tema-tematica-adicional .cake-review-viewer-thumb{border:2px solid rgba(64,103,89,0.3);background:#e7f2f2}
+html.tema-tematica-adicional .cake-review-viewer-thumb.active{box-shadow:0 0 0 2px rgba(64,103,89,0.2)}
+html.tema-tematica-adicional .cake-review-viewer-date{border-top:1px solid rgba(64,103,89,0.2)}
+html.tema-tematica-adicional .cake-review-like{border-color:rgba(64,103,89,0.4);background:rgba(75,115,100,0.12);color:#394243}
+/* ---- desde store-editor.css ---- */
+html.tema-tematica-adicional .cake-editor-toolbar{border:1px solid rgba(64,103,89,0.55);background:rgba(230,241,242,0.97);color:#384141;box-shadow:0 15px 44px rgba(22,28,28,0.149)}
+html.tema-tematica-adicional .cake-editor-mark{color:#e6f1f2;background:#406759}
+html.tema-tematica-adicional .cake-editor-brand strong{color:#406759}
+html.tema-tematica-adicional .cake-editor-brand small{color:#535d5d}
+html.tema-tematica-adicional .cake-editor-primary{background:#4b7364;border-color:#50786a!important}
+html.tema-tematica-adicional .cake-editor-secondary{border-color:#cbd6d6!important;color:#3a4343}
+html.tema-tematica-adicional .cake-editor-logout{background:rgba(71,110,96,0.12);border-color:rgba(71,110,96,0.35)!important;color:#395f51}
+html.tema-tematica-adicional .cake-editor-target{outline:1px dashed rgba(85,125,110,0.43)}
+html.tema-tematica-adicional .cake-editor-action{border:1px solid #406759;background:#4b7364;box-shadow:0 3px 10px rgba(22,28,28,0.099)}
+html.tema-tematica-adicional .cake-editor-image-action{border-color:#406759;background:#4b7364;box-shadow:0 3px 10px rgba(22,28,28,0.099)}
+html.tema-tematica-adicional .cake-editor-add-category{border-color:rgba(85,125,110,0.45);background:#343d3e;color:#5a8273}
+html.tema-tematica-adicional .cake-editor-product-actions button{background:#4b7364;border:1px solid #406759;box-shadow:0 3px 10px rgba(22,28,28,0.121)}
+html.tema-tematica-adicional .cake-editor-product-actions button:last-child{background:#67887c;border-color:#507769}
+html.tema-tematica-adicional .cake-editor-toast{border:1px solid #436a5c;background:#e5f0f1;color:#333c3d;box-shadow:0 12px 38px rgba(22,28,28,0.138)}
+html.tema-tematica-adicional .cake-editor-toast[data-kind="success"]{border-color:#4a6579}
+html.tema-tematica-adicional .cake-editor-toast[data-kind="error"]{border-color:#487062}
+html.tema-tematica-adicional .cake-editor-modal{background:rgba(232,244,244,0.76)}
+html.tema-tematica-adicional .cake-editor-dialog{border:1px solid #617f74;border-top:5px solid #557d6e;background:#e5f0f1;color:#3f4848;box-shadow:0 24px 80px rgba(22,28,28,0.231)}
+html.tema-tematica-adicional .cake-editor-dialog h2{color:#406759}
+html.tema-tematica-adicional .cake-editor-kicker{color:#406759}
+html.tema-tematica-adicional .cake-editor-close{border:1px solid #cad5d6;background:#e7f2f2;color:#384142}
+html.tema-tematica-adicional .cake-editor-dialog label{color:#3d4647}
+html.tema-tematica-adicional .cake-editor-dialog input:not([type="checkbox"]):not([type="file"]),html.tema-tematica-adicional .cake-editor-dialog textarea,html.tema-tematica-adicional .cake-editor-dialog select{border:1px solid #d5e0e0;background:#e7f3f3;color:#353e3e}
+html.tema-tematica-adicional .cake-editor-dialog input[type="file"]{color:#535d5d}
+html.tema-tematica-adicional .cake-editor-dialog input:focus,html.tema-tematica-adicional .cake-editor-dialog textarea:focus,html.tema-tematica-adicional .cake-editor-dialog select:focus{border-color:#406759;box-shadow:0 0 0 3px rgba(64,103,89,0.12)}
+html.tema-tematica-adicional .cake-editor-dialog small{color:#626b6c}
+html.tema-tematica-adicional .cake-editor-checks input{accent-color:#557d6e}
+html.tema-tematica-adicional .cake-editor-message{color:#555f5f}
+html.tema-tematica-adicional #productos-container .cake-editor-add-tile{border:2px dashed #456c5e;background:linear-gradient(155deg, #323b3b 0%, #394242 100%);color:#628a7b;box-shadow:0 5px 17px rgba(94,134,120,0.08)}
+html.tema-tematica-adicional #productos-container .cake-editor-add-tile:hover,html.tema-tematica-adicional #productos-container .cake-editor-add-tile:focus-visible{border-color:#557d6e;box-shadow:0 10px 24px rgba(94,134,120,0.16);outline:3px solid rgba(85,125,110,0.14)}
+html.tema-tematica-adicional .cake-editor-add-tile-badge{background:#4b7364}
+html.tema-tematica-adicional .cake-editor-add-tile-plus{border:1px solid #406759;background:#2e3738;color:#557d6e}
+html.tema-tematica-adicional #productos-container .cake-editor-add-tile strong{color:#5d8576}
+html.tema-tematica-adicional #productos-container .cake-editor-add-tile small{color:#597b6f}
+/* ---- desde navidad.css ---- */
+html.tema-tematica-adicional{--cake-fondo:#e7f2f3;--cake-panel:#e5f1f1;--cake-panel-oscuro:#e8f3f4;--navidad-neon:#42695c;--navidad-neon-suave:rgba(66,105,92,0.45)}
+html.tema-tematica-adicional{background:#e7f3f3}
+html.tema-tematica-adicional body{background:#e7f3f3}
+@keyframes navidadNeon{to{filter:drop-shadow(0 0 22px rgba(66,105,92,0.7)) drop-shadow(0 0 46px rgba(70,109,96,0.35))}}
+/* ---- desde mejoras-navidad.css ---- */
+html.tema-tematica-adicional .navidad-esp-section{border:1.5px solid rgba(145,139,119,0.38);background:repeating-linear-gradient(135deg, #4b7364 0 13px, #333c3c 13px 26px) top / 100% 10px no-repeat,
+        radial-gradient(ellipse 70% 45% at 50% 0, rgba(75,115,100,0.22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 10% 100%, rgba(81,109,129,0.22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(81,109,129,0.18), transparent 70%),
+        radial-gradient(circle, rgba(46,55,56,0.07) 0 1.4px, transparent 2.2px) 0 0 / 30px 30px,
+        linear-gradient(180deg, #507165 0%, #e6f2f2 60%, #e7f3f3 100%);box-shadow:0 0 0 1px rgba(145,139,119,0.1), 0 0 36px rgba(71,110,96,0.22), 0 20px 44px rgba(22,28,28,0.248)}
+html.tema-tematica-adicional .navidad-esp-adorno{border:1.5px solid rgba(145,139,119,0.55);background:linear-gradient(135deg, #5f7b8f, #2f9256);box-shadow:0 6px 18px rgba(22,28,28,0.193)}
+html.tema-tematica-adicional .navidad-esp-adorno span:nth-child(odd){color:#374041}
+html.tema-tematica-adicional .navidad-esp-etiqueta{border:1px dashed rgba(145,139,119,0.65);background:rgba(83,123,109,0.25);color:#8f8a76!important}
+html.tema-tematica-adicional .navidad-esp-cabecera h2{color:#353e3e!important;text-shadow:0 0 16px rgba(66,105,91,0.45), 0 0 2px rgba(145,139,119,0.6)}
+html.tema-tematica-adicional .navidad-esp-cabecera p{color:#444d4d!important}
+html.tema-tematica-adicional .navidad-esp-card{border:1.5px solid rgba(145,139,119,0.35);background:linear-gradient(180deg, #6c8c80 0%, #e6f2f2 100%);box-shadow:0 10px 24px rgba(22,28,28,0.209)}
+html.tema-tematica-adicional .navidad-esp-card:hover{border-color:rgba(145,139,119,0.75);box-shadow:0 0 26px rgba(67,106,92,0.35), 0 16px 30px rgba(22,28,28,0.248)}
+html.tema-tematica-adicional .navidad-esp-img-wrap{background:#e8f3f4}
+html.tema-tematica-adicional .navidad-esp-sello{border:1px solid rgba(145,139,119,0.7);background:linear-gradient(90deg, #4b7364, #4b7364);box-shadow:0 4px 12px rgba(22,28,28,0.193)}
+html.tema-tematica-adicional .navidad-esp-fotos{background:rgba(233,244,244,0.78);color:#2e3738}
+html.tema-tematica-adicional .navidad-esp-info h3{color:#333c3d}
+html.tema-tematica-adicional .navidad-esp-descripcion{color:#4b5455}
+html.tema-tematica-adicional .navidad-esp-precio{border:1.5px dashed rgba(145,139,119,0.7);background:linear-gradient(135deg, rgba(83,123,109,0.28), rgba(94,121,142,0.28));color:#8f8a76}
+html.tema-tematica-adicional .navidad-esp-boton{background:linear-gradient(120deg, #4b7364 0%, #4b7364 45%, #4b7364 55%, #4b7364 100%);box-shadow:inset 0 3px 0 rgba(22,28,28,0.44), 0 5px 14px rgba(78,117,103,0.4)}
+html.tema-tematica-adicional .navidad-esp-nota{color:#444d4d}
+html.tema-tematica-adicional .zona-portada .nav-btn.nav-btn-navidad{border-color:rgba(145,139,119,0.55);background:linear-gradient(135deg, #516d81, #2f9256)}
+html.tema-tematica-adicional .otro-producto-icono{border:2px solid rgba(145,139,119,0.7);background:radial-gradient(circle, rgba(66,105,92,0.35), rgba(94,121,142,0.35))}
+html.tema-tematica-adicional .caja-otro-producto h2{color:#3a4343}
+html.tema-tematica-adicional .otro-producto-img{border:3px solid rgba(145,139,119,0.8);box-shadow:0 0 0 4px rgba(78,117,103,0.35)}
+html.tema-tematica-adicional .otro-producto-texto{color:#3f4949}
+html.tema-tematica-adicional .otro-producto-pregunta{color:#8f8a76}
+html.tema-tematica-adicional .otro-producto-btn{color:#2e3738}
+html.tema-tematica-adicional .otro-producto-btn-si{background:linear-gradient(120deg, #537a6c 0%, #466d5f 50%, #4e7567 100%);box-shadow:inset 0 3px 0 rgba(22,28,28,0.413), 0 5px 14px rgba(78,117,103,0.4)}
+html.tema-tematica-adicional .otro-producto-btn-no{border:1px solid rgba(145,139,119,0.4);background:linear-gradient(135deg, #648094, #6b8497)}
+html.tema-tematica-adicional .carrito-item-img{border:2px solid rgba(145,139,119,0.6)}
+/* ---- desde cake-funciones.css ---- */
+html.tema-tematica-adicional{--cf-oro:#948e7a;--cf-oro-claro:#8e8874;--cf-rosa:#42695c;--cf-rosa-fuerte:#557d6e;--cf-panel:#e5f1f1;--cf-panel-2:#e7f2f2;--cf-texto:#3f4848;--cf-suave:#656f6f;--cf-borde:rgba(66,105,92,0.28);--cf-sombra:0 18px 50px rgba(22,28,28,0.248)}
+html.tema-tematica-adicional .cf-btn-rosa{background:linear-gradient(135deg, #4b7364, var(--cf-rosa-fuerte));box-shadow:0 6px 18px rgba(85,125,110,0.35)}
+html.tema-tematica-adicional .cf-btn-rosa:hover{background:linear-gradient(135deg, #4b7365, #52796b)}
+html.tema-tematica-adicional .cf-btn-borde{background:rgba(46,55,56,0.04)}
+html.tema-tematica-adicional .cf-barra-cupos{background:linear-gradient(90deg, #4b7364, #4b7364 30%, #9c9782 50%, #4b7364 70%, #4b7364);border-bottom:1px solid rgba(148,142,122,0.55)}
+html.tema-tematica-adicional .cf-cupo-chip{background:rgba(22,28,28,0.154);border:1px solid rgba(148,142,122,0.6)}
+html.tema-tematica-adicional .cf-cupo-chip.pocos{background:rgba(145,140,120,0.25)}
+html.tema-tematica-adicional .cf-cupo-chip.agotado{background:rgba(77,116,102,0.5)}
+html.tema-tematica-adicional .cf-barra-cerrar{background:rgba(22,28,28,0.138);color:#2e3738}
+html.tema-tematica-adicional .cf-cuenta-regresiva{border:1px solid rgba(148,142,122,0.45);background:radial-gradient(circle at 15% 10%, rgba(46,55,56,0.08), transparent 40%), linear-gradient(135deg, #516d81, #4e7265 55%, #4c7265);box-shadow:0 12px 34px rgba(22,28,28,0.193), inset 0 0 0 1px rgba(22,28,28,0.022)}
+html.tema-tematica-adicional .cf-cuenta-numeros div{background:rgba(46,55,56,0.07);border:1px solid rgba(46,55,56,0.12)}
+html.tema-tematica-adicional .cf-cuenta-numeros strong{text-shadow:0 0 14px rgba(66,105,92,0.55)}
+html.tema-tematica-adicional .cf-cuenta-numeros span{color:#4c5556}
+html.tema-tematica-adicional .cf-cuenta-mensaje{color:#394242}
+html.tema-tematica-adicional .cf-modal{background:rgba(22,28,28,0.396)}
+html.tema-tematica-adicional .cf-modal-caja{background:linear-gradient(180deg, #e5f0f1, #e7f2f2)}
+html.tema-tematica-adicional .cf-modal-caja h2{color:#2e3738}
+html.tema-tematica-adicional .cf-cerrar{background:rgba(22,28,28,0.165);color:#2e3738}
+html.tema-tematica-adicional .cf-guia-card{background:rgba(46,55,56,0.03)}
+html.tema-tematica-adicional .cf-guia-molde{color:#2e3738}
+html.tema-tematica-adicional .cf-precios-rebanadas{border:1px dashed rgba(66,105,92,0.35);background:rgba(66,105,92,0.06)}
+html.tema-tematica-adicional .cf-precios-rebanadas strong{color:#2e3738}
+html.tema-tematica-adicional .cf-calc-panel{background:linear-gradient(135deg, rgba(229,241,241,0.95), rgba(231,242,242,0.95));box-shadow:0 14px 34px rgba(22,28,28,0.165)}
+html.tema-tematica-adicional .cf-calc-intro h2{color:#2e3738}
+html.tema-tematica-adicional .cf-calc-contador,html.tema-tematica-adicional .cf-calc-postres{background:rgba(22,28,28,0.121);border:1px solid rgba(46,55,56,0.06)}
+html.tema-tematica-adicional .cf-stepper button{background:rgba(46,55,56,0.05);color:#2e3738}
+html.tema-tematica-adicional .cf-stepper input{color:#2e3738}
+html.tema-tematica-adicional .cf-calc-resultado{border:1px solid rgba(148,142,122,0.4);background:rgba(229,241,241,0.9)}
+html.tema-tematica-adicional .cf-calc-card{background:rgba(22,28,28,0.11)}
+html.tema-tematica-adicional .cf-calc-info strong{color:#2e3738}
+html.tema-tematica-adicional .cf-extra{background:rgba(46,55,56,0.04)}
+html.tema-tematica-adicional .cf-premio-carrito{border:1px solid rgba(148,142,122,0.6);background:linear-gradient(135deg, rgba(156,151,130,0.25), rgba(148,142,122,0.12));color:#353e3e}
+html.tema-tematica-adicional .cf-campo label{color:#2e3738}
+html.tema-tematica-adicional .cf-error{color:#3f6658}
+html.tema-tematica-adicional .input-datos.cf-campo-error,html.tema-tematica-adicional .input-personalizar.cf-campo-error{border-color:#456c5e!important;box-shadow:0 0 0 2px rgba(69,108,94,0.18)}
+html.tema-tematica-adicional .cf-raspa-marco{background:linear-gradient(135deg, #9c9782, #8e8874 45%, #9c9782);box-shadow:0 16px 40px rgba(156,151,130,0.25)}
+html.tema-tematica-adicional .cf-raspa-tarjeta{background:radial-gradient(circle at 50% 40%, #323b3b, #8f8a76)}
+html.tema-tematica-adicional .cf-raspa-premio{color:#679081}
+html.tema-tematica-adicional .cf-raspa-premio img{box-shadow:0 8px 22px rgba(103,144,129,0.25)}
+html.tema-tematica-adicional .cf-raspa-gano{color:#557d6e}
+html.tema-tematica-adicional .cf-raspa-premio-texto small{color:#5f8275}
+html.tema-tematica-adicional .cf-galeria-nombre{background:rgba(22,28,28,0.303);color:#2e3738}
+html.tema-tematica-adicional .cf-foto-visor img{background:#eef9fa}
+html.tema-tematica-adicional .cf-foto-nav{background:rgba(22,28,28,0.275);color:#2e3738}
+html.tema-tematica-adicional .cf-foto-nombre{color:#2e3738}
+html.tema-tematica-adicional .cf-opcion-si{background:linear-gradient(135deg, #9c9782, #948e7a);color:#679081;box-shadow:0 8px 22px rgba(148,142,122,0.3)}
+html.tema-tematica-adicional .cf-opcion-no{color:#3a5365}
+html.tema-tematica-adicional .cf-regalo-preview-marco{background:#e9f4f5}
+html.tema-tematica-adicional .cf-regalo-preview-texto{background:rgba(22,28,28,0.248);color:#2e3738}
+html.tema-tematica-adicional .cf-anim{color:#2e3738}
+html.tema-tematica-adicional .cf-anim.activo{box-shadow:0 0 0 3px rgba(148,142,122,0.25)}
+html.tema-tematica-adicional .cf-ticket-caja{background:linear-gradient(180deg, #e6f1f2, #e7f3f3)}
+html.tema-tematica-adicional .cf-ticket{background:#30393a;color:#e7f2f3}
+html.tema-tematica-adicional .cf-ticket::before,html.tema-tematica-adicional .cf-ticket::after{background:radial-gradient(circle at 8px 0, transparent 7px, #30393a 7.5px) repeat-x}
+html.tema-tematica-adicional .cf-ticket-check{color:#2e3738}
+html.tema-tematica-adicional .cf-ticket h2{color:#e7f2f3}
+html.tema-tematica-adicional .cf-ticket-codigo-etq{color:#557d6e}
+html.tema-tematica-adicional .cf-ticket-creado{color:#a5afb0}
+html.tema-tematica-adicional .cf-ticket-datos{border-top:2px dashed #4b5455;border-bottom:2px dashed #4b5455}
+html.tema-tematica-adicional .cf-ticket-datos dt{color:#557d6e}
+html.tema-tematica-adicional .cf-ticket-items{border-bottom:2px dashed #4b5455}
+html.tema-tematica-adicional .cf-ticket-total strong{color:#557d6e}
+html.tema-tematica-adicional .cf-ticket-premio{background:#353e3e;color:#a7a28d}
+html.tema-tematica-adicional .cf-ticket-regalo{background:linear-gradient(135deg, #363f3f, #333c3d)}
+html.tema-tematica-adicional .cf-ticket-qr-img{box-shadow:0 6px 18px rgba(103,144,129,0.15)}
+html.tema-tematica-adicional .cf-ticket-qr-acciones .cf-btn-borde{color:#557d6e;border-color:#4b5455;background:#2e3738}
+html.tema-tematica-adicional .cf-ticket-nota{color:#a5afb0}
+html.tema-tematica-adicional.cake-ligero .cf-modal{background:rgba(234,245,245,0.85)}
+/* ---- desde navidad-opiniones.css ---- */
+html.tema-tematica-adicional .escena-cielo{background:radial-gradient(ellipse 70% 55% at 72% 18%,rgba(64,104,90,0.3),transparent 62%),
+    radial-gradient(ellipse 60% 45% at 18% 30%,rgba(145,140,120,0.16),transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 110%,#638b7c 0%,transparent 60%),
+    linear-gradient(180deg,#e8f4f4 0%,#689082 48%,#628b7c 100%)}
+html.tema-tematica-adicional .escena-luna{background:radial-gradient(circle at 38% 38%,#323b3b 0%,#8e8975 55%,#918c78 100%);box-shadow:0 0 22px 6px rgba(143,138,117,0.45),0 0 60px 18px rgba(146,141,120,0.18)}
+html.tema-tematica-adicional .escena-estrellas i{background:#2e3738;box-shadow:0 0 6px 1px rgba(22,28,28,0.44)}
+html.tema-tematica-adicional .escena-guirnalda{border-bottom:2px solid rgba(102,130,151,0.85)}
+html.tema-tematica-adicional .escena-guirnalda i::before{background:#dfebeb}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(1){color:#476f61}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(2){color:#918c78}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(3){color:#415c6f}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(4){color:#466d5f}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(5){color:#425d71}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(6){color:#476f61}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(7){color:#918c78}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(8){color:#415c6f}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(9){color:#466d5f}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(10){color:#425d71}
+html.tema-tematica-adicional .escena-guirnalda i:nth-child(11){color:#476f61}
+html.tema-tematica-adicional .escena-nieve i{color:#2e3738;text-shadow:0 0 6px rgba(22,28,28,0.33)}
+html.tema-tematica-adicional .escena-suelo{background:radial-gradient(ellipse at 50% 0%,#2e3738 0%,#374040 45%,#444d4d 100%);box-shadow:0 -6px 22px rgba(22,28,28,0.099)}
+html.tema-tematica-adicional .opiniones-hero-art .opiniones-escena img.escena-regalos{filter:drop-shadow(0 8px 10px rgba(22,28,28,0.193))}
+html.tema-tematica-adicional .opiniones-hero-art .opiniones-escena img.escena-santa{filter:drop-shadow(0 10px 12px rgba(22,28,28,0.22))}
+html.tema-tematica-adicional .escena-arbol{filter:drop-shadow(0 10px 14px rgba(22,28,28,0.248))}
+html.tema-tematica-adicional .escena-arbol-luces i:nth-child(5n/**/+1){color:#908a76}
+html.tema-tematica-adicional .escena-arbol-luces i:nth-child(5n/**/+2){color:#42695c}
+html.tema-tematica-adicional .escena-arbol-luces i:nth-child(5n/**/+3){color:#3d586b}
+html.tema-tematica-adicional .escena-arbol-luces i:nth-child(5n/**/+4){color:#353e3e}
+html.tema-tematica-adicional .escena-arbol-luces i:nth-child(5n/**/+5){color:#406759}
+/* ---- desde cake-review-viewer.css ---- */
+html.tema-tematica-adicional .cake-review-lightbox{background:rgba(234,245,246,0.88)!important}
+html.tema-tematica-adicional .cake-review-lightbox-backdrop{background:rgba(234,245,246,0.78)!important}
+html.tema-tematica-adicional .cake-review-lightbox-panel{border:1px solid rgba(64,103,89,0.55)!important;background:linear-gradient(145deg, #e6f2f2 0%, #e8f4f4 100%)!important;color:#2e3738!important;box-shadow:0 24px 80px rgba(22,28,28,0.286), 0 0 32px rgba(72,112,98,0.12)!important}
+html.tema-tematica-adicional .cake-review-lightbox-close{border:1px solid rgba(46,55,56,0.45)!important;background:rgba(233,244,244,0.78)!important;color:#2e3738!important}
+html.tema-tematica-adicional .cake-review-viewer-review{color:#2e3738!important}
+html.tema-tematica-adicional #cake-review-viewer-name{color:#2e3738!important}
+html.tema-tematica-adicional #cake-review-viewer-stars{color:#938d79!important}
+html.tema-tematica-adicional #cake-review-viewer-product{color:#3e6658!important}
+html.tema-tematica-adicional #cake-review-viewer-comment{color:#384142!important}
+html.tema-tematica-adicional .cake-review-viewer-stage{border:1px solid rgba(66,106,92,0.36);background:radial-gradient(ellipse at center, rgba(46,55,56,0.08), rgba(22,28,28,0.132))}
+html.tema-tematica-adicional .cake-review-photo-nav{border:1px solid rgba(62,101,87,0.52)!important;background:rgba(75,115,100,0.92)!important;box-shadow:0 4px 14px rgba(22,28,28,0.138)}
+html.tema-tematica-adicional .cake-review-photo-nav:hover:not(:disabled){background:#547c6e!important}
+html.tema-tematica-adicional .cake-review-lightbox-footer{color:#3e4748!important}
+html.tema-tematica-adicional .cake-review-lightbox-footer .cake-review-like{border:1px solid rgba(65,104,91,0.55)!important;background:rgba(69,108,94,0.12)!important;color:#3c5b50!important}
+html.tema-tematica-adicional .cake-review-lightbox-footer .cake-review-like.liked{background:rgba(74,113,99,0.24)!important;color:#40685a!important}

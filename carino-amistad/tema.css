@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap');
+/* =========================================================
+   CAKE CHÁVEZ — CARINO-AMISTAD: ADORNOS Y DETALLES PROPIOS (archivo generado)
+   Generado por herramientas/generar_temas_2027.py. Solo actúa con html.tema-carino-amistad.
+   ========================================================= */
+html.tema-carino-amistad {
+  --t27-fuente-titulo: 'Dancing Script', 'Playfair Display', cursive;
+  --t27-acento: #c26b83; --t27-oro: #c9a46a; --t27-champagne: #fbe3e7;
+  --t27-sombra: rgba(150,60,85,.22); --t27-sombra-logo: rgba(150,60,85,.22);
+  --t27-glifo: var(--g-corazon);
+  --t27-cabecera: url('../../img/temas/carino-amistad/cabecera.webp');
+  --t27-cabecera-movil: url('../../img/temas/carino-amistad/cabecera-movil.webp');
+  --t27-cabecera-velo: linear-gradient(180deg, rgba(250,226,228,0) 0%, rgba(250,226,228,.2) 60%, var(--cake-fondo) 100%);
+  --t27-intro-fondo: radial-gradient(ellipse at 50% 45%, #ffeef1 0%, #f6cdd5 60%, #e7a9b6 100%); --t27-intro-texto: #7a3247;
+  --t27-slogan: #8d3c55; --t27-slogan-sombra: 0 1px 0 rgba(255,255,255,.8);
+  --t27-escena-fondo: radial-gradient(ellipse at 50% 30%, #fff1f4, #f4c9d2 80%);
+  --t27-franja: repeating-linear-gradient(90deg,#c26b83 0 14px,#f3c2cd 14px 28px);
+  --t27-musica-fondo: rgba(255,240,243,.92); --t27-musica-texto: #8d3c55;
+  --urg-fondo: linear-gradient(135deg,#d67b93,#a9485f); --urg-texto: #fff5f7; --urg-borde: #f3c2cd;
+  --urg-caja: #fff7f8; --urg-caja-texto: #5a2a38; --urg-campo: #ffffff;
+  --urg-campo-borde: #efc5cf; --urg-boton: #c26b83; --urg-boton-texto: #fff; --urg-titulo: #8d3c55;
+  --ico-trazo: #6e2f42; --ico-r1: #f6c6d0; --ico-r2: #e3a1b1;
+}
+/* Cariño y Amistad: bordes festoneados como encaje, corazones que laten */
+html.tema-carino-amistad .producto { border-radius: 22px; border: 1.5px solid #f0c3cd; }
+html.tema-carino-amistad .producto::before { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 10px; z-index: 2; pointer-events: none;
+  background: radial-gradient(circle at 7px -2px, transparent 7px, #f3c2cd 7.5px 8.5px, transparent 9px) 0 0 / 14px 10px repeat-x; opacity: .8; }
+html.tema-carino-amistad .seccion-cabecera h2, html.tema-carino-amistad .catalogo-intro h2, html.tema-carino-amistad .zona-portada .slogan { font-family: var(--t27-fuente-titulo); font-weight: 700; }
+html.tema-carino-amistad .nav-btn.active { box-shadow: 0 6px 14px rgba(194,107,131,.35); }

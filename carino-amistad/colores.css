@@ -1,0 +1,336 @@
+/* =========================================================
+   CAKE CHÁVEZ — CARINO-AMISTAD: COLORES (archivo generado)
+   Generado por herramientas/generar_colores_temas.py a partir de las hojas base.
+   Solo actúa con html.tema-carino-amistad. No modifica Navidad.
+   ========================================================= */
+/* ---- desde style.css ---- */
+html.tema-carino-amistad{--cake-fondo:#fae2e4;--cake-panel:#f9e1e3;--cake-panel-oscuro:#fce4e6;--cake-rosa:#844756;--cake-rosa-claro:#523f41;--cake-rosa-fuerte:#9c5969;--cake-rosa-hover:#965464;--cake-texto:#523f41;--cake-texto-suave:#786466;--cake-borde:#e4cdcf;--cake-blanco:#443234;--cake-rojo-alerta:#935161;--blanco-hueso:var(--cake-texto-claro, #523f41)}
+html.tema-carino-amistad .carrusel-container{border:3px solid #dcc5c7;box-shadow:0 8px 25px rgba(35,23,24,0.138)}
+html.tema-carino-amistad .carrusel-texto{background:rgba(250,226,228,0.84);box-shadow:0 4px 10px rgba(35,23,24,0.165)}
+html.tema-carino-amistad .carrusel-texto h2{color:#423032}
+html.tema-carino-amistad .carrusel-texto p{color:#4f3c3e}
+html.tema-carino-amistad .carrusel-btn{background:rgba(252,228,230,0.92);color:#423032}
+html.tema-carino-amistad .punto{background:rgba(66,48,50,0.5)}
+html.tema-carino-amistad .zona-portada #input-busqueda::placeholder{color:#a18b8d}
+html.tema-carino-amistad .zona-portada #input-busqueda:focus{box-shadow:0 0 0 3px rgba(132,71,86,0.13)}
+html.tema-carino-amistad .zona-portada .nav-btn.btn-personalizar{border-color:#926c74;background:#f5dee0;box-shadow:0 2px 6px rgba(35,23,24,0.066)}
+html.tema-carino-amistad .zona-portada nav.barra-categorias-fija{box-shadow:0 5px 16px rgba(35,23,24,0.165)}
+html.tema-carino-amistad .zona-portada .catalogo-etiqueta i{color:#a68351}
+html.tema-carino-amistad .producto{box-shadow:0 6px 18px rgba(35,23,24,0.11)}
+html.tema-carino-amistad .producto:hover{box-shadow:0 12px 25px rgba(35,23,24,0.154)}
+html.tema-carino-amistad .carrito-flotante{box-shadow:0 5px 18px rgba(35,23,24,0.193)}
+html.tema-carino-amistad .overlay{background:rgba(35,23,24,0.374)}
+html.tema-carino-amistad .carrito-lateral{box-shadow:-5px 0 20px rgba(35,23,24,0.22)}
+html.tema-carino-amistad .btn-eliminar-item{color:#8b495a}
+html.tema-carino-amistad .input-datos:focus,html.tema-carino-amistad .input-datos-modal:focus{box-shadow:0 0 0 2px rgba(132,71,86,0.12)}
+html.tema-carino-amistad .input-datos::placeholder{color:#907b7d}
+html.tema-carino-amistad .btn-confirmar{color:#423032}
+html.tema-carino-amistad .overlay-modal{background:rgba(255,241,242,0.78)}
+html.tema-carino-amistad .caja-modal{box-shadow:0 15px 35px rgba(35,23,24,0.22)}
+html.tema-carino-amistad .zoom-indicador{background:rgba(252,228,230,0.9);color:#423032}
+html.tema-carino-amistad .btn-cancelar,html.tema-carino-amistad .btn-agregar-modal{color:#423032}
+html.tema-carino-amistad .btn-cancelar{background:#c5afb0}
+html.tema-carino-amistad .btn-cancelar:hover{background:#aa9496}
+html.tema-carino-amistad .caja-solo-imagen{box-shadow:0 10px 30px rgba(35,23,24,0.275)}
+html.tema-carino-amistad .galeria-arrow{background:rgba(252,228,230,0.92);color:#423032}
+html.tema-carino-amistad .dot-galeria{background:#c9b2b4}
+html.tema-carino-amistad .btn-cerrar-imagen{box-shadow:0 2px 8px rgba(35,23,24,0.165)}
+html.tema-carino-amistad .modal-personalizar-visual{color:#423032}
+html.tema-carino-amistad .btn-confirmar-whatsapp{color:#423032}
+html.tema-carino-amistad .cerrar-personalizar{border:1px solid rgba(66,48,50,0.35);color:#423032}
+html.tema-carino-amistad .redes-sociales a:hover{color:#423032}
+html.tema-carino-amistad .destacado-card{box-shadow:0 8px 22px rgba(35,23,24,0.099)}
+html.tema-carino-amistad .destacado-card:hover{box-shadow:0 12px 28px rgba(35,23,24,0.154)}
+html.tema-carino-amistad .destacado-sello{border:1px solid rgba(66,48,50,0.15)}
+html.tema-carino-amistad .input-personalizar:focus,html.tema-carino-amistad .input-foto-personalizar:focus{box-shadow:0 0 0 3px rgba(132,71,86,0.12)}
+html.tema-carino-amistad .producto-destacado-enfasis{box-shadow:0 0 0 6px rgba(132,71,86,0.12), 0 12px 28px rgba(35,23,24,0.154)}
+html.tema-carino-amistad .opinion-invitacion-card{box-shadow:0 8px 22px rgba(35,23,24,0.088)}
+html.tema-carino-amistad .opinion-icono{border:1px solid rgba(132,71,86,0.28);background:rgba(132,71,86,0.1)}
+html.tema-carino-amistad .ocasion-icono{background:rgba(132,71,86,0.11)}
+html.tema-carino-amistad .producto-etiqueta{border:1px solid rgba(132,71,86,0.25);background:rgba(132,71,86,0.09)}
+html.tema-carino-amistad .galeria-inspiracion-pie{background:linear-gradient(transparent, rgba(252,228,230,0.92));color:#423032}
+html.tema-carino-amistad .galeria-inspiracion-ampliar{border:1px solid rgba(66,48,50,0.3);background:rgba(35,23,24,0.396);color:#423032}
+html.tema-carino-amistad .calendario-pedidos-panel{box-shadow:0 10px 28px rgba(35,23,24,0.099)}
+html.tema-carino-amistad .calendario-pedidos-icono{border:1px solid rgba(132,71,86,0.25);background:rgba(132,71,86,0.1)}
+html.tema-carino-amistad .galeria-pedir-btn{box-shadow:0 5px 15px rgba(156,89,105,0.22)}
+html.tema-carino-amistad .galeria-pedir-btn:hover{box-shadow:0 7px 18px rgba(156,89,105,0.28)}
+html.tema-carino-amistad .cake-oferta-card{box-shadow:0 8px 24px rgba(35,23,24,0.099)}
+html.tema-carino-amistad .cake-oferta-sello{background:rgba(132,71,86,0.13)}
+html.tema-carino-amistad .cake-calculadora-panel,html.tema-carino-amistad .cake-seguimiento-panel{box-shadow:0 10px 28px rgba(35,23,24,0.11)}
+html.tema-carino-amistad #cake-favoritos-contador{background:rgba(132,71,86,0.18)}
+html.tema-carino-amistad .producto-favorito-btn[aria-pressed="true"]{background:rgba(156,89,105,0.25)}
+html.tema-carino-amistad .cake-asistente-boton{border:1px solid rgba(66,48,50,0.2);box-shadow:0 8px 24px rgba(35,23,24,0.154)}
+html.tema-carino-amistad .cake-asistente-panel{box-shadow:0 14px 38px rgba(35,23,24,0.209)}
+html.tema-carino-amistad .cake-seguimiento-icono{background:rgba(132,71,86,0.12)}
+html.tema-carino-amistad .cake-seguimiento-status{background:rgba(132,71,86,0.12)}
+html.tema-carino-amistad .cake-entrega-icono{background:rgba(132,71,86,0.12)}
+html.tema-carino-amistad .cake-tematica-card:hover{background:#f7e0e2}
+html.tema-carino-amistad .cake-tematica-card span{background:rgba(132,71,86,0.12)}
+html.tema-carino-amistad input.cake-fecha-completa{border:2px solid #9a5768!important;background:#483638!important;color:#a25e6e!important;outline-color:#9a5768}
+html.tema-carino-amistad .cake-capacity-card hr{border-top:1px solid var(--border, #564345)}
+html.tema-carino-amistad .cake-especialidades-section{border:1px solid rgba(132,71,86,0.2);background:radial-gradient(circle at 12% 8%,rgba(146,83,98,0.12),transparent 34%),linear-gradient(135deg,#f9e1e3,#fbe4e6);box-shadow:0 18px 48px rgba(35,23,24,0.132)}
+html.tema-carino-amistad .cake-special-slide{border:1px solid rgba(132,71,86,0.24);background:linear-gradient(115deg,#f8e0e2,#fae3e5);box-shadow:0 16px 40px rgba(35,23,24,0.154)}
+html.tema-carino-amistad .cake-special-image-frame{background:#fce5e7}
+html.tema-carino-amistad .cake-special-image-arrow{border:1px solid rgba(66,48,50,0.28);background:rgba(253,229,231,0.76);color:#423032}
+html.tema-carino-amistad .cake-special-image-dots button,html.tema-carino-amistad .cake-special-dots button{background:rgba(66,48,50,0.46)}
+html.tema-carino-amistad .cake-special-info h3{color:#473536}
+html.tema-carino-amistad .cake-special-request{background:linear-gradient(135deg,#945262,#945262);box-shadow:0 8px 22px rgba(156,89,105,0.28)}
+html.tema-carino-amistad .cake-special-request:hover{box-shadow:0 12px 26px rgba(156,89,105,0.38)}
+html.tema-carino-amistad .cake-special-arrow{border:1px solid rgba(132,71,86,0.38);background:#f7e0e2;box-shadow:0 7px 18px rgba(35,23,24,0.11)}
+html.tema-carino-amistad .cake-ofertas-flecha{box-shadow:0 5px 16px rgba(35,23,24,0.11)}
+html.tema-carino-amistad .cake-ofertas-flecha:hover{color:#423032;box-shadow:0 7px 20px rgba(35,23,24,0.154)}
+html.tema-carino-amistad .cake-ofertas-flecha{background:rgba(250,227,228,0.92)}
+html.tema-carino-amistad .cake-ofertas-flecha:disabled:hover{background:rgba(250,227,228,0.92)}
+html.tema-carino-amistad .opiniones-hero{border:1px solid rgba(136,71,88,0.28);background:radial-gradient(circle at 15% 40%,rgba(156,89,105,0.36),transparent 48%),linear-gradient(110deg,#a67983,#fbe3e5 70%);box-shadow:0 16px 38px rgba(35,23,24,0.132)}
+html.tema-carino-amistad .opiniones-pill{border:1px solid rgba(134,69,85,0.45);background:rgba(148,82,98,0.45)}
+html.tema-carino-amistad .opiniones-hero-copy h2{color:#814655}
+html.tema-carino-amistad .opiniones-hero-copy h2 span{color:#884757}
+html.tema-carino-amistad .opiniones-hero-copy p{color:#524041}
+html.tema-carino-amistad .opiniones-cta{border:1px solid rgba(66,48,50,0.2);background:linear-gradient(135deg,#945262,#945262);box-shadow:0 8px 20px rgba(168,100,116,0.28)}
+html.tema-carino-amistad .opiniones-publicadas-head{color:#844756}
+html.tema-carino-amistad .opiniones-publicadas-head span{background:#975565}
+html.tema-carino-amistad .cake-opinion-card{border:1px solid rgba(136,71,87,0.25);background:linear-gradient(145deg,#f7e0e2,#f9e2e4);box-shadow:0 8px 20px rgba(35,23,24,0.099)}
+html.tema-carino-amistad .cake-opinion-avatar{border:1px solid rgba(66,48,50,0.2);background:linear-gradient(135deg,#8c5863,#895964)}
+html.tema-carino-amistad .cake-opinion-meta strong{color:#524041}
+html.tema-carino-amistad .cake-opinion-estrellas{color:#a58250}
+html.tema-carino-amistad .cake-opinion-product{color:#824655}
+html.tema-carino-amistad .cake-opinion-quote{color:#594648}
+html.tema-carino-amistad .cake-opinion-photo-preview{border:1px solid rgba(66,48,50,0.13);background:#fce4e6}
+html.tema-carino-amistad .cake-opinion-photo-count{background:rgba(254,230,232,0.8);color:#423032}
+html.tema-carino-amistad .opiniones-nav{border:1px solid rgba(134,71,86,0.4);background:#825d65}
+html.tema-carino-amistad .cake-review-backdrop,html.tema-carino-amistad .cake-review-lightbox-backdrop{background:rgba(255,232,234,0.78)}
+html.tema-carino-amistad .cake-review-dialog{border:1px solid rgba(138,73,89,0.4);background:linear-gradient(145deg,#4d3b3d,#6d4a52);color:#9c767e;box-shadow:0 24px 80px rgba(35,23,24,0.275)}
+html.tema-carino-amistad .cake-review-dialog-head{background:linear-gradient(110deg,#945262,#945262)}
+html.tema-carino-amistad .cake-review-close{background:rgba(66,48,50,0.18);color:#423032}
+html.tema-carino-amistad .cake-review-intro{color:#a15d6d}
+html.tema-carino-amistad #cake-public-review-form>label,html.tema-carino-amistad .cake-review-stars legend{color:#9c6a75}
+html.tema-carino-amistad #cake-public-review-form>label span{color:#866168}
+html.tema-carino-amistad #cake-public-review-form input:not([type=file]):not([type=checkbox]),html.tema-carino-amistad #cake-public-review-form textarea{border:1px solid #765058;background:rgba(66,48,50,0.66);color:#9d777e}
+html.tema-carino-amistad .cake-star-picker button{color:#78535b}
+html.tema-carino-amistad .cake-star-picker button.active{color:#a68351;text-shadow:0 2px 4px rgba(180,144,93,0.18)}
+html.tema-carino-amistad #cake-review-photos{border:1px dashed #8e4e5e;background:rgba(66,48,50,0.35);color:#9a6d77}
+html.tema-carino-amistad .cake-review-help{color:#8a646c}
+html.tema-carino-amistad .cake-review-previews img{border:1px solid #785059}
+html.tema-carino-amistad .cake-review-consent{color:#936b73}
+html.tema-carino-amistad .cake-review-consent input{accent-color:#995667}
+html.tema-carino-amistad .cake-review-status{color:#a15e6e}
+html.tema-carino-amistad .cake-review-submit{background:#945262}
+html.tema-carino-amistad .cake-review-cancel{background:#825d65}
+html.tema-carino-amistad .cake-review-success-icon{border:4px solid #914f5f;background:#8a5964;color:#423032}
+html.tema-carino-amistad .cake-review-success h3{color:#9f6a75}
+html.tema-carino-amistad .cake-review-success p{color:#956771}
+html.tema-carino-amistad .cake-review-lightbox{background:rgba(254,234,235,0.96)}
+html.tema-carino-amistad .cake-review-lightbox-panel{border:1px solid rgba(132,71,86,0.25);background:#fbe4e5;box-shadow:0 20px 80px rgba(35,23,24,0.55)}
+html.tema-carino-amistad .cake-review-lightbox-close{background:#945262}
+html.tema-carino-amistad .cake-review-photo-nav{border:1px solid #956972;background:#f7dfe1;color:#423032}
+html.tema-carino-amistad .cake-review-lightbox-footer{color:#6e4a52}
+html.tema-carino-amistad .cake-review-like{border:1px solid #936871;background:#f8e1e3;color:#524041}
+html.tema-carino-amistad .cake-review-like.liked{background:#945262}
+html.tema-carino-amistad .opiniones-hero-art{background:#fbe3e5}
+@media (max-width: 820px){
+  html.tema-carino-amistad .opiniones-v2 .opiniones-hero-art{background:#fbe3e5}
+}
+html.tema-carino-amistad .cake-review-lightbox{background:rgba(35,23,24,0.396)}
+html.tema-carino-amistad .cake-review-lightbox-backdrop{background:rgba(255,231,233,0.82)}
+html.tema-carino-amistad .cake-review-lightbox-panel{border:1px solid rgba(132,71,86,0.72);background:linear-gradient(145deg,#f8e0e2 0%,#fae3e5 58%,#fce4e6 100%);box-shadow:0 28px 90px rgba(35,23,24,0.319),0 0 0 5px rgba(132,71,86,0.08)}
+html.tema-carino-amistad .cake-review-lightbox-close{box-shadow:0 5px 18px rgba(35,23,24,0.138)}
+html.tema-carino-amistad .cake-review-viewer-photo{background:radial-gradient(ellipse at center,rgba(132,71,86,0.12),transparent 68%)}
+html.tema-carino-amistad .cake-review-viewer-photo>img{filter:drop-shadow(0 12px 22px rgba(35,23,24,0.165))}
+html.tema-carino-amistad .cake-review-photo-nav{border:1px solid rgba(66,48,50,0.55);box-shadow:0 5px 18px rgba(35,23,24,0.165)}
+html.tema-carino-amistad .cake-review-photo-count{border:1px solid rgba(132,71,86,0.35);background:rgba(253,229,231,0.82);color:#423032}
+html.tema-carino-amistad .cake-review-viewer-brand{border-bottom:1px solid rgba(132,71,86,0.25)}
+html.tema-carino-amistad .cake-review-viewer-avatar{background:linear-gradient(145deg,#523f41,#965364);color:#9f717b;box-shadow:0 5px 16px rgba(35,23,24,0.138)}
+html.tema-carino-amistad .cake-review-viewer-stars{color:#a5814f}
+html.tema-carino-amistad .cake-review-viewer-comment{color:#483637}
+html.tema-carino-amistad .cake-review-viewer-product{border:1px solid rgba(132,71,86,0.35);background:rgba(146,83,98,0.14);color:#503e3f}
+html.tema-carino-amistad .cake-review-viewer-thumb{border:2px solid rgba(132,71,86,0.3);background:#fbe3e5}
+html.tema-carino-amistad .cake-review-viewer-thumb.active{box-shadow:0 0 0 2px rgba(132,71,86,0.2)}
+html.tema-carino-amistad .cake-review-viewer-date{border-top:1px solid rgba(132,71,86,0.2)}
+html.tema-carino-amistad .cake-review-like{border-color:rgba(132,71,86,0.4);background:rgba(146,83,98,0.12);color:#4c3a3c}
+/* ---- desde store-editor.css ---- */
+html.tema-carino-amistad .cake-editor-toolbar{border:1px solid rgba(132,71,86,0.55);background:rgba(250,226,228,0.97);color:#4b393b;box-shadow:0 15px 44px rgba(35,23,24,0.149)}
+html.tema-carino-amistad .cake-editor-mark{color:#fae2e4;background:#844756}
+html.tema-carino-amistad .cake-editor-brand strong{color:#844756}
+html.tema-carino-amistad .cake-editor-brand small{color:#665355}
+html.tema-carino-amistad .cake-editor-primary{background:#945262;border-color:#975565!important}
+html.tema-carino-amistad .cake-editor-secondary{border-color:#dbc4c6!important;color:#4d3b3d}
+html.tema-carino-amistad .cake-editor-logout{background:rgba(141,76,92,0.12);border-color:rgba(141,76,92,0.35)!important;color:#6d4a51}
+html.tema-carino-amistad .cake-editor-target{outline:1px dashed rgba(156,89,105,0.43)}
+html.tema-carino-amistad .cake-editor-action{border:1px solid #7f4b57;background:#945262;box-shadow:0 3px 10px rgba(35,23,24,0.099)}
+html.tema-carino-amistad .cake-editor-image-action{border-color:#7f4b57;background:#945262;box-shadow:0 3px 10px rgba(35,23,24,0.099)}
+html.tema-carino-amistad .cake-editor-add-category{border-color:rgba(156,89,105,0.45);background:#483637;color:#a25f6f}
+html.tema-carino-amistad .cake-editor-product-actions button{background:#945262;border:1px solid #7f4b57;box-shadow:0 3px 10px rgba(35,23,24,0.121)}
+html.tema-carino-amistad .cake-editor-product-actions button:last-child{background:#9a737b;border-color:#865f67}
+html.tema-carino-amistad .cake-editor-toast{border:1px solid #834d5a;background:#f8e1e3;color:#473536;box-shadow:0 12px 38px rgba(35,23,24,0.138)}
+html.tema-carino-amistad .cake-editor-toast[data-kind="success"]{border-color:#7a5265}
+html.tema-carino-amistad .cake-editor-toast[data-kind="error"]{border-color:#8f4d5d}
+html.tema-carino-amistad .cake-editor-modal{background:rgba(254,230,232,0.76)}
+html.tema-carino-amistad .cake-editor-dialog{border:1px solid #906a72;border-top:5px solid #9c5969;background:#f9e1e3;color:#523f41;box-shadow:0 24px 80px rgba(35,23,24,0.231)}
+html.tema-carino-amistad .cake-editor-dialog h2{color:#844756}
+html.tema-carino-amistad .cake-editor-kicker{color:#844756}
+html.tema-carino-amistad .cake-editor-close{border:1px solid #dac3c5;background:#fbe3e5;color:#4c393b}
+html.tema-carino-amistad .cake-editor-dialog label{color:#513e40}
+html.tema-carino-amistad .cake-editor-dialog input:not([type="checkbox"]):not([type="file"]),html.tema-carino-amistad .cake-editor-dialog textarea,html.tema-carino-amistad .cake-editor-dialog select{border:1px solid #e6cfd0;background:#fce4e6;color:#483638}
+html.tema-carino-amistad .cake-editor-dialog input[type="file"]{color:#665355}
+html.tema-carino-amistad .cake-editor-dialog input:focus,html.tema-carino-amistad .cake-editor-dialog textarea:focus,html.tema-carino-amistad .cake-editor-dialog select:focus{border-color:#844756;box-shadow:0 0 0 3px rgba(132,71,86,0.12)}
+html.tema-carino-amistad .cake-editor-dialog small{color:#756163}
+html.tema-carino-amistad .cake-editor-checks input{accent-color:#9c5969}
+html.tema-carino-amistad .cake-editor-message{color:#695557}
+html.tema-carino-amistad #productos-container .cake-editor-add-tile{border:2px dashed #884c5b;background:linear-gradient(155deg, #453335 0%, #4c3a3c 100%);color:#9e727b;box-shadow:0 5px 17px rgba(162,104,117,0.08)}
+html.tema-carino-amistad #productos-container .cake-editor-add-tile:hover,html.tema-carino-amistad #productos-container .cake-editor-add-tile:focus-visible{border-color:#9c5969;box-shadow:0 10px 24px rgba(162,104,117,0.16);outline:3px solid rgba(156,89,105,0.14)}
+html.tema-carino-amistad .cake-editor-add-tile-badge{background:#945262}
+html.tema-carino-amistad .cake-editor-add-tile-plus{border:1px solid #7e4c57;background:#423032;color:#9c5969}
+html.tema-carino-amistad #productos-container .cake-editor-add-tile strong{color:#a66272}
+html.tema-carino-amistad #productos-container .cake-editor-add-tile small{color:#89646c}
+/* ---- desde navidad.css ---- */
+html.tema-carino-amistad{--cake-fondo:#fbe4e6;--cake-panel:#f9e2e3;--cake-panel-oscuro:#fde5e7;--navidad-neon:#884758;--navidad-neon-suave:rgba(136,71,88,0.45)}
+html.tema-carino-amistad{background:#fce5e7}
+html.tema-carino-amistad body{background:#fce5e7}
+@keyframes navidadNeon{to{filter:drop-shadow(0 0 22px rgba(136,71,88,0.7)) drop-shadow(0 0 46px rgba(141,75,91,0.35))}}
+/* ---- desde mejoras-navidad.css ---- */
+html.tema-carino-amistad .navidad-esp-section{border:1.5px solid rgba(161,126,76,0.38);background:repeating-linear-gradient(135deg, #945262 0 13px, #463436 13px 26px) top / 100% 10px no-repeat,
+        radial-gradient(ellipse 70% 45% at 50% 0, rgba(148,82,98,0.22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 10% 100%, rgba(132,91,110,0.22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(132,91,110,0.18), transparent 70%),
+        radial-gradient(circle, rgba(66,48,50,0.07) 0 1.4px, transparent 2.2px) 0 0 / 30px 30px,
+        linear-gradient(180deg, #825d65 0%, #fbe3e5 60%, #fce4e6 100%);box-shadow:0 0 0 1px rgba(161,126,76,0.1), 0 0 36px rgba(141,75,92,0.22), 0 20px 44px rgba(35,23,24,0.248)}
+html.tema-carino-amistad .navidad-esp-adorno{border:1.5px solid rgba(161,126,76,0.55);background:linear-gradient(135deg, #906679, #2f9256);box-shadow:0 6px 18px rgba(35,23,24,0.193)}
+html.tema-carino-amistad .navidad-esp-adorno span:nth-child(odd){color:#4b383a}
+html.tema-carino-amistad .navidad-esp-etiqueta{border:1px dashed rgba(161,126,76,0.65);background:rgba(154,87,103,0.25);color:#a07d4b!important}
+html.tema-carino-amistad .navidad-esp-cabecera h2{color:#483638!important;text-shadow:0 0 16px rgba(136,71,87,0.45), 0 0 2px rgba(161,126,76,0.6)}
+html.tema-carino-amistad .navidad-esp-cabecera p{color:#574446!important}
+html.tema-carino-amistad .navidad-esp-card{border:1.5px solid rgba(161,126,76,0.35);background:linear-gradient(180deg, #9f7880 0%, #fbe3e5 100%);box-shadow:0 10px 24px rgba(35,23,24,0.209)}
+html.tema-carino-amistad .navidad-esp-card:hover{border-color:rgba(161,126,76,0.75);box-shadow:0 0 26px rgba(137,72,88,0.35), 0 16px 30px rgba(35,23,24,0.248)}
+html.tema-carino-amistad .navidad-esp-img-wrap{background:#fde5e7}
+html.tema-carino-amistad .navidad-esp-sello{border:1px solid rgba(161,126,76,0.7);background:linear-gradient(90deg, #945262, #945262);box-shadow:0 4px 12px rgba(35,23,24,0.193)}
+html.tema-carino-amistad .navidad-esp-fotos{background:rgba(254,230,232,0.78);color:#423032}
+html.tema-carino-amistad .navidad-esp-info h3{color:#473536}
+html.tema-carino-amistad .navidad-esp-descripcion{color:#5e4b4d}
+html.tema-carino-amistad .navidad-esp-precio{border:1.5px dashed rgba(161,126,76,0.7);background:linear-gradient(135deg, rgba(154,87,103,0.28), rgba(142,101,120,0.28));color:#a07d4b}
+html.tema-carino-amistad .navidad-esp-boton{background:linear-gradient(120deg, #945262 0%, #945262 45%, #945262 55%, #945262 100%);box-shadow:inset 0 3px 0 rgba(35,23,24,0.44), 0 5px 14px rgba(149,82,98,0.4)}
+html.tema-carino-amistad .navidad-esp-nota{color:#574446}
+html.tema-carino-amistad .zona-portada .nav-btn.nav-btn-navidad{border-color:rgba(161,126,76,0.55);background:linear-gradient(135deg, #845b6e, #2f9256)}
+html.tema-carino-amistad .otro-producto-icono{border:2px solid rgba(161,126,76,0.7);background:radial-gradient(circle, rgba(136,71,88,0.35), rgba(142,101,120,0.35))}
+html.tema-carino-amistad .caja-otro-producto h2{color:#4d3b3d}
+html.tema-carino-amistad .otro-producto-img{border:3px solid rgba(161,126,76,0.8);box-shadow:0 0 0 4px rgba(149,82,98,0.35)}
+html.tema-carino-amistad .otro-producto-texto{color:#534042}
+html.tema-carino-amistad .otro-producto-pregunta{color:#a07d4b}
+html.tema-carino-amistad .otro-producto-btn{color:#423032}
+html.tema-carino-amistad .otro-producto-btn-si{background:linear-gradient(120deg, #9a5767 0%, #8c4b5b 50%, #955262 100%);box-shadow:inset 0 3px 0 rgba(35,23,24,0.413), 0 5px 14px rgba(149,82,98,0.4)}
+html.tema-carino-amistad .otro-producto-btn-no{border:1px solid rgba(161,126,76,0.4);background:linear-gradient(135deg, #936f7f, #947784)}
+html.tema-carino-amistad .carrito-item-img{border:2px solid rgba(161,126,76,0.6)}
+/* ---- desde cake-funciones.css ---- */
+html.tema-carino-amistad{--cf-oro:#a4814f;--cf-oro-claro:#9c7c4e;--cf-rosa:#884758;--cf-rosa-fuerte:#9c5969;--cf-panel:#f9e2e3;--cf-panel-2:#fbe3e5;--cf-texto:#523f41;--cf-suave:#786466;--cf-borde:rgba(136,71,88,0.28);--cf-sombra:0 18px 50px rgba(35,23,24,0.248)}
+html.tema-carino-amistad .cf-btn-rosa{background:linear-gradient(135deg, #945262, var(--cf-rosa-fuerte));box-shadow:0 6px 18px rgba(156,89,105,0.35)}
+html.tema-carino-amistad .cf-btn-rosa:hover{background:linear-gradient(135deg, #925060, #995666)}
+html.tema-carino-amistad .cf-btn-borde{background:rgba(66,48,50,0.04)}
+html.tema-carino-amistad .cf-barra-cupos{background:linear-gradient(90deg, #8f5563, #945262 30%, #ad8957 50%, #945262 70%, #8f5563);border-bottom:1px solid rgba(164,129,79,0.55)}
+html.tema-carino-amistad .cf-cupo-chip{background:rgba(35,23,24,0.154);border:1px solid rgba(164,129,79,0.6)}
+html.tema-carino-amistad .cf-cupo-chip.pocos{background:rgba(162,127,77,0.25)}
+html.tema-carino-amistad .cf-cupo-chip.agotado{background:rgba(147,81,97,0.5)}
+html.tema-carino-amistad .cf-barra-cerrar{background:rgba(35,23,24,0.138);color:#423032}
+html.tema-carino-amistad .cf-cuenta-regresiva{border:1px solid rgba(164,129,79,0.45);background:radial-gradient(circle at 15% 10%, rgba(66,48,50,0.08), transparent 40%), linear-gradient(135deg, #805d6d, #825d65 55%, #825d65);box-shadow:0 12px 34px rgba(35,23,24,0.193), inset 0 0 0 1px rgba(35,23,24,0.022)}
+html.tema-carino-amistad .cf-cuenta-numeros div{background:rgba(66,48,50,0.07);border:1px solid rgba(66,48,50,0.12)}
+html.tema-carino-amistad .cf-cuenta-numeros strong{text-shadow:0 0 14px rgba(136,71,88,0.55)}
+html.tema-carino-amistad .cf-cuenta-numeros span{color:#5f4c4e}
+html.tema-carino-amistad .cf-cuenta-mensaje{color:#4c3a3c}
+html.tema-carino-amistad .cf-modal{background:rgba(35,23,24,0.396)}
+html.tema-carino-amistad .cf-modal-caja{background:linear-gradient(180deg, #f8e1e3, #fbe3e5)}
+html.tema-carino-amistad .cf-modal-caja h2{color:#423032}
+html.tema-carino-amistad .cf-cerrar{background:rgba(35,23,24,0.165);color:#423032}
+html.tema-carino-amistad .cf-guia-card{background:rgba(66,48,50,0.03)}
+html.tema-carino-amistad .cf-guia-molde{color:#423032}
+html.tema-carino-amistad .cf-precios-rebanadas{border:1px dashed rgba(136,71,88,0.35);background:rgba(136,71,88,0.06)}
+html.tema-carino-amistad .cf-precios-rebanadas strong{color:#423032}
+html.tema-carino-amistad .cf-calc-panel{background:linear-gradient(135deg, rgba(249,226,227,0.95), rgba(251,227,229,0.95));box-shadow:0 14px 34px rgba(35,23,24,0.165)}
+html.tema-carino-amistad .cf-calc-intro h2{color:#423032}
+html.tema-carino-amistad .cf-calc-contador,html.tema-carino-amistad .cf-calc-postres{background:rgba(35,23,24,0.121);border:1px solid rgba(66,48,50,0.06)}
+html.tema-carino-amistad .cf-stepper button{background:rgba(66,48,50,0.05);color:#423032}
+html.tema-carino-amistad .cf-stepper input{color:#423032}
+html.tema-carino-amistad .cf-calc-resultado{border:1px solid rgba(164,129,79,0.4);background:rgba(249,226,227,0.9)}
+html.tema-carino-amistad .cf-calc-card{background:rgba(35,23,24,0.11)}
+html.tema-carino-amistad .cf-calc-info strong{color:#423032}
+html.tema-carino-amistad .cf-extra{background:rgba(66,48,50,0.04)}
+html.tema-carino-amistad .cf-premio-carrito{border:1px solid rgba(164,129,79,0.6);background:linear-gradient(135deg, rgba(173,137,87,0.25), rgba(164,129,79,0.12));color:#483638}
+html.tema-carino-amistad .cf-campo label{color:#423032}
+html.tema-carino-amistad .cf-error{color:#854454}
+html.tema-carino-amistad .input-datos.cf-campo-error,html.tema-carino-amistad .input-personalizar.cf-campo-error{border-color:#8b4a5a!important;box-shadow:0 0 0 2px rgba(139,74,90,0.18)}
+html.tema-carino-amistad .cf-raspa-marco{background:linear-gradient(135deg, #ad8957, #9c7c4e 45%, #ad8957);box-shadow:0 16px 40px rgba(173,137,87,0.25)}
+html.tema-carino-amistad .cf-raspa-tarjeta{background:radial-gradient(circle at 50% 40%, #453335, #997f5b)}
+html.tema-carino-amistad .cf-raspa-premio{color:#a27b83}
+html.tema-carino-amistad .cf-raspa-premio img{box-shadow:0 8px 22px rgba(162,123,131,0.25)}
+html.tema-carino-amistad .cf-raspa-gano{color:#9c5969}
+html.tema-carino-amistad .cf-raspa-premio-texto small{color:#916b73}
+html.tema-carino-amistad .cf-galeria-nombre{background:rgba(35,23,24,0.303);color:#423032}
+html.tema-carino-amistad .cf-foto-visor img{background:#fff1f2}
+html.tema-carino-amistad .cf-foto-nav{background:rgba(35,23,24,0.275);color:#423032}
+html.tema-carino-amistad .cf-foto-nombre{color:#423032}
+html.tema-carino-amistad .cf-opcion-si{background:linear-gradient(135deg, #ad8957, #a4814f);color:#a27b83;box-shadow:0 8px 22px rgba(164,129,79,0.3)}
+html.tema-carino-amistad .cf-opcion-no{color:#624653}
+html.tema-carino-amistad .cf-regalo-preview-marco{background:#fee7e9}
+html.tema-carino-amistad .cf-regalo-preview-texto{background:rgba(35,23,24,0.248);color:#423032}
+html.tema-carino-amistad .cf-anim{color:#423032}
+html.tema-carino-amistad .cf-anim.activo{box-shadow:0 0 0 3px rgba(164,129,79,0.25)}
+html.tema-carino-amistad .cf-ticket-caja{background:linear-gradient(180deg, #fae2e4, #fce5e7)}
+html.tema-carino-amistad .cf-ticket{background:#443234;color:#fbe4e6}
+html.tema-carino-amistad .cf-ticket::before,html.tema-carino-amistad .cf-ticket::after{background:radial-gradient(circle at 8px 0, transparent 7px, #443234 7.5px) repeat-x}
+html.tema-carino-amistad .cf-ticket-check{color:#423032}
+html.tema-carino-amistad .cf-ticket h2{color:#fbe4e6}
+html.tema-carino-amistad .cf-ticket-codigo-etq{color:#9c5969}
+html.tema-carino-amistad .cf-ticket-creado{color:#b59fa1}
+html.tema-carino-amistad .cf-ticket-datos{border-top:2px dashed #5f4b4d;border-bottom:2px dashed #5f4b4d}
+html.tema-carino-amistad .cf-ticket-datos dt{color:#9c5969}
+html.tema-carino-amistad .cf-ticket-items{border-bottom:2px dashed #5f4b4d}
+html.tema-carino-amistad .cf-ticket-total strong{color:#9c5969}
+html.tema-carino-amistad .cf-ticket-premio{background:#483638;color:#b79360}
+html.tema-carino-amistad .cf-ticket-regalo{background:linear-gradient(135deg, #493739, #473536)}
+html.tema-carino-amistad .cf-ticket-qr-img{box-shadow:0 6px 18px rgba(162,123,131,0.15)}
+html.tema-carino-amistad .cf-ticket-qr-acciones .cf-btn-borde{color:#9c5969;border-color:#5f4b4d;background:#423032}
+html.tema-carino-amistad .cf-ticket-nota{color:#b59fa1}
+html.tema-carino-amistad.cake-ligero .cf-modal{background:rgba(254,232,234,0.85)}
+/* ---- desde navidad-opiniones.css ---- */
+html.tema-carino-amistad .escena-cielo{background:radial-gradient(ellipse 70% 55% at 72% 18%,rgba(135,70,86,0.3),transparent 62%),
+    radial-gradient(ellipse 60% 45% at 18% 30%,rgba(162,127,77,0.16),transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 110%,#ab6c7a 0%,transparent 60%),
+    linear-gradient(180deg,#fde6e8 0%,#a67a83 48%,#a86d7a 100%)}
+html.tema-carino-amistad .escena-luna{background:radial-gradient(circle at 38% 38%,#453335 0%,#977e5d 55%,#a27e4d 100%);box-shadow:0 0 22px 6px rgba(156,125,83,0.45),0 0 60px 18px rgba(162,127,77,0.18)}
+html.tema-carino-amistad .escena-estrellas i{background:#423032;box-shadow:0 0 6px 1px rgba(35,23,24,0.44)}
+html.tema-carino-amistad .escena-guirnalda{border-bottom:2px solid rgba(149,114,130,0.85)}
+html.tema-carino-amistad .escena-guirnalda i::before{background:#f2dadc}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(1){color:#8e4c5c}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(2){color:#a27e4c}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(3){color:#71495c}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(4){color:#8c4b5b}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(5){color:#734b5d}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(6){color:#8e4c5c}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(7){color:#a27e4c}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(8){color:#71495c}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(9){color:#8c4b5b}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(10){color:#734b5d}
+html.tema-carino-amistad .escena-guirnalda i:nth-child(11){color:#8e4c5c}
+html.tema-carino-amistad .escena-nieve i{color:#423032;text-shadow:0 0 6px rgba(35,23,24,0.33)}
+html.tema-carino-amistad .escena-suelo{background:radial-gradient(ellipse at 50% 0%,#423032 0%,#4a383a 45%,#574446 100%);box-shadow:0 -6px 22px rgba(35,23,24,0.099)}
+html.tema-carino-amistad .opiniones-hero-art .opiniones-escena img.escena-regalos{filter:drop-shadow(0 8px 10px rgba(35,23,24,0.193))}
+html.tema-carino-amistad .opiniones-hero-art .opiniones-escena img.escena-santa{filter:drop-shadow(0 10px 12px rgba(35,23,24,0.22))}
+html.tema-carino-amistad .escena-arbol{filter:drop-shadow(0 10px 14px rgba(35,23,24,0.248))}
+html.tema-carino-amistad .escena-arbol-luces i:nth-child(5n/**/+1){color:#a07d4b}
+html.tema-carino-amistad .escena-arbol-luces i:nth-child(5n/**/+2){color:#884758}
+html.tema-carino-amistad .escena-arbol-luces i:nth-child(5n/**/+3){color:#6d4658}
+html.tema-carino-amistad .escena-arbol-luces i:nth-child(5n/**/+4){color:#483638}
+html.tema-carino-amistad .escena-arbol-luces i:nth-child(5n/**/+5){color:#864556}
+/* ---- desde cake-review-viewer.css ---- */
+html.tema-carino-amistad .cake-review-lightbox{background:rgba(254,234,235,0.88)!important}
+html.tema-carino-amistad .cake-review-lightbox-backdrop{background:rgba(255,233,235,0.78)!important}
+html.tema-carino-amistad .cake-review-lightbox-panel{border:1px solid rgba(132,71,86,0.55)!important;background:linear-gradient(145deg, #fae3e5 0%, #fde6e8 100%)!important;color:#423032!important;box-shadow:0 24px 80px rgba(35,23,24,0.286), 0 0 32px rgba(143,77,93,0.12)!important}
+html.tema-carino-amistad .cake-review-lightbox-close{border:1px solid rgba(66,48,50,0.45)!important;background:rgba(254,230,232,0.78)!important;color:#423032!important}
+html.tema-carino-amistad .cake-review-viewer-review{color:#423032!important}
+html.tema-carino-amistad #cake-review-viewer-name{color:#423032!important}
+html.tema-carino-amistad #cake-review-viewer-stars{color:#a3804e!important}
+html.tema-carino-amistad #cake-review-viewer-product{color:#854454!important}
+html.tema-carino-amistad #cake-review-viewer-comment{color:#4c393b!important}
+html.tema-carino-amistad .cake-review-viewer-stage{border:1px solid rgba(137,72,88,0.36);background:radial-gradient(ellipse at center, rgba(66,48,50,0.08), rgba(35,23,24,0.132))}
+html.tema-carino-amistad .cake-review-photo-nav{border:1px solid rgba(132,67,84,0.52)!important;background:rgba(131,92,101,0.92)!important;box-shadow:0 4px 14px rgba(35,23,24,0.138)}
+html.tema-carino-amistad .cake-review-photo-nav:hover:not(:disabled){background:#9b5868!important}
+html.tema-carino-amistad .cake-review-lightbox-footer{color:#513f41!important}
+html.tema-carino-amistad .cake-review-lightbox-footer .cake-review-like{border:1px solid rgba(135,70,87,0.55)!important;background:rgba(139,74,90,0.12)!important;color:#6b484f!important}
+html.tema-carino-amistad .cake-review-lightbox-footer .cake-review-like.liked{background:rgba(144,78,95,0.24)!important;color:#874656!important}

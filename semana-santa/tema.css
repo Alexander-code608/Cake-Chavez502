@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&display=swap');
+/* =========================================================
+   CAKE CHÁVEZ — SEMANA-SANTA: ADORNOS Y DETALLES PROPIOS (archivo generado)
+   Generado por herramientas/generar_temas_2027.py. Solo actúa con html.tema-semana-santa.
+   ========================================================= */
+html.tema-semana-santa {
+  --t27-fuente-titulo: 'Cormorant Garamond', 'Playfair Display', serif;
+  --t27-acento: #9b85bd; --t27-oro: #c2a468; --t27-champagne: #eef1e2;
+  --t27-sombra: rgba(90,100,70,.2); --t27-sombra-logo: rgba(90,100,70,.2);
+  --t27-glifo: var(--g-flor);
+  --t27-cabecera: url('../../img/temas/semana-santa/cabecera.webp');
+  --t27-cabecera-movil: url('../../img/temas/semana-santa/cabecera-movil.webp');
+  --t27-cabecera-velo: linear-gradient(180deg, rgba(233,237,218,0) 0%, rgba(233,237,218,.18) 60%, var(--cake-fondo) 100%);
+  --t27-intro-fondo: radial-gradient(ellipse at 50% 40%, #fbfcf4 0%, #e3e9d2 60%, #c7d2b0 100%); --t27-intro-texto: #4f5a3c;
+  --t27-slogan: #5d4f78; --t27-slogan-sombra: 0 1px 0 rgba(255,255,255,.85);
+  --t27-escena-fondo: radial-gradient(ellipse at 50% 30%, #fdfdf7, #dfe6cb 80%);
+  --t27-franja: linear-gradient(90deg,#c7d2b0,#9b85bd,#f6e7b8,#9b85bd,#c7d2b0);
+  --t27-musica-fondo: rgba(248,250,240,.94); --t27-musica-texto: #5d4f78;
+  --urg-fondo: linear-gradient(135deg,#a993c9,#7b67a0); --urg-texto: #fbf9ff; --urg-borde: #d9cfe9;
+  --urg-caja: #fbfcf6; --urg-caja-texto: #3f4632; --urg-campo: #ffffff;
+  --urg-campo-borde: #d6dcc4; --urg-boton: #7f9a63; --urg-boton-texto: #fff; --urg-titulo: #5d4f78;
+  --ico-trazo: #4f5a3c; --ico-r1: #e9dcb0; --ico-r2: #c9b8e2;
+}
+/* Semana Santa: marco floral delicado, verde salvia, lavanda y dorado suave */
+html.tema-semana-santa .producto { border-radius: 18px; border: 1px solid #d3dbbd; box-shadow: 0 8px 22px rgba(90,100,70,.14); }
+html.tema-semana-santa .producto::before { content: ''; position: absolute; left: 10px; top: 10px; z-index: 3; width: 22px; height: 22px; pointer-events: none;
+  background: #9fb08a; -webkit-mask: var(--g-hoja) center / contain no-repeat; mask: var(--g-hoja) center / contain no-repeat; transform: rotate(-30deg); opacity: .85; }
+html.tema-semana-santa .seccion-cabecera h2, html.tema-semana-santa .catalogo-intro h2 { font-family: var(--t27-fuente-titulo); font-size: 1.12em; }

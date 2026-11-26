@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
+/* =========================================================
+   CAKE CHÁVEZ — DIA-MADRE: ADORNOS Y DETALLES PROPIOS (archivo generado)
+   Generado por herramientas/generar_temas_2027.py. Solo actúa con html.tema-dia-madre.
+   ========================================================= */
+html.tema-dia-madre {
+  --t27-fuente-titulo: 'Parisienne', 'Playfair Display', cursive;
+  --t27-acento: #b5788a; --t27-oro: #c7a36b; --t27-champagne: #fbefe9;
+  --t27-sombra: rgba(130,80,90,.2); --t27-sombra-logo: rgba(130,80,90,.2);
+  --t27-glifo: var(--g-rosa);
+  --t27-cabecera: url('../../img/temas/dia-madre/cabecera.webp');
+  --t27-cabecera-movil: url('../../img/temas/dia-madre/cabecera-movil.webp');
+  --t27-cabecera-velo: linear-gradient(180deg, rgba(248,232,229,0) 0%, rgba(248,232,229,.15) 60%, var(--cake-fondo) 100%);
+  --t27-intro-fondo: radial-gradient(ellipse at 50% 45%, #fffaf6 0%, #f4e1dc 60%, #e2c0c0 100%); --t27-intro-texto: #7f4b60;
+  --t27-slogan: #7f4b60; --t27-slogan-sombra: 0 1px 0 rgba(255,255,255,.85);
+  --t27-escena-fondo: radial-gradient(ellipse at 50% 30%, #fffaf6, #f1dad6 80%);
+  --t27-franja: linear-gradient(90deg,#e8c9cf,#c7a36b,#f6e5df,#c7a36b,#e8c9cf);
+  --t27-musica-fondo: rgba(255,248,245,.94); --t27-musica-texto: #7f4b60;
+  --urg-fondo: linear-gradient(135deg,#c58b9c,#93596c); --urg-texto: #fff7f8; --urg-borde: #ecd0d6;
+  --urg-caja: #fffaf7; --urg-caja-texto: #4f3438; --urg-campo: #ffffff;
+  --urg-campo-borde: #ead6d3; --urg-boton: #93596c; --urg-boton-texto: #fff; --urg-titulo: #7f4b60;
+  --ico-trazo: #6b4150; --ico-r1: #f3d3d8; --ico-r2: #e3c49a;
+}
+/* Día de la Madre: marfil, rosa malva, salvia y dorado; títulos caligráficos y marco de encaje */
+html.tema-dia-madre .producto { border-radius: 20px; border: 1px solid #ead2d2; box-shadow: 0 10px 24px rgba(130,80,90,.13); }
+html.tema-dia-madre .producto .img-producto { border-radius: 16px 16px 0 0; }
+html.tema-dia-madre .seccion-cabecera h2, html.tema-dia-madre .catalogo-intro h2 { font-family: var(--t27-fuente-titulo); font-weight: 400; font-size: 1.35em; }
+html.tema-dia-madre .zona-portada .slogan { font-family: var(--t27-fuente-titulo); font-weight: 400; font-size: 1.5em; }

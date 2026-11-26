@@ -1,0 +1,32 @@
+/* =========================================================
+   CAKE CHÁVEZ — TEMA-OFICIAL: ADORNOS Y DETALLES PROPIOS (archivo generado)
+   Generado por herramientas/generar_temas_2027.py. Solo actúa con html.tema-tema-oficial.
+   ========================================================= */
+html.tema-tema-oficial {
+  --t27-fuente-titulo: 'Playfair Display', serif;
+  --t27-acento: #e8a9b4; --t27-oro: #c9a27a; --t27-champagne: #fbe9ec;
+  --t27-sombra: rgba(0,0,0,.16); --t27-sombra-logo: rgba(0,0,0,.16);
+  --t27-glifo: var(--g-lazo);
+  --t27-cabecera: url('../../img/temas/tema-oficial/cabecera.webp');
+  --t27-cabecera-movil: url('../../img/temas/tema-oficial/cabecera-movil.webp');
+  --t27-cabecera-velo: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 70%, var(--cake-fondo) 100%);
+  --t27-intro-fondo: radial-gradient(ellipse at 50% 45%, #1c1416 0%, #0b0809 60%, #000 100%); --t27-intro-texto: #ffffff;
+  --t27-slogan: #fbe9ec; --t27-slogan-sombra: 0 2px 12px rgba(0,0,0,.7);
+  --t27-escena-fondo: linear-gradient(180deg,#fbe9ec,#F5F5F5);
+  --t27-franja: linear-gradient(90deg,#000 0 30%,#e8a9b4 30% 70%,#000 70%);
+  --t27-musica-fondo: rgba(0,0,0,.88); --t27-musica-texto: #ffffff;
+  --urg-fondo: #22C55E; --urg-texto: #ffffff; --urg-borde: #000000;
+  --urg-caja: #ffffff; --urg-caja-texto: #000000; --urg-campo: #F5F5F5;
+  --urg-campo-borde: #dcdcdc; --urg-boton: #22C55E; --urg-boton-texto: #ffffff; --urg-titulo: #000000;
+  --ico-trazo: #000000; --ico-r1: #f7c6ce; --ico-r2: #22C55E;
+}
+/* Tema Oficial: negro #000000, blanco #FFFFFF, botones verdes #22C55E, fondos #F5F5F5; listón rosa satinado */
+html.tema-tema-oficial .zona-portada header { border-bottom: 3px solid #000; }
+html.tema-tema-oficial .producto { border-radius: 16px; border: 1px solid #e6e6e6; background: #fff; box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+html.tema-tema-oficial .producto button, html.tema-tema-oficial .modal-acciones button, html.tema-tema-oficial .btn-personalizar { transition: transform .2s, box-shadow .2s; }
+html.tema-tema-oficial .producto button:not(.btn-compartir):not(.btn-copiar) { background: #22C55E !important; color: #fff !important; border-color: #22C55E !important; }
+html.tema-tema-oficial .nav-btn.active { background: #000 !important; color: #fff !important; }
+html.tema-tema-oficial .seccion-cabecera h2, html.tema-tema-oficial .catalogo-intro h2 { color: #000 !important; }
+html.tema-tema-oficial .zona-portada .logo-container::after { content: ''; position: absolute; left: 50%; top: -14%; width: min(30%, 120px); aspect-ratio: 1; translate: -50% 0; z-index: 3; pointer-events: none;
+  background: url('../../img/temas/tema-oficial/gorro-chef.webp') center / contain no-repeat; transform-origin: 50% 90%; animation: t27GorroChef 7s ease-in-out 1s infinite; }
+@keyframes t27GorroChef { 0%, 70%, 100% { transform: rotate(-8deg) translateY(0) } 78% { transform: rotate(4deg) translateY(-6px) } 86% { transform: rotate(-12deg) translateY(0) } 92% { transform: rotate(-6deg) } }

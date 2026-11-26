@@ -1,0 +1,336 @@
+/* =========================================================
+   CAKE CHÁVEZ — SEMANA-SANTA: COLORES (archivo generado)
+   Generado por herramientas/generar_colores_temas.py a partir de las hojas base.
+   Solo actúa con html.tema-semana-santa. No modifica Navidad.
+   ========================================================= */
+/* ---- desde style.css ---- */
+html.tema-semana-santa{--cake-fondo:#e9edda;--cake-panel:#e8ebd9;--cake-panel-oscuro:#ebeedc;--cake-rosa:#6c5784;--cake-rosa-claro:#454738;--cake-rosa-fuerte:#836d9d;--cake-rosa-hover:#7d6796;--cake-texto:#454738;--cake-texto-suave:#6c6f5e;--cake-borde:#d7dac8;--cake-blanco:#37392a;--cake-rojo-alerta:#7a6593;--blanco-hueso:var(--cake-texto-claro, #454738)}
+html.tema-semana-santa .carrusel-container{border:3px solid #d0d3c1;box-shadow:0 8px 25px rgba(26,28,17,0.138)}
+html.tema-semana-santa .carrusel-texto{background:rgba(233,237,218,0.84);box-shadow:0 4px 10px rgba(26,28,17,0.165)}
+html.tema-semana-santa .carrusel-texto h2{color:#353728}
+html.tema-semana-santa .carrusel-texto p{color:#424435}
+html.tema-semana-santa .carrusel-btn{background:rgba(235,238,220,0.92);color:#353728}
+html.tema-semana-santa .punto{background:rgba(53,55,40,0.5)}
+html.tema-semana-santa .zona-portada #input-busqueda::placeholder{color:#959886}
+html.tema-semana-santa .zona-portada #input-busqueda:focus{box-shadow:0 0 0 3px rgba(108,87,132,0.13)}
+html.tema-semana-santa .zona-portada .nav-btn.btn-personalizar{border-color:#877a98;background:#e5e9d6;box-shadow:0 2px 6px rgba(26,28,17,0.066)}
+html.tema-semana-santa .zona-portada nav.barra-categorias-fija{box-shadow:0 5px 16px rgba(26,28,17,0.165)}
+html.tema-semana-santa .zona-portada .catalogo-etiqueta i{color:#a0864f}
+html.tema-semana-santa .producto{box-shadow:0 6px 18px rgba(26,28,17,0.11)}
+html.tema-semana-santa .producto:hover{box-shadow:0 12px 25px rgba(26,28,17,0.154)}
+html.tema-semana-santa .carrito-flotante{box-shadow:0 5px 18px rgba(26,28,17,0.193)}
+html.tema-semana-santa .overlay{background:rgba(26,28,17,0.374)}
+html.tema-semana-santa .carrito-lateral{box-shadow:-5px 0 20px rgba(26,28,17,0.22)}
+html.tema-semana-santa .btn-eliminar-item{color:#715c89}
+html.tema-semana-santa .input-datos:focus,html.tema-semana-santa .input-datos-modal:focus{box-shadow:0 0 0 2px rgba(108,87,132,0.12)}
+html.tema-semana-santa .input-datos::placeholder{color:#848776}
+html.tema-semana-santa .btn-confirmar{color:#353728}
+html.tema-semana-santa .overlay-modal{background:rgba(244,247,229,0.78)}
+html.tema-semana-santa .caja-modal{box-shadow:0 15px 35px rgba(26,28,17,0.22)}
+html.tema-semana-santa .zoom-indicador{background:rgba(235,238,220,0.9);color:#353728}
+html.tema-semana-santa .btn-cancelar,html.tema-semana-santa .btn-agregar-modal{color:#353728}
+html.tema-semana-santa .btn-cancelar{background:#babdab}
+html.tema-semana-santa .btn-cancelar:hover{background:#9ea190}
+html.tema-semana-santa .caja-solo-imagen{box-shadow:0 10px 30px rgba(26,28,17,0.275)}
+html.tema-semana-santa .galeria-arrow{background:rgba(235,238,220,0.92);color:#353728}
+html.tema-semana-santa .dot-galeria{background:#bec1af}
+html.tema-semana-santa .btn-cerrar-imagen{box-shadow:0 2px 8px rgba(26,28,17,0.165)}
+html.tema-semana-santa .modal-personalizar-visual{color:#353728}
+html.tema-semana-santa .btn-confirmar-whatsapp{color:#353728}
+html.tema-semana-santa .cerrar-personalizar{border:1px solid rgba(53,55,40,0.35);color:#353728}
+html.tema-semana-santa .redes-sociales a:hover{color:#353728}
+html.tema-semana-santa .destacado-card{box-shadow:0 8px 22px rgba(26,28,17,0.099)}
+html.tema-semana-santa .destacado-card:hover{box-shadow:0 12px 28px rgba(26,28,17,0.154)}
+html.tema-semana-santa .destacado-sello{border:1px solid rgba(53,55,40,0.15)}
+html.tema-semana-santa .input-personalizar:focus,html.tema-semana-santa .input-foto-personalizar:focus{box-shadow:0 0 0 3px rgba(108,87,132,0.12)}
+html.tema-semana-santa .producto-destacado-enfasis{box-shadow:0 0 0 6px rgba(108,87,132,0.12), 0 12px 28px rgba(26,28,17,0.154)}
+html.tema-semana-santa .opinion-invitacion-card{box-shadow:0 8px 22px rgba(26,28,17,0.088)}
+html.tema-semana-santa .opinion-icono{border:1px solid rgba(108,87,132,0.28);background:rgba(108,87,132,0.1)}
+html.tema-semana-santa .ocasion-icono{background:rgba(108,87,132,0.11)}
+html.tema-semana-santa .producto-etiqueta{border:1px solid rgba(108,87,132,0.25);background:rgba(108,87,132,0.09)}
+html.tema-semana-santa .galeria-inspiracion-pie{background:linear-gradient(transparent, rgba(235,238,220,0.92));color:#353728}
+html.tema-semana-santa .galeria-inspiracion-ampliar{border:1px solid rgba(53,55,40,0.3);background:rgba(26,28,17,0.396);color:#353728}
+html.tema-semana-santa .calendario-pedidos-panel{box-shadow:0 10px 28px rgba(26,28,17,0.099)}
+html.tema-semana-santa .calendario-pedidos-icono{border:1px solid rgba(108,87,132,0.25);background:rgba(108,87,132,0.1)}
+html.tema-semana-santa .galeria-pedir-btn{box-shadow:0 5px 15px rgba(131,109,157,0.22)}
+html.tema-semana-santa .galeria-pedir-btn:hover{box-shadow:0 7px 18px rgba(131,109,157,0.28)}
+html.tema-semana-santa .cake-oferta-card{box-shadow:0 8px 24px rgba(26,28,17,0.099)}
+html.tema-semana-santa .cake-oferta-sello{background:rgba(108,87,132,0.13)}
+html.tema-semana-santa .cake-calculadora-panel,html.tema-semana-santa .cake-seguimiento-panel{box-shadow:0 10px 28px rgba(26,28,17,0.11)}
+html.tema-semana-santa #cake-favoritos-contador{background:rgba(108,87,132,0.18)}
+html.tema-semana-santa .producto-favorito-btn[aria-pressed="true"]{background:rgba(131,109,157,0.25)}
+html.tema-semana-santa .cake-asistente-boton{border:1px solid rgba(53,55,40,0.2);box-shadow:0 8px 24px rgba(26,28,17,0.154)}
+html.tema-semana-santa .cake-asistente-panel{box-shadow:0 14px 38px rgba(26,28,17,0.209)}
+html.tema-semana-santa .cake-seguimiento-icono{background:rgba(108,87,132,0.12)}
+html.tema-semana-santa .cake-seguimiento-status{background:rgba(108,87,132,0.12)}
+html.tema-semana-santa .cake-entrega-icono{background:rgba(108,87,132,0.12)}
+html.tema-semana-santa .cake-tematica-card:hover{background:#e7ead8}
+html.tema-semana-santa .cake-tematica-card span{background:rgba(108,87,132,0.12)}
+html.tema-semana-santa input.cake-fecha-completa{border:2px solid #816c9b!important;background:#3b3e2f!important;color:#8873a2!important;outline-color:#816c9b}
+html.tema-semana-santa .cake-capacity-card hr{border-top:1px solid var(--border, #494c3c)}
+html.tema-semana-santa .cake-especialidades-section{border:1px solid rgba(108,87,132,0.2);background:radial-gradient(circle at 12% 8%,rgba(124,102,149,0.12),transparent 34%),linear-gradient(135deg,#e8ebd9,#ebeedb);box-shadow:0 18px 48px rgba(26,28,17,0.132)}
+html.tema-semana-santa .cake-special-slide{border:1px solid rgba(108,87,132,0.24);background:linear-gradient(115deg,#e7ebd8,#eaedda);box-shadow:0 16px 40px rgba(26,28,17,0.154)}
+html.tema-semana-santa .cake-special-image-frame{background:#ebefdc}
+html.tema-semana-santa .cake-special-image-arrow{border:1px solid rgba(53,55,40,0.28);background:rgba(236,239,220,0.76);color:#353728}
+html.tema-semana-santa .cake-special-image-dots button,html.tema-semana-santa .cake-special-dots button{background:rgba(53,55,40,0.46)}
+html.tema-semana-santa .cake-special-info h3{color:#3a3c2d}
+html.tema-semana-santa .cake-special-request{background:linear-gradient(135deg,#7c6695,#7c6695);box-shadow:0 8px 22px rgba(131,109,157,0.28)}
+html.tema-semana-santa .cake-special-request:hover{box-shadow:0 12px 26px rgba(131,109,157,0.38)}
+html.tema-semana-santa .cake-special-arrow{border:1px solid rgba(108,87,132,0.38);background:#e7ead8;box-shadow:0 7px 18px rgba(26,28,17,0.11)}
+html.tema-semana-santa .cake-ofertas-flecha{box-shadow:0 5px 16px rgba(26,28,17,0.11)}
+html.tema-semana-santa .cake-ofertas-flecha:hover{color:#353728;box-shadow:0 7px 20px rgba(26,28,17,0.154)}
+html.tema-semana-santa .cake-ofertas-flecha{background:rgba(234,237,218,0.92)}
+html.tema-semana-santa .cake-ofertas-flecha:disabled:hover{background:rgba(234,237,218,0.92)}
+html.tema-semana-santa .opiniones-hero{border:1px solid rgba(110,89,135,0.28);background:radial-gradient(circle at 15% 40%,rgba(131,109,156,0.36),transparent 48%),linear-gradient(110deg,#9787ab,#eaeedb 70%);box-shadow:0 16px 38px rgba(26,28,17,0.132)}
+html.tema-semana-santa .opiniones-pill{border:1px solid rgba(107,86,132,0.45);background:rgba(124,102,149,0.45)}
+html.tema-semana-santa .opiniones-hero-copy h2{color:#6a5582}
+html.tema-semana-santa .opiniones-hero-copy h2 span{color:#6e5986}
+html.tema-semana-santa .opiniones-hero-copy p{color:#454838}
+html.tema-semana-santa .opiniones-cta{border:1px solid rgba(53,55,40,0.2);background:linear-gradient(135deg,#7c6695,#7c6695);box-shadow:0 8px 20px rgba(142,120,168,0.28)}
+html.tema-semana-santa .opiniones-publicadas-head{color:#6c5784}
+html.tema-semana-santa .opiniones-publicadas-head span{background:#7e6998}
+html.tema-semana-santa .cake-opinion-card{border:1px solid rgba(110,89,134,0.25);background:linear-gradient(145deg,#e7ead8,#e9ecda);box-shadow:0 8px 20px rgba(26,28,17,0.099)}
+html.tema-semana-santa .cake-opinion-avatar{border:1px solid rgba(53,55,40,0.2);background:linear-gradient(135deg,#7b6793,#7a6890)}
+html.tema-semana-santa .cake-opinion-meta strong{color:#454838}
+html.tema-semana-santa .cake-opinion-estrellas{color:#9f854e}
+html.tema-semana-santa .cake-opinion-product{color:#6a5583}
+html.tema-semana-santa .cake-opinion-quote{color:#4c4e3f}
+html.tema-semana-santa .cake-opinion-photo-preview{border:1px solid rgba(53,55,40,0.13);background:#ebeedc}
+html.tema-semana-santa .cake-opinion-photo-count{background:rgba(237,240,222,0.8);color:#353728}
+html.tema-semana-santa .opiniones-nav{border:1px solid rgba(108,87,133,0.4);background:#786b88}
+html.tema-semana-santa .cake-review-backdrop,html.tema-semana-santa .cake-review-lightbox-backdrop{background:rgba(238,242,223,0.78)}
+html.tema-semana-santa .cake-review-dialog{border:1px solid rgba(112,91,136,0.4);background:linear-gradient(145deg,#404334,#5f546d);color:#9083a2;box-shadow:0 24px 80px rgba(26,28,17,0.275)}
+html.tema-semana-santa .cake-review-dialog-head{background:linear-gradient(110deg,#7c6695,#7c6695)}
+html.tema-semana-santa .cake-review-close{background:rgba(53,55,40,0.18);color:#353728}
+html.tema-semana-santa .cake-review-intro{color:#8772a1}
+html.tema-semana-santa #cake-public-review-form>label,html.tema-semana-santa .cake-review-stars legend{color:#8c79a3}
+html.tema-semana-santa #cake-public-review-form>label span{color:#7a6e88}
+html.tema-semana-santa #cake-public-review-form input:not([type=file]):not([type=checkbox]),html.tema-semana-santa #cake-public-review-form textarea{border:1px solid #685a7a;background:rgba(53,55,40,0.66);color:#9084a0}
+html.tema-semana-santa .cake-star-picker button{color:#6a5f78}
+html.tema-semana-santa .cake-star-picker button.active{color:#a0864f;text-shadow:0 2px 4px rgba(173,147,92,0.18)}
+html.tema-semana-santa #cake-review-photos{border:1px dashed #75608e;background:rgba(53,55,40,0.35);color:#8c7ba0}
+html.tema-semana-santa .cake-review-help{color:#7f7190}
+html.tema-semana-santa .cake-review-previews img{border:1px solid #6a5b7c}
+html.tema-semana-santa .cake-review-consent{color:#877999}
+html.tema-semana-santa .cake-review-consent input{accent-color:#806b9a}
+html.tema-semana-santa .cake-review-status{color:#8872a2}
+html.tema-semana-santa .cake-review-submit{background:#7c6695}
+html.tema-semana-santa .cake-review-cancel{background:#786b88}
+html.tema-semana-santa .cake-review-success-icon{border:4px solid #776290;background:#7b6891;color:#353728}
+html.tema-semana-santa .cake-review-success h3{color:#8d79a5}
+html.tema-semana-santa .cake-review-success p{color:#87769c}
+html.tema-semana-santa .cake-review-lightbox{background:rgba(239,242,224,0.96)}
+html.tema-semana-santa .cake-review-lightbox-panel{border:1px solid rgba(108,87,132,0.25);background:#eaeedb;box-shadow:0 20px 80px rgba(26,28,17,0.55)}
+html.tema-semana-santa .cake-review-lightbox-close{background:#7c6695}
+html.tema-semana-santa .cake-review-photo-nav{border:1px solid #87779c;background:#e7ead7;color:#353728}
+html.tema-semana-santa .cake-review-lightbox-footer{color:#5f546d}
+html.tema-semana-santa .cake-review-like{border:1px solid #867699;background:#e8ebd8;color:#454838}
+html.tema-semana-santa .cake-review-like.liked{background:#7c6695}
+html.tema-semana-santa .opiniones-hero-art{background:#eaeedb}
+@media (max-width: 820px){
+  html.tema-semana-santa .opiniones-v2 .opiniones-hero-art{background:#eaeedb}
+}
+html.tema-semana-santa .cake-review-lightbox{background:rgba(26,28,17,0.396)}
+html.tema-semana-santa .cake-review-lightbox-backdrop{background:rgba(238,241,222,0.82)}
+html.tema-semana-santa .cake-review-lightbox-panel{border:1px solid rgba(108,87,132,0.72);background:linear-gradient(145deg,#e7ebd8 0%,#eaedda 58%,#ebeedb 100%);box-shadow:0 28px 90px rgba(26,28,17,0.319),0 0 0 5px rgba(108,87,132,0.08)}
+html.tema-semana-santa .cake-review-lightbox-close{box-shadow:0 5px 18px rgba(26,28,17,0.138)}
+html.tema-semana-santa .cake-review-viewer-photo{background:radial-gradient(ellipse at center,rgba(108,87,132,0.12),transparent 68%)}
+html.tema-semana-santa .cake-review-viewer-photo>img{filter:drop-shadow(0 12px 22px rgba(26,28,17,0.165))}
+html.tema-semana-santa .cake-review-photo-nav{border:1px solid rgba(53,55,40,0.55);box-shadow:0 5px 18px rgba(26,28,17,0.165)}
+html.tema-semana-santa .cake-review-photo-count{border:1px solid rgba(108,87,132,0.35);background:rgba(236,239,220,0.82);color:#353728}
+html.tema-semana-santa .cake-review-viewer-brand{border-bottom:1px solid rgba(108,87,132,0.25)}
+html.tema-semana-santa .cake-review-viewer-avatar{background:linear-gradient(145deg,#454738,#7c6796);color:#907fa5;box-shadow:0 5px 16px rgba(26,28,17,0.138)}
+html.tema-semana-santa .cake-review-viewer-stars{color:#9f854e}
+html.tema-semana-santa .cake-review-viewer-comment{color:#3b3d2e}
+html.tema-semana-santa .cake-review-viewer-product{border:1px solid rgba(108,87,132,0.35);background:rgba(124,102,149,0.14);color:#434636}
+html.tema-semana-santa .cake-review-viewer-thumb{border:2px solid rgba(108,87,132,0.3);background:#eaeedb}
+html.tema-semana-santa .cake-review-viewer-thumb.active{box-shadow:0 0 0 2px rgba(108,87,132,0.2)}
+html.tema-semana-santa .cake-review-viewer-date{border-top:1px solid rgba(108,87,132,0.2)}
+html.tema-semana-santa .cake-review-like{border-color:rgba(108,87,132,0.4);background:rgba(124,102,149,0.12);color:#3f4233}
+/* ---- desde store-editor.css ---- */
+html.tema-semana-santa .cake-editor-toolbar{border:1px solid rgba(108,87,132,0.55);background:rgba(233,237,218,0.97);color:#3e4132;box-shadow:0 15px 44px rgba(26,28,17,0.149)}
+html.tema-semana-santa .cake-editor-mark{color:#e9edda;background:#6c5784}
+html.tema-semana-santa .cake-editor-brand strong{color:#6c5784}
+html.tema-semana-santa .cake-editor-brand small{color:#5a5c4c}
+html.tema-semana-santa .cake-editor-primary{background:#7c6695;border-color:#7e6897!important}
+html.tema-semana-santa .cake-editor-secondary{border-color:#cfd2c0!important;color:#404334}
+html.tema-semana-santa .cake-editor-logout{background:rgba(115,94,140,0.12);border-color:rgba(115,94,140,0.35)!important;color:#5f526f}
+html.tema-semana-santa .cake-editor-target{outline:1px dashed rgba(131,109,157,0.43)}
+html.tema-semana-santa .cake-editor-action{border:1px solid #6b5783;background:#7c6695;box-shadow:0 3px 10px rgba(26,28,17,0.099)}
+html.tema-semana-santa .cake-editor-image-action{border-color:#6b5783;background:#7c6695;box-shadow:0 3px 10px rgba(26,28,17,0.099)}
+html.tema-semana-santa .cake-editor-add-category{border-color:rgba(131,109,157,0.45);background:#3b3d2e;color:#8973a3}
+html.tema-semana-santa .cake-editor-product-actions button{background:#7c6695;border:1px solid #6b5783;box-shadow:0 3px 10px rgba(26,28,17,0.121)}
+html.tema-semana-santa .cake-editor-product-actions button:last-child{background:#8d819c;border-color:#7a6c8c}
+html.tema-semana-santa .cake-editor-toast{border:1px solid #6f5a87;background:#e8ebd8;color:#3a3c2d;box-shadow:0 12px 38px rgba(26,28,17,0.138)}
+html.tema-semana-santa .cake-editor-toast[data-kind="success"]{border-color:#5a6d48}
+html.tema-semana-santa .cake-editor-toast[data-kind="error"]{border-color:#75608e}
+html.tema-semana-santa .cake-editor-modal{background:rgba(237,240,221,0.76)}
+html.tema-semana-santa .cake-editor-dialog{border:1px solid #847892;border-top:5px solid #836d9d;background:#e8ebd9;color:#454738;box-shadow:0 24px 80px rgba(26,28,17,0.231)}
+html.tema-semana-santa .cake-editor-dialog h2{color:#6c5784}
+html.tema-semana-santa .cake-editor-kicker{color:#6c5784}
+html.tema-semana-santa .cake-editor-close{border:1px solid #ced2bf;background:#eaeedb;color:#3f4132}
+html.tema-semana-santa .cake-editor-dialog label{color:#444637}
+html.tema-semana-santa .cake-editor-dialog input:not([type="checkbox"]):not([type="file"]),html.tema-semana-santa .cake-editor-dialog textarea,html.tema-semana-santa .cake-editor-dialog select{border:1px solid #d8dbc9;background:#ebefdc;color:#3b3d2e}
+html.tema-semana-santa .cake-editor-dialog input[type="file"]{color:#5a5c4c}
+html.tema-semana-santa .cake-editor-dialog input:focus,html.tema-semana-santa .cake-editor-dialog textarea:focus,html.tema-semana-santa .cake-editor-dialog select:focus{border-color:#6c5784;box-shadow:0 0 0 3px rgba(108,87,132,0.12)}
+html.tema-semana-santa .cake-editor-dialog small{color:#686b5b}
+html.tema-semana-santa .cake-editor-checks input{accent-color:#836d9d}
+html.tema-semana-santa .cake-editor-message{color:#5c5f4f}
+html.tema-semana-santa #productos-container .cake-editor-add-tile{border:2px dashed #715c8a;background:linear-gradient(155deg, #383a2c 0%, #3f4233 100%);color:#907fa4;box-shadow:0 5px 17px rgba(142,120,168,0.08)}
+html.tema-semana-santa #productos-container .cake-editor-add-tile:hover,html.tema-semana-santa #productos-container .cake-editor-add-tile:focus-visible{border-color:#836d9d;box-shadow:0 10px 24px rgba(142,120,168,0.16);outline:3px solid rgba(131,109,157,0.14)}
+html.tema-semana-santa .cake-editor-add-tile-badge{background:#7c6695}
+html.tema-semana-santa .cake-editor-add-tile-plus{border:1px solid #6b5882;background:#353728;color:#836d9d}
+html.tema-semana-santa #productos-container .cake-editor-add-tile strong{color:#8c76a6}
+html.tema-semana-santa #productos-container .cake-editor-add-tile small{color:#7e728d}
+/* ---- desde navidad.css ---- */
+html.tema-semana-santa{--cake-fondo:#ebeedb;--cake-panel:#e9ecd9;--cake-panel-oscuro:#ecefdc;--navidad-neon:#6e5987;--navidad-neon-suave:rgba(110,89,135,0.45)}
+html.tema-semana-santa{background:#ebefdc}
+html.tema-semana-santa body{background:#ebefdc}
+@keyframes navidadNeon{to{filter:drop-shadow(0 0 22px rgba(110,89,135,0.7)) drop-shadow(0 0 46px rgba(114,93,139,0.35))}}
+/* ---- desde mejoras-navidad.css ---- */
+html.tema-semana-santa .navidad-esp-section{border:1.5px solid rgba(155,129,74,0.38);background:repeating-linear-gradient(135deg, #7c6695 0 13px, #393c2d 13px 26px) top / 100% 10px no-repeat,
+        radial-gradient(ellipse 70% 45% at 50% 0, rgba(124,102,149,0.22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 10% 100%, rgba(102,121,83,0.22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(102,121,83,0.18), transparent 70%),
+        radial-gradient(circle, rgba(53,55,40,0.07) 0 1.4px, transparent 2.2px) 0 0 / 30px 30px,
+        linear-gradient(180deg, #776c86 0%, #eaeddb 60%, #ebeedc 100%);box-shadow:0 0 0 1px rgba(155,129,74,0.1), 0 0 36px rgba(115,94,140,0.22), 0 20px 44px rgba(26,28,17,0.248)}
+html.tema-semana-santa .navidad-esp-adorno{border:1.5px solid rgba(155,129,74,0.55);background:linear-gradient(135deg, #71845e, #2f9256);box-shadow:0 6px 18px rgba(26,28,17,0.193)}
+html.tema-semana-santa .navidad-esp-adorno span:nth-child(odd){color:#3e4031}
+html.tema-semana-santa .navidad-esp-etiqueta{border:1px dashed rgba(155,129,74,0.65);background:rgba(129,108,155,0.25);color:#9a8049!important}
+html.tema-semana-santa .navidad-esp-cabecera h2{color:#3b3d2e!important;text-shadow:0 0 16px rgba(110,89,134,0.45), 0 0 2px rgba(155,129,74,0.6)}
+html.tema-semana-santa .navidad-esp-cabecera p{color:#4a4d3d!important}
+html.tema-semana-santa .navidad-esp-card{border:1.5px solid rgba(155,129,74,0.35);background:linear-gradient(180deg, #9286a1 0%, #eaedda 100%);box-shadow:0 10px 24px rgba(26,28,17,0.209)}
+html.tema-semana-santa .navidad-esp-card:hover{border-color:rgba(155,129,74,0.75);box-shadow:0 0 26px rgba(111,90,136,0.35), 0 16px 30px rgba(26,28,17,0.248)}
+html.tema-semana-santa .navidad-esp-img-wrap{background:#ecefdc}
+html.tema-semana-santa .navidad-esp-sello{border:1px solid rgba(155,129,74,0.7);background:linear-gradient(90deg, #7c6695, #7c6695);box-shadow:0 4px 12px rgba(26,28,17,0.193)}
+html.tema-semana-santa .navidad-esp-fotos{background:rgba(237,240,221,0.78);color:#353728}
+html.tema-semana-santa .navidad-esp-info h3{color:#3a3c2d}
+html.tema-semana-santa .navidad-esp-descripcion{color:#525445}
+html.tema-semana-santa .navidad-esp-precio{border:1.5px dashed rgba(155,129,74,0.7);background:linear-gradient(135deg, rgba(129,108,155,0.28), rgba(112,131,93,0.28));color:#9a8049}
+html.tema-semana-santa .navidad-esp-boton{background:linear-gradient(120deg, #7c6695 0%, #7c6695 45%, #7c6695 55%, #7c6695 100%);box-shadow:inset 0 3px 0 rgba(26,28,17,0.44), 0 5px 14px rgba(123,102,148,0.4)}
+html.tema-semana-santa .navidad-esp-nota{color:#4a4d3d}
+html.tema-semana-santa .zona-portada .nav-btn.nav-btn-navidad{border-color:rgba(155,129,74,0.55);background:linear-gradient(135deg, #667953, #2f9256)}
+html.tema-semana-santa .otro-producto-icono{border:2px solid rgba(155,129,74,0.7);background:radial-gradient(circle, rgba(110,89,135,0.35), rgba(112,131,93,0.35))}
+html.tema-semana-santa .caja-otro-producto h2{color:#404334}
+html.tema-semana-santa .otro-producto-img{border:3px solid rgba(155,129,74,0.8);box-shadow:0 0 0 4px rgba(123,102,148,0.35)}
+html.tema-semana-santa .otro-producto-texto{color:#464839}
+html.tema-semana-santa .otro-producto-pregunta{color:#9a8049}
+html.tema-semana-santa .otro-producto-btn{color:#353728}
+html.tema-semana-santa .otro-producto-btn-si{background:linear-gradient(120deg, #806b9a 0%, #725d8b 50%, #7b6694 100%);box-shadow:inset 0 3px 0 rgba(26,28,17,0.413), 0 5px 14px rgba(123,102,148,0.4)}
+html.tema-semana-santa .otro-producto-btn-no{border:1px solid rgba(155,129,74,0.4);background:linear-gradient(135deg, #798969, #808e74)}
+html.tema-semana-santa .carrito-item-img{border:2px solid rgba(155,129,74,0.6)}
+/* ---- desde cake-funciones.css ---- */
+html.tema-semana-santa{--cf-oro:#9e844d;--cf-oro-claro:#977f4d;--cf-rosa:#6e5987;--cf-rosa-fuerte:#836d9d;--cf-panel:#e9ecd9;--cf-panel-2:#eaeedb;--cf-texto:#454738;--cf-suave:#6c6f5e;--cf-borde:rgba(110,89,135,0.28);--cf-sombra:0 18px 50px rgba(26,28,17,0.248)}
+html.tema-semana-santa .cf-btn-rosa{background:linear-gradient(135deg, #7c6695, var(--cf-rosa-fuerte));box-shadow:0 6px 18px rgba(131,109,157,0.35)}
+html.tema-semana-santa .cf-btn-rosa:hover{background:linear-gradient(135deg, #786392, #7f6a99)}
+html.tema-semana-santa .cf-btn-borde{background:rgba(53,55,40,0.04)}
+html.tema-semana-santa .cf-barra-cupos{background:linear-gradient(90deg, #7c6695, #7c6695 30%, #a68c55 50%, #7c6695 70%, #7c6695);border-bottom:1px solid rgba(158,132,77,0.55)}
+html.tema-semana-santa .cf-cupo-chip{background:rgba(26,28,17,0.154);border:1px solid rgba(158,132,77,0.6)}
+html.tema-semana-santa .cf-cupo-chip.pocos{background:rgba(156,130,75,0.25)}
+html.tema-semana-santa .cf-cupo-chip.agotado{background:rgba(122,101,147,0.5)}
+html.tema-semana-santa .cf-barra-cerrar{background:rgba(26,28,17,0.138);color:#353728}
+html.tema-semana-santa .cf-cuenta-regresiva{border:1px solid rgba(158,132,77,0.45);background:radial-gradient(circle at 15% 10%, rgba(53,55,40,0.08), transparent 40%), linear-gradient(135deg, #687859, #786b87 55%, #786b89);box-shadow:0 12px 34px rgba(26,28,17,0.193), inset 0 0 0 1px rgba(26,28,17,0.022)}
+html.tema-semana-santa .cf-cuenta-numeros div{background:rgba(53,55,40,0.07);border:1px solid rgba(53,55,40,0.12)}
+html.tema-semana-santa .cf-cuenta-numeros strong{text-shadow:0 0 14px rgba(110,89,135,0.55)}
+html.tema-semana-santa .cf-cuenta-numeros span{color:#535545}
+html.tema-semana-santa .cf-cuenta-mensaje{color:#3f4132}
+html.tema-semana-santa .cf-modal{background:rgba(26,28,17,0.396)}
+html.tema-semana-santa .cf-modal-caja{background:linear-gradient(180deg, #e8ebd9, #eaeedb)}
+html.tema-semana-santa .cf-modal-caja h2{color:#353728}
+html.tema-semana-santa .cf-cerrar{background:rgba(26,28,17,0.165);color:#353728}
+html.tema-semana-santa .cf-guia-card{background:rgba(53,55,40,0.03)}
+html.tema-semana-santa .cf-guia-molde{color:#353728}
+html.tema-semana-santa .cf-precios-rebanadas{border:1px dashed rgba(110,89,135,0.35);background:rgba(110,89,135,0.06)}
+html.tema-semana-santa .cf-precios-rebanadas strong{color:#353728}
+html.tema-semana-santa .cf-calc-panel{background:linear-gradient(135deg, rgba(233,236,217,0.95), rgba(234,238,219,0.95));box-shadow:0 14px 34px rgba(26,28,17,0.165)}
+html.tema-semana-santa .cf-calc-intro h2{color:#353728}
+html.tema-semana-santa .cf-calc-contador,html.tema-semana-santa .cf-calc-postres{background:rgba(26,28,17,0.121);border:1px solid rgba(53,55,40,0.06)}
+html.tema-semana-santa .cf-stepper button{background:rgba(53,55,40,0.05);color:#353728}
+html.tema-semana-santa .cf-stepper input{color:#353728}
+html.tema-semana-santa .cf-calc-resultado{border:1px solid rgba(158,132,77,0.4);background:rgba(233,236,217,0.9)}
+html.tema-semana-santa .cf-calc-card{background:rgba(26,28,17,0.11)}
+html.tema-semana-santa .cf-calc-info strong{color:#353728}
+html.tema-semana-santa .cf-extra{background:rgba(53,55,40,0.04)}
+html.tema-semana-santa .cf-premio-carrito{border:1px solid rgba(158,132,77,0.6);background:linear-gradient(135deg, rgba(166,140,85,0.25), rgba(158,132,77,0.12));color:#3b3d2e}
+html.tema-semana-santa .cf-campo label{color:#353728}
+html.tema-semana-santa .cf-error{color:#6a5583}
+html.tema-semana-santa .input-datos.cf-campo-error,html.tema-semana-santa .input-personalizar.cf-campo-error{border-color:#715c8a!important;box-shadow:0 0 0 2px rgba(113,92,138,0.18)}
+html.tema-semana-santa .cf-raspa-marco{background:linear-gradient(135deg, #a68c55, #977f4d 45%, #a68c55);box-shadow:0 16px 40px rgba(166,140,85,0.25)}
+html.tema-semana-santa .cf-raspa-tarjeta{background:radial-gradient(circle at 50% 40%, #383a2c, #94815a)}
+html.tema-semana-santa .cf-raspa-premio{color:#9587a8}
+html.tema-semana-santa .cf-raspa-premio img{box-shadow:0 8px 22px rgba(149,135,168,0.25)}
+html.tema-semana-santa .cf-raspa-gano{color:#836d9d}
+html.tema-semana-santa .cf-raspa-premio-texto small{color:#857995}
+html.tema-semana-santa .cf-galeria-nombre{background:rgba(26,28,17,0.303);color:#353728}
+html.tema-semana-santa .cf-foto-visor img{background:#f4f7e5}
+html.tema-semana-santa .cf-foto-nav{background:rgba(26,28,17,0.275);color:#353728}
+html.tema-semana-santa .cf-foto-nombre{color:#353728}
+html.tema-semana-santa .cf-opcion-si{background:linear-gradient(135deg, #a68c55, #9e844d);color:#9587a8;box-shadow:0 8px 22px rgba(158,132,77,0.3)}
+html.tema-semana-santa .cf-opcion-no{color:#4b573f}
+html.tema-semana-santa .cf-regalo-preview-marco{background:#edf0de}
+html.tema-semana-santa .cf-regalo-preview-texto{background:rgba(26,28,17,0.248);color:#353728}
+html.tema-semana-santa .cf-anim{color:#353728}
+html.tema-semana-santa .cf-anim.activo{box-shadow:0 0 0 3px rgba(158,132,77,0.25)}
+html.tema-semana-santa .cf-ticket-caja{background:linear-gradient(180deg, #e9edda, #ebefdc)}
+html.tema-semana-santa .cf-ticket{background:#37392a;color:#eaeedb}
+html.tema-semana-santa .cf-ticket::before,html.tema-semana-santa .cf-ticket::after{background:radial-gradient(circle at 8px 0, transparent 7px, #37392a 7.5px) repeat-x}
+html.tema-semana-santa .cf-ticket-check{color:#353728}
+html.tema-semana-santa .cf-ticket h2{color:#eaeedb}
+html.tema-semana-santa .cf-ticket-codigo-etq{color:#836d9d}
+html.tema-semana-santa .cf-ticket-creado{color:#aaad9b}
+html.tema-semana-santa .cf-ticket-datos{border-top:2px dashed #525445;border-bottom:2px dashed #525445}
+html.tema-semana-santa .cf-ticket-datos dt{color:#836d9d}
+html.tema-semana-santa .cf-ticket-items{border-bottom:2px dashed #525445}
+html.tema-semana-santa .cf-ticket-total strong{color:#836d9d}
+html.tema-semana-santa .cf-ticket-premio{background:#3b3e2f;color:#b1965f}
+html.tema-semana-santa .cf-ticket-regalo{background:linear-gradient(135deg, #3c3e30, #3a3c2d)}
+html.tema-semana-santa .cf-ticket-qr-img{box-shadow:0 6px 18px rgba(149,135,168,0.15)}
+html.tema-semana-santa .cf-ticket-qr-acciones .cf-btn-borde{color:#836d9d;border-color:#525445;background:#353728}
+html.tema-semana-santa .cf-ticket-nota{color:#aaad9b}
+html.tema-semana-santa.cake-ligero .cf-modal{background:rgba(238,242,223,0.85)}
+/* ---- desde navidad-opiniones.css ---- */
+html.tema-semana-santa .escena-cielo{background:radial-gradient(ellipse 70% 55% at 72% 18%,rgba(108,87,133,0.3),transparent 62%),
+    radial-gradient(ellipse 60% 45% at 18% 30%,rgba(156,130,75,0.16),transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 110%,#937eae 0%,transparent 60%),
+    linear-gradient(180deg,#ecf0dd 0%,#9787ac 48%,#937dad 100%)}
+html.tema-semana-santa .escena-luna{background:radial-gradient(circle at 38% 38%,#383a2c 0%,#92815c 55%,#9c824b 100%);box-shadow:0 0 22px 6px rgba(151,128,81,0.45),0 0 60px 18px rgba(156,130,75,0.18)}
+html.tema-semana-santa .escena-estrellas i{background:#353728;box-shadow:0 0 6px 1px rgba(26,28,17,0.44)}
+html.tema-semana-santa .escena-guirnalda{border-bottom:2px solid rgba(124,140,109,0.85)}
+html.tema-semana-santa .escena-guirnalda i::before{background:#e2e6d3}
+html.tema-semana-santa .escena-guirnalda i:nth-child(1){color:#745f8d}
+html.tema-semana-santa .escena-guirnalda i:nth-child(2){color:#9b824b}
+html.tema-semana-santa .escena-guirnalda i:nth-child(3){color:#50623e}
+html.tema-semana-santa .escena-guirnalda i:nth-child(4){color:#725d8b}
+html.tema-semana-santa .escena-guirnalda i:nth-child(5){color:#526440}
+html.tema-semana-santa .escena-guirnalda i:nth-child(6){color:#745f8d}
+html.tema-semana-santa .escena-guirnalda i:nth-child(7){color:#9b824b}
+html.tema-semana-santa .escena-guirnalda i:nth-child(8){color:#50623e}
+html.tema-semana-santa .escena-guirnalda i:nth-child(9){color:#725d8b}
+html.tema-semana-santa .escena-guirnalda i:nth-child(10){color:#526440}
+html.tema-semana-santa .escena-guirnalda i:nth-child(11){color:#745f8d}
+html.tema-semana-santa .escena-nieve i{color:#353728;text-shadow:0 0 6px rgba(26,28,17,0.33)}
+html.tema-semana-santa .escena-suelo{background:radial-gradient(ellipse at 50% 0%,#353728 0%,#3d4031 45%,#4a4d3d 100%);box-shadow:0 -6px 22px rgba(26,28,17,0.099)}
+html.tema-semana-santa .opiniones-hero-art .opiniones-escena img.escena-regalos{filter:drop-shadow(0 8px 10px rgba(26,28,17,0.193))}
+html.tema-semana-santa .opiniones-hero-art .opiniones-escena img.escena-santa{filter:drop-shadow(0 10px 12px rgba(26,28,17,0.22))}
+html.tema-semana-santa .escena-arbol{filter:drop-shadow(0 10px 14px rgba(26,28,17,0.248))}
+html.tema-semana-santa .escena-arbol-luces i:nth-child(5n/**/+1){color:#9a8049}
+html.tema-semana-santa .escena-arbol-luces i:nth-child(5n/**/+2){color:#6e5987}
+html.tema-semana-santa .escena-arbol-luces i:nth-child(5n/**/+3){color:#4c5e3a}
+html.tema-semana-santa .escena-arbol-luces i:nth-child(5n/**/+4){color:#3b3e2f}
+html.tema-semana-santa .escena-arbol-luces i:nth-child(5n/**/+5){color:#6c5784}
+/* ---- desde cake-review-viewer.css ---- */
+html.tema-semana-santa .cake-review-lightbox{background:rgba(239,242,224,0.88)!important}
+html.tema-semana-santa .cake-review-lightbox-backdrop{background:rgba(239,242,223,0.78)!important}
+html.tema-semana-santa .cake-review-lightbox-panel{border:1px solid rgba(108,87,132,0.55)!important;background:linear-gradient(145deg, #eaedda 0%, #ecf0dd 100%)!important;color:#353728!important;box-shadow:0 24px 80px rgba(26,28,17,0.286), 0 0 32px rgba(117,96,142,0.12)!important}
+html.tema-semana-santa .cake-review-lightbox-close{border:1px solid rgba(53,55,40,0.45)!important;background:rgba(237,240,222,0.78)!important;color:#353728!important}
+html.tema-semana-santa .cake-review-viewer-review{color:#353728!important}
+html.tema-semana-santa #cake-review-viewer-name{color:#353728!important}
+html.tema-semana-santa #cake-review-viewer-stars{color:#9d834c!important}
+html.tema-semana-santa #cake-review-viewer-product{color:#6a5582!important}
+html.tema-semana-santa #cake-review-viewer-comment{color:#3f4132!important}
+html.tema-semana-santa .cake-review-viewer-stage{border:1px solid rgba(110,89,135,0.36);background:radial-gradient(ellipse at center, rgba(53,55,40,0.08), rgba(26,28,17,0.132))}
+html.tema-semana-santa .cake-review-photo-nav{border:1px solid rgba(105,84,130,0.52)!important;background:rgba(121,106,138,0.92)!important;box-shadow:0 4px 14px rgba(26,28,17,0.138)}
+html.tema-semana-santa .cake-review-photo-nav:hover:not(:disabled){background:#826d9c!important}
+html.tema-semana-santa .cake-review-lightbox-footer{color:#454738!important}
+html.tema-semana-santa .cake-review-lightbox-footer .cake-review-like{border:1px solid rgba(109,88,134,0.55)!important;background:rgba(113,92,138,0.12)!important;color:#5c516a!important}
+html.tema-semana-santa .cake-review-lightbox-footer .cake-review-like.liked{background:rgba(119,97,144,0.24)!important;color:#6c5785!important}

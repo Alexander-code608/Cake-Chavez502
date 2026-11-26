@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap');
+/* =========================================================
+   CAKE CHÁVEZ — DIA-NINO: ADORNOS Y DETALLES PROPIOS (archivo generado)
+   Generado por herramientas/generar_temas_2027.py. Solo actúa con html.tema-dia-nino.
+   ========================================================= */
+html.tema-dia-nino {
+  --t27-fuente-titulo: 'Fredoka', 'Poppins', sans-serif;
+  --t27-acento: #6f9fd6; --t27-oro: #f2c75c; --t27-champagne: #fdf3d4;
+  --t27-sombra: rgba(70,110,160,.22); --t27-sombra-logo: rgba(70,110,160,.22);
+  --t27-glifo: var(--g-globo);
+  --t27-cabecera: url('../../img/temas/dia-nino/cabecera.webp');
+  --t27-cabecera-movil: url('../../img/temas/dia-nino/cabecera-movil.webp');
+  --t27-cabecera-velo: linear-gradient(180deg, rgba(223,236,248,0) 0%, rgba(223,236,248,.12) 60%, var(--cake-fondo) 100%);
+  --t27-intro-fondo: linear-gradient(180deg, #a9d1f5 0%, #d7ebfb 60%, #fbf4e4 100%); --t27-intro-texto: #3c5f8a;
+  --t27-slogan: #3c5f8a; --t27-slogan-sombra: 0 2px 0 rgba(255,255,255,.9);
+  --t27-escena-fondo: linear-gradient(180deg,#bfdcf6,#eef6fd 70%,#fff8ea);
+  --t27-franja: repeating-linear-gradient(90deg,#f6a98f 0 18px,#f2c75c 18px 36px,#8fd1c0 36px 54px,#6f9fd6 54px 72px);
+  --t27-musica-fondo: rgba(255,255,255,.94); --t27-musica-texto: #3c5f8a;
+  --urg-fondo: linear-gradient(135deg,#f6a98f,#ee8a74); --urg-texto: #fff; --urg-borde: #fde2b3;
+  --urg-caja: #fbfdff; --urg-caja-texto: #33465c; --urg-campo: #ffffff;
+  --urg-campo-borde: #cfe0f1; --urg-boton: #5f93d0; --urg-boton-texto: #fff; --urg-titulo: #3c5f8a;
+  --ico-trazo: #3c5f8a; --ico-r1: #f9d980; --ico-r2: #f6b7a3;
+}
+/* Día del Niño: nubes, globos de colores, botones redondos y juguetones */
+html.tema-dia-nino .producto { border-radius: 26px; border: 2px solid #d7e7f7; box-shadow: 0 10px 0 rgba(111,159,214,.18), 0 14px 26px rgba(70,110,160,.14); }
+@media (hover: hover) { html.tema-dia-nino .producto:hover { transform: translateY(-6px) rotate(-.6deg); } }
+html.tema-dia-nino .seccion-cabecera h2, html.tema-dia-nino .catalogo-intro h2, html.tema-dia-nino .zona-portada .slogan { font-family: var(--t27-fuente-titulo); font-weight: 600; }
+html.tema-dia-nino .nav-btn { border-radius: 999px !important; }
+html.tema-dia-nino .zona-portada header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 34px; z-index: 1; pointer-events: none;
+  background: radial-gradient(circle at 30px 34px, var(--cake-fondo) 30px, transparent 31px) 0 0 / 60px 34px repeat-x; }

@@ -1,0 +1,336 @@
+/* =========================================================
+   CAKE CHÁVEZ — TEMA-OFICIAL: COLORES (archivo generado)
+   Generado por herramientas/generar_colores_temas.py a partir de las hojas base.
+   Solo actúa con html.tema-tema-oficial. No modifica Navidad.
+   ========================================================= */
+/* ---- desde style.css ---- */
+html.tema-tema-oficial{--cake-fondo:#f1f1f1;--cake-panel:#f0f0f0;--cake-panel-oscuro:#f2f2f2;--cake-rosa:#538e60;--cake-rosa-claro:#2c2c2c;--cake-rosa-fuerte:#68b77a;--cake-rosa-hover:#58ae6e;--cake-texto:#2c2c2c;--cake-texto-suave:#666666;--cake-borde:#dfdfdf;--cake-blanco:#191919;--cake-rojo-alerta:#47ac63;--blanco-hueso:var(--cake-texto-claro, #2c2c2c)}
+html.tema-tema-oficial .carrusel-container{border:3px solid #d8d8d8;box-shadow:0 8px 25px rgba(27,27,27,0.138)}
+html.tema-tema-oficial .carrusel-texto{background:rgba(241,241,241,0.84);box-shadow:0 4px 10px rgba(27,27,27,0.165)}
+html.tema-tema-oficial .carrusel-texto h2{color:#161616}
+html.tema-tema-oficial .carrusel-texto p{color:#282828}
+html.tema-tema-oficial .carrusel-btn{background:rgba(242,242,242,0.92);color:#161616}
+html.tema-tema-oficial .punto{background:rgba(22,22,22,0.5)}
+html.tema-tema-oficial .zona-portada #input-busqueda::placeholder{color:#969696}
+html.tema-tema-oficial .zona-portada #input-busqueda:focus{box-shadow:0 0 0 3px rgba(83,142,96,0.13)}
+html.tema-tema-oficial .zona-portada .nav-btn.btn-personalizar{border-color:#79b585;background:#eeeeee;box-shadow:0 2px 6px rgba(27,27,27,0.066)}
+html.tema-tema-oficial .zona-portada nav.barra-categorias-fija{box-shadow:0 5px 16px rgba(27,27,27,0.165)}
+html.tema-tema-oficial .zona-portada .catalogo-etiqueta i{color:#9f8557}
+html.tema-tema-oficial .producto{box-shadow:0 6px 18px rgba(27,27,27,0.11)}
+html.tema-tema-oficial .producto:hover{box-shadow:0 12px 25px rgba(27,27,27,0.154)}
+html.tema-tema-oficial .carrito-flotante{box-shadow:0 5px 18px rgba(27,27,27,0.193)}
+html.tema-tema-oficial .overlay{background:rgba(27,27,27,0.374)}
+html.tema-tema-oficial .carrito-lateral{box-shadow:-5px 0 20px rgba(27,27,27,0.22)}
+html.tema-tema-oficial .btn-eliminar-item{color:#3a9d57}
+html.tema-tema-oficial .input-datos:focus,html.tema-tema-oficial .input-datos-modal:focus{box-shadow:0 0 0 2px rgba(83,142,96,0.12)}
+html.tema-tema-oficial .input-datos::placeholder{color:#838383}
+html.tema-tema-oficial .btn-confirmar{color:#161616}
+html.tema-tema-oficial .overlay-modal{background:rgba(245,245,245,0.78)}
+html.tema-tema-oficial .caja-modal{box-shadow:0 15px 35px rgba(27,27,27,0.22)}
+html.tema-tema-oficial .zoom-indicador{background:rgba(242,242,242,0.9);color:#161616}
+html.tema-tema-oficial .btn-cancelar,html.tema-tema-oficial .btn-agregar-modal{color:#161616}
+html.tema-tema-oficial .btn-cancelar{background:#bfbfbf}
+html.tema-tema-oficial .btn-cancelar:hover{background:#a1a1a1}
+html.tema-tema-oficial .caja-solo-imagen{box-shadow:0 10px 30px rgba(27,27,27,0.275)}
+html.tema-tema-oficial .galeria-arrow{background:rgba(242,242,242,0.92);color:#161616}
+html.tema-tema-oficial .dot-galeria{background:#c3c3c3}
+html.tema-tema-oficial .btn-cerrar-imagen{box-shadow:0 2px 8px rgba(27,27,27,0.165)}
+html.tema-tema-oficial .modal-personalizar-visual{color:#161616}
+html.tema-tema-oficial .btn-confirmar-whatsapp{color:#161616}
+html.tema-tema-oficial .cerrar-personalizar{border:1px solid rgba(22,22,22,0.35);color:#161616}
+html.tema-tema-oficial .redes-sociales a:hover{color:#161616}
+html.tema-tema-oficial .destacado-card{box-shadow:0 8px 22px rgba(27,27,27,0.099)}
+html.tema-tema-oficial .destacado-card:hover{box-shadow:0 12px 28px rgba(27,27,27,0.154)}
+html.tema-tema-oficial .destacado-sello{border:1px solid rgba(22,22,22,0.15)}
+html.tema-tema-oficial .input-personalizar:focus,html.tema-tema-oficial .input-foto-personalizar:focus{box-shadow:0 0 0 3px rgba(83,142,96,0.12)}
+html.tema-tema-oficial .producto-destacado-enfasis{box-shadow:0 0 0 6px rgba(83,142,96,0.12), 0 12px 28px rgba(27,27,27,0.154)}
+html.tema-tema-oficial .opinion-invitacion-card{box-shadow:0 8px 22px rgba(27,27,27,0.088)}
+html.tema-tema-oficial .opinion-icono{border:1px solid rgba(83,142,96,0.28);background:rgba(83,142,96,0.1)}
+html.tema-tema-oficial .ocasion-icono{background:rgba(83,142,96,0.11)}
+html.tema-tema-oficial .producto-etiqueta{border:1px solid rgba(83,142,96,0.25);background:rgba(83,142,96,0.09)}
+html.tema-tema-oficial .galeria-inspiracion-pie{background:linear-gradient(transparent, rgba(242,242,242,0.92));color:#161616}
+html.tema-tema-oficial .galeria-inspiracion-ampliar{border:1px solid rgba(22,22,22,0.3);background:rgba(27,27,27,0.396);color:#161616}
+html.tema-tema-oficial .calendario-pedidos-panel{box-shadow:0 10px 28px rgba(27,27,27,0.099)}
+html.tema-tema-oficial .calendario-pedidos-icono{border:1px solid rgba(83,142,96,0.25);background:rgba(83,142,96,0.1)}
+html.tema-tema-oficial .galeria-pedir-btn{box-shadow:0 5px 15px rgba(104,183,122,0.22)}
+html.tema-tema-oficial .galeria-pedir-btn:hover{box-shadow:0 7px 18px rgba(104,183,122,0.28)}
+html.tema-tema-oficial .cake-oferta-card{box-shadow:0 8px 24px rgba(27,27,27,0.099)}
+html.tema-tema-oficial .cake-oferta-sello{background:rgba(83,142,96,0.13)}
+html.tema-tema-oficial .cake-calculadora-panel,html.tema-tema-oficial .cake-seguimiento-panel{box-shadow:0 10px 28px rgba(27,27,27,0.11)}
+html.tema-tema-oficial #cake-favoritos-contador{background:rgba(83,142,96,0.18)}
+html.tema-tema-oficial .producto-favorito-btn[aria-pressed="true"]{background:rgba(104,183,122,0.25)}
+html.tema-tema-oficial .cake-asistente-boton{border:1px solid rgba(22,22,22,0.2);box-shadow:0 8px 24px rgba(27,27,27,0.154)}
+html.tema-tema-oficial .cake-asistente-panel{box-shadow:0 14px 38px rgba(27,27,27,0.209)}
+html.tema-tema-oficial .cake-seguimiento-icono{background:rgba(83,142,96,0.12)}
+html.tema-tema-oficial .cake-seguimiento-status{background:rgba(83,142,96,0.12)}
+html.tema-tema-oficial .cake-entrega-icono{background:rgba(83,142,96,0.12)}
+html.tema-tema-oficial .cake-tematica-card:hover{background:#f0f0f0}
+html.tema-tema-oficial .cake-tematica-card span{background:rgba(83,142,96,0.12)}
+html.tema-tema-oficial input.cake-fecha-completa{border:2px solid #49b969!important;background:#1f1f1f!important;color:#61bc77!important;outline-color:#49b969}
+html.tema-tema-oficial .cake-capacity-card hr{border-top:1px solid var(--border, #333333)}
+html.tema-tema-oficial .cake-especialidades-section{border:1px solid rgba(83,142,96,0.2);background:radial-gradient(circle at 12% 8%,rgba(122,182,134,0.12),transparent 34%),linear-gradient(135deg,#f0f0f0,#f1f1f1);box-shadow:0 18px 48px rgba(27,27,27,0.132)}
+html.tema-tema-oficial .cake-special-slide{border:1px solid rgba(83,142,96,0.24);background:linear-gradient(115deg,#f0f0f0,#f1f1f1);box-shadow:0 16px 40px rgba(27,27,27,0.154)}
+html.tema-tema-oficial .cake-special-image-frame{background:#f2f2f2}
+html.tema-tema-oficial .cake-special-image-arrow{border:1px solid rgba(22,22,22,0.28);background:rgba(242,242,242,0.76);color:#161616}
+html.tema-tema-oficial .cake-special-image-dots button,html.tema-tema-oficial .cake-special-dots button{background:rgba(22,22,22,0.46)}
+html.tema-tema-oficial .cake-special-info h3{color:#1d1d1d}
+html.tema-tema-oficial .cake-special-request{background:linear-gradient(135deg,#65bc7a,#6bba7d);box-shadow:0 8px 22px rgba(104,183,122,0.28)}
+html.tema-tema-oficial .cake-special-request:hover{box-shadow:0 12px 26px rgba(104,183,122,0.38)}
+html.tema-tema-oficial .cake-special-arrow{border:1px solid rgba(83,142,96,0.38);background:#f0f0f0;box-shadow:0 7px 18px rgba(27,27,27,0.11)}
+html.tema-tema-oficial .cake-ofertas-flecha{box-shadow:0 5px 16px rgba(27,27,27,0.11)}
+html.tema-tema-oficial .cake-ofertas-flecha:hover{color:#161616;box-shadow:0 7px 20px rgba(27,27,27,0.154)}
+html.tema-tema-oficial .cake-ofertas-flecha{background:rgba(241,241,241,0.92)}
+html.tema-tema-oficial .cake-ofertas-flecha:disabled:hover{background:rgba(241,241,241,0.92)}
+html.tema-tema-oficial .opiniones-hero{border:1px solid rgba(81,148,97,0.28);background:radial-gradient(circle at 15% 40%,rgba(92,185,116,0.36),transparent 48%),linear-gradient(110deg,#79b585,#f1f1f1 70%);box-shadow:0 16px 38px rgba(27,27,27,0.132)}
+html.tema-tema-oficial .opiniones-pill{border:1px solid rgba(71,145,90,0.45);background:rgba(88,190,115,0.45)}
+html.tema-tema-oficial .opiniones-hero-copy h2{color:#518c5e}
+html.tema-tema-oficial .opiniones-hero-copy h2 span{color:#509360}
+html.tema-tema-oficial .opiniones-hero-copy p{color:#2d2d2d}
+html.tema-tema-oficial .opiniones-cta{border:1px solid rgba(22,22,22,0.2);background:linear-gradient(135deg,#55bf72,#60bd77);box-shadow:0 8px 20px rgba(110,184,127,0.28)}
+html.tema-tema-oficial .opiniones-publicadas-head{color:#538e61}
+html.tema-tema-oficial .opiniones-publicadas-head span{background:#5ab16f}
+html.tema-tema-oficial .cake-opinion-card{border:1px solid rgba(86,146,100,0.25);background:linear-gradient(145deg,#f0f0f0,#f1f1f1);box-shadow:0 8px 20px rgba(27,27,27,0.099)}
+html.tema-tema-oficial .cake-opinion-avatar{border:1px solid rgba(22,22,22,0.2);background:linear-gradient(135deg,#7ab686,#7ab686)}
+html.tema-tema-oficial .cake-opinion-meta strong{color:#2d2d2d}
+html.tema-tema-oficial .cake-opinion-estrellas{color:#9e8456}
+html.tema-tema-oficial .cake-opinion-product{color:#518d5f}
+html.tema-tema-oficial .cake-opinion-quote{color:#363636}
+html.tema-tema-oficial .cake-opinion-photo-preview{border:1px solid rgba(22,22,22,0.13);background:#f1f1f1}
+html.tema-tema-oficial .cake-opinion-photo-count{background:rgba(242,242,242,0.8);color:#161616}
+html.tema-tema-oficial .opiniones-nav{border:1px solid rgba(84,143,97,0.4);background:#7ab686}
+html.tema-tema-oficial .cake-review-backdrop,html.tema-tema-oficial .cake-review-lightbox-backdrop{background:rgba(243,243,243,0.78)}
+html.tema-tema-oficial .cake-review-dialog{border:1px solid rgba(88,149,101,0.4);background:linear-gradient(145deg,#262626,#478154);color:#79b585;box-shadow:0 24px 80px rgba(27,27,27,0.275)}
+html.tema-tema-oficial .cake-review-dialog-head{background:linear-gradient(110deg,#5ebd76,#5ebd76)}
+html.tema-tema-oficial .cake-review-close{background:rgba(22,22,22,0.18);color:#161616}
+html.tema-tema-oficial .cake-review-intro{color:#73b782}
+html.tema-tema-oficial #cake-public-review-form>label,html.tema-tema-oficial .cake-review-stars legend{color:#79b585}
+html.tema-tema-oficial #cake-public-review-form>label span{color:#70ac7c}
+html.tema-tema-oficial #cake-public-review-form input:not([type=file]):not([type=checkbox]),html.tema-tema-oficial #cake-public-review-form textarea{border:1px solid #538e60;background:rgba(22,22,22,0.66);color:#79b585}
+html.tema-tema-oficial .cake-star-picker button{color:#589365}
+html.tema-tema-oficial .cake-star-picker button.active{color:#a08558;text-shadow:0 2px 4px rgba(172,145,99,0.18)}
+html.tema-tema-oficial #cake-review-photos{border:1px dashed #629d6f;background:rgba(22,22,22,0.35);color:#79b585}
+html.tema-tema-oficial .cake-review-help{color:#76b282}
+html.tema-tema-oficial .cake-review-previews img{border:1px solid #559062}
+html.tema-tema-oficial .cake-review-consent{color:#79b585}
+html.tema-tema-oficial .cake-review-consent input{accent-color:#59b470}
+html.tema-tema-oficial .cake-review-status{color:#6fb87f}
+html.tema-tema-oficial .cake-review-submit{background:#5bbe74}
+html.tema-tema-oficial .cake-review-cancel{background:#7ab686}
+html.tema-tema-oficial .cake-review-success-icon{border:4px solid #42a85f;background:#7ab686;color:#161616}
+html.tema-tema-oficial .cake-review-success h3{color:#79b585}
+html.tema-tema-oficial .cake-review-success p{color:#79b585}
+html.tema-tema-oficial .cake-review-lightbox{background:rgba(243,243,243,0.96)}
+html.tema-tema-oficial .cake-review-lightbox-panel{border:1px solid rgba(83,142,96,0.25);background:#f1f1f1;box-shadow:0 20px 80px rgba(27,27,27,0.55)}
+html.tema-tema-oficial .cake-review-lightbox-close{background:#61bd78}
+html.tema-tema-oficial .cake-review-photo-nav{border:1px solid #79b585;background:#f0f0f0;color:#161616}
+html.tema-tema-oficial .cake-review-lightbox-footer{color:#478255}
+html.tema-tema-oficial .cake-review-like{border:1px solid #79b585;background:#f0f0f0;color:#2d2d2d}
+html.tema-tema-oficial .cake-review-like.liked{background:#62bd78}
+html.tema-tema-oficial .opiniones-hero-art{background:#f1f1f1}
+@media (max-width: 820px){
+  html.tema-tema-oficial .opiniones-v2 .opiniones-hero-art{background:#f1f1f1}
+}
+html.tema-tema-oficial .cake-review-lightbox{background:rgba(27,27,27,0.396)}
+html.tema-tema-oficial .cake-review-lightbox-backdrop{background:rgba(242,242,242,0.82)}
+html.tema-tema-oficial .cake-review-lightbox-panel{border:1px solid rgba(83,142,96,0.72);background:linear-gradient(145deg,#f0f0f0 0%,#f1f1f1 58%,#f1f1f1 100%);box-shadow:0 28px 90px rgba(27,27,27,0.319),0 0 0 5px rgba(83,142,96,0.08)}
+html.tema-tema-oficial .cake-review-lightbox-close{box-shadow:0 5px 18px rgba(27,27,27,0.138)}
+html.tema-tema-oficial .cake-review-viewer-photo{background:radial-gradient(ellipse at center,rgba(83,142,96,0.12),transparent 68%)}
+html.tema-tema-oficial .cake-review-viewer-photo>img{filter:drop-shadow(0 12px 22px rgba(27,27,27,0.165))}
+html.tema-tema-oficial .cake-review-photo-nav{border:1px solid rgba(22,22,22,0.55);box-shadow:0 5px 18px rgba(27,27,27,0.165)}
+html.tema-tema-oficial .cake-review-photo-count{border:1px solid rgba(83,142,96,0.35);background:rgba(242,242,242,0.82);color:#161616}
+html.tema-tema-oficial .cake-review-viewer-brand{border-bottom:1px solid rgba(83,142,96,0.25)}
+html.tema-tema-oficial .cake-review-viewer-avatar{background:linear-gradient(145deg,#2c2c2c,#68aa77);color:#79b585;box-shadow:0 5px 16px rgba(27,27,27,0.138)}
+html.tema-tema-oficial .cake-review-viewer-stars{color:#9e8356}
+html.tema-tema-oficial .cake-review-viewer-comment{color:#1e1e1e}
+html.tema-tema-oficial .cake-review-viewer-product{border:1px solid rgba(83,142,96,0.35);background:rgba(122,182,134,0.14);color:#2a2a2a}
+html.tema-tema-oficial .cake-review-viewer-thumb{border:2px solid rgba(83,142,96,0.3);background:#f1f1f1}
+html.tema-tema-oficial .cake-review-viewer-thumb.active{box-shadow:0 0 0 2px rgba(83,142,96,0.2)}
+html.tema-tema-oficial .cake-review-viewer-date{border-top:1px solid rgba(83,142,96,0.2)}
+html.tema-tema-oficial .cake-review-like{border-color:rgba(83,142,96,0.4);background:rgba(122,182,134,0.12);color:#252525}
+/* ---- desde store-editor.css ---- */
+html.tema-tema-oficial .cake-editor-toolbar{border:1px solid rgba(83,142,96,0.55);background:rgba(241,241,241,0.97);color:#232323;box-shadow:0 15px 44px rgba(27,27,27,0.149)}
+html.tema-tema-oficial .cake-editor-mark{color:#f1f1f1;background:#538e60}
+html.tema-tema-oficial .cake-editor-brand strong{color:#538e60}
+html.tema-tema-oficial .cake-editor-brand small{color:#4a4a4a}
+html.tema-tema-oficial .cake-editor-primary{background:#6bba7d;border-color:#63ae74!important}
+html.tema-tema-oficial .cake-editor-secondary{border-color:#d6d6d6!important;color:#262626}
+html.tema-tema-oficial .cake-editor-logout{background:rgba(88,156,104,0.12);border-color:rgba(88,156,104,0.35)!important;color:#468154}
+html.tema-tema-oficial .cake-editor-target{outline:1px dashed rgba(104,183,122,0.43)}
+html.tema-tema-oficial .cake-editor-action{border:1px solid #538e60;background:#73b882;box-shadow:0 3px 10px rgba(27,27,27,0.099)}
+html.tema-tema-oficial .cake-editor-image-action{border-color:#538e60;background:#73b882;box-shadow:0 3px 10px rgba(27,27,27,0.099)}
+html.tema-tema-oficial .cake-editor-add-category{border-color:rgba(104,183,122,0.45);background:#1e1e1e;color:#72b881}
+html.tema-tema-oficial .cake-editor-product-actions button{background:#73b882;border:1px solid #538e60;box-shadow:0 3px 10px rgba(27,27,27,0.121)}
+html.tema-tema-oficial .cake-editor-product-actions button:last-child{background:#79b585;border-color:#6eaa7b}
+html.tema-tema-oficial .cake-editor-toast{border:1px solid #589466;background:#f0f0f0;color:#1d1d1d;box-shadow:0 12px 38px rgba(27,27,27,0.138)}
+html.tema-tema-oficial .cake-editor-toast[data-kind="success"]{border-color:#a37687}
+html.tema-tema-oficial .cake-editor-toast[data-kind="error"]{border-color:#599f69}
+html.tema-tema-oficial .cake-editor-modal{background:rgba(242,242,242,0.76)}
+html.tema-tema-oficial .cake-editor-dialog{border:1px solid #79b585;border-top:5px solid #68b77a;background:#f0f0f0;color:#2c2c2c;box-shadow:0 24px 80px rgba(27,27,27,0.231)}
+html.tema-tema-oficial .cake-editor-dialog h2{color:#538e60}
+html.tema-tema-oficial .cake-editor-kicker{color:#538e60}
+html.tema-tema-oficial .cake-editor-close{border:1px solid #d6d6d6;background:#f1f1f1;color:#242424}
+html.tema-tema-oficial .cake-editor-dialog label{color:#2a2a2a}
+html.tema-tema-oficial .cake-editor-dialog input:not([type="checkbox"]):not([type="file"]),html.tema-tema-oficial .cake-editor-dialog textarea,html.tema-tema-oficial .cake-editor-dialog select{border:1px solid #e0e0e0;background:#f2f2f2;color:#1e1e1e}
+html.tema-tema-oficial .cake-editor-dialog input[type="file"]{color:#4a4a4a}
+html.tema-tema-oficial .cake-editor-dialog input:focus,html.tema-tema-oficial .cake-editor-dialog textarea:focus,html.tema-tema-oficial .cake-editor-dialog select:focus{border-color:#538e60;box-shadow:0 0 0 3px rgba(83,142,96,0.12)}
+html.tema-tema-oficial .cake-editor-dialog small{color:#606060}
+html.tema-tema-oficial .cake-editor-checks input{accent-color:#68b77a}
+html.tema-tema-oficial .cake-editor-message{color:#4e4e4e}
+html.tema-tema-oficial #productos-container .cake-editor-add-tile{border:2px dashed #5c9769;background:linear-gradient(155deg, #1a1a1a 0%, #242424 100%);color:#79b585;box-shadow:0 5px 17px rgba(121,181,133,0.08)}
+html.tema-tema-oficial #productos-container .cake-editor-add-tile:hover,html.tema-tema-oficial #productos-container .cake-editor-add-tile:focus-visible{border-color:#68b77a;box-shadow:0 10px 24px rgba(121,181,133,0.16);outline:3px solid rgba(104,183,122,0.14)}
+html.tema-tema-oficial .cake-editor-add-tile-badge{background:#6bba7d}
+html.tema-tema-oficial .cake-editor-add-tile-plus{border:1px solid #548f61;background:#161616;color:#68b77a}
+html.tema-tema-oficial #productos-container .cake-editor-add-tile strong{color:#78b685}
+html.tema-tema-oficial #productos-container .cake-editor-add-tile small{color:#76b282}
+/* ---- desde navidad.css ---- */
+html.tema-tema-oficial{--cake-fondo:#f1f1f1;--cake-panel:#f1f1f1;--cake-panel-oscuro:#f2f2f2;--navidad-neon:#3c9856;--navidad-neon-suave:rgba(60,152,86,0.45)}
+html.tema-tema-oficial{background:#f2f2f2}
+html.tema-tema-oficial body{background:#f2f2f2}
+@keyframes navidadNeon{to{filter:drop-shadow(0 0 22px rgba(60,152,86,0.7)) drop-shadow(0 0 46px rgba(24,164,78,0.35))}}
+/* ---- desde mejoras-navidad.css ---- */
+html.tema-tema-oficial .navidad-esp-section{border:1.5px solid rgba(155,128,83,0.38);background:repeating-linear-gradient(135deg, #4cc16d 0 13px, #1c1c1c 13px 26px) top / 100% 10px no-repeat,
+        radial-gradient(ellipse 70% 45% at 50% 0, rgba(89,190,116,0.22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 10% 100%, rgba(197,150,167,0.22), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(197,150,167,0.18), transparent 70%),
+        radial-gradient(circle, rgba(22,22,22,0.07) 0 1.4px, transparent 2.2px) 0 0 / 30px 30px,
+        linear-gradient(180deg, #7ab686 0%, #f1f1f1 60%, #f2f2f2 100%);box-shadow:0 0 0 1px rgba(155,128,83,0.1), 0 0 36px rgba(34,164,81,0.22), 0 20px 44px rgba(27,27,27,0.248)}
+html.tema-tema-oficial .navidad-esp-adorno{border:1.5px solid rgba(155,128,83,0.55);background:linear-gradient(135deg, #c495a6, #2f9256);box-shadow:0 6px 18px rgba(27,27,27,0.193)}
+html.tema-tema-oficial .navidad-esp-adorno span:nth-child(odd){color:#222222}
+html.tema-tema-oficial .navidad-esp-etiqueta{border:1px dashed rgba(155,128,83,0.65);background:rgba(68,186,103,0.25);color:#9a7f52!important}
+html.tema-tema-oficial .navidad-esp-cabecera h2{color:#1e1e1e!important;text-shadow:0 0 16px rgba(62,151,87,0.45), 0 0 2px rgba(155,128,83,0.6)}
+html.tema-tema-oficial .navidad-esp-cabecera p{color:#343434!important}
+html.tema-tema-oficial .navidad-esp-card{border:1.5px solid rgba(155,128,83,0.35);background:linear-gradient(180deg, #79b585 0%, #f1f1f1 100%);box-shadow:0 10px 24px rgba(27,27,27,0.209)}
+html.tema-tema-oficial .navidad-esp-card:hover{border-color:rgba(155,128,83,0.75);box-shadow:0 0 26px rgba(57,154,86,0.35), 0 16px 30px rgba(27,27,27,0.248)}
+html.tema-tema-oficial .navidad-esp-img-wrap{background:#f2f2f2}
+html.tema-tema-oficial .navidad-esp-sello{border:1px solid rgba(155,128,83,0.7);background:linear-gradient(90deg, #4cc16d, #50c06f);box-shadow:0 4px 12px rgba(27,27,27,0.193)}
+html.tema-tema-oficial .navidad-esp-fotos{background:rgba(242,242,242,0.78);color:#161616}
+html.tema-tema-oficial .navidad-esp-info h3{color:#1d1d1d}
+html.tema-tema-oficial .navidad-esp-descripcion{color:#3f3f3f}
+html.tema-tema-oficial .navidad-esp-precio{border:1.5px dashed rgba(155,128,83,0.7);background:linear-gradient(135deg, rgba(68,186,103,0.28), rgba(196,149,166,0.28));color:#9a7f52}
+html.tema-tema-oficial .navidad-esp-boton{background:linear-gradient(120deg, #49c16c 0%, #4ac16d 45%, #41c269 55%, #49c16c 100%);box-shadow:inset 0 3px 0 rgba(27,27,27,0.44), 0 5px 14px rgba(43,178,90,0.4)}
+html.tema-tema-oficial .navidad-esp-nota{color:#343434}
+html.tema-tema-oficial .zona-portada .nav-btn.nav-btn-navidad{border-color:rgba(155,128,83,0.55);background:linear-gradient(135deg, #c596a7, #2f9256)}
+html.tema-tema-oficial .otro-producto-icono{border:2px solid rgba(155,128,83,0.7);background:radial-gradient(circle, rgba(60,152,86,0.35), rgba(196,149,166,0.35))}
+html.tema-tema-oficial .caja-otro-producto h2{color:#262626}
+html.tema-tema-oficial .otro-producto-img{border:3px solid rgba(155,128,83,0.8);box-shadow:0 0 0 4px rgba(43,178,90,0.35)}
+html.tema-tema-oficial .otro-producto-texto{color:#2e2e2e}
+html.tema-tema-oficial .otro-producto-pregunta{color:#9a7f52}
+html.tema-tema-oficial .otro-producto-btn{color:#161616}
+html.tema-tema-oficial .otro-producto-btn-si{background:linear-gradient(120deg, #41b965 0%, #22a250 50%, #2bb25a 100%);box-shadow:inset 0 3px 0 rgba(27,27,27,0.413), 0 5px 14px rgba(43,178,90,0.4)}
+html.tema-tema-oficial .otro-producto-btn-no{border:1px solid rgba(155,128,83,0.4);background:linear-gradient(135deg, #c098a6, #ba9ba6)}
+html.tema-tema-oficial .carrito-item-img{border:2px solid rgba(155,128,83,0.6)}
+/* ---- desde cake-funciones.css ---- */
+html.tema-tema-oficial{--cf-oro:#9d8355;--cf-oro-claro:#987e51;--cf-rosa:#3c9856;--cf-rosa-fuerte:#68b77a;--cf-panel:#f1f1f1;--cf-panel-2:#f1f1f1;--cf-texto:#2c2c2c;--cf-suave:#666666;--cf-borde:rgba(60,152,86,0.28);--cf-sombra:0 18px 50px rgba(27,27,27,0.248)}
+html.tema-tema-oficial .cf-btn-rosa{background:linear-gradient(135deg, #65bc7a, var(--cf-rosa-fuerte));box-shadow:0 6px 18px rgba(104,183,122,0.35)}
+html.tema-tema-oficial .cf-btn-rosa:hover{background:linear-gradient(135deg, #4fa866, #5fb273)}
+html.tema-tema-oficial .cf-btn-borde{background:rgba(22,22,22,0.04)}
+html.tema-tema-oficial .cf-barra-cupos{background:linear-gradient(90deg, #7ab686, #6fb980 30%, #a58a5d 50%, #6fb980 70%, #7ab686);border-bottom:1px solid rgba(157,131,85,0.55)}
+html.tema-tema-oficial .cf-cupo-chip{background:rgba(27,27,27,0.154);border:1px solid rgba(157,131,85,0.6)}
+html.tema-tema-oficial .cf-cupo-chip.pocos{background:rgba(155,129,84,0.25)}
+html.tema-tema-oficial .cf-cupo-chip.agotado{background:rgba(71,172,99,0.5)}
+html.tema-tema-oficial .cf-barra-cerrar{background:rgba(27,27,27,0.138);color:#161616}
+html.tema-tema-oficial .cf-cuenta-regresiva{border:1px solid rgba(157,131,85,0.45);background:radial-gradient(circle at 15% 10%, rgba(22,22,22,0.08), transparent 40%), linear-gradient(135deg, #c099a7, #7ab686 55%, #7ab686);box-shadow:0 12px 34px rgba(27,27,27,0.193), inset 0 0 0 1px rgba(27,27,27,0.022)}
+html.tema-tema-oficial .cf-cuenta-numeros div{background:rgba(22,22,22,0.07);border:1px solid rgba(22,22,22,0.12)}
+html.tema-tema-oficial .cf-cuenta-numeros strong{text-shadow:0 0 14px rgba(60,152,86,0.55)}
+html.tema-tema-oficial .cf-cuenta-numeros span{color:#404040}
+html.tema-tema-oficial .cf-cuenta-mensaje{color:#242424}
+html.tema-tema-oficial .cf-modal{background:rgba(27,27,27,0.396)}
+html.tema-tema-oficial .cf-modal-caja{background:linear-gradient(180deg, #f0f0f0, #f1f1f1)}
+html.tema-tema-oficial .cf-modal-caja h2{color:#161616}
+html.tema-tema-oficial .cf-cerrar{background:rgba(27,27,27,0.165);color:#161616}
+html.tema-tema-oficial .cf-guia-card{background:rgba(22,22,22,0.03)}
+html.tema-tema-oficial .cf-guia-molde{color:#161616}
+html.tema-tema-oficial .cf-precios-rebanadas{border:1px dashed rgba(60,152,86,0.35);background:rgba(60,152,86,0.06)}
+html.tema-tema-oficial .cf-precios-rebanadas strong{color:#161616}
+html.tema-tema-oficial .cf-calc-panel{background:linear-gradient(135deg, rgba(241,241,241,0.95), rgba(241,241,241,0.95));box-shadow:0 14px 34px rgba(27,27,27,0.165)}
+html.tema-tema-oficial .cf-calc-intro h2{color:#161616}
+html.tema-tema-oficial .cf-calc-contador,html.tema-tema-oficial .cf-calc-postres{background:rgba(27,27,27,0.121);border:1px solid rgba(22,22,22,0.06)}
+html.tema-tema-oficial .cf-stepper button{background:rgba(22,22,22,0.05);color:#161616}
+html.tema-tema-oficial .cf-stepper input{color:#161616}
+html.tema-tema-oficial .cf-calc-resultado{border:1px solid rgba(157,131,85,0.4);background:rgba(241,241,241,0.9)}
+html.tema-tema-oficial .cf-calc-card{background:rgba(27,27,27,0.11)}
+html.tema-tema-oficial .cf-calc-info strong{color:#161616}
+html.tema-tema-oficial .cf-extra{background:rgba(22,22,22,0.04)}
+html.tema-tema-oficial .cf-premio-carrito{border:1px solid rgba(157,131,85,0.6);background:linear-gradient(135deg, rgba(165,138,93,0.25), rgba(157,131,85,0.12));color:#1f1f1f}
+html.tema-tema-oficial .cf-campo label{color:#161616}
+html.tema-tema-oficial .cf-error{color:#4f8d5d}
+html.tema-tema-oficial .input-datos.cf-campo-error,html.tema-tema-oficial .input-personalizar.cf-campo-error{border-color:#379d56!important;box-shadow:0 0 0 2px rgba(55,157,86,0.18)}
+html.tema-tema-oficial .cf-raspa-marco{background:linear-gradient(135deg, #a58a5d, #987e51 45%, #a58a5d);box-shadow:0 16px 40px rgba(165,138,93,0.25)}
+html.tema-tema-oficial .cf-raspa-tarjeta{background:radial-gradient(circle at 50% 40%, #1a1a1a, #96805a)}
+html.tema-tema-oficial .cf-raspa-premio{color:#79b585}
+html.tema-tema-oficial .cf-raspa-premio img{box-shadow:0 8px 22px rgba(121,181,133,0.25)}
+html.tema-tema-oficial .cf-raspa-gano{color:#68b77a}
+html.tema-tema-oficial .cf-raspa-premio-texto small{color:#79b585}
+html.tema-tema-oficial .cf-galeria-nombre{background:rgba(27,27,27,0.303);color:#161616}
+html.tema-tema-oficial .cf-foto-visor img{background:#f5f5f5}
+html.tema-tema-oficial .cf-foto-nav{background:rgba(27,27,27,0.275);color:#161616}
+html.tema-tema-oficial .cf-foto-nombre{color:#161616}
+html.tema-tema-oficial .cf-opcion-si{background:linear-gradient(135deg, #a58a5d, #9d8355);color:#79b585;box-shadow:0 8px 22px rgba(157,131,85,0.3)}
+html.tema-tema-oficial .cf-opcion-no{color:#7c5e69}
+html.tema-tema-oficial .cf-regalo-preview-marco{background:#f2f2f2}
+html.tema-tema-oficial .cf-regalo-preview-texto{background:rgba(27,27,27,0.248);color:#161616}
+html.tema-tema-oficial .cf-anim{color:#161616}
+html.tema-tema-oficial .cf-anim.activo{box-shadow:0 0 0 3px rgba(157,131,85,0.25)}
+html.tema-tema-oficial .cf-ticket-caja{background:linear-gradient(180deg, #f1f1f1, #f2f2f2)}
+html.tema-tema-oficial .cf-ticket{background:#191919;color:#f1f1f1}
+html.tema-tema-oficial .cf-ticket::before,html.tema-tema-oficial .cf-ticket::after{background:radial-gradient(circle at 8px 0, transparent 7px, #191919 7.5px) repeat-x}
+html.tema-tema-oficial .cf-ticket-check{color:#161616}
+html.tema-tema-oficial .cf-ticket h2{color:#f1f1f1}
+html.tema-tema-oficial .cf-ticket-codigo-etq{color:#68b77a}
+html.tema-tema-oficial .cf-ticket-creado{color:#aeaeae}
+html.tema-tema-oficial .cf-ticket-datos{border-top:2px dashed #3f3f3f;border-bottom:2px dashed #3f3f3f}
+html.tema-tema-oficial .cf-ticket-datos dt{color:#68b77a}
+html.tema-tema-oficial .cf-ticket-items{border-bottom:2px dashed #3f3f3f}
+html.tema-tema-oficial .cf-ticket-total strong{color:#68b77a}
+html.tema-tema-oficial .cf-ticket-premio{background:#1f1f1f;color:#af9466}
+html.tema-tema-oficial .cf-ticket-regalo{background:linear-gradient(135deg, #202020, #1c1c1c)}
+html.tema-tema-oficial .cf-ticket-qr-img{box-shadow:0 6px 18px rgba(121,181,133,0.15)}
+html.tema-tema-oficial .cf-ticket-qr-acciones .cf-btn-borde{color:#68b77a;border-color:#3f3f3f;background:#161616}
+html.tema-tema-oficial .cf-ticket-nota{color:#aeaeae}
+html.tema-tema-oficial.cake-ligero .cf-modal{background:rgba(243,243,243,0.85)}
+/* ---- desde navidad-opiniones.css ---- */
+html.tema-tema-oficial .escena-cielo{background:radial-gradient(ellipse 70% 55% at 72% 18%,rgba(67,147,88,0.3),transparent 62%),
+    radial-gradient(ellipse 60% 45% at 18% 30%,rgba(156,129,84,0.16),transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 110%,#79b585 0%,transparent 60%),
+    linear-gradient(180deg,#f2f2f2 0%,#79b585 48%,#79b585 100%)}
+html.tema-tema-oficial .escena-luna{background:radial-gradient(circle at 38% 38%,#1a1a1a 0%,#947f5c 55%,#9b8153 100%);box-shadow:0 0 22px 6px rgba(153,127,82,0.45),0 0 60px 18px rgba(156,129,84,0.18)}
+html.tema-tema-oficial .escena-estrellas i{background:#161616;box-shadow:0 0 6px 1px rgba(27,27,27,0.44)}
+html.tema-tema-oficial .escena-guirnalda{border-bottom:2px solid rgba(191,152,166,0.85)}
+html.tema-tema-oficial .escena-guirnalda i::before{background:#ebebeb}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(1){color:#15a64f}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(2){color:#9b8153}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(3){color:#926777}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(4){color:#36a057}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(5){color:#95697a}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(6){color:#15a64f}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(7){color:#9b8153}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(8){color:#926777}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(9){color:#36a057}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(10){color:#95697a}
+html.tema-tema-oficial .escena-guirnalda i:nth-child(11){color:#15a64f}
+html.tema-tema-oficial .escena-nieve i{color:#161616;text-shadow:0 0 6px rgba(27,27,27,0.33)}
+html.tema-tema-oficial .escena-suelo{background:radial-gradient(ellipse at 50% 0%,#161616 0%,#222222 45%,#343434 100%);box-shadow:0 -6px 22px rgba(27,27,27,0.099)}
+html.tema-tema-oficial .opiniones-hero-art .opiniones-escena img.escena-regalos{filter:drop-shadow(0 8px 10px rgba(27,27,27,0.193))}
+html.tema-tema-oficial .opiniones-hero-art .opiniones-escena img.escena-santa{filter:drop-shadow(0 10px 12px rgba(27,27,27,0.22))}
+html.tema-tema-oficial .escena-arbol{filter:drop-shadow(0 10px 14px rgba(27,27,27,0.248))}
+html.tema-tema-oficial .escena-arbol-luces i:nth-child(5n/**/+1){color:#9a7f52}
+html.tema-tema-oficial .escena-arbol-luces i:nth-child(5n/**/+2){color:#3c9856}
+html.tema-tema-oficial .escena-arbol-luces i:nth-child(5n/**/+3){color:#8b6070}
+html.tema-tema-oficial .escena-arbol-luces i:nth-child(5n/**/+4){color:#1f1f1f}
+html.tema-tema-oficial .escena-arbol-luces i:nth-child(5n/**/+5){color:#4d905d}
+/* ---- desde cake-review-viewer.css ---- */
+html.tema-tema-oficial .cake-review-lightbox{background:rgba(243,243,243,0.88)!important}
+html.tema-tema-oficial .cake-review-lightbox-backdrop{background:rgba(243,243,243,0.78)!important}
+html.tema-tema-oficial .cake-review-lightbox-panel{border:1px solid rgba(83,142,96,0.55)!important;background:linear-gradient(145deg, #f1f1f1 0%, #f2f2f2 100%)!important;color:#161616!important;box-shadow:0 24px 80px rgba(27,27,27,0.286), 0 0 32px rgba(56,166,89,0.12)!important}
+html.tema-tema-oficial .cake-review-lightbox-close{border:1px solid rgba(22,22,22,0.45)!important;background:rgba(242,242,242,0.78)!important;color:#161616!important}
+html.tema-tema-oficial .cake-review-viewer-review{color:#161616!important}
+html.tema-tema-oficial #cake-review-viewer-name{color:#161616!important}
+html.tema-tema-oficial #cake-review-viewer-stars{color:#9d8255!important}
+html.tema-tema-oficial #cake-review-viewer-product{color:#4b8d5b!important}
+html.tema-tema-oficial #cake-review-viewer-comment{color:#242424!important}
+html.tema-tema-oficial .cake-review-viewer-stage{border:1px solid rgba(59,152,86,0.36);background:radial-gradient(ellipse at center, rgba(22,22,22,0.08), rgba(27,27,27,0.132))}
+html.tema-tema-oficial .cake-review-photo-nav{border:1px solid rgba(78,139,92,0.52)!important;background:rgba(122,182,134,0.92)!important;box-shadow:0 4px 14px rgba(27,27,27,0.138)}
+html.tema-tema-oficial .cake-review-photo-nav:hover:not(:disabled){background:#67b679!important}
+html.tema-tema-oficial .cake-review-lightbox-footer{color:#2c2c2c!important}
+html.tema-tema-oficial .cake-review-lightbox-footer .cake-review-like{border:1px solid rgba(66,149,88,0.55)!important;background:rgba(44,159,82,0.12)!important;color:#427d50!important}
+html.tema-tema-oficial .cake-review-lightbox-footer .cake-review-like.liked{background:rgba(40,170,85,0.24)!important;color:#459359!important}

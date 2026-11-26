@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&display=swap');
+/* =========================================================
+   CAKE CHÁVEZ — HALLOWEEN: ADORNOS Y DETALLES PROPIOS (archivo generado)
+   Generado por herramientas/generar_temas_2027.py. Solo actúa con html.tema-halloween.
+   ========================================================= */
+html.tema-halloween {
+  --t27-fuente-titulo: 'Cormorant Garamond', 'Playfair Display', serif;
+  --t27-acento: #e39a6b; --t27-oro: #d9a25f; --t27-champagne: #f6dccb;
+  --t27-sombra: rgba(0,0,0,.45); --t27-sombra-logo: rgba(0,0,0,.45);
+  --t27-glifo: var(--g-calabaza);
+  --t27-cabecera: url('../../img/temas/halloween/cabecera.webp');
+  --t27-cabecera-movil: url('../../img/temas/halloween/cabecera-movil.webp');
+  --t27-cabecera-velo: linear-gradient(180deg, rgba(52,30,42,0) 0%, rgba(52,30,42,.2) 60%, var(--cake-fondo) 100%);
+  --t27-intro-fondo: radial-gradient(ellipse at 50% 45%, #5a3240 0%, #2c1820 60%, #140a0e 100%); --t27-intro-texto: #f6dccb;
+  --t27-slogan: #f6dccb; --t27-slogan-sombra: 0 2px 14px rgba(0,0,0,.6);
+  --t27-escena-fondo: radial-gradient(ellipse at 50% 35%, #5b3442, #24131a 80%);
+  --t27-franja: linear-gradient(90deg,#b8643f,#e39a6b,#f6dccb,#e39a6b,#b8643f);
+  --t27-musica-fondo: rgba(43,24,32,.92); --t27-musica-texto: #f6dccb;
+  --urg-fondo: linear-gradient(135deg,#e39a6b,#b8643f); --urg-texto: #2b1820; --urg-borde: #f6dccb;
+  --urg-caja: #2f1b24; --urg-caja-texto: #f6dccb; --urg-campo: #3d2430;
+  --urg-campo-borde: #6a4555; --urg-boton: #e39a6b; --urg-boton-texto: #2b1820; --urg-titulo: #f6dccb;
+  --ico-trazo: #2b1820; --ico-r1: #eaa46f; --ico-r2: #f6dccb;
+}
+/* Halloween dulce: ciruela malva, durazno, cobre y crema; telarañas finas y velas */
+html.tema-halloween .producto { border: 1px solid rgba(227,154,107,.4); box-shadow: 0 12px 28px rgba(0,0,0,.4); }
+html.tema-halloween .producto::before { content: ''; position: absolute; left: -2px; top: -2px; z-index: 3; width: 58px; height: 58px; pointer-events: none; opacity: .5;
+  background:
+    radial-gradient(circle at 0 0, transparent 14px, rgba(246,220,203,.7) 14.5px 15.5px, transparent 16px),
+    radial-gradient(circle at 0 0, transparent 30px, rgba(246,220,203,.6) 30.5px 31.5px, transparent 32px),
+    radial-gradient(circle at 0 0, transparent 46px, rgba(246,220,203,.5) 46.5px 47.5px, transparent 48px),
+    linear-gradient(45deg, transparent 49%, rgba(246,220,203,.6) 50%, transparent 51%),
+    linear-gradient(67deg, transparent 49%, rgba(246,220,203,.5) 50%, transparent 51%),
+    linear-gradient(23deg, transparent 49%, rgba(246,220,203,.5) 50%, transparent 51%); }
+html.tema-halloween .seccion-cabecera h2, html.tema-halloween .catalogo-intro h2 { font-family: var(--t27-fuente-titulo); font-style: italic; }
+html.tema-halloween .carrusel-container { box-shadow: 0 0 34px rgba(227,154,107,.25), 0 20px 44px rgba(0,0,0,.5) !important; }

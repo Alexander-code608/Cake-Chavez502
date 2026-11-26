@@ -1,0 +1,354 @@
+/* =========================================================
+   CAKE CHÁVEZ — DECORACIÓN COMÚN DE LAS NUEVE TEMÁTICAS 2027
+   Solo actúa con <html class="tema-2027">. Navidad nunca carga esta hoja.
+   Cada temática define sus variables y sus adornos propios en temas/<id>/tema.css;
+   sus colores de todos los componentes están en temas/<id>/colores.css.
+   ========================================================= */
+
+/* ---------- 1. Fuera los adornos exclusivos de Navidad ---------- */
+html.tema-2027 .navidad-lado,
+html.tema-2027 .navidad-luces,
+html.tema-2027 .navidad-esquina,
+html.tema-2027 .navidad-estrella,
+html.tema-2027 .navidad-copo,
+html.tema-2027 .logo-gorro,
+html.tema-2027 .navidad-corazon,
+html.tema-2027 .escena-navidad,
+html.tema-2027 .cf-cuenta-copo,
+html.tema-2027 .navidad-esp-adorno,
+html.tema-2027 .navidad-ventana-nieve,
+html.tema-2027 .navidad-ventana-luces,
+html.tema-2027 .navidad-ventana-gorro,
+html.tema-2027 .navidad-ventana-acebo,
+html.tema-2027 .musica-navidad-btn,
+html.tema-2027 #intro-navidad { display: none !important; }
+
+/* ---------- 2. La página espera escondida mientras corre la entrada ---------- */
+html.t27-intro-activa, html.t27-intro-activa body { overflow: hidden !important; }
+html.t27-intro-activa body { background: var(--t27-intro-fondo, #120c0a) !important; }
+html.t27-intro-activa body > *:not(#t27-intro) { opacity: 0 !important; }
+
+/* ---------- 3. Encabezado con la escena de la temática ---------- */
+html.tema-2027 .zona-portada header {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding-bottom: 18px;
+  background:
+    var(--t27-cabecera-velo, linear-gradient(180deg, transparent 0 60%, var(--cake-fondo) 100%)),
+    var(--t27-cabecera) center top / cover no-repeat,
+    var(--cake-fondo);
+}
+@media (max-width: 700px) {
+  html.tema-2027 .zona-portada header {
+    background:
+      var(--t27-cabecera-velo, linear-gradient(180deg, transparent 0 55%, var(--cake-fondo) 100%)),
+      var(--t27-cabecera-movil, var(--t27-cabecera)) center top / cover no-repeat,
+      var(--cake-fondo);
+  }
+}
+html.tema-2027 .zona-portada .logo-container { position: relative; z-index: 2; }
+html.tema-2027 .zona-portada .logo {
+  filter: drop-shadow(0 10px 26px var(--t27-sombra-logo, rgba(0, 0, 0, .28)));
+  animation: t27Respirar 6s ease-in-out infinite;
+}
+@keyframes t27Respirar { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-5px) } }
+html.tema-2027 .zona-portada .slogan {
+  position: relative; z-index: 2; font-family: var(--t27-fuente-titulo, 'Playfair Display', serif);
+  color: var(--t27-slogan, var(--cake-texto)); text-shadow: var(--t27-slogan-sombra, none);
+}
+html.tema-2027 .navidad-separador { position: relative; z-index: 2; }
+html.tema-2027 .navidad-separador span { font-size: 0; }
+html.tema-2027 .navidad-separador span::before {
+  content: ''; display: inline-block; width: 30px; height: 30px;
+  background: var(--t27-acento); -webkit-mask: var(--t27-glifo) center / contain no-repeat; mask: var(--t27-glifo) center / contain no-repeat;
+  animation: t27Latido 2.6s ease-in-out infinite;
+}
+@keyframes t27Latido { 0%, 100% { transform: scale(1) rotate(0) } 50% { transform: scale(1.14) rotate(-6deg) } }
+
+/* Escena a los lados del logo (arriba de todo, sin tapar botones) */
+.t27-lado { position: absolute; z-index: 1; pointer-events: none; bottom: 8px; width: min(19vw, 250px); height: auto;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .22)); opacity: 0; animation: t27LadoEntra 1.2s .3s cubic-bezier(.2, .9, .3, 1) forwards; }
+.t27-lado.izq { left: max(10px, 4vw); }
+.t27-lado.der { right: max(10px, 4vw); transform: scaleX(-1); }
+@keyframes t27LadoEntra { from { opacity: 0; translate: 0 30px } to { opacity: 1; translate: 0 0 } }
+@media (max-width: 900px) { .t27-lado { display: none; } }
+
+/* ---------- 4. Ambiente: figuras flotantes propias de cada temática ---------- */
+#t27-ambiente { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+#t27-ambiente i {
+  position: absolute; top: -8vh; display: block; width: var(--t, 22px); height: var(--t, 22px);
+  background: var(--c, var(--t27-acento)); opacity: 0;
+  -webkit-mask: var(--g) center / contain no-repeat; mask: var(--g) center / contain no-repeat;
+  animation: var(--anim, t27Caer) var(--d, 16s) linear var(--r, 0s) infinite;
+  will-change: transform, opacity;
+}
+@keyframes t27Caer {
+  0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0 }
+  10% { opacity: var(--o, .55) }
+  50% { transform: translate3d(var(--x, 30px), 50vh, 0) rotate(160deg) }
+  90% { opacity: var(--o, .55) }
+  100% { transform: translate3d(calc(var(--x, 30px) * -1), 112vh, 0) rotate(320deg); opacity: 0 }
+}
+@keyframes t27Subir {
+  0% { transform: translate3d(0, 112vh, 0) rotate(-6deg); opacity: 0 }
+  10% { opacity: var(--o, .55) }
+  50% { transform: translate3d(var(--x, 30px), 55vh, 0) rotate(6deg) }
+  90% { opacity: var(--o, .55) }
+  100% { transform: translate3d(calc(var(--x, 30px) * -1), -12vh, 0) rotate(-6deg); opacity: 0 }
+}
+@keyframes t27Revolotear {
+  0% { transform: translate3d(-10vw, 70vh, 0) scaleX(1); opacity: 0 }
+  10% { opacity: var(--o, .6) }
+  30% { transform: translate3d(25vw, 45vh, 0) scaleX(.6) }
+  55% { transform: translate3d(55vw, 60vh, 0) scaleX(1) }
+  80% { transform: translate3d(85vw, 30vh, 0) scaleX(.6); opacity: var(--o, .6) }
+  100% { transform: translate3d(110vw, 20vh, 0) scaleX(1); opacity: 0 }
+}
+@keyframes t27Titilar {
+  0%, 100% { transform: translate3d(0, var(--y, 30vh), 0) scale(.4); opacity: 0 }
+  50% { transform: translate3d(0, var(--y, 30vh), 0) scale(1); opacity: var(--o, .7) }
+}
+html.cake-ligero #t27-ambiente i:nth-child(n+7) { display: none; }
+
+/* ---------- 5. Tarjetas de productos con detalle de temporada ---------- */
+html.tema-2027 .producto { position: relative; transition: transform .35s cubic-bezier(.2, .8, .3, 1), box-shadow .35s; }
+html.tema-2027 .producto::after {
+  content: ''; position: absolute; top: 10px; right: 10px; z-index: 3; width: 26px; height: 26px; pointer-events: none;
+  background: var(--t27-acento); opacity: .9;
+  -webkit-mask: var(--t27-glifo) center / contain no-repeat; mask: var(--t27-glifo) center / contain no-repeat;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .25)); transition: transform .5s;
+}
+@media (hover: hover) {
+  html.tema-2027 .producto:hover { transform: translateY(-6px); box-shadow: 0 18px 34px var(--t27-sombra, rgba(0, 0, 0, .18)); }
+  html.tema-2027 .producto:hover::after { transform: rotate(-14deg) scale(1.2); }
+}
+html.tema-2027 .producto .img-producto { transition: transform .6s cubic-bezier(.2, .8, .3, 1); }
+@media (hover: hover) { html.tema-2027 .producto:hover .img-producto { transform: scale(1.04); } }
+html.tema-2027 .precio-por-confirmar { font-size: .92em; }
+html.tema-2027 .precio-por-confirmar::after { content: ''; }
+
+/* ---------- 6. Ventanas: franja decorativa superior y entrada suave ---------- */
+html.tema-2027 .caja-modal,
+html.tema-2027 .cf-modal-caja,
+html.tema-2027 .cake-review-dialog,
+html.tema-2027 .t27-urgente-caja { position: relative; overflow: hidden; }
+html.tema-2027 .caja-modal::before,
+html.tema-2027 .cf-modal-caja::before,
+html.tema-2027 .cake-review-dialog::before,
+html.tema-2027 .t27-urgente-caja::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 7px; z-index: 1; pointer-events: none;
+  background: var(--t27-franja, linear-gradient(90deg, var(--t27-acento), var(--t27-oro), var(--t27-acento)));
+}
+html.tema-2027 .caja-modal::after,
+html.tema-2027 .cf-modal-caja::after,
+html.tema-2027 .t27-urgente-caja::after {
+  content: ''; position: absolute; right: 14px; bottom: 12px; width: 54px; height: 54px; pointer-events: none; opacity: .14;
+  background: var(--t27-acento); -webkit-mask: var(--t27-glifo) center / contain no-repeat; mask: var(--t27-glifo) center / contain no-repeat;
+}
+html.tema-2027 .overlay-modal[style*="flex"] .caja-modal,
+html.tema-2027 .overlay-modal.activo .caja-modal,
+html.tema-2027 .cf-modal:not([hidden]) .cf-modal-caja { animation: t27VentanaEntra .55s cubic-bezier(.2, .9, .3, 1.1) both; }
+@keyframes t27VentanaEntra { from { opacity: 0; transform: translateY(26px) scale(.96) } to { opacity: 1; transform: none } }
+html.tema-2027 .carrito-lateral { background-image: var(--t27-papel, none); }
+
+/* ---------- 7. Especialidades de la temática (misma sección que Navidad) ---------- */
+html.tema-2027 .navidad-esp-section { position: relative; }
+html.tema-2027 .navidad-esp-section::before {
+  content: ''; display: block; width: 46px; height: 46px; margin: 0 auto 6px;
+  background: var(--t27-oro, var(--t27-acento)); -webkit-mask: var(--t27-glifo) center / contain no-repeat; mask: var(--t27-glifo) center / contain no-repeat;
+  animation: t27Latido 3s ease-in-out infinite;
+}
+html.tema-2027 .navidad-esp-cabecera h2 { font-family: var(--t27-fuente-titulo, 'Playfair Display', serif); }
+
+/* ---------- 8. Cuenta regresiva de la temática ---------- */
+html.tema-2027 .cf-cuenta-regresiva { position: relative; overflow: hidden; }
+html.tema-2027 .cf-cuenta-regresiva::after {
+  content: ''; position: absolute; top: 12px; right: 16px; width: 30px; height: 30px; opacity: .7;
+  background: var(--t27-oro, var(--t27-acento)); -webkit-mask: var(--t27-glifo) center / contain no-repeat; mask: var(--t27-glifo) center / contain no-repeat;
+  animation: t27Latido 2.8s ease-in-out infinite;
+}
+
+/* ---------- 9. Reseñas: escena animada propia (sin Santa en otras temáticas) ---------- */
+.opiniones-escena.escena-t27 { overflow: hidden; }
+.escena-t27 .t27-escena-fondo { position: absolute; inset: 0; background: var(--t27-escena-fondo, linear-gradient(180deg, var(--cake-panel), var(--cake-fondo))); }
+.opiniones-hero-art .escena-t27 img.t27-escena-img, .escena-t27 .t27-escena-img { position: absolute; z-index: 2; bottom: 4%; left: 50%; width: min(78%, 330px); height: auto; max-height: 86%; object-fit: contain; translate: -50% 0;
+  transform-origin: 50% 100%; animation: t27Mecer 5.5s ease-in-out infinite; filter: drop-shadow(0 14px 20px rgba(0, 0, 0, .25)); }
+@keyframes t27Mecer { 0%, 100% { transform: rotate(-1.6deg) translateY(0) } 50% { transform: rotate(1.6deg) translateY(-6px) } }
+.escena-t27 .t27-escena-p { position: absolute; inset: 0; pointer-events: none; }
+.escena-t27 .t27-escena-p i { position: absolute; display: block; width: var(--t, 18px); height: var(--t, 18px); background: var(--c, var(--t27-acento));
+  -webkit-mask: var(--g) center / contain no-repeat; mask: var(--g) center / contain no-repeat; opacity: 0;
+  animation: t27Flota var(--d, 6s) ease-in-out var(--r, 0s) infinite; }
+@keyframes t27Flota { 0% { transform: translateY(20px) rotate(0); opacity: 0 } 20%, 80% { opacity: var(--o, .8) } 100% { transform: translateY(-120px) rotate(25deg); opacity: 0 } }
+
+/* ---------- 11. Botón de música de la temática ---------- */
+.t27-musica-btn { position: fixed; left: 18px; bottom: 18px; z-index: 996; display: flex; align-items: center; gap: 8px; height: 46px; padding: 0 16px 0 14px;
+  border-radius: 999px; cursor: pointer; font: 600 .85rem Poppins, system-ui, sans-serif; backdrop-filter: blur(6px);
+  color: var(--t27-musica-texto, #fff); background: var(--t27-musica-fondo, rgba(30, 20, 20, .85)); border: 1.5px solid var(--t27-oro, rgba(255, 255, 255, .5));
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .25); transition: transform .2s; }
+.t27-musica-btn:hover { transform: translateY(-2px); }
+.t27-musica-btn[aria-pressed="true"] i { animation: t27Latido 1.4s ease-in-out infinite; }
+.t27-musica-btn[aria-pressed="false"] { opacity: .8; }
+@media (min-width: 1350px) { .t27-musica-btn { left: 290px; bottom: 22px; } }
+@media (max-width: 700px) { .t27-musica-btn { left: 14px; bottom: 14px; width: 46px; padding: 0; justify-content: center; } .t27-musica-btn span { display: none; } }
+
+/* ---------- 12. Entrada animada (estructura común; cada tema la decora) ---------- */
+#t27-intro { position: fixed; inset: 0; z-index: 20000; overflow: hidden; cursor: pointer; color: var(--t27-intro-texto, #fff);
+  background: var(--t27-intro-fondo, #120c0a); transition: opacity .9s ease; -webkit-tap-highlight-color: transparent; }
+#t27-intro.terminado { opacity: 0; pointer-events: none; }
+#t27-intro.terminado.rapido { transition-duration: .45s; }
+#t27-intro .t27i-lienzo { position: absolute; inset: 0; width: 100%; height: 100%; }
+#t27-intro .t27i-capa { position: absolute; inset: 0; pointer-events: none; }
+#t27-intro .t27i-logo { position: absolute; left: 50%; top: 50%; width: min(62vw, 520px); translate: -50% -50%; opacity: 0; z-index: 5;
+  transform: scale(.6); transition: opacity .9s ease, transform 1.2s cubic-bezier(.2, .9, .25, 1.12); }
+#t27-intro .t27i-logo img { display: block; width: 100%; height: auto; }
+#t27-intro .t27i-logo .t27i-gorro { position: absolute; width: 34%; left: 27%; top: -21%; opacity: 0; transform: translateY(-60px) rotate(-18deg);
+  transition: opacity .6s ease, transform .9s cubic-bezier(.3, 1.4, .5, 1); }
+#t27-intro.logo .t27i-logo { opacity: 1; transform: scale(1); }
+#t27-intro.gorro .t27i-gorro { opacity: 1; transform: translateY(0) rotate(-8deg); }
+#t27-intro.volando .t27i-logo { transition: transform 1.1s cubic-bezier(.7, 0, .2, 1), opacity .4s 1s; }
+#t27-intro .t27i-toque { position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 8; display: flex; flex-direction: column; align-items: center; gap: 14px;
+  border: 0; background: none; color: inherit; cursor: pointer; font: 600 1.05rem Poppins, system-ui, sans-serif; text-align: center; padding: 24px; }
+#t27-intro .t27i-toque-icono { width: 74px; height: 74px; background: var(--t27-oro, #f3d18b);
+  -webkit-mask: var(--t27-glifo) center / contain no-repeat; mask: var(--t27-glifo) center / contain no-repeat; animation: t27Latido 1.8s ease-in-out infinite; }
+#t27-intro .t27i-toque-nota { font-size: .8rem; font-weight: 400; opacity: .75; }
+#t27-intro.iniciado .t27i-toque { opacity: 0; pointer-events: none; transition: opacity .5s; }
+#t27-intro .t27i-saltar { position: absolute; right: 18px; bottom: 18px; z-index: 9; padding: 10px 16px; border-radius: 999px; cursor: pointer;
+  font: 600 .82rem Poppins, system-ui, sans-serif; color: inherit; background: rgba(0, 0, 0, .25); border: 1px solid rgba(255, 255, 255, .35); backdrop-filter: blur(4px); }
+#t27-intro .t27i-titulo { position: absolute; left: 0; right: 0; bottom: 13%; z-index: 6; text-align: center; opacity: 0; transform: translateY(16px);
+  font: italic 600 clamp(1.2rem, 3.4vw, 2rem) var(--t27-fuente-titulo, 'Playfair Display', serif); color: var(--t27-intro-titulo, var(--t27-oro, #f3d18b));
+  transition: opacity .9s ease, transform .9s ease; text-shadow: 0 2px 14px rgba(0, 0, 0, .3); }
+#t27-intro.titulo .t27i-titulo { opacity: 1; transform: none; }
+#t27-intro.volando .t27i-titulo { opacity: 0; }
+@media (max-width: 700px) { #t27-intro .t27i-logo { width: 76vw; } #t27-intro .t27i-saltar { right: 12px; bottom: 12px; } }
+
+/* ---------- 13. Movimiento reducido: sin animaciones decorativas ---------- */
+@media (prefers-reduced-motion: reduce) {
+  #t27-ambiente, .escena-t27 .t27-escena-p { display: none !important; }
+  html.tema-2027 .zona-portada .logo, .escena-t27 .t27-escena-img, .t27-urgente-btn i, html.tema-2027 .navidad-separador span::before { animation: none !important; }
+}
+
+/* ---------- 14. Escenas de entrada (una por temática) ---------- */
+/* Año Nuevo: reloj de medianoche */
+.t27i-reloj { position: absolute; left: 50%; top: 46%; width: min(56vw, 300px); translate: -50% -50%; transition: opacity .6s, transform 1s cubic-bezier(.3,1.3,.5,1); opacity: 0; transform: scale(.7); }
+#t27-intro.iniciado .t27i-reloj { opacity: 1; transform: scale(1); }
+#t27-intro.medianoche .t27i-reloj { opacity: 0; transform: scale(1.35); transition-duration: .7s; }
+.t27i-reloj svg { width: 100%; height: auto; filter: drop-shadow(0 0 30px rgba(216,178,106,.35)); }
+.t27i-aguja-h, .t27i-aguja-m { transform-origin: 100px 100px; transform-box: view-box; }
+#t27-intro.reloj-gira .t27i-aguja-m { animation: t27iAgujaM 3.2s cubic-bezier(.5,0,.3,1) forwards; }
+#t27-intro.reloj-gira .t27i-aguja-h { animation: t27iAgujaH 3.2s cubic-bezier(.5,0,.3,1) forwards; }
+@keyframes t27iAgujaM { from { transform: rotate(-200deg) } to { transform: rotate(0deg) } }
+@keyframes t27iAgujaH { from { transform: rotate(-50deg) } to { transform: rotate(0deg) } }
+.t27i-numero { position: absolute; inset: 0; display: grid; place-items: center; font: 600 clamp(3rem, 12vw, 6rem) 'Playfair Display', serif; color: #f6e7c8; text-shadow: 0 0 24px rgba(216,178,106,.8); pointer-events: none; }
+.t27i-numero.late { animation: t27iNumero .75s ease-out both; }
+@keyframes t27iNumero { from { opacity: 0; transform: scale(1.8) } 40% { opacity: 1 } to { opacity: 0; transform: scale(.9) } }
+
+/* Cariño: carta con sello */
+.t27i-sobre { position: absolute; left: 50%; top: 52%; width: min(70vw, 360px); aspect-ratio: 1.45; translate: -50% -50%; opacity: 0; transform: translateY(40px) scale(.9); transition: opacity .7s, transform .9s cubic-bezier(.2,.9,.3,1.1); }
+#t27-intro.iniciado .t27i-sobre { opacity: 1; transform: none; }
+.t27i-sobre-fondo { position: absolute; inset: 0; border-radius: 10px; background: #e9a6b5; box-shadow: 0 24px 50px rgba(122,50,71,.3); }
+.t27i-sobre-carta { position: absolute; left: 7%; right: 7%; top: 8%; bottom: 8%; border-radius: 6px; background: #fffaf9; transition: transform 1s cubic-bezier(.3,1.2,.5,1) .35s; }
+.t27i-sobre-frente { position: absolute; inset: 0; border-radius: 10px; background: linear-gradient(to top right, #f3c2cd 50%, transparent 50.5%) left / 50.5% 100% no-repeat, linear-gradient(to top left, #efb6c3 50%, transparent 50.5%) right / 50.5% 100% no-repeat; }
+.t27i-sobre-tapa { position: absolute; left: 0; right: 0; top: 0; height: 58%; transform-origin: 50% 0; background: linear-gradient(to bottom, #dc8fa2, #e9a6b5); clip-path: polygon(0 0, 100% 0, 50% 100%); transition: transform .9s cubic-bezier(.5,0,.3,1); z-index: 2; }
+.t27i-sobre-sello { position: absolute; left: 50%; top: 52%; width: 22%; aspect-ratio: 1; translate: -50% -50%; z-index: 3; background: #a9485f; -webkit-mask: var(--g-corazon) center / contain no-repeat; mask: var(--g-corazon) center / contain no-repeat; animation: t27Latido 1.2s ease-in-out infinite; transition: opacity .4s; }
+#t27-intro.sobre-abre .t27i-sobre-tapa { transform: rotateX(180deg); z-index: 0; }
+#t27-intro.sobre-abre .t27i-sobre-sello { opacity: 0; }
+#t27-intro.sobre-abre .t27i-sobre-carta { transform: translateY(-46%); }
+#t27-intro.logo .t27i-sobre { opacity: 0; transform: translateY(60px) scale(.9); transition-duration: .8s; }
+
+/* Semana Santa: amanecer, corona de flores y huevitos */
+.t27i-rayos { position: absolute; left: 50%; top: 46%; width: 160vmax; aspect-ratio: 1; translate: -50% -50%; opacity: 0; transition: opacity 1.6s;
+  background: repeating-conic-gradient(from 0deg, rgba(255,246,214,.55) 0 6deg, transparent 6deg 18deg); -webkit-mask: radial-gradient(circle, #000 0 20%, transparent 60%); mask: radial-gradient(circle, #000 0 20%, transparent 60%); animation: t27iGira 40s linear infinite; }
+#t27-intro.amanece .t27i-rayos { opacity: 1; }
+@keyframes t27iGira { to { rotate: 360deg } }
+.t27i-corona { position: absolute; left: 50%; top: 46%; width: min(78vw, 520px); aspect-ratio: 1; translate: -50% -50%; }
+.t27i-corona i { position: absolute; left: 50%; top: 50%; width: 15%; aspect-ratio: 1; margin: -7.5% 0 0 -7.5%; background: var(--c, #c9b8e2);
+  -webkit-mask: var(--g-flor) center / contain no-repeat; mask: var(--g-flor) center / contain no-repeat;
+  transform: rotate(calc(var(--i) * 36deg)) translateY(-280%) scale(0); transition: transform .9s cubic-bezier(.3,1.5,.5,1) calc(var(--i) * 70ms); }
+.t27i-corona i:nth-child(3n+1) { --c: #c9b8e2; } .t27i-corona i:nth-child(3n+2) { --c: #ffffff; } .t27i-corona i:nth-child(3n) { --c: #f4c7d1; }
+#t27-intro.florece .t27i-corona i { transform: rotate(calc(var(--i) * 36deg)) translateY(-280%) scale(1) rotate(calc(var(--i) * -36deg)); }
+.t27i-huevos { position: absolute; left: 0; right: 0; bottom: 6%; display: flex; justify-content: center; gap: 2.5vw; }
+.t27i-huevos i { width: min(9vw, 60px); aspect-ratio: .8; background: var(--c); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; box-shadow: inset -6px -8px 0 rgba(0,0,0,.06), 0 8px 14px rgba(80,90,60,.2);
+  transform: translateY(160%); transition: transform .8s cubic-bezier(.3,1.6,.5,1) calc(var(--i) * 90ms); }
+#t27-intro.huevos .t27i-huevos i { transform: translateY(0); }
+
+/* Día de la Madre: lazo que se desata */
+.t27i-lazo { position: absolute; left: 50%; top: 50%; width: min(70vw, 420px); aspect-ratio: 2; translate: -50% -50%; opacity: 0; transition: opacity .8s; }
+#t27-intro.lazo-ve .t27i-lazo { opacity: 1; }
+.t27i-lazo span { position: absolute; top: 0; height: 100%; width: 50%; background: linear-gradient(135deg, #f3c6cf, #d99aac 60%, #f8dfe4); }
+.t27i-lazo-izq { left: 0; -webkit-mask: var(--g-lazo) 0 0 / 200% 100% no-repeat; mask: var(--g-lazo) 0 0 / 200% 100% no-repeat; transition: transform 1s cubic-bezier(.6,0,.3,1), opacity .8s .3s; }
+.t27i-lazo-der { right: 0; -webkit-mask: var(--g-lazo) 100% 0 / 200% 100% no-repeat; mask: var(--g-lazo) 100% 0 / 200% 100% no-repeat; transition: transform 1s cubic-bezier(.6,0,.3,1), opacity .8s .3s; }
+.t27i-lazo-nudo { display: none; }
+#t27-intro.lazo-suelta .t27i-lazo-izq { transform: translateX(-70%) rotate(-24deg); opacity: 0; }
+#t27-intro.lazo-suelta .t27i-lazo-der { transform: translateX(70%) rotate(24deg); opacity: 0; }
+
+/* Día del Padre: reloj de bolsillo y moño */
+.t27i-bolsillo { position: absolute; left: 50%; top: 46%; width: min(48vw, 250px); translate: -50% -50%; transform-origin: 50% 0; opacity: 0; transition: opacity .6s; }
+#t27-intro.iniciado .t27i-bolsillo { opacity: 1; animation: t27iPendulo 2.2s ease-in-out infinite; }
+@keyframes t27iPendulo { 0%, 100% { rotate: -5deg } 50% { rotate: 5deg } }
+.t27i-bolsillo svg { width: 100%; height: auto; filter: drop-shadow(0 16px 30px rgba(0,0,0,.4)); }
+.t27i-bolsillo .t27i-aguja-h, .t27i-bolsillo .t27i-aguja-m { transform-origin: 100px 130px; }
+#t27-intro.esc-relojpapa.reloj-gira .t27i-aguja-m { animation: t27iAgujaM2 2s cubic-bezier(.4,0,.3,1) forwards; }
+#t27-intro.esc-relojpapa.reloj-gira .t27i-aguja-h { animation: t27iAgujaH 2s cubic-bezier(.4,0,.3,1) forwards; }
+@keyframes t27iAgujaM2 { from { transform: rotate(-720deg) } to { transform: rotate(0deg) } }
+#t27-intro.mono-ve .t27i-bolsillo { opacity: 0; transition-duration: .5s; }
+.t27i-mono { position: absolute; left: 50%; top: 76%; width: min(30vw, 150px); aspect-ratio: 2; translate: -50% 0; background: linear-gradient(135deg, #2b6b72, #173a3e); opacity: 0; transform: translateY(60px) scale(.6);
+  -webkit-mask: var(--g-corbata) center / contain no-repeat; mask: var(--g-corbata) center / contain no-repeat; transition: opacity .6s, transform .9s cubic-bezier(.3,1.5,.5,1); z-index: 6; }
+#t27-intro.mono-ve .t27i-mono { opacity: 1; transform: none; }
+#t27-intro.volando .t27i-mono { opacity: 0; }
+
+/* Día del Niño: nubes, racimo de globos y molinetes */
+.t27i-nubes i { position: absolute; width: 38vmin; height: 14vmin; border-radius: 99px; background: #fff; opacity: .9; box-shadow: 8vmin -5vmin 0 -1vmin #fff, -7vmin -3vmin 0 -2vmin #fff; animation: t27iNube 18s linear infinite; }
+.t27i-nubes i:nth-child(1) { top: 14%; left: -10%; } .t27i-nubes i:nth-child(2) { top: 32%; left: 60%; animation-duration: 24s; transform: scale(.7); } .t27i-nubes i:nth-child(3) { bottom: 10%; left: 20%; animation-duration: 30s; }
+@keyframes t27iNube { from { translate: -20vw 0 } to { translate: 40vw 0 } }
+.t27i-racimo { position: absolute; left: 50%; top: 0; width: min(60vw, 330px); height: 100%; translate: -50% 0; }
+.t27i-racimo i { position: absolute; width: 26%; aspect-ratio: .82; left: calc(8% + (var(--i) * 12%)); top: 105%; background: var(--c);
+  -webkit-mask: var(--g-globo) center / contain no-repeat; mask: var(--g-globo) center / contain no-repeat; filter: drop-shadow(0 8px 10px rgba(60,95,138,.25)); }
+.t27i-racimo i:nth-child(odd) { margin-top: -6%; }
+#t27-intro.suben .t27i-racimo i { animation: t27iSubeGlobo 2.1s cubic-bezier(.3,.6,.4,1) calc(var(--i) * 60ms) forwards; }
+@keyframes t27iSubeGlobo { to { top: 14% } }
+#t27-intro.sueltan .t27i-racimo i { animation: t27iSueltaGlobo 2.4s ease-in forwards; top: 14%; }
+@keyframes t27iSueltaGlobo { to { top: -40%; rotate: 12deg } }
+.t27i-molinete { position: absolute; bottom: 8%; width: 16vmin; aspect-ratio: 1; background: conic-gradient(#f6b7a3 0 25%, #f9d980 0 50%, #9fd3c4 0 75%, #a9cdf2 0);
+  -webkit-mask: var(--g-molinete) center / contain no-repeat; mask: var(--g-molinete) center / contain no-repeat; animation: t27iGira 2.4s linear infinite; }
+.t27i-molinete.izq { left: 8%; } .t27i-molinete.der { right: 8%; animation-direction: reverse; }
+
+/* Halloween: bruma, velas y luna */
+.t27i-bruma i { position: absolute; left: -20%; width: 140%; height: 45%; border-radius: 50%; background: radial-gradient(ellipse, rgba(246,220,203,.22), transparent 70%); animation: t27iBruma 9s ease-in-out infinite alternate; }
+.t27i-bruma i:nth-child(1) { bottom: -10%; } .t27i-bruma i:nth-child(2) { top: 30%; animation-duration: 12s; opacity: .7; }
+.t27i-bruma.clara i { background: radial-gradient(ellipse, rgba(255,255,255,.75), transparent 70%); }
+@keyframes t27iBruma { from { translate: -6% 0 } to { translate: 6% -4% } }
+#t27-intro.despeja .t27i-bruma { opacity: .35; transition: opacity 1.2s; }
+.t27i-velas { position: absolute; left: 0; right: 0; bottom: 8%; display: flex; justify-content: space-between; padding: 0 10%; }
+.t27i-velas i { position: relative; width: min(5vw, 34px); height: min(16vw, 110px); border-radius: 6px 6px 3px 3px; background: linear-gradient(90deg, #efe0cf, #fbf2e6 50%, #e0ccb4); opacity: 0; transition: opacity .8s; }
+.t27i-velas i:nth-child(2) { height: min(11vw, 80px); align-self: flex-end; }
+.t27i-velas i::before { content: ''; position: absolute; left: 50%; top: -38%; width: 60%; height: 40%; translate: -50% 0; border-radius: 50% 50% 45% 45% / 70% 70% 30% 30%;
+  background: radial-gradient(ellipse at 50% 70%, #fff3c4, #ffb860 55%, rgba(255,120,40,0) 75%); animation: t27iLlama .18s ease-in-out infinite alternate; filter: blur(.4px); }
+.t27i-velas i::after { content: ''; position: absolute; left: 50%; top: -60%; width: 260%; aspect-ratio: 1; translate: -50% 0; border-radius: 50%; background: radial-gradient(circle, rgba(255,180,90,.35), transparent 65%); }
+@keyframes t27iLlama { from { transform: scaleY(1) rotate(-2deg) } to { transform: scaleY(1.12) rotate(2deg) } }
+#t27-intro.velas .t27i-velas i { opacity: 1; }
+.t27i-luna { position: absolute; right: 12%; top: 10%; width: 16vmin; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #fff6e8, #f6dccb 60%, #e8c2a8); box-shadow: 0 0 60px rgba(246,220,203,.5); opacity: .85; }
+
+/* Tema Oficial: listón rosa satinado */
+.t27i-liston { position: absolute; inset: 0; width: 100%; height: 100%; }
+.t27i-liston path { stroke-dasharray: 2600; stroke-dashoffset: 2600; }
+#t27-intro.liston-entra .t27i-liston path { transition: stroke-dashoffset 1.8s cubic-bezier(.45,.05,.25,1); stroke-dashoffset: 0; }
+#t27-intro.liston-sale .t27i-liston path { transition: stroke-dashoffset 1.2s cubic-bezier(.6,0,.4,1); stroke-dashoffset: -2600; }
+#t27-intro.liston-entra .t27i-liston { animation: t27iOndea 3s ease-in-out infinite alternate; }
+@keyframes t27iOndea { from { transform: translateY(-6px) } to { transform: translateY(6px) } }
+.t27i-brillo-liston { position: absolute; left: 50%; top: 48%; width: 30vmin; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; background: radial-gradient(circle, rgba(243,201,207,.55), transparent 70%); opacity: 0; transition: opacity .8s; }
+#t27-intro.liston-sale .t27i-brillo-liston { opacity: 1; }
+
+/* Jardín Encantado: reja que se abre */
+.t27i-reja { position: absolute; top: 0; bottom: 0; width: 50.5%; z-index: 4; transition: transform 1.6s cubic-bezier(.6,0,.25,1);
+  background:
+    radial-gradient(circle at 50% 12%, transparent 26%, rgba(255,255,255,.95) 27% 29%, transparent 30%) 0 0 / 72px 160px,
+    repeating-linear-gradient(90deg, transparent 0 30px, rgba(255,255,255,.95) 30px 36px),
+    linear-gradient(180deg, rgba(198,217,214,.55), rgba(228,239,238,.4)); box-shadow: inset 0 0 0 6px rgba(255,255,255,.95); }
+.t27i-reja.izq { left: 0; transform-origin: 0 50%; } .t27i-reja.der { right: 0; transform-origin: 100% 50%; }
+#t27-intro.reja-abre .t27i-reja.izq { transform: perspective(900px) rotateY(80deg); }
+#t27-intro.reja-abre .t27i-reja.der { transform: perspective(900px) rotateY(-80deg); }
+#t27-intro.iniciado .t27i-toque { z-index: 8; }
+#t27-intro .t27i-toque { z-index: 9; }
+
+/* ---------- 15. Botón de especialidades de la temática ---------- */
+html.tema-2027 nav .nav-btn.nav-btn-navidad { background: linear-gradient(135deg, var(--t27-acento), var(--t27-oro)) !important; color: var(--urg-texto, #fff) !important; border-color: transparent !important; box-shadow: 0 4px 12px var(--t27-sombra) !important; }
+html.tema-2027 .escena-t27 .t27-escena-p { z-index: 3; }

@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&display=swap');
+/* =========================================================
+   CAKE CHÁVEZ — ANIO-NUEVO: ADORNOS Y DETALLES PROPIOS (archivo generado)
+   Generado por herramientas/generar_temas_2027.py. Solo actúa con html.tema-anio-nuevo.
+   ========================================================= */
+html.tema-anio-nuevo {
+  --t27-fuente-titulo: 'Cormorant Garamond', 'Playfair Display', serif;
+  --t27-acento: #e2b0b4; --t27-oro: #d8b26a; --t27-champagne: #f2e2bf;
+  --t27-sombra: rgba(0,0,0,.45); --t27-sombra-logo: rgba(0,0,0,.45);
+  --t27-glifo: var(--g-estrella);
+  --t27-cabecera: url('../../img/temas/anio-nuevo/cabecera.webp');
+  --t27-cabecera-movil: url('../../img/temas/anio-nuevo/cabecera-movil.webp');
+  --t27-cabecera-velo: linear-gradient(180deg, rgba(20,12,8,.05) 0%, rgba(20,12,8,.15) 55%, var(--cake-fondo) 100%);
+  --t27-intro-fondo: radial-gradient(ellipse at 50% 40%, #3a2418 0%, #1b100b 55%, #0b0605 100%); --t27-intro-texto: #f6e7c8;
+  --t27-slogan: #f2e2bf; --t27-slogan-sombra: 0 2px 12px rgba(0,0,0,.55);
+  --t27-escena-fondo: radial-gradient(ellipse at 50% 30%, #4a2e1f, #1b100b 75%);
+  --t27-franja: linear-gradient(90deg,#a9793c,#f2e2bf,#d8b26a,#f2e2bf,#a9793c);
+  --t27-musica-fondo: rgba(36,21,15,.9); --t27-musica-texto: #f2e2bf;
+  --urg-fondo: linear-gradient(135deg,#d8b26a,#a9793c); --urg-texto: #24150f; --urg-borde: #f2e2bf;
+  --urg-caja: #2a1a12; --urg-caja-texto: #f6e7c8; --urg-campo: #3a261b;
+  --urg-campo-borde: #6a4a32; --urg-boton: #d8b26a; --urg-boton-texto: #24150f; --urg-titulo: #f2e2bf;
+  --ico-trazo: #2a1a12; --ico-r1: #e2c27f; --ico-r2: #e7b8bb;
+}
+/* Año Nuevo 2027: chocolate y negro cálido, dorado champagne, crema y rosa empolvado */
+html.tema-anio-nuevo .producto { border: 1px solid rgba(216,178,106,.45); box-shadow: 0 10px 26px rgba(0,0,0,.35), inset 0 0 0 4px rgba(216,178,106,.08); }
+html.tema-anio-nuevo .zona-portada nav, html.tema-anio-nuevo nav.barra-categorias-fija { border: 1px solid rgba(216,178,106,.5); }
+html.tema-anio-nuevo .cf-cuenta-regresiva { background: linear-gradient(145deg, #2e1d14, #1a100b) !important; border: 1px solid #d8b26a !important; box-shadow: 0 0 0 4px rgba(216,178,106,.12), 0 18px 40px rgba(0,0,0,.4) !important; }
+html.tema-anio-nuevo .cf-cuenta-numeros > div { background: linear-gradient(180deg, #f6ead0, #e6cf9e) !important; color: #2a1a12 !important; border: 1px solid #a9793c !important; }
+html.tema-anio-nuevo .cf-cuenta-numeros strong { color: #2a1a12 !important; font-family: var(--t27-fuente-titulo); }
+html.tema-anio-nuevo .cf-cuenta-numeros span { color: #6a4a32 !important; }
+html.tema-anio-nuevo .cf-cuenta-titulo { color: #f2e2bf !important; font-family: var(--t27-fuente-titulo); font-style: italic; }
+html.tema-anio-nuevo .seccion-cabecera h2, html.tema-anio-nuevo .catalogo-intro h2 { background: linear-gradient(90deg,#d8b26a,#f6e7c8,#d8b26a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+html.tema-anio-nuevo .carrusel-container { border-color: #d8b26a !important; box-shadow: 0 0 0 5px rgba(216,178,106,.15), 0 20px 46px rgba(0,0,0,.45) !important; }
