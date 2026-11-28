@@ -407,7 +407,7 @@
     ov = el('div'); ov.id = 't27-intro'; ov.className = 'esc-' + c.intro;
     ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-label', 'Bienvenida de ' + (i ? i.nombre : 'Cake Chavez'));
     ov.innerHTML = '<canvas class="t27i-lienzo" aria-hidden="true"></canvas><div class="t27i-capa t27i-escena" aria-hidden="true"></div>' +
-      '<div class="t27i-logo" aria-hidden="true"><img src="img/navidad/logo-base.webp" alt="">' + (tema === 'tema-oficial' ? '<img class="t27i-gorro" src="img/temas/tema-oficial/gorro-chef.webp" alt="">' : '') + '</div>' +
+      '<div class="t27i-logo" aria-hidden="true"><img src="img/navidad/logo-base.webp" alt="">' + (tema === 'tema-oficial' && info(tema) && info(tema).files['imagenes/gorro-chef.webp'] ? '<img class="t27i-gorro" src="' + info(tema).files['imagenes/gorro-chef.webp'] + '" alt="">' : '') + '</div>' +
       '<p class="t27i-titulo"></p><button type="button" class="t27i-toque"><span class="t27i-toque-icono" aria-hidden="true"></span><span>' + c.toque + '</span><span class="t27i-toque-nota"><i class="fas fa-volume-up" aria-hidden="true"></i> Sube el volumen</span></button>' +
       '<button type="button" class="t27i-saltar">Saltar intro <i class="fas fa-forward" aria-hidden="true"></i></button>';
     d.body.appendChild(ov);
@@ -501,7 +501,7 @@
     if (!vieja || d.querySelector('.escena-t27')) return;
     var e = el('div', 'opiniones-escena escena-t27'); e.setAttribute('aria-hidden', 'true');
     e.appendChild(el('span', 't27-escena-fondo'));
-    var img = el('img', 't27-escena-img'); img.src = 'img/temas/' + tema + '/escena.webp'; img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
+    var img = el('img', 't27-escena-img'); img.src = info(tema) && info(tema).files['imagenes/escena.webp'] || ''; img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
     e.appendChild(img);
     var p = el('span', 't27-escena-p');
     for (var i = 0; i < (esCelular ? 7 : 11); i++) {
@@ -716,7 +716,16 @@
     crearUrgente();
     var tema = temaActual(), c = conf(tema);
     botonEspecialidades(tema);
-    if (!c) return; // Navidad: su intro, nieve y música siguen en navidad-intro.js y navidad.js
+    if (!c) {
+      // Una temática nueva por ZIP puede no tener una animación programada: nunca dejar la tienda oculta.
+      if (tema !== 'navidad') {
+        html.classList.remove('t27-intro-activa');
+        textosTemporada(tema);
+        prepararMusica(tema).then(crearBotonMusica);
+        w.CakeIntro.terminar();
+      }
+      return; // Navidad conserva su introducción y decoración originales.
+    }
     textosTemporada(tema);
     ambiente(c);
     escenaResenas(tema, c);

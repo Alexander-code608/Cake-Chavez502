@@ -1,32 +1,34 @@
-CÓMO PUBLICAR CAKE CHÁVEZ EN GITHUB PAGES
-==========================================
+CAKE CHÁVEZ — PAQUETE CORREGIDO PARA GITHUB PAGES
 
-1. Descomprime este ZIP en tu computadora. Verás la carpeta "cake-chavez".
-2. Entra a github.com > tu repositorio de la página (o crea uno nuevo, público).
-3. Si ya tenías archivos viejos: bórralos primero (Add file no reemplaza carpetas viejas).
-4. Pulsa "Add file" > "Upload files" y ARRASTRA TODO lo que está DENTRO de la
-   carpeta "cake-chavez" (index.html debe quedar en la raíz, no dentro de otra carpeta).
-   GitHub permite 100 archivos por vez: súbelos en varias tandas si es necesario
-   (primero los archivos sueltos, luego las carpetas img, temas, musica, videos, vendor).
-5. Pulsa "Commit changes".
-6. Ve a Settings > Pages > Source: "Deploy from a branch", rama "main", carpeta "/ (root)" > Save.
-7. Espera 1-3 minutos y abre la dirección que te muestra GitHub.
+QUÉ INCLUYE
+- Navidad como única temática incluida y activa inicialmente.
+- Panel avanzado > Temáticas > Agregar tema.
+- Instalación de ZIP con análisis y vista previa antes de publicar.
+- Botones Vista previa, Cambiar, Actualizar tema, Historial/Restaurar y Eliminar.
+- Ingreso de administración con correo y contraseña, sin verificación de dispositivo.
+- Las demás temáticas NO están instaladas: cada una se agrega con su ZIP por separado.
 
-TU SUPABASE
------------
-- El archivo supabase-config.js tiene tu Project URL y tu clave publicable.
-  Si cambiaste de clave, cámbiala ahí (Supabase > Project Settings > API Keys).
-  NUNCA pongas la service_role / secret key.
-- En Supabase > Authentication > URL Configuration, agrega la dirección de tu
-  página de GitHub en "Site URL" y "Redirect URLs".
-- SQL Editor: ejecuta 01_tematicas_zip.sql (respalda antes) y, si quieres quitar
-  restos del control de dispositivos, eliminar_control_dispositivos.sql (Paso 1, luego Paso 2).
-- Edge Functions: borra "cake-acceso" (ya no se usa).
+1. PUBLICAR EN GITHUB
+Sube a la raíz de tu repositorio el CONTENIDO de la carpeta cake-chavez (index.html debe quedar en la raíz). En GitHub abre Settings > Pages, elige Deploy from a branch, tu rama principal y /(root). Guarda.
 
-ADMINISTRACIÓN
---------------
-Entra a  tu-pagina/admin.html  solo con tu correo y contraseña.
+2. PREPARAR LA BASE (UNA SOLA VEZ)
+Haz primero una copia de seguridad. En tu Supabase abre SQL Editor y ejecuta 01_tematicas_zip.sql completo. Es aditivo: no borra pedidos, productos, cuentas ni Navidad. No ejecutes eliminar_control_dispositivos.sql salvo que todavía tengas esa tabla antigua y quieras retirarla; primero lee su bloque de revisión.
 
-TEMÁTICAS
----------
-Navidad está activa al inicio. Las demás temáticas vienen en sus ZIP aparte.
+3. CREAR EL ESPACIO PARA LOS RECURSOS
+En Storage crea un bucket llamado exactamente: cake-theme-assets
+- Debe ser PÚBLICO para que GitHub Pages pueda mostrar las imágenes, CSS, música y videos de las temáticas (no contiene fotos privadas de clientes).
+- Límite recomendado: 30 MB por archivo.
+- El SQL permite subir o borrar únicamente con una sesión de administradora y cada subida queda ligada a su usuario. Los visitantes no pueden subir ni listar archivos.
+
+4. AGREGAR O ACTUALIZAR UNA TEMÁTICA
+Entra a admin.html con tu correo y contraseña. Abre Panel avanzado > Temáticas.
+- Agregar tema: elige el ZIP, espera el análisis, revisa el contenido y pulsa Instalar temática.
+- Instalar NO cambia la tienda automáticamente. Usa Vista previa y, cuando esté lista, Cambiar a esta temática.
+- Actualizar tema: sube otra versión del ZIP de esa misma temática.
+- Historial: permite restaurar una versión anterior como una versión nueva.
+- Eliminar: conserva los enlaces antiguos y devuelve la tienda a Navidad si esa temática estaba activa. Navidad no se puede eliminar.
+
+5. COMPROBAR
+Abre la tienda y confirma Navidad. Después entra al panel y confirma que aparecen Agregar tema y, en la tarjeta de Navidad, Vista previa, Actualizar tema e Historial. Instala primero un ZIP de prueba o una temática que quieras usar; no hace falta subir las demás al repositorio.
+
+Nota: el archivo supabase-config.js conserva la conexión del paquete anterior. No contiene la clave privada service_role y no debes agregarla a GitHub.

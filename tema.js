@@ -23,9 +23,9 @@
   function leer(k, almacen) { try { return window[almacen].getItem(k); } catch (e) { return null; } }
   function guardar(k, v, almacen) { try { window[almacen].setItem(k, v); } catch (e) { /* modo privado */ } }
 
-  var forzado = null;
-  try { forzado = new URLSearchParams(window.location.search).get('tema'); } catch (e) { forzado = null; }
-  if (!valido(forzado)) forzado = null;
+  var forzado = null, solicitado = null;
+  try { solicitado = new URLSearchParams(window.location.search).get('tema'); } catch (e) { solicitado = null; }
+  forzado = valido(solicitado) ? solicitado : null;
   var guardado = leer(CLAVE, 'localStorage');
   if (!valido(guardado)) guardado = null;
 
@@ -49,7 +49,9 @@
   }
   function hojas(tema) {
     if (esPanel() || tema === 'navidad') return [];
-    return ['temas/temas-2027.css?v=' + VERSION, 'temas/' + tema + '/colores.css?v=' + VERSION, 'temas/' + tema + '/tema.css?v=' + VERSION];
+    var info = REG.buscar(tema);
+    var propias = info && Array.isArray(info.estilos) ? info.estilos : [];
+    return ['temas/temas-2027.css?v=' + VERSION].concat(propias);
   }
   function cargarHoja(href, sincronico) {
     if (document.querySelector('link[data-tema-hoja="' + href + '"]')) return;
@@ -110,23 +112,29 @@
     prepararIntro(estado.actual);
   }
 
-  // ---- Consultar el tema guardado en Supabase ----
+  // ---- Consultar el tema guardado y las temáticas instaladas por ZIP ----
   function consultar() {
     var cfg = window.CAKE_SUPABASE_CONFIG || {};
     if (!cfg.url || !cfg.anonKey || !window.fetch) { terminar(estado.actual); return; }
     var abortado = false;
     var limite = setTimeout(function () { abortado = true; terminar(estado.actual); }, estado.pendiente ? 2500 : 8000);
-    fetch(cfg.url + '/rest/v1/cake_site_theme?id=eq.1&select=theme', {
-      headers: { apikey: cfg.anonKey, Accept: 'application/json' },
-      cache: 'no-store'
-    }).then(function (r) { return r.ok ? r.json() : []; }).then(function (filas) {
+    var headers = { apikey: cfg.anonKey, Accept: 'application/json' };
+    function leerJson(url) { return fetch(url, { headers: headers, cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }); }
+    Promise.all([
+      leerJson(cfg.url + '/rest/v1/cake_site_theme?id=eq.1&select=theme'),
+      leerJson(cfg.url + '/rest/v1/cake_theme_packages?deleted_at=is.null&select=theme,name,config,files,version,deleted_at')
+    ]).then(function (rs) {
       clearTimeout(limite);
-      var tema = filas && filas[0] && valido(filas[0].theme) ? filas[0].theme : 'navidad';
-      estado.remoto = tema;
+      var filas = rs[0] || [], paquetes = rs[1] || [];
+      if (REG.instalarPaquetes) REG.instalarPaquetes(paquetes);
+      // Un tema recién instalado no existía en el registro durante la primera carga.
+      if (!forzado && valido(solicitado)) forzado = solicitado;
+      var remoto = filas && filas[0] && valido(filas[0].theme) ? filas[0].theme : 'navidad';
+      var tema = forzado || remoto;
+      estado.remoto = remoto;
       if (!forzado) guardar(CLAVE, tema, 'localStorage');
       if (abortado && estado.pendiente) return;
-      if (!estado.listo || estado.pendiente) { estado.pendiente = false; terminar(tema); return; }
-      // Ya se mostró un tema guardado y en Supabase hay otro: recargar una sola vez.
+      if (!estado.listo || estado.pendiente || (forzado && tema !== estado.actual)) { estado.listo = false; estado.pendiente = false; terminar(tema); return; }
       if (!forzado && tema !== estado.actual && leer('cakeTemaRecargado', 'sessionStorage') !== tema) {
         guardar('cakeTemaRecargado', tema, 'sessionStorage');
         window.location.reload();

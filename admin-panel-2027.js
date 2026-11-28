@@ -152,7 +152,7 @@
     var grid = d.querySelector('#admin-panel-temas .tema-grid'); if (!grid || grid.getAttribute('data-adm27')) return;
     grid.setAttribute('data-adm27', '1');
     grid.innerHTML = (T.lista || []).map(function (t) {
-      var img = t.id === 'navidad' ? 'img/navidad/arbol.webp' : 'img/temas/' + t.id + '/escena.webp';
+      var img = t.id === 'navidad' ? 'img/navidad/arbol.webp' : ((t.files && t.files['imagenes/escena.webp']) || '');
       return '<article class="tema-card adm27-tema-card" data-tema-card="' + t.id + '"><div class="adm27-tema-vista" aria-hidden="true"><img src="' + img + '" alt="" loading="lazy"></div><div class="tema-card-info">' +
         '<span class="tema-badge" hidden><i class="fas fa-check"></i> Tema activo</span><h3>' + esc((t.emoji || '') + ' ' + (t.nombreAdmin || t.nombre)) + '</h3><p>' + esc(t.subtitulo || '') + '</p>' +
         '<div class="admin-form-actions"><button type="button" class="admin-button admin-button-primary" data-cambiar-tema="' + t.id + '"><i class="fas fa-wand-magic-sparkles"></i> Cambiar tema</button><a class="admin-button admin-button-outline" href="index.html?tema=' + t.id + '" target="_blank" rel="noopener"><i class="fas fa-eye"></i> Ver vista previa</a></div></div></article>';

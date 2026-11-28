@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Administración segura | Cake Chavez</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.png">
     <meta name="description" content="Panel privado de administración de Cake Chávez.">
   <meta property="og:title" content="Administración | Cake Chávez">
   <meta property="og:description" content="Panel privado de administración de Cake Chávez.">
@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="admin-correo.css?v=20270101">
   <link rel="stylesheet" href="admin-numeros.css?v=20270101">
   <link rel="stylesheet" href="admin-panel-2027.css?v=20270101">
+  <link rel="stylesheet" href="admin-temas-zip.css?v=20261127">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -370,7 +371,7 @@
         </div>
       </section>
 
-      <!-- TEMAS DE LA TIENDA: Navidad / Año Nuevo. Cambia la tienda y este panel. -->
+      <!-- TEMÁTICAS INSTALADAS POR ZIP: Navidad es la única incluida inicialmente. -->
       <section class="admin-section" id="admin-panel-temas" hidden>
         <div class="admin-section-head"><div><h2>🎨 Temas</h2><p>Elige el diseño que verán tus clientes. El cambio se aplica a la página principal y también a este panel. Tus productos, pedidos, reseñas y ajustes no cambian.</p></div><button type="button" id="tema-refresh" class="admin-button admin-button-outline"><i class="fas fa-rotate"></i> Actualizar</button></div>
         <div class="tema-grid">
@@ -387,21 +388,6 @@
               <p>Rosa y vino con nieve, luces, Santa Claus, árboles, regalos, la gorra animada del logo, la intro con música y las especialidades navideñas.</p>
               <div class="tema-paleta" aria-hidden="true"><i style="background:#1d1216"></i><i style="background:#a83b65"></i><i style="background:#f09cbb"></i><i style="background:#23964f"></i><i style="background:#e8c56a"></i></div>
               <div class="admin-form-actions"><button type="button" class="admin-button admin-button-primary" data-cambiar-tema="navidad"><i class="fas fa-wand-magic-sparkles"></i> Cambiar tema</button><a class="admin-button admin-button-outline" href="index.html?tema=navidad" target="_blank" rel="noopener"><i class="fas fa-eye"></i> Ver vista previa</a></div>
-            </div>
-          </article>
-          <article class="tema-card tema-card-anio" data-tema-card="anio-nuevo">
-            <div class="tema-card-vista" aria-hidden="true">
-              <span class="tema-vista-confeti"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-              <span class="tema-vista-anio" data-anio-nuevo>2027</span>
-              <img src="img/anio-nuevo/copas.webp" alt="" class="tema-vista-izq">
-              <img src="img/anio-nuevo/pastel-anio-nuevo.webp" alt="" class="tema-vista-der">
-            </div>
-            <div class="tema-card-info">
-              <span class="tema-badge" hidden><i class="fas fa-check"></i> Tema activo</span>
-              <h3>🥂 Tema de Año Nuevo</h3>
-              <p>Verde pastel, verde pálido, café suave y crema con confeti, banderines, brillos dorados, fuegos artificiales suaves y bienvenida «¡Feliz Año Nuevo!». Sin adornos navideños.</p>
-              <div class="tema-paleta" aria-hidden="true"><i style="background:#463629"></i><i style="background:#7fae8a"></i><i style="background:#b9dfc0"></i><i style="background:#e4f2e1"></i><i style="background:#f7eedd"></i><i style="background:#e7c98b"></i></div>
-              <div class="admin-form-actions"><button type="button" class="admin-button admin-button-primary" data-cambiar-tema="anio-nuevo"><i class="fas fa-wand-magic-sparkles"></i> Cambiar tema</button><a class="admin-button admin-button-outline" href="index.html?tema=anio-nuevo" target="_blank" rel="noopener"><i class="fas fa-eye"></i> Ver vista previa</a></div>
             </div>
           </article>
         </div>
@@ -609,6 +595,8 @@
   <!-- Panel avanzado 2027 (menú ☰, pedidos por tema, audio, tutoriales; antes de admin-temas.js) -->
   <script src="admin-panel-2027.js?v=lov1"></script>
   <script src="admin-temas.js?v=20270101"></script>
+  <script src="vendor/fflate-0.8.2.js?v=1"></script>
+  <script src="admin-temas-zip.js?v=20261127"></script>
   <script src="admin-correo.js?v=20270101"></script>
   <script src="admin-numeros.js?v=20270101"></script>
   <script src="admin-clave.js?v=1"></script>
